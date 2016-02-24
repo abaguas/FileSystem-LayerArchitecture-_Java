@@ -1,22 +1,22 @@
 
-  P H O N E B O O K
-
-  exemplo de aplicação para es16
-
+  M Y D R I V E
 
   $ mysql -p -u root
 
   Enter password: rootroot
 
-  mysql> GRANT ALL PRIVILEGES ON \*.\* TO 'phone'@'localhost' IDENTIFIED BY 'book' WITH GRANT OPTION;
+  mysql> GRANT ALL PRIVILEGES ON \*.\* TO 'myDrive'@'localhost' IDENTIFIED BY 'myDriv3' WITH GRANT OPTION;
 
-  mysql> CREATE DATABASE phonedb;
+  mysql> CREATE DATABASE drivedb;
 
-  musql> \q
+  mysql> \q
 
-  $ git clone https://github.com/tecnico-softeng/phonebook-V1.git
+  por https
+  $ git clone https://github.com/tecnico-softeng/es16al_17-project.git
+  ou por ssh
+  $ git clone git@github.com:tecnico-softeng/es16al_17-project.git
 
-  $ cd phonebook
+  $ cd es16al_17-project.git
 
   $ mvn clean package exec:java
 
