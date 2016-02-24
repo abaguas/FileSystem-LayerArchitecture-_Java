@@ -31,6 +31,21 @@ r<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org
           <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist199999</picUrl> <!-- FIXME -->
         </properties>
       </developer>
+       <developer>
+        <id>ist179078</id>
+	<name>luissacouto</name>
+	<email>luis.sa.couto@ist.utl.pt</email>
+	<organization>es16 g17al</organization>
+	<roles>
+	  <role>Developer</role>
+	  <role>Architect</role>
+	  <role>Tester</role>
+	  <role>Integrator</role>
+	</roles>
+	<properties>
+          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist179078</picUrl>
+        </properties>
+      </developer>
       <developer>
         <id>ist178854</id>
 	<name>abaguas</name>
