@@ -1,4 +1,4 @@
-package pt.tecnico.phonebook.domain;
+package pt.tecnico.mydrive.domain;
 
 class PhoneBook;
 
