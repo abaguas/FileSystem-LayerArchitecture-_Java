@@ -1,0 +1,65 @@
+package pt.tecnico.mydrive.domain;
+
+class FileSystem;
+
+class User{
+	String username;
+	String password;
+	String name;
+	String umask;
+}
+
+class File{
+	String name;
+	Integer id;
+	String permission;
+	DateTime lastMod;
+	Integer dimension;
+	String type;
+
+}
+
+class TextFile extends File{
+	String content;
+}
+
+class Directory extends File{
+}
+
+class PlainFile extends TextFile{
+}
+
+
+class Link extends TextFile {
+      
+}
+
+class App extends TextFile {
+}
+
+relation UserHasDirectory {
+	User playsRole;
+	Directory playsRole mainDir;
+}
+
+relation FileHasOwner{
+  File playsRole;
+  User playsRole owner;
+}
+
+relation DirectoryHasFiles{
+  Directory playsRole;
+  File playsRole file {multiplicity 2..*;}
+}
+
+relation FileSystem{
+	.pt.ist.fenixframework.DomainRoot playsRole root ;
+	FileSystem playsRole fileSystem { multiplicity 0..1; }
+}
+
+relation FileSystemHasUsers{
+	FileSystem playsRole fileSystem;
+	User playsRole user { multiplicity 1..*; }
+}
+
+
