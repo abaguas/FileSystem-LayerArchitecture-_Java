@@ -1,35 +1,136 @@
 package pt.tecnico.mydrive.domain;
 
-class PhoneBook;
+class MyDrive {
+  int counter;
+}
 
-class Person {
+class User {
+  String username;
+  String password;
   String name;
 }
 
-class Contact {
-  String name;
-  Integer phoneNumber;
+class Permission {
+  boolean read;
+  boolean write;
+  boolean execution;
+  boolean elimination;
 }
 
-relation DomainRootHasPhoneBookApplication {
+class File{
+  String name;
+  int id;
+  LocalTime lastChange;
+}
+
+class FileWithContent extends File {
+  String content;
+}
+
+class Directory extends File;
+
+class PlainFile extends FileWithContent;
+
+class Link extends FileWithContent;
+
+class App extends FileWithContent;
+
+relation DomainRootHasMyDriveApplication {
   .pt.ist.fenixframework.DomainRoot playsRole root {
     multiplicity 0..1;
   }
-  PhoneBook playsRole phonebook {
+  MyDrive playsRole myDrive {
     multiplicity 0..1;
   }
 }
 
-relation PersonContainsContacts {
-  Person playsRole person;
-  Contact playsRole contact {
+relation MyDriveContainsRootDirectory{
+  MyDrive playsRole myDrive {
+    multiplicity 1;
+  }
+  Directory playsRole rootSDirectory {
+    multiplicity 1;
+  }
+}
+
+relation FileHasOwner{
+  File playsRole file{
+    multiplicity 1;
+  }
+  User playsRole owner {
+    multiplicity 1;  
+  }
+}
+
+relation MyDriveContainsUsers{
+  MyDrive playsRole myDrive {
+    multiplicity 1;
+  }
+  User playsRole user {
+    multiplicity 1..*;
+  }
+}
+
+relation UserHasMainDirectory{
+  User playsRole user {
+    multiplicity 1;
+  }
+  Directory playsRole mainDirectory {
+    multiplicity 1;
+  }
+}
+
+relation DirectoryHasFiles {
+  Directory playsRole directory {
+    multiplicity 1;
+  }
+  File playsRole file {
     multiplicity *;
   }
 }
 
-relation PhoneBookContainsPersons {
-  PhoneBook playsRole phoneBook;
-  Person playsRole person {
-    multiplicity *;
+relation DirectoryhasSelfDirectory{
+  Directory playsRole ownDirectory {
+    multiplicity 1;
+  }
+  Directory playsRole selfDirectory{
+   multiplicity 1;
+  }
+}
+
+relation DirectoryhasFatherDirectory{
+  Directory playsRole sonDirectory {
+    multiplicity 0..*;
+  }
+  Directory playsRole fatherDirectory{
+   multiplicity 1;
+  }
+}
+
+relation UserhasPermissionMask{
+  User playsRole user {
+    multiplicity 1;
+  }
+  Permission playsRole permission{
+   multiplicity 1;
+  }
+}
+
+
+relation FilehasUserPermission{
+  File playsRole file_ {
+    multiplicity 1;
+  }
+  Permission playsRole userPermission{
+   multiplicity 1;
+  }
+}
+
+relation FilehasOthersPermission{
+  File playsRole file {
+    multiplicity 1;
+  }
+  Permission playsRole othersPermission{
+   multiplicity 1;
   }
 }

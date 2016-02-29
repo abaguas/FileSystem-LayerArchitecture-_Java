@@ -1,8 +1,8 @@
 package pt.tecnico.mydrive.domain;
 
-public class Person extends Person_Base {
+public class MyDrive extends MyDrive_Base {
     
-    public Person() {
+    public MyDrive() {
         super();
     }
     
