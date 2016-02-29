@@ -1,0 +1,129 @@
+package pt.tecnico.mydrive.domain;
+
+class MyDrive;
+
+class User {
+  String username;
+  String password;
+  String name;
+}
+
+class Permission {
+  bool read;
+  bool write;
+  bool execution;
+  bool elimination;
+}
+
+class File{
+  String nome;
+  int id;
+  String directory;
+  LocalTime lastChange;
+}
+
+class PlainFile extends File{
+  String content;
+}
+
+class Directory extends File;
+
+class Link extends File{
+  String content;
+}
+
+class App extends File{
+  String content;
+}
+
+relation DomainRootHasMyDriveApplication {
+  .pt.ist.fenixframework.DomainRoot playsRole root {
+    multiplicity 0..1;
+  }
+  MyDrive playsRole myDrive {
+    multiplicity 0..1;
+  }
+}
+
+relation MyDriveContainsUsers{
+  MyDrive playsRole myDrive {
+    multiplicity 0..1;
+  }
+  User playsRole user {
+    multiplicity *;
+  }  
+}
+
+relation UserHasFiles{
+  User playsRole user {
+    multiplicity 0..1;
+  }
+  File playsRole file {
+    multiplicity *;
+  }
+}
+
+relation DirectoryHasFiles {
+  Directory playsRole directory {
+    multiplicity 0..1;
+  }
+  File playsRole file {
+    multiplicity *;
+  }
+}
+
+relation DirectoryhasSelfDirectory{
+  Directory playsRole directory {
+    multiplicity 0..1;
+  }
+  Directory playsRole selfDirectory{
+   multiplicity 1;
+  }
+}
+
+relation DirectoryhasFatherDirectory{
+  Directory playsRole directory {
+    multiplicity 0..1;
+  }
+  Directory playsRole fatherDirectory{
+   multiplicity 1;
+  }
+}
+
+relation UserhasOwnDirectory{
+  User playsRole user {
+    multiplicity 0..1;
+  }
+  Directory playsRole ownDirectory{
+   multiplicity 1;
+  }
+}
+
+
+relation UserhasPermissionMask{
+  User playsRole user {
+    multiplicity 0..1;
+  }
+  Permission playsRole permission{
+   multiplicity 1;
+  }
+}
+
+
+relation FilehasUserPermission{
+  File playsRole file {
+    multiplicity 0..1;
+  }
+  Permission playsRole userPermission{
+   multiplicity 1;
+  }
+}
+
+relation FilehasOthersPermission{
+  File playsRole file {
+    multiplicity 0..1;
+  }
+  Permission playsRole othersPermission{
+   multiplicity 1;
+  }
+}
