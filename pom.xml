@@ -61,6 +61,21 @@
           <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178324</picUrl>
         </properties>
       </developer>
+      <developer> 
+        <id>ist178745</id>
+	<name>netjinho</name>
+	<email>neto_moises95@hotmail.com</email>
+	<organization>es16 g17al</organization>
+	<roles>
+	  <role>Developer</role>
+	  <role>Architect</role>
+	  <role>Tester</role>
+	  <role>Integrator</role>
+	</roles>
+	<properties>
+          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178745</picUrl>
+        </properties>
+      </developer>
     </developers>
 
     <properties>
