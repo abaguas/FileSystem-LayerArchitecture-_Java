@@ -134,3 +134,21 @@ relation FilehasOthersPermission{
    multiplicity 1;
   }
 }
+
+relation MyDrivehasCurrentDirectory{
+  MyDrive playsRole manager {
+    multiplicity 1;
+  }
+  Directory playsRole currentDir{
+   multiplicity 1;
+  }
+}
+
+relation MyDrivehasCurrentUser{
+  MyDrive playsRole manager {
+    multiplicity 1;
+  }
+  User playsRole currentUser{
+   multiplicity 1;
+  }
+}
