@@ -90,64 +90,58 @@ relation DirectoryHasFiles {
 }
 
 relation DirectoryhasSelfDirectory{
-  Directory playsRole ownDirectory {
-    multiplicity 1;
-  }
+  Directory playsRole;
   Directory playsRole selfDirectory{
    multiplicity 1;
   }
 }
 
 relation DirectoryhasFatherDirectory{
-  Directory playsRole sonDirectory {
-    multiplicity 0..*;
-  }
+  Directory playsRole;
   Directory playsRole fatherDirectory{
    multiplicity 1;
   }
 }
 
-relation UserhasPermissionMask{
-  User playsRole user {
-    multiplicity 1;
+relation UserhasOwnPermissionMask{
+  User playsRole;
+  Permission playsRole ownPermission{
+   multiplicity 1;
   }
-  Permission playsRole permission{
+}
+
+
+relation UserhasOthersPermissionMask{
+  User playsRole;
+  Permission playsRole othersPermission{
    multiplicity 1;
   }
 }
 
 
 relation FilehasUserPermission{
-  File playsRole file_ {
-    multiplicity 1;
-  }
+  File playsRole;
   Permission playsRole userPermission{
    multiplicity 1;
   }
 }
 
 relation FilehasOthersPermission{
-  File playsRole file {
-    multiplicity 1;
-  }
+  File playsRole;
   Permission playsRole othersPermission{
    multiplicity 1;
   }
 }
 
 relation MyDrivehasCurrentDirectory{
-  MyDrive playsRole manager {
-    multiplicity 1;
-  }
+  MyDrive playsRole;
   Directory playsRole currentDir{
    multiplicity 1;
   }
 }
 
 relation MyDrivehasCurrentUser{
-  MyDrive playsRole manager {
-    multiplicity 1;
-  }
+  MyDrive playsRole;
   User playsRole currentUser{
    multiplicity 1;
   }
