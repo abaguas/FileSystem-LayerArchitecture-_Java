@@ -6,7 +6,7 @@ public class MyDrive extends MyDrive_Base {
     
     public MyDrive() throws MyDriveException{
         super();
-	setRootUser(new Root ());
+	setRootUser(new RootUser ());
 	setCurrentUser(getRootUser());
 	setRootDirectory(new Directory("/", getRootUser()));
 	getRootDirectory().create("home", getRootUser());
