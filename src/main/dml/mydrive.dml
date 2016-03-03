@@ -35,7 +35,7 @@ class Link extends FileWithContent;
 
 class App extends FileWithContent;
 
-class Root extends User;
+class RootUser extends User;
 
 relation DomainRootHasMyDriveApplication {
   .pt.ist.fenixframework.DomainRoot playsRole root {
@@ -50,7 +50,7 @@ relation MyDriveContainsRootDirectory{
   MyDrive playsRole myDrive {
     multiplicity 1;
   }
-  Directory playsRole rootSDirectory {
+  Directory playsRole rootDirectory {
     multiplicity 1;
   }
 }
@@ -135,16 +135,10 @@ relation FilehasOthersPermission{
   }
 }
 
-relation MyDriveHasRootDirectory{
-  MyDrive playsRole;
-  Directory playsRole rootDir{
-   multiplicity 1;
-  }
-}
 
 relation MyDriveHasRootUser{
   MyDrive playsRole;
-  Root playsRole root{
+  RootUser playsRole rootuser{
    multiplicity 1;
   }
 }
