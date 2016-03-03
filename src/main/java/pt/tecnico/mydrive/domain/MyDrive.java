@@ -16,9 +16,19 @@ public class MyDrive extends MyDrive_Base {
 	getRootUser.setMainDirectory(getCurrentDir());
     }
 
-    public createDirectory(String name){
+    public void createDirectory(String name) throws DirectoryAlreadyExistsException{
 	getCurrentDir().createDir(name, getCurrentUser());
     }
 
+    public void cd(String name) throws NoSuchFileOrDirectory {
+	setCurrentDir(getCurrentDir().get(name));
+    }
+
+    public void ls(String name){
+	getCurrentDir().ls(name);
+    }
     
+    public void ls(){
+	getCurrentDir().ls();
+    }
 }
