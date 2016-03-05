@@ -13,11 +13,17 @@ public class Directory extends Directory_Base {
         setSelfDirectory(this);
     }
 	
+	public Directory(int id, String name, User user) {//o mydrive tem de fazer controlo dos ids
+        //super(id, name, user); superclasse nao construida
+        setFatherDirectory(this);
+        setSelfDirectory(this);
+    }
+	
+	
     //cria uma diretoria
     //as permissoes serao verificadas no mydrive
     
 	//LUIS: preciso de id, no catch atualizas o counter se der exceçao
-	
 	public void createDir(int id, String name, User user) throws FileAlreadyExistsException { //Sugiro FileAlreadyExistsException pois uma directory é um file
 		try {
 			search(name);
@@ -85,9 +91,16 @@ public class Directory extends Directory_Base {
 	}
 	
 	public Directory get(String name) throws NoSuchFileException, FileNotDirectoryException{
-		File f = search(name);
-		Visitor v = new CdableVisitor();
-   	 	f.accept(v);
-   	 	return (Directory)f;
+		if (name.equals("..")) {
+			return getFatherDirectory();
+		}
+		else if (name.equals(".")) {
+			return getSelfDirectory();
+		}
+		else {File f = search(name);
+			Visitor v = new CdableVisitor();
+   	 		f.accept(v);
+   	 		return (Directory)f;
+		}
 	}
 }
