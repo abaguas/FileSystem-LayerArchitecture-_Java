@@ -18,15 +18,15 @@ public class Directory extends Directory_Base {
     
 	//LUIS: preciso de id, no catch atualizas o counter se der exceçao
 	
-	public void createDir(int id, String name, User user) throws FileOrDirectoryAlreadyExistsException { //Sugiro FileAlreadyExistsException pois uma directory é um file
+	public void createDir(int id, String name, User user) throws FileAlreadyExistsException { //Sugiro FileAlreadyExistsException pois uma directory é um file
 		try {
 			search(name);
-		} catch (NoSuchFileOrDirectoryException e) {} //verifico se nao existe nenhum ficherio com esse nome
+		} catch (NoSuchFileException e) {} //verifico se nao existe nenhum ficherio com esse nome
 		Directory d = new Directory(id, name, user, this);
     	addFiles((File) d);
     }
 	
-	public void remove(String name) throws NoSuchFileOrDirectoryException{
+	public void remove(String name) throws NoSuchFileException{
 		File f = search(name);
 		f.remove();
 		removeFiles(f);
@@ -40,14 +40,14 @@ public class Directory extends Directory_Base {
    	 	}
 	}
 	
-	public File search(String name) throws NoSuchFileOrDirectoryException{
+	public File search(String name) throws NoSuchFileException{
 		Set<File> files = getFiles();
 		for (File f: files) {
    	 		if (f.getName().equals(name)) {
    	 			return f;
    	 		}
 		}
-		throw new NoSuchFileOrDirectoryException(name);
+		throw new NoSuchFileException(name);
 	}
 	
 	public File cdable(File f) throws FileNotDirectoryException{
@@ -84,7 +84,7 @@ public class Directory extends Directory_Base {
 		v.execute(this);
 	}
 	
-	public Directory get(String name) throws NoSuchFileOrDirectoryException, FileNotDirectoryException{
+	public Directory get(String name) throws NoSuchFileException, FileNotDirectoryException{
 		File f = search(name);
 		Visitor v = new CdableVisitor();
    	 	f.accept(v);

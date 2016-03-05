@@ -1,12 +1,12 @@
 package pt.tecnico.mydrive.exception;
 
-public class NoSuchFileOrDirectoryException extends MyDriveException {
+public class NoSuchFileException extends MyDriveException {
 
     private static final long serialVersionUID = 1L;
 
     private String _name;
 
-	public NoSuchFileOrDirectoryException(String name){
+	public NoSuchFileException(String name){
 		_name=name;
 	}
 	
