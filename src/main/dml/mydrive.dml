@@ -68,7 +68,7 @@ relation MyDriveContainsUsers{
   MyDrive playsRole myDrive {
     multiplicity 1;
   }
-  User playsRole user {
+  User playsRole users {
     multiplicity 1..*;
   }
 }
@@ -86,7 +86,7 @@ relation DirectoryHasFiles {
   Directory playsRole directory {
     multiplicity 1;
   }
-  File playsRole file {
+  File playsRole files {
     multiplicity *;
   }
 }
@@ -136,7 +136,7 @@ relation FilehasOthersPermission{
 }
 
 
-relation MyDriveHasRootUser{
+relation MyDrivehasRootUser{
   MyDrive playsRole;
   RootUser playsRole rootUser{
    multiplicity 1;

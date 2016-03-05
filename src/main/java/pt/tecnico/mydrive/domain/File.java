@@ -6,4 +6,15 @@ public class File extends File_Base {
         super();
     }
     
+    public void remove(){}
+    
+    public void accept(Visitor v){
+    	//TODO
+    }
+    
+    public String toString(){
+    	String s="";
+    	//TODO
+    	return s;
+    }
 }
