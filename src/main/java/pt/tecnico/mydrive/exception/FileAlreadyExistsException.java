@@ -1,12 +1,12 @@
 package pt.tecnico.mydrive.exception;
 
-public class FileOrDirectoryAlreadyExistsException extends MyDriveException {
+public class FileAlreadyExistsException extends MyDriveException {
     
     private static final long serialVersionUID = 1L;
     
     private String _name;
     
-    public FileOrDirectoryAlreadyExistsException(String name){
+    public FileAlreadyExistsException(String name){
         _name=name;
     }
     
