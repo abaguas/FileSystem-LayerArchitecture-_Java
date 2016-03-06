@@ -66,22 +66,30 @@ public class MyDrive extends MyDrive_Base {
 
     }
 
-    public void createPlainFile(String name, User owner, Permission permits, String content, String absolutepath){
+    public void createPlainFile(String name, String owner, String permits, String content, String absolutepath, int id){
+    	//getUsers(owner);
+    	setCounter(id);
     	Directory d = getDirectoryByAbsolutePath(absolutepath);
-    	//d.addFiles((File) new PlainFile(name, owner, content, d));
+    	//d.addFiles((File) new PlainFile(id, name, owner, content, d));
     }
 
-    public void createApp(String name, User owner, Permission permits, String content, String absolutepath){
+    public void createApp(String name, String owner, String permits, String content, String absolutepath, int id){
+    	//getUsers(owner);
+    	setCounter(id);
     	Directory d = getDirectoryByAbsolutePath(absolutepath);
-    	//d.addFiles((File) new App(name, owner, content, d));
+    	//d.addFiles((File) new App(id, name, owner, content, d));
     }
   
-    public void createLink(String name, User owner, Permission permits, String content, String absolutepath){
+    public void createLink(String name, String owner, String permits, String content, String absolutepath, int id){
+    	//getUsers(owner);
+    	setCounter(id);
     	Directory d = getDirectoryByAbsolutePath(absolutepath);
-    	//d.addFiles((File) new Link(name, owner, content, d));
+    	//d.addFiles((File) new Link(id, name, owner, content, d));
     }
     
-    public void createDirectory(String name, User owner, Permission permits, String content, String absolutepath){
+    public void createDirectory(String name, String owner, String permits, String content, String absolutepath, int id){
+	//getUsers(owner);
+	setCounter(id);
 	Directory d = getDirectoryByAbsolutePath(absolutepath);
 	//d.addFiles((File) new Directory(id, name, owner, d));
     }
