@@ -13,8 +13,8 @@ class User {
 class Permission {
   boolean read;
   boolean write;
-  boolean execution;
-  boolean elimination;
+  boolean execute;
+  boolean eliminate;
 }
 
 class File{
