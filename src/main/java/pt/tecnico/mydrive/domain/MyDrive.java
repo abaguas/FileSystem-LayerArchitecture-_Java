@@ -50,7 +50,7 @@ public class MyDrive extends MyDrive_Base {
 	} 
 	catch (NoSuchFileException e) {} 
 	Directory d = new Directory(id, name, user, getCurrentDir());
-	getCurrentDir().addFiles((File) d);
+	getCurrentDir().addFiles(d);
     }
 
     public void cd(String name) throws NoSuchFileException, FileNotDirectoryException {
