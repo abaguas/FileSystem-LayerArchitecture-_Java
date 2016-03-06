@@ -5,7 +5,24 @@ import pt.tecnico.mydrive.exception.*;
 
 public class User extends User_Base
 {
-        
+    protected User(String username, String password, String name)
+    {
+    	super();
+    	if (validUsername(username))
+    	{
+	        setUsername(username);
+	        setPassword(password);
+	        setName(name);
+			Permission ownP = new Permission(true, true, true, true);
+			Permission othP = new Permission(false, false, false, false);
+			setOwnPermission(ownP);
+			setOthersPermission(othP);
+    	}
+    	else
+    		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
+    }
+    	
+	
     public User(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException
     {
     	super();
@@ -16,8 +33,8 @@ public class User extends User_Base
 	        setName(name);
 	        setMainDirectory(home);
 	        setOwnPermission(mask);
-	        //Permission othersPermission = new Permission(...);
-	        //setOthersPermission(othersPermission);
+	        Permission othersPermission = new Permission(false, false, false, false);
+	        setOthersPermission(othersPermission);
     	}
     	else
     		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção

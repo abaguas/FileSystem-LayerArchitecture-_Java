@@ -5,8 +5,9 @@ public class RootUser extends RootUser_Base
     
     public RootUser()
     {
-        super();
-        setUsername("root");
+    	super();
+    	//super("root", "***", "Super User");
+    	setUsername("root");
         setPassword("***");
         setName("Super User");
         // setOwnPermission(); tenho de passar permissão

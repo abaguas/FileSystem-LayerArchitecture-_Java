@@ -1,9 +1,14 @@
 package pt.tecnico.mydrive.domain;
 
 import pt.tecnico.mydrive.exception.MyDriveException;
+
+import java.util.Set;
+
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
+import pt.tecnico.mydrive.exception.InvalidUsernameException;
+import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 
 public class MyDrive extends MyDrive_Base {
     
@@ -62,10 +67,48 @@ public class MyDrive extends MyDrive_Base {
 	getCurrentDir().ls();
     }
     
-    public void createUser(String username, String password, String name, Directory home, Permission mask){
-
+    public User createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException
+    {
+		if (userExists(username))
+			throw new UserAlreadyExistsException(username);
+    	User user = null;
+    	//Directory mainDirectory = null;
+		try
+		{
+			setCurrentUser(getRootUser());
+			cd("home");
+			//mainDirectory = new Directory()
+			//incCounter();
+			createDir(username);
+			cd("username");
+			user = new User(username, password, name);
+			user.setMainDirectory(getCurrentDir());
+		}
+		catch(InvalidUsernameException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(UserAlreadyExistsException e)
+		{
+			System.out.println(e.getMessage());
+		}
+						
+		getUsersSet().add(user);
+		return user;
     }
 
+    
+    public boolean userExists(String username)
+    {
+		Set<User> users = getUsersSet();
+		for (User u : users)
+	 		if (u.getName().equals(u.getUsername()))
+	 			return true;
+		return false;
+    }
+    
+    
+    
     public void createPlainFile(String name, String owner, String permits, String content, String absolutepath, int id){
     	//getUsers(owner);
     	setCounter(id);
