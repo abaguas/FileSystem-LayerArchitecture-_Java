@@ -1,6 +1,9 @@
 package pt.tecnico.mydrive.domain;
 
 import java.util.Set;
+import org.jdom2.Element;
+import org.jdom2.Document;
+import java.util.Set;
 import pt.tecnico.mydrive.exception.*;
 
 public class Directory extends Directory_Base {
@@ -103,4 +106,27 @@ public class Directory extends Directory_Base {
    	 		return (Directory)f;
 		}
 	}
+	
+	public void XMLExport(Element element_mydrive){
+        Element element = new Element ("dir");
+        //element.setAttribute("id", getId());
+        
+        element = new Element ("path");
+        //element.setText(getPath());
+        
+        element = new Element ("name");
+        element.setText(getName());
+        
+        element = new Element ("owner");
+        element.setText(getOwner().getUsername());
+        
+        element = new Element ("perm");
+        //element.setText(getPerm());
+        
+        element_mydrive.addContent(element);
+        for (File f: getFiles()){
+            f.XMLExport(element_mydrive);
+        }
+    }
+
 }
