@@ -1,5 +1,8 @@
 package pt.tecnico.mydrive.domain;
 
+import org.jdom2.Element;
+import org.jdom2.Document;
+import java.io.File;
 import pt.tecnico.mydrive.exception.MyDriveException;
 
 import java.util.Set;
@@ -52,11 +55,11 @@ public class MyDrive extends MyDrive_Base {
 	} 
 	catch (NoSuchFileException e) {} 
 	Directory d = new Directory(id, name, user, getCurrentDir());
-	getCurrentDir().addFiles((File) d);
+	getCurrentDir().addFiles(d);
     }
 
     public void cd(String name) throws NoSuchFileException, FileNotDirectoryException {
-	setCurrentDir(getCurrentDir().get(name));
+	setCurrentDir((Directory) getCurrentDir().get(name));
     }
 
     public void ls(String name) throws NoSuchFileException{
@@ -67,6 +70,7 @@ public class MyDrive extends MyDrive_Base {
 	getCurrentDir().ls();
     }
     
+<<<<<<< HEAD
     public User createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException
     {
 		if (userExists(username))
@@ -95,6 +99,10 @@ public class MyDrive extends MyDrive_Base {
 						
 		getUsersSet().add(user);
 		return user;
+=======
+    public void createUser(String username, String password, String name, String home, String mask){
+
+>>>>>>> a2de7fb226df6109929b071924f85e6ccd767fe3
     }
 
     
@@ -130,7 +138,7 @@ public class MyDrive extends MyDrive_Base {
     	//d.addFiles((File) new Link(id, name, owner, content, d));
     }
     
-    public void createDirectory(String name, String owner, String permits, String content, String absolutepath, int id){
+    public void createDirectory(String name, String owner, String permits, String absolutepath, int id){
 	//getUsers(owner);
 	setCounter(id);
 	Directory d = getDirectoryByAbsolutePath(absolutepath);
@@ -154,4 +162,75 @@ public class MyDrive extends MyDrive_Base {
 	}
 	return getCurrentDir();
     }
+    public void xmlImport(Element element){
+        String default_home="/home/";
+        for(Element node: element.getChildren()){
+            if(node.getName()=="user"){
+                String username= node.getAttribute("username").getValue();
+                String password= node.getChildText("password");
+                String name= node.getChildText("name");
+                String home= node.getChildText("home");
+                String mask= node.getChildText("mask");
+                if(password==null){
+                    password=username;
+                }
+                if(home==null){
+                    home=default_home.concat(username);
+                }
+                if(mask==null){
+                    mask="rwxd----";
+                    
+                }
+                createUser(username,password,name,home,mask);
+            }
+            else if(node.getName()=="plain"){
+                int id= Integer.parseInt(node.getAttribute("id").getValue());
+                String path= node.getChildText("path");
+                String name = node.getChildText("name");
+                String owner= node.getChildText("owner");
+                String perm= node.getChildText("perm");
+                String contents= node.getChildText("contents");
+                if(owner==null){
+                    owner="root";
+                }
+                createPlainFile(name,owner,perm,contents,path,id);
+            }
+            else if(node.getName()=="dir"){
+                int id= Integer.parseInt(node.getAttribute("id").getValue());
+                String path= node.getChildText("path");
+                String name = node.getChildText("name");
+                String owner= node.getChildText("owner");
+                String perm= node.getChildText("perm");
+                if(owner==null){
+                    owner="root";
+                }
+                createDirectory(name,owner,perm,path,id);
+            }
+            else if(node.getName()=="link"){
+                int id= Integer.parseInt(node.getAttribute("id").getValue());
+                String path= node.getChildText("path");
+                String name = node.getChildText("name");
+                String owner= node.getChildText("owner");
+                String perm= node.getChildText("perm");
+                String contents= node.getChildText("value");
+                if(owner==null){
+                    owner="root";
+                }
+                createLink(name,owner,perm,contents,path,id);
+            }
+            else if(node.getName()=="app"){
+                int id= Integer.parseInt(node.getAttribute("id").getValue());
+                String path= node.getChildText("path");
+                String name = node.getChildText("name");
+                String owner= node.getChildText("owner");
+                String perm= node.getChildText("perm");
+                String contents= node.getChildText("methods");
+                if(owner==null){
+                    owner="root";
+                }
+                createApp(name,owner,perm,contents,path,id);
+            }
+        }
+    }
+
 }

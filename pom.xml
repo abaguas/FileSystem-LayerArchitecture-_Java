@@ -17,10 +17,10 @@
 
     <developers>
       <developer> <!-- FIXME: one developer for each team member -->
-        <id>ist99999</id> <!-- FIXME -->
-	<name>github username</name> <!-- FIXME -->
-	<email>ist99999@tecnico.ulisboa.pt</email> <!-- FIXME -->
-	<organization>es16 g99al</organization> <!-- FIXME -->
+        <id>ist178859</id> <!-- FIXME -->
+	<name>filipencosta</name> <!-- FIXME -->
+	<email>ist178859@tecnico.ulisboa.pt</email> <!-- FIXME -->
+	<organization>es16 g17al</organization> <!-- FIXME -->
 	<roles>
 	  <role>Developer</role>
 	  <role>Architect</role>
@@ -28,7 +28,22 @@
 	  <role>Integrator</role>
 	</roles>
 	<properties>
-          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist199999</picUrl> <!-- FIXME -->
+          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178859</picUrl> <!-- FIXME -->
+        </properties>
+      </developer>
+      <developer>
+        <id>ist178791</id>
+	<name>davidmfer</name>
+	<email>david.mesquita.fernandes@ist.utl.pt</email>
+	<organization>es16 g17al</organization>
+	<roles>
+	  <role>Developer</role>
+	  <role>Architect</role>
+	  <role>Tester</role>
+	  <role>Integrator</role>
+	</roles>
+	<properties>
+          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178791</picUrl>
         </properties>
       </developer>
        <developer>
