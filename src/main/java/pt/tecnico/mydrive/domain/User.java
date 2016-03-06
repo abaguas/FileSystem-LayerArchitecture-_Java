@@ -40,6 +40,7 @@ public class User extends User_Base
     		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
     }
     
+    public User(){}	
     
     public boolean validUsername(String username)
     {

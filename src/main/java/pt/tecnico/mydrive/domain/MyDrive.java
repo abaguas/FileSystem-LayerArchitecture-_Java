@@ -70,7 +70,6 @@ public class MyDrive extends MyDrive_Base {
 	getCurrentDir().ls();
     }
     
-<<<<<<< HEAD
     public User createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException
     {
 		if (userExists(username))
@@ -99,10 +98,6 @@ public class MyDrive extends MyDrive_Base {
 						
 		getUsersSet().add(user);
 		return user;
-=======
-    public void createUser(String username, String password, String name, String home, String mask){
-
->>>>>>> a2de7fb226df6109929b071924f85e6ccd767fe3
     }
 
     
@@ -181,7 +176,7 @@ public class MyDrive extends MyDrive_Base {
                     mask="rwxd----";
                     
                 }
-                createUser(username,password,name,home,mask);
+                createUser(username,password,name);
             }
             else if(node.getName()=="plain"){
                 int id= Integer.parseInt(node.getAttribute("id").getValue());
