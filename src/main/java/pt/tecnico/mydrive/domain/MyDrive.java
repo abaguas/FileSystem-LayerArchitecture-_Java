@@ -227,5 +227,21 @@ public class MyDrive extends MyDrive_Base {
             }
         }
     }
+    
+    public Document XMLExport(){
+	Element element = new Element ("mydrive");
+	Document doc = new Document (element);
+
+	for (User u: getUsersSet())
+		element.addContent (u.XMLExport()));
+	
+	for (File f: getRootDirectory.getFile()){
+		if (f.getName() != "home")
+            f.XMLExport(element);
+    }
+		
+
+	return doc;
+    }
 
 }
