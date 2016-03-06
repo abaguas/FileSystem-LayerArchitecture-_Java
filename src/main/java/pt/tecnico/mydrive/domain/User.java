@@ -20,7 +20,7 @@ public class User extends User_Base
 	        //setOthersPermission(othersPermission);
     	}
     	else
-    		throw new InvalidUsernameException(username);
+    		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
     }
     
     
