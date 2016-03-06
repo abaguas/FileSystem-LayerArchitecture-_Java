@@ -31,6 +31,21 @@
           <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178859</picUrl> <!-- FIXME -->
         </properties>
       </developer>
+      <developer>
+        <id>ist178791</id>
+	<name>davidmfer</name>
+	<email>david.mesquita.fernandes@ist.utl.pt</email>
+	<organization>es16 g17al</organization>
+	<roles>
+	  <role>Developer</role>
+	  <role>Architect</role>
+	  <role>Tester</role>
+	  <role>Integrator</role>
+	</roles>
+	<properties>
+          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178791</picUrl>
+        </properties>
+      </developer>
        <developer>
         <id>ist179078</id>
 	<name>luissacouto</name>
