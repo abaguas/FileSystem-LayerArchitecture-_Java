@@ -51,7 +51,7 @@ public class MyDrive extends MyDrive_Base {
     }
 
     public void cd(String name) throws NoSuchFileException, FileNotDirectoryException {
-	setCurrentDir(getCurrentDir().get(name));
+	setCurrentDir((Directory) getCurrentDir().get(name));
     }
 
     public void ls(String name) throws NoSuchFileException{
