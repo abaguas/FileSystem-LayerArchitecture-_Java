@@ -111,4 +111,75 @@ public class MyDrive extends MyDrive_Base {
 	}
 	return getCurrentDir();
     }
+    public void xmlImport(Element element){
+        String default_home="/home/";
+        for(Element node: element.getChildren()){
+            if(node.getName()=="user"){
+                String username= node.getAttribute("username");
+                String password= node.getChildText("password");
+                String name= node.getChildText("name");
+                String home= node.getChildText("home");
+                String mask= node.getChildText("mask");
+                if(password==null){
+                    password=username;
+                }
+                if(home==null){
+                    home=default_home.concat(username);
+                }
+                if(mask==null){
+                    mask="rwxd----";
+                    
+                }
+                createUser(username,password,name,home,mask);
+            }
+            else if(node.getName()=="plain"){
+                int id= Integer.parseInt(node.getAttribute("id"));
+                String path= node.getChildText("path");
+                String name = node.getChildText("name");
+                String owner= node.getChildText("owner");
+                String perm= node.getChildText("perm");
+                String contents= node.getChildText("contents");
+                if(owner==null){
+                    owner=root;
+                }
+                createPlainFile(name,owner,perm,contents,path,id);
+            }
+            else if(node.getName()=="dir"){
+                int id= Integer.parseInt(node.getAttribute("id"));
+                String path= node.getChildText("path");
+                String name = node.getChildText("name");
+                String owner= node.getChildText("owner");
+                String perm= node.getChildText("perm");
+                if(owner==null){
+                    owner=root;
+                }
+                createDirectory(name,owner,perm,path,id);
+            }
+            else if(node.getName()=="link"){
+                int id= Integer.parseInt(node.getAttribute("id"));
+                String path= node.getChildText("path");
+                String name = node.getChildText("name");
+                String owner= node.getChildText("owner");
+                String perm= node.getChildText("perm");
+                String contents= node.getChildText("value");
+                if(owner==null){
+                    owner=root;
+                }
+                createLink(name,owner,perm,contents,path,id);
+            }
+            else if(node.getName()=="app"){
+                int id= Integer.parseInt(node.getAttribute("id"));
+                String path= node.getChildText("path");
+                String name = node.getChildText("name");
+                String owner= node.getChildText("owner");
+                String perm= node.getChildText("perm");
+                String contents= node.getChildText("methods");
+                if(owner==null){
+                    owner=root;
+                }
+                createApp(name,owner,perm,contents,path,id);
+            }
+        }
+    }
+
 }
