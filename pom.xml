@@ -76,7 +76,22 @@
           <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178745</picUrl>
         </properties>
       </developer>
-    </developers>
+      <developer>
+        <id>ist178324</id>
+	<name>rui-sa</name>
+	<email>rui.sa@ist.utl.pt</email>
+	<organization>es16 g17al</organization>
+	<roles>
+	  <role>Developer</role>
+	  <role>Architect</role>
+	  <role>Tester</role>
+	  <role>Integrator</role>
+	</roles>
+	<properties>
+	  <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178324</picUrl>
+	</properties>
+      </developer>
+   </developers>
 
     <properties>
 	<java.version>1.8</java.version>
