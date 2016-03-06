@@ -233,9 +233,9 @@ public class MyDrive extends MyDrive_Base {
 	Document doc = new Document (element);
 
 	for (User u: getUsersSet())
-		element.addContent (u.XMLExport());
+		element.addContent (u.XMLExport(element));
 	
-	for (File f: getRootDirectory.getFile()){
+	for (File f: getRootDirectory.getFiles()){
 		if (f.getName() != "home")
             		f.XMLExport(element);
     }
