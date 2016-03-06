@@ -87,7 +87,7 @@ public class MyDrive extends MyDrive_Base {
     	//d.addFiles((File) new Link(id, name, owner, content, d));
     }
     
-    public void createDirectory(String name, String owner, String permits, String content, String absolutepath, int id){
+    public void createDirectory(String name, String owner, String permits, String absolutepath, int id){
 	//getUsers(owner);
 	setCounter(id);
 	Directory d = getDirectoryByAbsolutePath(absolutepath);
