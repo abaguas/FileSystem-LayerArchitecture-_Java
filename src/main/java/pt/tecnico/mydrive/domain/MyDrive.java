@@ -1,5 +1,8 @@
 package pt.tecnico.mydrive.domain;
 
+import org.jdom2.Element;
+import org.jdom2.Document;
+import java.io.File;
 import pt.tecnico.mydrive.exception.MyDriveException;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
