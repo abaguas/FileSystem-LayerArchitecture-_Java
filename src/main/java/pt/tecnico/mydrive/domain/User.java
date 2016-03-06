@@ -1,7 +1,8 @@
 package pt.tecnico.mydrive.domain;
 
 import pt.tecnico.mydrive.exception.*;
-
+import org.jdom2.Element;
+import org.jdom2.Document;
 
 public class User extends User_Base
 {
@@ -56,5 +57,22 @@ public class User extends User_Base
     {
     	return "Username: " + getUsername() + "Name: "  + getName();
     }
+    
+    public void XMLExport(Element element_mydrive){
+        Element element = new Element ("user");
+        element.setAttribute("username", getUsername());
+        
+        element = new Element ("password");
+        element.setText(getPassword());
+        
+        element = new Element ("name");
+        element.setText(getName());
+        
+        element = new Element ("home");
+        //element.setText(getMainDirectory());
+        
+        element = new Element ("mask");
+        //element.setText(getOwnPermission());
+    }	
     
 }
