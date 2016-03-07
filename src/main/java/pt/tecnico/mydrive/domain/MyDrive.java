@@ -85,6 +85,22 @@ public class MyDrive extends MyDrive_Base {
 		getUsersSet().add(user);
 		return user; //FIXME verificar se é necessario fazer return
     }
+    public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException,FileAlreadyExistsException{
+    	String username = user_element.getAttribute("username").getValue();
+    	String default_home="/home/";
+    	String home = user_element.getChildText("home");
+    	if(home==null){
+            home=default_home.concat(username);
+        }
+    	if (userExists(username))
+			throw new UserAlreadyExistsException(username);
+
+
+		Directory home_user = getDirectoryByAbsolutePath(home);
+		User user = new User(user_element,home_user);
+		home_user.setOwner(user);
+		addUsers(user);
+    }
 
     
     public boolean userExists(String username){
@@ -147,11 +163,11 @@ public class MyDrive extends MyDrive_Base {
     }
     
     
-    public void xmlImport(Element element){
+    public void xmlImport(Element element){// EM OBRAS!!!!
         String default_home="/home/";
         for(Element node: element.getChildren()){
             if(node.getName()=="user"){
-                String username= node.getAttribute("username").getValue();
+                /*String username= node.getAttribute("username").getValue();
                 String password= node.getChildText("password");
                 String name= node.getChildText("name");
                 String home= node.getChildText("home");
@@ -165,8 +181,8 @@ public class MyDrive extends MyDrive_Base {
                 if(mask==null){
                     mask="rwxd----";
                     
-                }
-                createUser(username,password,name);
+                }*/
+                createUser_xml(node);
             }
             else if(node.getName()=="plain"){
                 int id= Integer.parseInt(node.getAttribute("id").getValue());
