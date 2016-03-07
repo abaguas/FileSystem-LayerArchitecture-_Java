@@ -60,6 +60,11 @@ public class User extends User_Base
     	else
     		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
     }
+    public User(Element user_element, Directory home){
+        super();
+        setMainDirectory(home);
+        XMLImport(user_element);
+    }
     
     	
     
@@ -76,6 +81,31 @@ public class User extends User_Base
     public String toString()
     {
     	return "Username: " + getUsername() + "Name: "  + getName();
+    }
+    public void XMLImport(Element user_element){
+        String username= user_element.getAttribute("username").getValue();
+        String password= user_element.getChildText("password");
+        String name= user_element.getChildText("name");
+        String home_xml= user_element.getChildText("home");
+        String mask_xml= user_element.getChildText("mask");
+        if(password==null){
+            password=username;
+        }
+        if(mask_xml==null){
+            mask_xml="rwxd----";       
+        }
+        if (validUsername(username))
+        {
+            setUsername(username);
+            setPassword(password);
+            setName(name);
+            Permission ownpermission = new Permission(user_element.getChildText("mask_xml").substring(0,4));
+            Permission otherspermission = new Permission(user_element.getChildText("mask_xml").substring(4));
+            setOwnPermission(ownpermission);
+            setOthersPermission(otherspermission);
+        }
+        else
+            throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
     }
     
     public void XMLExport(Element element_mydrive){
