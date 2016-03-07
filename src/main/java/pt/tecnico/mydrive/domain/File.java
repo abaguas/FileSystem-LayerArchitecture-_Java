@@ -23,4 +23,8 @@ public class File extends File_Base {
     
     public void XMLExport(Element element_mydrive){}
     
+    public String ls(){
+		return null;
+	}
+    
 }

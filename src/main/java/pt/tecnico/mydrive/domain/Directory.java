@@ -10,31 +10,30 @@ public class Directory extends Directory_Base {
     
 	//construtor
     //NETO: o file preenche os campos das permissoes pois tem o user
-	public Directory(int id, String name, User user, Directory father) {//o mydrive tem de fazer controlo dos ids
-        //super(id, name, user); superclasse nao construida
+	public Directory(String name, int id, User user, Directory father) {//o mydrive tem de fazer controlo dos ids
+        //super(name, id, user); superclasse nao construida
         setFatherDirectory(father);
         setSelfDirectory(this);
     }
 	
-	public Directory(int id, String name, User user) {//o mydrive tem de fazer controlo dos ids
+	public Directory(String name, int id, User user) {//o mydrive tem de fazer controlo dos ids
         //super(id, name, user); superclasse nao construida
         setFatherDirectory(this);
         setSelfDirectory(this);
     }
 	
-	
-    //cria uma diretoria
-    //as permissoes serao verificadas no mydrive
-    
-	//LUIS: preciso de id, no catch atualizas o counter se der exceçao
-	public void createDir(int id, String name, User user) throws FileAlreadyExistsException { //Sugiro FileAlreadyExistsException pois uma directory é um file
+	public void createDir(String name, int id, User user) throws FileAlreadyExistsException {
 		try {
 			search(name);
-		} catch (NoSuchFileException e) {} //verifico se nao existe nenhum ficherio com esse nome
-		Directory d = new Directory(id, name, user, this);
-    	addFiles((File) d);
-    }
-	
+			throw new FileAlreadyExistsException(name);
+		} 
+		catch (NoSuchFileException e) {
+			Directory d = new Directory(name, id, user, this);
+			addFiles(d);
+		}
+		
+	}
+
 	public void remove(String name) throws NoSuchFileException{
 		File f = search(name);
 		f.remove();
@@ -49,8 +48,22 @@ public class Directory extends Directory_Base {
    	 	}
 	}
 	
-	public File search(String name) throws NoSuchFileException{
+	public File get(String name) throws NoSuchFileException, FileNotDirectoryException{
+		if (name.equals("..")) {
+			return getFatherDirectory();
+		}
+		else if (name.equals(".")) {
+			return getSelfDirectory();
+		}
+		else {
+			File f = search(name);
+   	 		return f;
+		}
+	}
+	
+	public File search(String name) throws NoSuchFileException{	
 		Set<File> files = getFiles();
+		
 		for (File f: files) {
    	 		if (f.getName().equals(name)) {
    	 			return f;
@@ -58,12 +71,6 @@ public class Directory extends Directory_Base {
 		}
 		throw new NoSuchFileException(name);
 	}
-	
-	public File cdable(File f) throws FileNotDirectoryException{
-		Visitor v = new CdableVisitor();
-   	 	f.accept(v);
-   	 	return f;
-   	}
 	
 	//lista o conteudo da diretoria
 	public String ls(){
@@ -80,7 +87,7 @@ public class Directory extends Directory_Base {
 	public String toString(){
 		String s = "Directory ";
 		s+="Dimension: "+dimension();
-		s+=super.toString();
+		s+=super.toString(); //logo se vê
 		return s;
 	}
 	
@@ -91,20 +98,6 @@ public class Directory extends Directory_Base {
 	
 	public void accept(Visitor v) throws FileNotDirectoryException{
 		v.execute(this);
-	}
-	
-	public Directory get(String name) throws NoSuchFileException, FileNotDirectoryException{
-		if (name.equals("..")) {
-			return getFatherDirectory();
-		}
-		else if (name.equals(".")) {
-			return getSelfDirectory();
-		}
-		else {File f = search(name);
-			Visitor v = new CdableVisitor();
-   	 		f.accept(v);
-   	 		return (Directory)f;
-		}
 	}
 	
 	public void XMLExport(Element element_mydrive){

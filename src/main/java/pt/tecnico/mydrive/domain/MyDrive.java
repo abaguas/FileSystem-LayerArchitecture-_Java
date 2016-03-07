@@ -17,21 +17,21 @@ public class MyDrive extends MyDrive_Base {
     
     public MyDrive() throws MyDriveException{
         super();
-	setRootUser(new RootUser ());
-	setCurrentUser(getRootUser());
-	setCounter(0);
-	//setRootDirectory(new Directory(getCounter(),"/", getRootUser()));
-	incCounter();
-	setCurrentDir(getRootDirectory());
-	createDir("home");
-	cd("home");
-	createDir("root");
-	cd("root");
-	getRootUser().setMainDirectory(getCurrentDir());
+        setRootUser(new RootUser ());
+        setCurrentUser(getRootUser());
+		setCounter(0);
+		//setRootDirectory(new Directory(getCounter(),"/", getRootUser()));
+		incCounter();
+		setCurrentDir(getRootDirectory());
+		createDir("home");
+		cd("home");
+		createDir("root");
+		cd("root");
+		getRootUser().setMainDirectory(getCurrentDir());
     }
 
     public void incCounter(){
-	setCounter(getCounter() + 1);
+    	setCounter(getCounter() + 1);
     }
 
     public void decCounter(){
@@ -39,70 +39,55 @@ public class MyDrive extends MyDrive_Base {
     }
 
     public void createDir(String name) throws FileAlreadyExistsException{
-	try{
-		incCounter();
-		createDir(getCounter(), name, getCurrentUser());
-	}
-	catch(FileAlreadyExistsException e){
-		decCounter();
-		//System.out.println(e);
-	}
+		try{
+			incCounter();
+			getCurrentDir().createDir(name, getCounter(), getCurrentUser());
+		}
+		catch(FileAlreadyExistsException e){
+			decCounter();
+			throw new FileAlreadyExistsException(name);
+		}
     }
     
-    public void createDir(int id, String name, User user) throws FileAlreadyExistsException {
-	try {
-		getCurrentDir().search(name);
-	} 
-	catch (NoSuchFileException e) {} 
-	Directory d = new Directory(id, name, user, getCurrentDir());
-	getCurrentDir().addFiles(d);
-    }
-
     public void cd(String name) throws NoSuchFileException, FileNotDirectoryException {
-	setCurrentDir((Directory) getCurrentDir().get(name));
+    	File f = getCurrentDir().get(name);
+   	    cdable(f);
+    	setCurrentDir((Directory) f);
     }
 
-    public void ls(String name) throws NoSuchFileException{
-	//getCurrentDir().get(name).ls();
+    public void cdable(File f) throws FileNotDirectoryException{
+		Visitor v = new CdableVisitor();
+   	 	f.accept(v);
+   	}
+    
+    public String ls(String name) throws NoSuchFileException{
+    	//nao faz caminhos absolutos
+    	return getCurrentDir().get(name).ls();
     }
     
-    public void ls(){
-	getCurrentDir().ls();
+    public String ls(){
+    	return getCurrentDir().ls();
     }
     
-    public User createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException
-    {
+    public User createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
 		if (userExists(username))
 			throw new UserAlreadyExistsException(username);
     	User user = null;
     	//Directory mainDirectory = null;
-		try
-		{
-			setCurrentUser(getRootUser());
-			cd("home");
-			//mainDirectory = new Directory()
-			//incCounter();
-			createDir(username);
-			cd("username");
-			user = new User(username, password, name, getCurrentDir());
-			getCurrentDir().setOwner(user);
-		}
-		catch(InvalidUsernameException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		catch(UserAlreadyExistsException e)
-		{
-			System.out.println(e.getMessage());
-		}
-						
+
+		setCurrentUser(getRootUser());
+		setCurrentDir(getRootDirectory());
+		cd("home");
+		createDir(username);
+		cd("username");
+		//user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
+		getCurrentDir().setOwner(user);				
 		getUsersSet().add(user);
-		return user;
+		return user; //FIXME verificar se é necessario fazer return
     }
 
     
-    public boolean userExists(String username)
-    {
+    public boolean userExists(String username){
 		Set<User> users = getUsersSet();
 		for (User u : users)
 	 		if (u.getName().equals(u.getUsername()))
@@ -145,18 +130,23 @@ public class MyDrive extends MyDrive_Base {
 	setCurrentDir(getRootDirectory());
 	for(int i=1; i < parts.length - 1; i++){
 		try{
-			setCurrentDir((Directory)getCurrentDir().get(parts[i]));
+			cd(parts[i]);
 		}
 		catch(NoSuchFileException e1){
 			try{
 				createDir(parts[i]);
-				setCurrentDir(getCurrentDir().get(parts[i]));
+				setCurrentDir((Directory) getCurrentDir().get(parts[i]));
 			}
 			catch(MyDriveException e2){}
+		}
+		catch(FileNotDirectoryException e){
+			//FIXME: se houver XML errado mandar InvalidPathException
 		}
 	}
 	return getCurrentDir();
     }
+    
+    
     public void xmlImport(Element element){
         String default_home="/home/";
         for(Element node: element.getChildren()){
