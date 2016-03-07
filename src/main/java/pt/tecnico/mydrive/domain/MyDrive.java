@@ -84,8 +84,8 @@ public class MyDrive extends MyDrive_Base {
 			//incCounter();
 			createDir(username);
 			cd("username");
-			user = new User(username, password, name);
-			user.setMainDirectory(getCurrentDir());
+			user = new User(username, password, name, getCurrentDir());
+			getCurrentDir().setOwner(user);
 		}
 		catch(InvalidUsernameException e)
 		{

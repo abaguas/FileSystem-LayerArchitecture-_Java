@@ -6,6 +6,8 @@ import org.jdom2.Document;
 
 public class User extends User_Base
 {
+	public User(){}
+	
     protected User(String username, String password, String name)
     {
     	super();
@@ -24,6 +26,24 @@ public class User extends User_Base
     }
     	
 	
+    public User(String username, String password, String name, Directory home) throws InvalidUsernameException
+    {
+    	super();
+    	if (validUsername(username))
+    	{
+	        setUsername(username);
+	        setPassword(password);
+	        setName(name);
+	        setMainDirectory(home);
+	        Permission ownP = new Permission(true, true, true, true);
+			Permission othP = new Permission(false, false, false, false);
+			setOwnPermission(ownP);
+			setOthersPermission(othP);
+    	}
+    	else
+    		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
+    }
+    
     public User(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException
     {
     	super();
@@ -41,7 +61,7 @@ public class User extends User_Base
     		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
     }
     
-    public User(){}	
+    	
     
     public boolean validUsername(String username)
     {

@@ -6,13 +6,13 @@ public class RootUser extends RootUser_Base
     public RootUser()
     {
     	super();
-    	//super("root", "***", "Super User");
     	setUsername("root");
         setPassword("***");
         setName("Super User");
-        // setOwnPermission(); tenho de passar permissão
-        // setOthersPermission(); tenho de passar permissão
-        
+		Permission ownP = new Permission(true, true, true, true);
+		Permission othP = new Permission(true, false, true, false);
+		setOwnPermission(ownP);
+        setOthersPermission(othP);
     }
     
 }
