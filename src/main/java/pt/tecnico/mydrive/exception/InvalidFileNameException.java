@@ -1,6 +1,6 @@
 package pt.tecnico.mydrive.exception;
 
-public class InvalidUsernameException extends MyDriveException {
+public class InvalidFileNameException extends MyDriveException {
     
     private static final long serialVersionUID = 1L;
     
