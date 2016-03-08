@@ -4,9 +4,31 @@ import org.jdom2.Element;
 import org.jdom2.Document;
 
 public class Link extends Link_Base {
+    //o conteudo representa o caminho (absoluto ou relativo) para outro ficheiro
+    public Link(String name, int id, User owner, String content) {
+    	//super();
+        super().super(name, id, owner, content);
+        /*setOwner(owner);
+        setName(name);
+        setId(id);
+        setContent(content);*/
+    }
+    public Link(String name, int id, String content) {
+    	//super();
+        super().super(name, id, content);
+        /*setOwner(owner);
+        setName(name);
+        setId(id);
+        setContent(content);*/
+    }
+    public int dimension(){
+    	//How do I calculate?
+    	return 0;
+    }
     
-    public Link() {
-        super();
+    public String toString(){
+    	String s="";
+    	return s;
     }
     
     @Override
