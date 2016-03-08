@@ -2,7 +2,6 @@ package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
 import org.jdom2.Document;
-//import java.io.File;
 import pt.tecnico.mydrive.exception.MyDriveException;
 
 import java.util.Set;
@@ -20,7 +19,7 @@ public class MyDrive extends MyDrive_Base {
         setRootUser(new RootUser ());
         setCurrentUser(getRootUser());
 		setCounter(0);
-		//setRootDirectory(new Directory(getCounter(),"/", getRootUser()));
+		setRootDirectory(new Directory("/", getCounter(), getRootUser()));
 		incCounter();
 		setCurrentDir(getRootDirectory());
 		createDir("home");
