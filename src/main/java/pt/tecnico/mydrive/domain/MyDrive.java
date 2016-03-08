@@ -234,7 +234,7 @@ public class MyDrive extends MyDrive_Base {
         }
     }
     
-    public Document XMLExport(){
+    public Document xmlExport(){
 	Element element = new Element ("mydrive");
 	Document doc = new Document (element);
 
@@ -243,7 +243,7 @@ public class MyDrive extends MyDrive_Base {
 	
 	for (File f: getRootDirectory().getFiles()){
 		if (f.getName() != "home")
-            		f.XMLExport(element);
+            		f.xmlExport(element);
     	}
 	return doc;
     }

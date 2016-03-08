@@ -1,9 +1,14 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
+
+import pt.tecnico.mydrive.exception.InvalidFileNameException;
+
 import org.jdom2.Document;
 
 public class File extends File_Base {
+	
+	public File(){}
     
 	public File(String name, int id, User owner) throws InvalidFileNameException{
 		super();
@@ -11,8 +16,8 @@ public class File extends File_Base {
 	        setOwner(owner);
 	        setName(name);
 	        setId(id);
-	        setOwnPermission(owner.getOwnPermission());
-	        setOthPermission(owner.getOthPermission());
+	        setUserPermission(owner.getOwnPermission());
+	        setOthersPermission(owner.getOthersPermission());
 	        //lastChange updated (joda time)
 	    }
 		catch(InvalidFileNameException e)
@@ -23,7 +28,7 @@ public class File extends File_Base {
 
 	public File(String name, int id) throws InvalidFileNameException{
 	    super();
-	    File(name, id, root);
+	    //File(name, id, "root"); FIXME nao sei
 	}
 	
     public int dimension(){
@@ -39,7 +44,7 @@ public class File extends File_Base {
     }
     
     public String toString(){
-    	String s=getClass.getName();
+    	String s=getClass().getName();
     	return s;
     }
     

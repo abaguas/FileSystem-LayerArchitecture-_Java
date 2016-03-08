@@ -1,15 +1,19 @@
 package pt.tecnico.mydrive.domain;
 
+import org.jdom2.Element;
+
 public class FileWithContent extends FileWithContent_Base {
+	
+	public FileWithContent(){}
     
     public FileWithContent(String name, int id, User owner, String content) {
-    	super();
+    	//super();
         //super().super(name, id, owner);
         setContent(content);
     }
     
     public FileWithContent(String name, int id, String content) {
-    	super();
+    	//super();
         //super().super(name, id);
         setContent(content);
     }
@@ -19,7 +23,7 @@ public class FileWithContent extends FileWithContent_Base {
     	t+="\n"+content; //Has new line?
     }
     
-    public String execute(){
+    public void execute(){
      //abstract?
     }
     
@@ -31,9 +35,9 @@ public class FileWithContent extends FileWithContent_Base {
     public String toString(){
     	//String s=super().super().toString();
     	String s="";
-    	s+=getPermission().toString();
+    	s+=getUserPermission().toString();
     	s+=dimension();
-    	s+=owner().getUsername();
+    	s+=getOwner().getUsername();
     	s+=getId();
     	s+=getLastChange();
     	s+=getName();
@@ -47,5 +51,7 @@ public class FileWithContent extends FileWithContent_Base {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void xmlExport(Element element_mydrive){}
     
 }

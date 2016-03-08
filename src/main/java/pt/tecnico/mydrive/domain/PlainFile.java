@@ -3,9 +3,10 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 import org.jdom2.Document;
 
-public class Link extends Link_Base {
+public class PlainFile extends PlainFile_Base {
+	
     //a primeira palavra representa o caminho para uma aplicacao e as restantes palavras representam os seus argumentos.
-    public Link(String name, int id, User owner, String content) {
+    public PlainFile(String name, int id, User owner, String content) {
     	super();
         //super().super(name, id, owner, content);
         /*setOwner(owner);
@@ -13,7 +14,7 @@ public class Link extends Link_Base {
         setId(id);
         setContent(content);*/
     }
-    public Link(String name, int id, String content) {
+    public PlainFile(String name, int id, String content) {
     	super();
         //super().super(name, id, content);
         /*setOwner(owner);
@@ -32,7 +33,7 @@ public class Link extends Link_Base {
     }
     
     @Override
-    public void XMLExport(Element element_mydrive){
+    public void xmlExport(Element element_mydrive){
         Element element = new Element ("link");
         //element.setAttribute("id",getId());
         

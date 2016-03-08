@@ -32,7 +32,7 @@ public class Link extends Link_Base {
     }
     
     @Override
-    public void XMLExport(Element element_mydrive){
+    public void xmlExport(Element element_mydrive){
         Element element = new Element ("link");
         //element.setAttribute("id",getId());
         
