@@ -6,16 +6,16 @@ import org.jdom2.Document;
 public class Link extends Link_Base {
     //o conteudo representa o caminho (absoluto ou relativo) para outro ficheiro
     public Link(String name, int id, User owner, String content) {
-    	//super();
-        super().super(name, id, owner, content);
+    	super();
+        //super().super(name, id, owner, content);
         /*setOwner(owner);
         setName(name);
         setId(id);
         setContent(content);*/
     }
     public Link(String name, int id, String content) {
-    	//super();
-        super().super(name, id, content);
+    	super();
+        //super().super(name, id, content);
         /*setOwner(owner);
         setName(name);
         setId(id);
