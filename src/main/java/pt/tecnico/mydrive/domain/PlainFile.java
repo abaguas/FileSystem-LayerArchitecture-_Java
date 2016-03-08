@@ -22,6 +22,11 @@ public class PlainFile extends PlainFile_Base {
         setId(id);
         setContent(content);*/
     }
+    public PlainFile(Element plain_element, User user){
+        super();
+        setOwner(user);
+        xmlImport(plain_element);
+    }
     public int dimension(){
     	//How do I calculate?
     	return 0;
@@ -30,6 +35,19 @@ public class PlainFile extends PlainFile_Base {
     public String toString(){
     	String s="";
     	return s;
+    }
+    public void xmlImport(Element plain_element){
+        int id= Integer.parseInt(plain_element.getAttribute("id").getValue());
+        String name = plain_element.getChildText("name");
+        String perm= plain_element.getChildText("perm");
+        String contents= plain_element.getChildText("contents");
+        Permission ownpermission = new Permission(plain_element.getChildText("perm").substring(0,4));
+        Permission otherspermission = new Permission(plain_element.getChildText("perm").substring(4));
+        setName(name);
+        setId(id);
+        setUserPermission(ownpermission);
+        setOthersPermission(otherspermission);
+        setContent(contents);
     }
     
     @Override
