@@ -118,6 +118,27 @@ public class MyDrive extends MyDrive_Base {
     	Directory d = getDirectoryByAbsolutePath(absolutepath);
     	//d.addFiles((File) new PlainFile(id, name, owner, content, d));
     }
+    public void createPlainFile_xml(Element plain_element){
+    	String owner = plain_element.getChildText("owner");
+        User user = null;
+        File plainfile=null;
+    	if(owner ==null){
+    		plainfile = new PlainFile(plain_element,getRootUser());
+    	}
+    	else {
+            Set<User> users = getUsersSet();
+            for (User u : users){
+                if (u.getUsername().equals(owner)){
+                    user = u;
+                    break;
+                }    
+            }
+            plainfile = new PlainFile(plain_element,user);
+    	}
+    	setCounter(Integer.parseInt(plain_element.getAttribute("id").getValue()));//Falta verificar se o id está correto
+    	Directory d =  getDirectoryByAbsolutePath(plain_element.getChildText("path"));
+    	d.addFiles(plainfile);
+    }
 
     public void createApp(String name, String owner, String permits, String content, String absolutepath, int id){
     	//getUsers(owner);
@@ -184,7 +205,7 @@ public class MyDrive extends MyDrive_Base {
                 createUser_xml(node);
             }
             else if(node.getName()=="plain"){
-                int id= Integer.parseInt(node.getAttribute("id").getValue());
+                /*int id= Integer.parseInt(node.getAttribute("id").getValue());
                 String path= node.getChildText("path");
                 String name = node.getChildText("name");
                 String owner= node.getChildText("owner");
@@ -192,8 +213,8 @@ public class MyDrive extends MyDrive_Base {
                 String contents= node.getChildText("contents");
                 if(owner==null){
                     owner="root";
-                }
-                createPlainFile(name,owner,perm,contents,path,id);
+                }*/
+                createPlainFile_xml(node);
             }
             else if(node.getName()=="dir"){
                 int id= Integer.parseInt(node.getAttribute("id").getValue());
