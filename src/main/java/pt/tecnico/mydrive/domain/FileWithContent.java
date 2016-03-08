@@ -3,14 +3,14 @@ package pt.tecnico.mydrive.domain;
 public class FileWithContent extends FileWithContent_Base {
     
     public FileWithContent(String name, int id, User owner, String content) {
-    	//super();
-        super().super(name, id, owner);
+    	super();
+        //super().super(name, id, owner);
         setContent(content);
     }
     
     public FileWithContent(String name, int id, String content) {
-    	//super();
-        super().super(name, id);
+    	super();
+        //super().super(name, id);
         setContent(content);
     }
     
@@ -18,7 +18,8 @@ public class FileWithContent extends FileWithContent_Base {
     	String t = getContent();
     	t+="\n"+content; //Has new line?
     }
-    abstract public String execute(){
+    
+    public String execute(){
      //abstract?
     }
     
@@ -28,7 +29,8 @@ public class FileWithContent extends FileWithContent_Base {
     }
     
     public String toString(){
-    	String s=super().super().toString();
+    	//String s=super().super().toString();
+    	String s="";
     	s+=getPermission().toString();
     	s+=dimension();
     	s+=owner().getUsername();
