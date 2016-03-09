@@ -1,5 +1,7 @@
 package pt.tecnico.mydrive.domain;
 
+import pt.ist.fenixframework.FenixFramework;
+
 import org.jdom2.Element;
 import org.jdom2.Document;
 import pt.tecnico.mydrive.exception.MyDriveException;
@@ -14,9 +16,19 @@ import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 
 public class MyDrive extends MyDrive_Base {
     
-    public MyDrive() throws MyDriveException{
+    public static MyDrive getInstance(){
+	MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
+        if (md != null)
+            return md;
+        return new MyDrive();
+    }
+
+    private MyDrive() throws MyDriveException{
         super();
-        setRootUser(new RootUser ());
+	setRoot(FenixFramework.getDomainRoot());
+	RootUser r = new RootUser();
+        setRootUser(r);
+	addUsers(r);
         setCurrentUser(getRootUser());
 		setCounter(0);
 		setRootDirectory(new Directory("/", getCounter(), getRootUser()));
