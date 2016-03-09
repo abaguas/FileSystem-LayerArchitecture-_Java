@@ -1,31 +1,38 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
+import org.joda.time.LocalTime;
 
 public class FileWithContent extends FileWithContent_Base {
 	
 	public FileWithContent(){}
     
     public FileWithContent(String name, int id, User owner, String content) {
-    	//super();
-        //super().super(name, id, owner);
-    	
-        setContent(content);
+    	//super(); 
+    	init(name,id,owner,content);
     }
     
     public FileWithContent(String name, int id, String content) {
     	//super();
-        //super().super(name, id);
-        setContent(content);
+    	//FIXME (root)
     }
     
-    public void addContent(String content){ //Equivalent to setter?
+    //Enables inheritance
+    protected void init(String name, int id, User owner, String content){
+    	init(name,id,owner);
+    	setContent(content);
+    }
+    
+    public void addContent(String content){
+    	LocalTime lt = new LocalTime();
+    	setLastChange(lt);
     	String t = getContent();
-    	t+="\n"+content; //Has new line?
+    	t+="\n"+content; //Has new line? 
+    	setContent(t);
     }
     
     public void execute(){
-     //abstract?
+    	//FIXME?
     }
     
     public int dimension(){
@@ -33,7 +40,12 @@ public class FileWithContent extends FileWithContent_Base {
     }
     
     public String toString(){
-    	//String s=super().super().toString();
+    	
+    	return print();
+    	
+    }
+    
+    protected String print(){
     	String s="";
     	s+=getUserPermission().toString()+" ";
     	s+=dimension()+" ";
@@ -42,9 +54,7 @@ public class FileWithContent extends FileWithContent_Base {
     	s+=getLastChange()+" ";
     	s+=getName();
     	return s;
-    	// o tipo do ficheiro, as suas permissoes, a dimensao, o username do utilizador a quem pertence, identificador unico, data de modificacao e nome
-    	
-    }	
+    }
 
 	@Override
 	public void accept(Visitor v) {
@@ -53,5 +63,10 @@ public class FileWithContent extends FileWithContent_Base {
 	}
 	
 	public void xmlExport(Element element_mydrive){}
+	
+	public String ls(){
+		return getContent();
+		//LUIS: Era isto que querias?
+	}
     
 }

@@ -8,18 +8,11 @@ public class PlainFile extends PlainFile_Base {
     //a primeira palavra representa o caminho para uma aplicacao e as restantes palavras representam os seus argumentos.
     public PlainFile(String name, int id, User owner, String content) {
     	super();
-        //super().super(name, id, owner, content);
-        setOwner(owner);
-        setName(name);
-        setId(id);
-        setContent(content);
+    	init(name,id,owner,content);
     }
     public PlainFile(String name, int id, String content) {
     	super();
-        //super().super(name, id, content);
-        setName(name);
-        setId(id);
-        setContent(content);
+    	//FIXME (root)
     }
     public PlainFile(Element plain_element, User user){
         super();
@@ -27,11 +20,16 @@ public class PlainFile extends PlainFile_Base {
         xmlImport(plain_element);
     }
     
-    
-    public String toString(){
-    	String s="";
-    	return s;
+    public void execute(){
+    	//FIXME?
     }
+  
+    public String toString(){
+    	String t = getClass().getName();
+    	t+=print();
+    	return t;
+    }
+    
     public void xmlImport(Element plain_element){
         int id= Integer.parseInt(plain_element.getAttribute("id").getValue());
         String name = plain_element.getChildText("name");
@@ -67,6 +65,5 @@ public class PlainFile extends PlainFile_Base {
         //element.setText (getValue());
         
         element_mydrive.addContent(element);
-    }
-    
+    }    
 }

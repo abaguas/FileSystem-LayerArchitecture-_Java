@@ -7,23 +7,21 @@ public class Link extends Link_Base {
     //o conteudo representa o caminho (absoluto ou relativo) para outro ficheiro
     public Link(String name, int id, User owner, String content) {
     	super();
-        //super().super(name, id, owner, content);
-        setOwner(owner);
-        setName(name);
-        setId(id);
-        setContent(content);
+    	init(name,id,owner,content);
     }
     public Link(String name, int id, String content) {
     	super();
-        //super().super(name, id, content);
-        setName(name);
-        setId(id);
-        setContent(content);
+    	//FIXME (root)
     }
     
+    public void execute(){
+    	//FIXME?
+    }
+  
     public String toString(){
-    	String s="";
-    	return s;
+    	String t = getClass().getName();
+    	t+=print();
+    	return t;
     }
     
     @Override

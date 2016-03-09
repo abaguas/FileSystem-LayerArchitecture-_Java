@@ -13,32 +13,40 @@ public class File extends File_Base {
     
 	public File(String name, int id, User owner) throws InvalidFileNameException{
 		super();
-		LocalTime dt=new LocalTime();
-		try{
-	        setOwner(owner);
-	        setName(name);
-	        setId(id);
-	        setUserPermission(owner.getOwnPermission());
-	        setOthersPermission(owner.getOthersPermission());
-	        setLastChange(dt);
-	    }
-		catch(InvalidFileNameException e)
-		{
-			//O nome do ficheiro n ´ ao pode conter os carateres ’/’ (barra) e ’\0’ (null)
-		}
+		init(name,id,owner);
 	}
 
 	public File(String name, int id) throws InvalidFileNameException{
 	    super();
-	    //File(name, id, "root"); FIXME nao sei
+	    //FIXME (root)
+	}
+	
+	//Enables inheritance
+	protected void init(String name, int id, User owner) throws InvalidFileNameException{
+
+		if(name.contains("/") || name.contains("0")){
+			throw new InvalidFileNameException(name);
+		}
+		
+		LocalTime dt=new LocalTime();
+        setOwner(owner);
+        setName(name);
+        setId(id);
+        setUserPermission(owner.getOwnPermission());
+        setOthersPermission(owner.getOthersPermission());
+        setLastChange(dt);
 	}
 	
     public int dimension(){
     	return 0;
     }
-    
-    public void remove(){
-    	//Just for directory
+
+    protected void remove() {
+    	setOwner(null);
+        setUserPermission(null);
+        setOthersPermission(null);
+        setLastChange(null);
+    	deleteDomainObject();
     }
     
     public void accept(Visitor v){
@@ -46,7 +54,7 @@ public class File extends File_Base {
     }
     
     public String toString(){
-    	String s=getClass().getName();
+    	String s="";
     	return s;
     }
     
@@ -54,7 +62,6 @@ public class File extends File_Base {
     
 
     public String ls(){
-    	
 		return null;
 	}
     
