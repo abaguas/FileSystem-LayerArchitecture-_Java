@@ -9,6 +9,7 @@ public class FileWithContent extends FileWithContent_Base {
     public FileWithContent(String name, int id, User owner, String content) {
     	//super();
         //super().super(name, id, owner);
+    	
         setContent(content);
     }
     
@@ -28,18 +29,17 @@ public class FileWithContent extends FileWithContent_Base {
     }
     
     public int dimension(){
-    	//How do I calculate?
-    	return 0;
+    	return getContent().length();
     }
     
     public String toString(){
     	//String s=super().super().toString();
     	String s="";
-    	s+=getUserPermission().toString();
-    	s+=dimension();
-    	s+=getOwner().getUsername();
-    	s+=getId();
-    	s+=getLastChange();
+    	s+=getUserPermission().toString()+" ";
+    	s+=dimension()+" ";
+    	s+=getOwner().getUsername()+" ";
+    	s+=getId()+" ";
+    	s+=getLastChange()+" ";
     	s+=getName();
     	return s;
     	// o tipo do ficheiro, as suas permissoes, a dimensao, o username do utilizador a quem pertence, identificador unico, data de modificacao e nome

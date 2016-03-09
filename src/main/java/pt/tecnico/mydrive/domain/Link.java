@@ -8,22 +8,17 @@ public class Link extends Link_Base {
     public Link(String name, int id, User owner, String content) {
     	super();
         //super().super(name, id, owner, content);
-        /*setOwner(owner);
+        setOwner(owner);
         setName(name);
         setId(id);
-        setContent(content);*/
+        setContent(content);
     }
     public Link(String name, int id, String content) {
     	super();
         //super().super(name, id, content);
-        /*setOwner(owner);
         setName(name);
         setId(id);
-        setContent(content);*/
-    }
-    public int dimension(){
-    	//How do I calculate?
-    	return 0;
+        setContent(content);
     }
     
     public String toString(){
