@@ -49,6 +49,21 @@ public class MyDrive extends MyDrive_Base {
 	setCounter(getCounter() - 1);
     }
 
+    public String pwd(){
+        Directory current = getCurrentDir();
+        String output="";
+        if(getCurrentDir().getName().equals("/")){
+            output="/";
+        }
+        else{
+            while(!current.getName().equals("/")){
+                output = "/" + current.getName() + output;
+                current= current.getFatherDirectory();
+            }
+        }
+        return output;
+    }
+
     public void createDir(String name) throws FileAlreadyExistsException{
 	try{
 		incCounter();
@@ -60,6 +75,38 @@ public class MyDrive extends MyDrive_Base {
 	}
     }
     
+    public void createPlainFile(String name, String content) throws FileAlreadyExistsException{
+        try{
+            incCounter();
+            getCurrentDir().addFiles(new PlainFile(name, getCounter(), getCurrentUser(), content));
+        }
+        catch(FileAlreadyExistsException e){
+            decCounter();
+            throw new FileAlreadyExistsException(name);
+        }
+    }
+    
+    public void createApp(String name, String content) throws FileAlreadyExistsException{
+        try{
+            incCounter();
+            getCurrentDir().addFiles(new App(name, getCounter(), getCurrentUser(), content));
+        }
+        catch(FileAlreadyExistsException e){
+            decCounter();
+            throw new FileAlreadyExistsException(name);
+        }
+    }
+    
+    public void createLink(String name, String content) throws FileAlreadyExistsException{
+        try{
+            incCounter();
+            getCurrentDir().addFiles(new Link(name, getCounter(), getCurrentUser(), content));
+        }
+        catch(FileAlreadyExistsException e){
+            decCounter();
+            throw new FileAlreadyExistsException(name);
+        }
+    }    
     public void cd(String name) throws NoSuchFileException, FileNotDirectoryException {
     	File f = getCurrentDir().get(name);
    	cdable(f);
@@ -118,14 +165,6 @@ public class MyDrive extends MyDrive_Base {
 		return false;
     }
     
-    
-    
-    public void createPlainFile(String name, String owner, String permits, String content, String absolutepath, int id){
-    	//getUsers(owner);
-    	setCounter(id);
-    	Directory d = getDirectoryByAbsolutePath(absolutepath);
-    	//d.addFiles((File) new PlainFile(id, name, owner, content, d));
-    }
     public void createPlainFile_xml(Element plain_element){
     	String owner = plain_element.getChildText("owner");
         User user = null;
@@ -146,6 +185,13 @@ public class MyDrive extends MyDrive_Base {
     	setCounter(Integer.parseInt(plain_element.getAttribute("id").getValue()));//Falta verificar se o id está correto
     	Directory d =  getDirectoryByAbsolutePath(plain_element.getChildText("path"));
     	d.addFiles(plainfile);
+    }
+
+    public void createPlainFile(String name, String owner, String permits, String content, String absolutepath, int id){
+    	//getUsers(owner);
+    	setCounter(id);
+    	Directory d = getDirectoryByAbsolutePath(absolutepath);
+    	//d.addFiles((File) new PlainFile(id, name, owner, content, d));
     }
 
     public void createApp(String name, String owner, String permits, String content, String absolutepath, int id){
