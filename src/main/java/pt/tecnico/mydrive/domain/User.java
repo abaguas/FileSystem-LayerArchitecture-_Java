@@ -68,8 +68,7 @@ public class User extends User_Base
     
     	
     
-    public boolean validUsername(String username)
-    {
+    public boolean validUsername(String username){
     	String pattern = "^[a-zA-Z0-9]*$"; // String pattern = "[A-Za-z0-9]+";
         if(username.matches(pattern) && !username.equals(""))
             return true;
@@ -78,8 +77,7 @@ public class User extends User_Base
     }
     
     
-    public String toString()
-    {
+    public String toString(){
     	return "Username: " + getUsername() + "Name: "  + getName();
     }
     public void XMLImport(Element user_element){
@@ -94,8 +92,7 @@ public class User extends User_Base
         if(mask_xml==null){
             mask_xml="rwxd----";       
         }
-        if (validUsername(username))
-        {
+        if (validUsername(username)){
             setUsername(username);
             setPassword(password);
             setName(name);
@@ -109,20 +106,26 @@ public class User extends User_Base
     }
     
     public void XMLExport(Element element_mydrive){
-        Element element = new Element ("user");
-        element.setAttribute("username", getUsername());
+        Element user_element = new Element ("user");
+        user_element.setAttribute("username", getUsername());
         
-        element = new Element ("password");
-        element.setText(getPassword());
+        Element pass_element = new Element ("password");
+        pass_element.setText(getPassword());
+        user_element.addContent(pass_element);
+
+        Element name_element = new Element ("name");
+        name_element.setText(getName());
+        user_element.addContent(pass_element);        
         
-        element = new Element ("name");
-        element.setText(getName());
+        Element home_element = new Element ("home");
+        home_element.setText(getMainDirectory().getAbsolutePath());
+        user_element.addContent(pass_element);
         
-        element = new Element ("home");
-        //element.setText(getMainDirectory());
-        
-        element = new Element ("mask");
-        //element.setText(getOwnPermission());
+        Element mask_element = new Element ("mask");
+        mask_element.setText(getOwnPermission().toString() + getOthersPermission().toString());
+        user_element.addContent(pass_element);
+
+        element_mydrive.addContent(user_element);
     }	
     
 }
