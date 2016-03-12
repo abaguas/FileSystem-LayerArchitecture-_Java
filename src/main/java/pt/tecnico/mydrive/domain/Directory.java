@@ -8,20 +8,19 @@ import pt.tecnico.mydrive.exception.*;
 
 public class Directory extends Directory_Base {
     
-	//construtor
-    //NETO: o file preenche os campos das permissoes pois tem o user
-	public Directory(String name, int id, User user, Directory father) {//o mydrive tem de fazer controlo dos ids
-        super();
-		//super(name, id, user); superclasse nao construida
-        setFatherDirectory(father);
-        setSelfDirectory(this);
+	public Directory(String name, int id, User user, Directory father) {
+        init(name, id, user);
+		init(father);
     }
 	
-	public Directory(String name, int id, User user) {//o mydrive tem de fazer controlo dos ids
-		super();
-        //super(id, name, user); superclasse nao construida
-        setFatherDirectory(this);
+	public void init(Directory father){
+		setFatherDirectory(father);
         setSelfDirectory(this);
+	}
+	
+	public Directory(String name, int id, User user) {
+		init(name, id, user);
+        init(this);
     }
 	
 	public void createDir(String name, int id, User user) throws FileAlreadyExistsException {
