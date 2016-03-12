@@ -17,7 +17,7 @@ import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 public class MyDrive extends MyDrive_Base {
     
     public static MyDrive getInstance(){
-	MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
+        MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
         if (md != null)
             return md;
         return new MyDrive();
@@ -25,20 +25,22 @@ public class MyDrive extends MyDrive_Base {
 
     private MyDrive() throws MyDriveException{
         super();
-	setRoot(FenixFramework.getDomainRoot());
-	RootUser r = new RootUser();
+        setRoot(FenixFramework.getDomainRoot());
+        RootUser r = null;
+        r = RootUser.getInstance();
         setRootUser(r);
-	addUsers(r);
+        addUsers(r);
         setCurrentUser(getRootUser());
-	setCounter(0);
-	setRootDirectory(new Directory("/", getCounter(), getRootUser()));
-	incCounter();
-	setCurrentDir(getRootDirectory());
-	createDir("home");
-	cd("home");
-	createDir("root");
-	cd("root");
-	getRootUser().setMainDirectory(getCurrentDir());
+        setCounter(0);
+        setRootDirectory(Directory.newRootDir());
+        getRootDirectory().setOwner(getRootUser());
+        incCounter();
+        setCurrentDir(getRootDirectory());
+        createDir("home");
+        cd("home");
+        createDir("root");
+        cd("root");
+        getRootUser().setMainDirectory(getCurrentDir());
     }
 
     public void incCounter(){
@@ -46,7 +48,7 @@ public class MyDrive extends MyDrive_Base {
     }
 
     public void decCounter(){
-	setCounter(getCounter() - 1);
+        setCounter(getCounter() - 1);
     }
 
     public String pwd(){
@@ -64,15 +66,19 @@ public class MyDrive extends MyDrive_Base {
         return output;
     }
 
+    public void removeFile(String name) throws NoSuchFileException{
+        getCurrentDir().remove(name);
+    }
+    
     public void createDir(String name) throws FileAlreadyExistsException{
-	try{
-		incCounter();
-		getCurrentDir().createDir(name, getCounter(), getCurrentUser());
-	}
-	catch(FileAlreadyExistsException e){
-		decCounter();
-		throw new FileAlreadyExistsException(name);
-	}
+        try{
+            incCounter();
+            getCurrentDir().createDir(name, getCounter(), getCurrentUser());
+        }
+        catch(FileAlreadyExistsException e){
+            decCounter();
+            throw new FileAlreadyExistsException(name);
+        }
     }
     
     public void createPlainFile(String name, String content) throws FileAlreadyExistsException{

@@ -1,10 +1,17 @@
 package pt.tecnico.mydrive.domain;
 
-public class RootUser extends RootUser_Base
-{
+import pt.ist.fenixframework.FenixFramework;
+
+public class RootUser extends RootUser_Base{
     
-    public RootUser()
-    {
+    public static RootUser getInstance(){
+        RootUser rootUser = FenixFramework.getDomainRoot().getMyDrive().getRootUser();
+        if (rootUser != null)
+            return rootUser;
+        return new RootUser();
+    }
+    
+    private RootUser(){
     	super();
     	setUsername("root");
         setPassword("***");

@@ -1,5 +1,7 @@
 package pt.tecnico.mydrive.domain;
 
+import pt.ist.fenixframework.FenixFramework;
+
 import java.util.Set;
 import org.jdom2.Element;
 import org.jdom2.Document;
@@ -7,6 +9,20 @@ import java.util.Set;
 import pt.tecnico.mydrive.exception.*;
 
 public class Directory extends Directory_Base {
+    
+    public static Directory newRootDir(){
+        Directory rootDir = FenixFramework.getDomainRoot().getMyDrive().getRootDirectory();
+        if (rootDir != null)
+            return rootDir;
+        return new Directory();
+    }
+    
+    private Directory(){
+        super();
+        setName("/");
+        setId(0);
+        setFatherDirectory(this);
+    }
     
 	public Directory(String name, int id, User user, Directory father) {
         init(name, id, user);
