@@ -9,6 +9,24 @@ public class Permission extends Permission_Base {
         setExecute(execute);
         setEliminate(eliminate);
     }
+    
     public Permission(String mask){}//Fix me  
+    
+    public String toString(){
+    	String s ="";
+    	if (getRead()){
+    		s+="r";
+    	}
+    	if (getWrite()){
+    		s+="w";
+    	}
+    	if (getExecute()){
+    		s+="x";
+    	}
+    	if (getEliminate()){
+    		s+="d";
+    	}
+    	return s;
+    } 
     
 }

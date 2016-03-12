@@ -38,23 +38,6 @@ public class FileWithContent extends FileWithContent_Base {
     public int dimension(){
     	return getContent().length();
     }
-    
-    public String toString(){
-    	
-    	return print();
-    	
-    }
-    
-    protected String print(){
-    	String s="";
-    	s+=getUserPermission().toString()+" ";
-    	s+=dimension()+" ";
-    	s+=getOwner().getUsername()+" ";
-    	s+=getId()+" ";
-    	s+=getLastChange()+" ";
-    	s+=getName();
-    	return s;
-    }
 
 	@Override
 	public void accept(Visitor v) {

@@ -10,33 +10,24 @@ import pt.tecnico.mydrive.exception.*;
 
 public class Directory extends Directory_Base {
     
-    public static Directory newRootDir(){
+    public static Directory newRootDir(RootUser user){
         Directory rootDir = FenixFramework.getDomainRoot().getMyDrive().getRootDirectory();
         if (rootDir != null)
             return rootDir;
-        return new Directory();
+        return new Directory((User)user);
     }
     
-    private Directory(){
-        super();
+    private Directory(User user){
+        init("a", 0, user);
         setName("/");
-        setId(0);
+        setSelfDirectory(this);
         setFatherDirectory(this);
     }
     
 	public Directory(String name, int id, User user, Directory father) {
         init(name, id, user);
-		init(father);
-    }
-	
-	public void init(Directory father){
-		setFatherDirectory(father);
+        setFatherDirectory(father);
         setSelfDirectory(this);
-	}
-	
-	public Directory(String name, int id, User user) {
-		init(name, id, user);
-        init(this);
     }
 	
 	public void createDir(String name, int id, User user) throws FileAlreadyExistsException {
@@ -93,19 +84,28 @@ public class Directory extends Directory_Base {
 	public String ls(){
 		String output="";
 		Set<File> files = getFiles();
-   	 	output+=getFatherDirectory().toString()+getSelfDirectory().toString();
+	
+		String name = getFatherDirectory().getName();
+		getFatherDirectory().setName("..");
+		output+=getFatherDirectory().toString()+"\n";
+		getFatherDirectory().setName(name);
+   	 	
+		name = getSelfDirectory().getName();
+		getSelfDirectory().setName(".");
+		output+=getSelfDirectory().toString();
+	 	getSelfDirectory().setName(name);
+	 	
    	 	for (File f: files){
-   	 		output+= f.toString();
+   	 		output+= "\n"+f.toString();
    	 	}
 		return output;
 	}
 	
 	//devolve a descricao da diretoria
 	public String toString(){
-		String s = "Directory ";
-		s+="Dimension: "+dimension();
-		s+=super.toString(); //logo se vê
-		return s;
+		String t = getClass().getSimpleName();
+		t+=print();
+    	return t;
 	}
 	
 	//devolve a dimensao da diretoria

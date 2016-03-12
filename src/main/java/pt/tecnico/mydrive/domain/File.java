@@ -53,8 +53,19 @@ public class File extends File_Base {
     	//TODO
     }
     
-    public String toString(){
-    	String s="";
+    public String toString(){	
+    	return print();
+    }
+    
+    protected String print(){
+    	String s=" ";
+    	s+=getUserPermission().toString()+" ";
+    	s+=getOthersPermission().toString()+" ";
+    	s+=dimension()+" ";
+    	//s+=getOwner().getUsername()+" ";
+    	s+=getId()+" ";
+    	s+=getLastChange()+" ";
+    	s+=getName();
     	return s;
     }
     
