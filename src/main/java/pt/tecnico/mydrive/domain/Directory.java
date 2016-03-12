@@ -25,7 +25,7 @@ public class Directory extends Directory_Base {
     }
     
 	public Directory(String name, int id, User user, Directory father) {
-        init(name, id, user);
+        init(name, id, user, father);
 		init(father);
     }
 	
@@ -35,10 +35,17 @@ public class Directory extends Directory_Base {
 	}
 	
 	public Directory(String name, int id, User user) {
-		init(name, id, user);
+		init(name, id, user, this);
         init(this);
     }
 	
+    public Directory(Element directory_element, User owner, Directory father){
+    	super();
+    	setFatherDirectory(father);
+    	setOwner(owner);
+    	XMLImport(directory_element);
+    }
+
 	public void createDir(String name, int id, User user) throws FileAlreadyExistsException {
 		try {
 			search(name);
@@ -117,25 +124,45 @@ public class Directory extends Directory_Base {
 		v.execute(this);
 	}
 	
+	public void XMLImport(Element directory_element){
+		int id= Integer.parseInt(directory_element.getAttribute("id").getValue());
+        String name = directory_element.getChildText("name");
+        String perm= directory_element.getChildText("perm");
+        Permission ownpermission = new Permission(directory_element.getChildText("perm").substring(0,4));
+        Permission otherspermission = new Permission(directory_element.getChildText("perm").substring(4));
+        setName(name);
+        setId(id);
+        setUserPermission(ownpermission);
+        setOthersPermission(otherspermission);
+	}
+
 	public void XMLExport(Element element_mydrive){
-        Element element = new Element ("dir");
-        //element.setAttribute("id", getId());
+        if(getId() != 3){
+
+        	Element element = new Element ("dir");
+        	element.setAttribute("id", Integer.toString(getId()));
         
-        element = new Element ("path");
-        //element.setText(getPath());
-        
-        element = new Element ("name");
-        element.setText(getName());
-        
-        element = new Element ("owner");
-        element.setText(getOwner().getUsername());
-        
-        element = new Element ("perm");
-        //element.setText(getPerm());
-        
-        element_mydrive.addContent(element);
+        	Element path_element = new Element ("path");
+        	path_element.setText(getAbsolutePath());
+        	element.addContent(path_element);
+
+        	Element name_element = new Element ("name");
+        	name_element.setText(getName());
+        	element.addContent(name_element);
+
+        	Element owner_element = new Element ("owner");
+        	owner_element.setText(getOwner().getUsername());
+        	element.addContent(owner_element);
+
+        	Element perm_element = new Element ("perm");
+        	perm_element.setText(getUserPermission().toString() + getOthersPermission().toString());
+        	element.addContent(perm_element);
+
+        	element_mydrive.addContent(element);
+        }
+
         for (File f: getFiles()){
-            f.xmlExport(element_mydrive);
+            f.XMLExport(element_mydrive);
         }
     }
 

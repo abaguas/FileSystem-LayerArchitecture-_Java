@@ -6,18 +6,19 @@ import org.jdom2.Document;
 public class PlainFile extends PlainFile_Base {
 	
     //a primeira palavra representa o caminho para uma aplicacao e as restantes palavras representam os seus argumentos.
-    public PlainFile(String name, int id, User owner, String content) {
+    public PlainFile(String name, int id, User owner, String content, Directory father) {
     	super();
-    	init(name,id,owner,content);
+    	init(name,id,owner,content, father);
     }
     public PlainFile(String name, int id, String content) {
     	super();
     	//FIXME (root)
     }
-    public PlainFile(Element plain_element, User user){
+    public PlainFile(Element plain_element, User user, Directory father){
         super();
         setOwner(user);
-        xmlImport(plain_element);
+        setDirectory(father);
+        XMLImport(plain_element);
     }
     
     public void execute(){
@@ -30,7 +31,7 @@ public class PlainFile extends PlainFile_Base {
     	return t;
     }
     
-    public void xmlImport(Element plain_element){
+    public void XMLImport(Element plain_element){
         int id= Integer.parseInt(plain_element.getAttribute("id").getValue());
         String name = plain_element.getChildText("name");
         String perm= plain_element.getChildText("perm");
@@ -45,25 +46,30 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    public void xmlExport(Element element_mydrive){
+    public void XMLExport(Element element_mydrive){
         Element element = new Element ("link");
-        //element.setAttribute("id",getId());
+        element.setAttribute("id", Integer.toString(getId()));
         
-        element = new Element ("path");
-        //element.setText(getPath());
-        
-        element = new Element ("name");
-        element.setText(getName());
-        
-        element = new Element ("owner");
-        element.setText(getOwner().getUsername());
-        
-        element = new Element ("perm");
-        //element.setText(getPerm());
-        
-        element = new Element ("value");
-        //element.setText (getValue());
-        
+        Element path_element = new Element ("path");
+        path_element.setText(getAbsolutePath());
+        element.addContent(path_element);
+
+        Element name_element = new Element ("name");
+        name_element.setText(getName());
+        element.addContent(name_element);
+
+        Element owner_element = new Element ("owner");
+        owner_element.setText(getOwner().getUsername());
+        element.addContent(owner_element);
+
+        Element permission_element = new Element ("perm");
+        permission_element.setText(getUserPermission().toString() + getOthersPermission().toString());
+        element.addContent(permission_element);
+
+        Element value_element = new Element ("value");
+        value_element.setText(getContent());
+        element.addContent(value_element);
+
         element_mydrive.addContent(element);
     }    
 }

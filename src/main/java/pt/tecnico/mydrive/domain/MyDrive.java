@@ -13,6 +13,8 @@ import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidUsernameException;
 import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
+import pt.tecnico.mydrive.exception.NoSuchUserException;
+import pt.tecnico.mydrive.exception.InvalidIdException;
 
 public class MyDrive extends MyDrive_Base {
     
@@ -84,7 +86,7 @@ public class MyDrive extends MyDrive_Base {
     public void createPlainFile(String name, String content) throws FileAlreadyExistsException{
         try{
             incCounter();
-            getCurrentDir().addFiles(new PlainFile(name, getCounter(), getCurrentUser(), content));
+            getCurrentDir().addFiles(new PlainFile(name, getCounter(), getCurrentUser(), content, getCurrentDir()));
         }
         catch(FileAlreadyExistsException e){
             decCounter();
@@ -95,7 +97,7 @@ public class MyDrive extends MyDrive_Base {
     public void createApp(String name, String content) throws FileAlreadyExistsException{
         try{
             incCounter();
-            getCurrentDir().addFiles(new App(name, getCounter(), getCurrentUser(), content));
+            getCurrentDir().addFiles(new App(name, getCounter(), getCurrentUser(), content, getCurrentDir()));
         }
         catch(FileAlreadyExistsException e){
             decCounter();
@@ -106,7 +108,7 @@ public class MyDrive extends MyDrive_Base {
     public void createLink(String name, String content) throws FileAlreadyExistsException{
         try{
             incCounter();
-            getCurrentDir().addFiles(new Link(name, getCounter(), getCurrentUser(), content));
+            getCurrentDir().addFiles(new Link(name, getCounter(), getCurrentUser(), content, getCurrentDir()));
         }
         catch(FileAlreadyExistsException e){
             decCounter();
@@ -132,30 +134,29 @@ public class MyDrive extends MyDrive_Base {
     	return getCurrentDir().ls();
     }
     
+
     public User createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
 	if (userExists(username))
 		throw new UserAlreadyExistsException(username);
     	User user = null;
     	//Directory mainDirectory = null;
-	setCurrentUser(getRootUser());
-	setCurrentDir(getRootDirectory());
-	cd("home");
-	createDir(username);
-	cd("username");
-	//user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
-	getCurrentDir().setOwner(user);				
-	getUsersSet().add(user);
-	return user; //FIXME verificar se é necessario fazer return
+	   setCurrentUser(getRootUser());
+	   setCurrentDir(getRootDirectory());
+	   cd("home");
+	   createDir(username);
+	   cd("username");
+	   //user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
+	   getCurrentDir().setOwner(user);				
+	   getUsersSet().add(user);
+	   return user; //FIXME verificar se é necessario fazer return
     }
-    public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException,FileAlreadyExistsException{
-    	String username = user_element.getAttribute("username").getValue();
+    public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home/";
     	String home = user_element.getChildText("home");
+        String username = user_element.getAttribute("username").getValue();
     	if(home==null){
             home=default_home.concat(username);
         }
-    	if (userExists(username))
-		throw new UserAlreadyExistsException(username);
 		Directory home_user = getDirectoryByAbsolutePath(home);
 		User user = new User(user_element,home_user);
 		home_user.setOwner(user);
@@ -171,54 +172,47 @@ public class MyDrive extends MyDrive_Base {
 		return false;
     }
     
-    public void createPlainFile_xml(Element plain_element){
-    	String owner = plain_element.getChildText("owner");
+    public File fileFactory(Element element, User owner, Directory father, String code){
+        if(code.equals("PlainFile")){
+            return new PlainFile(element, owner, father);
+        }
+        else if(code.equals("App")){
+            return new App(element, owner, father);
+        }
+        else if(code.equals("Link")){
+            return new Link(element, owner, father);
+        }
+        else{
+            return new Directory(element, owner, father);
+        }
+    }
+
+    public void createFile_xml(Element file_element, String code) throws NoSuchUserException {
+    	String owner = file_element.getChildText("owner");
+        int id= Integer.parseInt(file_element.getAttribute("id").getValue());
         User user = null;
-        File plainfile=null;
     	if(owner ==null){
-    		plainfile = new PlainFile(plain_element,getRootUser());
+    		user = getRootUser();
     	}
     	else {
-            Set<User> users = getUsersSet();
-            for (User u : users){
-                if (u.getUsername().equals(owner)){
-                    user = u;
-                    break;
-                }    
-            }
-            plainfile = new PlainFile(plain_element,user);
+            user = getUserByUsername(owner); //criar
     	}
-    	setCounter(Integer.parseInt(plain_element.getAttribute("id").getValue()));//Falta verificar se o id está correto
-    	Directory d =  getDirectoryByAbsolutePath(plain_element.getChildText("path"));
-    	d.addFiles(plainfile);
+        boolean idOk=fileIdExists(id);
+    	if(!idOk){
+            setCounter(id);//Falta verificar se o id está correto
+    	    Directory d =  getDirectoryByAbsolutePath(file_element.getChildText("path"));
+            File file = fileFactory(file_element,user, d, code);
+    	    d.addFiles(file);
+        }
     }
 
-    public void createPlainFile(String name, String owner, String permits, String content, String absolutepath, int id){
-    	//getUsers(owner);
-    	setCounter(id);
-    	Directory d = getDirectoryByAbsolutePath(absolutepath);
-    	//d.addFiles((File) new PlainFile(id, name, owner, content, d));
-    }
-
-    public void createApp(String name, String owner, String permits, String content, String absolutepath, int id){
-    	//getUsers(owner);
-    	setCounter(id);
-    	Directory d = getDirectoryByAbsolutePath(absolutepath);
-    	//d.addFiles((File) new App(id, name, owner, content, d));
-    }
-  
-    public void createLink(String name, String owner, String permits, String content, String absolutepath, int id){
-    	//getUsers(owner);
-    	setCounter(id);
-    	Directory d = getDirectoryByAbsolutePath(absolutepath);
-    	//d.addFiles((File) new Link(id, name, owner, content, d));
-    }
-    
-    public void createDirectory(String name, String owner, String permits, String absolutepath, int id){
-	//getUsers(owner);
-	setCounter(id);
-	Directory d = getDirectoryByAbsolutePath(absolutepath);
-	//d.addFiles((File) new Directory(id, name, owner, d));
+    public User getUserByUsername(String username) throws NoSuchUserException {
+        Set<User> users = getUsersSet();
+        for(User u : users){
+            if(u.getUsername().equals(username))
+                return u;
+        }
+        throw new NoSuchUserException(username);
     }
 
     public Directory getDirectoryByAbsolutePath(String absolutepath){
@@ -239,92 +233,50 @@ public class MyDrive extends MyDrive_Base {
 			//FIXME: se houver XML errado mandar InvalidPathException
 		}
 	}
-	return getCurrentDir();
+        return getCurrentDir();
+    }
+
+    public boolean fileIdExists(int id){
+        if(id > getCounter()){
+            return false;
+        }
+        else{
+            throw new InvalidIdException(id);
+        }
     }
     
     
-    public void xmlImport(Element element){// EM OBRAS!!!!
-        String default_home="/home/";
+    public void XMLImport(Element element){
         for(Element node: element.getChildren()){
-            if(node.getName()=="user"){
-                /*String username= node.getAttribute("username").getValue();
-                String password= node.getChildText("password");
-                String name= node.getChildText("name");
-                String home= node.getChildText("home");
-                String mask= node.getChildText("mask");
-                if(password==null){
-                    password=username;
-                }
-                if(home==null){
-                    home=default_home.concat(username);
-                }
-                if(mask==null){
-                    mask="rwxd----";
-                    
-                }*/
+            if(node.getName().equals("user")){
                 createUser_xml(node);
             }
-            else if(node.getName()=="plain"){
-                /*int id= Integer.parseInt(node.getAttribute("id").getValue());
-                String path= node.getChildText("path");
-                String name = node.getChildText("name");
-                String owner= node.getChildText("owner");
-                String perm= node.getChildText("perm");
-                String contents= node.getChildText("contents");
-                if(owner==null){
-                    owner="root";
-                }*/
-                createPlainFile_xml(node);
+            else if(node.getName().equals("plain")){
+                createFile_xml(node, "PlainFile");
             }
-            else if(node.getName()=="dir"){
-                int id= Integer.parseInt(node.getAttribute("id").getValue());
-                String path= node.getChildText("path");
-                String name = node.getChildText("name");
-                String owner= node.getChildText("owner");
-                String perm= node.getChildText("perm");
-                if(owner==null){
-                    owner="root";
-                }
-                createDirectory(name,owner,perm,path,id);
+            else if(node.getName().equals("Dir")){
+                createFile_xml(node,"Dir");
             }
-            else if(node.getName()=="link"){
-                int id= Integer.parseInt(node.getAttribute("id").getValue());
-                String path= node.getChildText("path");
-                String name = node.getChildText("name");
-                String owner= node.getChildText("owner");
-                String perm= node.getChildText("perm");
-                String contents= node.getChildText("value");
-                if(owner==null){
-                    owner="root";
-                }
-                createLink(name,owner,perm,contents,path,id);
+            else if(node.getName().equals("Link")){  
+                createFile_xml(node,"Link");
             }
-            else if(node.getName()=="app"){
-                int id= Integer.parseInt(node.getAttribute("id").getValue());
-                String path= node.getChildText("path");
-                String name = node.getChildText("name");
-                String owner= node.getChildText("owner");
-                String perm= node.getChildText("perm");
-                String contents= node.getChildText("methods");
-                if(owner==null){
-                    owner="root";
-                }
-                createApp(name,owner,perm,contents,path,id);
+            else if(node.getName().equals("App")){
+                createFile_xml(node,"App");
             }
         }
     }
     
-    public Document xmlExport(){
-	Element element = new Element ("mydrive");
-	Document doc = new Document (element);
+    public Document XMLExport(){
+	   Element element = new Element ("mydrive");
+	   Document doc = new Document (element);
 
-	for (User u: getUsersSet())
-		//element.addContent (u.XMLExport(element));
+	   for (User u: getUsersSet())
+            u.XMLExport(element);
 	
-	for (File f: getRootDirectory().getFiles()){
-		if (f.getName() != "home")
-            		f.xmlExport(element);
-    	}
+        for (File f: getRootDirectory().getFiles()){
+            if (f.getName().equals("home"))
+                f.XMLExport(element);
+        }
 	return doc;
     }
 

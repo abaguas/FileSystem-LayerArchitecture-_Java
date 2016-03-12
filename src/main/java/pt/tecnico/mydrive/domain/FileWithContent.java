@@ -7,9 +7,9 @@ public class FileWithContent extends FileWithContent_Base {
 	
 	public FileWithContent(){}
     
-    public FileWithContent(String name, int id, User owner, String content) {
+    public FileWithContent(String name, int id, User owner, String content, Directory father) {
     	//super(); 
-    	init(name,id,owner,content);
+    	init(name,id,owner,content, father);
     }
     
     public FileWithContent(String name, int id, String content) {
@@ -18,8 +18,8 @@ public class FileWithContent extends FileWithContent_Base {
     }
     
     //Enables inheritance
-    protected void init(String name, int id, User owner, String content){
-    	init(name,id,owner);
+    protected void init(String name, int id, User owner, String content, Directory father){
+    	init(name,id,owner, father);
     	setContent(content);
     }
     
@@ -62,7 +62,7 @@ public class FileWithContent extends FileWithContent_Base {
 		
 	}
 	
-	public void xmlExport(Element element_mydrive){}
+	public void XMLExport(Element element_mydrive){}
 	
 	public String ls(){
 		return getContent();

@@ -11,18 +11,18 @@ public class File extends File_Base {
 	
 	public File(){}
     
-	public File(String name, int id, User owner) throws InvalidFileNameException{
+	public File(String name, int id, User owner, Directory father) throws InvalidFileNameException{
 		super();
-		init(name,id,owner);
+		init(name,id,owner, father);
 	}
 
-	public File(String name, int id) throws InvalidFileNameException{
+	/*public File(String name, int id) throws InvalidFileNameException{
 	    super();
 	    //FIXME (root)
-	}
+	}*/
 	
 	//Enables inheritance
-	protected void init(String name, int id, User owner) throws InvalidFileNameException{
+	protected void init(String name, int id, User owner, Directory father) throws InvalidFileNameException{
 
 		if(name.contains("/") || name.contains("0")){
 			throw new InvalidFileNameException(name);
@@ -35,6 +35,7 @@ public class File extends File_Base {
         setUserPermission(owner.getOwnPermission());
         setOthersPermission(owner.getOthersPermission());
         setLastChange(dt);
+        setDirectory(father);
 	}
 	
     public int dimension(){
@@ -58,7 +59,21 @@ public class File extends File_Base {
     	return s;
     }
     
-    public void xmlExport(Element element_mydrive){}
+    public String getAbsolutePath(){
+        String path="";
+        File current = getDirectory();
+        if(current.getName().equals("/")){
+            path = "/";
+            return path;
+        }
+        while(!current.getDirectory().getName().equals("/")){
+            path = "/" + getName() + path;
+            current = current.getDirectory();
+        }
+        return path;
+    }
+
+    public void XMLExport(Element element_mydrive){}
     
 
     public String ls(){
