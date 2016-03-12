@@ -18,7 +18,7 @@ public class Directory extends Directory_Base {
     }
     
     private Directory(User user){
-        init("a", 0, user);
+        init("a", 0, user, this);
         setName("/");
         setSelfDirectory(this);
         setFatherDirectory(this);

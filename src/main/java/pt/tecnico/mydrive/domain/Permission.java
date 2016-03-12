@@ -9,16 +9,8 @@ public class Permission extends Permission_Base {
         setExecute(execute);
         setEliminate(eliminate);
     }
-<<<<<<< HEAD
     public Permission(String mask){}//Fix me
 
-    public String toString(){
-    	return "" + getRead() + getWrite() + getExecute() + getEliminate(); 
-    }  
-=======
-    
-    public Permission(String mask){}//Fix me  
->>>>>>> a37da16256149ead6bb99537556664c0b437c9f9
     
     public String toString(){
     	String s ="";
