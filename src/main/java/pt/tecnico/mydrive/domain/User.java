@@ -65,6 +65,8 @@ public class User extends User_Base
         setMainDirectory(home);
         XMLImport(user_element);
     }
+
+    protected void init()
     
     	
     

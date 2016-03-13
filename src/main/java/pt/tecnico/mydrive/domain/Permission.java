@@ -19,16 +19,27 @@ public class Permission extends Permission_Base {
     	if (getRead()){
     		s+="r";
     	}
+    	else {
+    		s+="-";
+    	}
     	if (getWrite()){
     		s+="w";
+    	}
+    	else {
+    		s+="-";
     	}
     	if (getExecute()){
     		s+="x";
     	}
+    	else {
+    		s+="-";
+    	}
     	if (getEliminate()){
     		s+="d";
     	}
+    	else {
+    		s+="-";
+    	}
     	return s;
     } 
-    
 }
