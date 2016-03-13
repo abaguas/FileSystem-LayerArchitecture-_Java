@@ -82,10 +82,10 @@ relation UserHasMainDirectory{
 
 relation DirectoryHasFiles {
   Directory playsRole directory {
-    multiplicity 1;
+    multiplicity 0..1;
   }
   File playsRole files {
-    multiplicity *;
+    multiplicity 0..*;
   }
 }
 

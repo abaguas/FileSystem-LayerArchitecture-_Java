@@ -35,7 +35,6 @@ public class MyDrive extends MyDrive_Base {
         setCurrentUser(getRootUser());
         setCounter(0);
         setRootDirectory(Directory.newRootDir(getRootUser()));
-        getRootDirectory().setOwner(getRootUser());
         setCurrentDir(getRootDirectory());
         createDir("home");
         cd("home");

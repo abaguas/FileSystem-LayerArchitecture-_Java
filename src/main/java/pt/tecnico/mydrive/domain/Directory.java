@@ -17,10 +17,8 @@ public class Directory extends Directory_Base {
         return new Directory((User)user);
     }
     
-    private Directory(User user){
-   		super();
-        init("a", 0, user, this);
-        setName("/");
+    private Directory(User user) {
+        initRoot("/", 0, user, this);
         setSelfDirectory(this);
         setFatherDirectory(this);
     }
@@ -56,7 +54,6 @@ public class Directory extends Directory_Base {
 			Directory d = new Directory(name, id, user, this);
 			addFiles(d);
 		}
-		
 	}
 
 	public void remove(String name) throws NoSuchFileException{

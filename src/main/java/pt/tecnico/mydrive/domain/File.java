@@ -38,6 +38,16 @@ public class File extends File_Base {
         setDirectory(father);
 	}
 	
+	protected void initRoot(String name, int id, User owner, Directory father) throws InvalidFileNameException{
+		LocalTime dt=new LocalTime();
+        setOwner(owner);
+        setName(name);
+        setId(id);
+        setUserPermission(owner.getOwnPermission());
+        setOthersPermission(owner.getOthersPermission());
+        setLastChange(dt);
+	}
+	
     public int dimension(){
     	return 0;
     }
@@ -60,7 +70,7 @@ public class File extends File_Base {
     
     protected String print(){
     	String s=" ";
-    	s+=getUserPermission().toString()+" ";
+    	s+=getUserPermission().toString();
     	s+=getOthersPermission().toString()+" ";
     	s+=dimension()+" ";
     	s+=getOwner().getUsername()+" ";
