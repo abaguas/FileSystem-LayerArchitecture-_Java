@@ -8,11 +8,23 @@ public class User extends User_Base
 {
 	public User(){}
 	
-    protected User(String username, String password, String name)
-    {
-    	super();
-    	if (validUsername(username))
-    	{
+	public User(String username, String password, String name) throws InvalidUsernameException{
+		super();
+		init(username, password, name);
+	}
+	
+	public User(String username, String password, String name, Directory home) throws InvalidUsernameException{
+		super();
+		init(username, password, name, home);
+	}
+
+	public User(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException{
+		super();
+		init(username, password, name, home, mask);
+	}
+	
+    protected void init(String username, String password, String name) throws InvalidUsernameException{
+    	if (validUsername(username)){
 	        setUsername(username);
 	        setPassword(password);
 	        setName(name);
@@ -26,11 +38,8 @@ public class User extends User_Base
     }
     	
 	
-    public User(String username, String password, String name, Directory home) throws InvalidUsernameException
-    {
-    	super();
-    	if (validUsername(username))
-    	{
+    protected void init(String username, String password, String name, Directory home) throws InvalidUsernameException{
+    	if (validUsername(username)){
 	        setUsername(username);
 	        setPassword(password);
 	        setName(name);
@@ -44,11 +53,9 @@ public class User extends User_Base
     		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
     }
     
-    public User(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException
-    {
+    protected void init(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException{
     	super();
-    	if (validUsername(username))
-    	{
+    	if (validUsername(username)){
 	        setUsername(username);
 	        setPassword(password);
 	        setName(name);
@@ -60,7 +67,8 @@ public class User extends User_Base
     	else
     		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
     }
-    public User(Element user_element, Directory home){
+    
+	public User(Element user_element, Directory home){
         super();
         setMainDirectory(home);
         XMLImport(user_element);
