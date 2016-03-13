@@ -66,7 +66,7 @@ public class User extends User_Base
         XMLImport(user_element);
     }
 
-    protected void init()
+    protected void init(){}
     
     	
     
