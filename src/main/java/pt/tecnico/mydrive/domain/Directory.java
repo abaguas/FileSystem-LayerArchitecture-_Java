@@ -26,20 +26,11 @@ public class Directory extends Directory_Base {
     
 	public Directory(String name, int id, User user, Directory father) {
         init(name, id, user, father);
-		init(father);
 		setFatherDirectory(father);
         setSelfDirectory(this);
-    }
-	
-	public void init(Directory father){
-		setFatherDirectory(father);
+        setFatherDirectory(father);
         setSelfDirectory(this);
 	}
-	
-	public Directory(String name, int id, User user) {
-		init(name, id, user, this);
-        init(this);
-    }
 	
     public Directory(Element directory_element, User owner, Directory father){
     	super();

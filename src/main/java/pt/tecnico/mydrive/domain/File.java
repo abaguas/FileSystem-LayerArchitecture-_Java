@@ -63,7 +63,7 @@ public class File extends File_Base {
     	s+=getUserPermission().toString()+" ";
     	s+=getOthersPermission().toString()+" ";
     	s+=dimension()+" ";
-    	//s+=getOwner().getUsername()+" ";
+    	s+=getOwner().getUsername()+" ";
     	s+=getId()+" ";
     	s+=getLastChange()+" ";
     	s+=getName();

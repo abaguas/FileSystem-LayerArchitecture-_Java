@@ -3,7 +3,6 @@ package pt.tecnico.mydrive.domain;
 import pt.ist.fenixframework.FenixFramework;
 
 import org.jdom2.Element;
-import org.apache.logging.log4j.LogManager;
 import org.jdom2.Document;
 import pt.tecnico.mydrive.exception.MyDriveException;
 
@@ -17,19 +16,13 @@ import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class MyDrive extends MyDrive_Base {
 	
-	static final Logger log = LogManager.getRootLogger();
-	
     public static MyDrive getInstance(){
-        /*MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
+        MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
         if (md != null)
             return md;
         
-        log.trace("new PhoneBook");*/
         return new MyDrive();
     }
 

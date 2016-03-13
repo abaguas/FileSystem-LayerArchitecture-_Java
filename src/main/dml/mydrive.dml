@@ -56,9 +56,7 @@ relation MyDriveContainsRootDirectory{
 }
 
 relation FileHasOwner{
-  File playsRole file{
-    multiplicity 1;
-  }
+  File playsRole;
   User playsRole owner {
     multiplicity 1;  
   }
