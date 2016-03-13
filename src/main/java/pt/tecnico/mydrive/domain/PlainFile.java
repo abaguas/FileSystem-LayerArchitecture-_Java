@@ -70,6 +70,10 @@ public class PlainFile extends PlainFile_Base {
         value_element.setText(getContent());
         element.addContent(value_element);
 
-        element_mydrive.addContent(element);
+        Element lastChange_element = new Element ("lastChange");
+    	lastChange_element.setText(getLastChange().toString());
+    	element.addContent(lastChange_element);
+
+    	element_mydrive.addContent(element);
     }    
 }

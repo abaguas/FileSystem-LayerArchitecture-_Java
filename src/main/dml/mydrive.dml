@@ -20,7 +20,7 @@ class Permission {
 class File{
   String name;
   int id;
-  LocalTime lastChange;
+  DateTime lastChange;
 }
 
 class FileWithContent extends File {

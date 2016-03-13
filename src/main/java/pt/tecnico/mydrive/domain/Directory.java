@@ -175,6 +175,10 @@ public class Directory extends Directory_Base {
         	Element perm_element = new Element ("perm");
         	perm_element.setText(getUserPermission().toString() + getOthersPermission().toString());
         	element.addContent(perm_element);
+        	
+        	Element lastChange_element = new Element ("lastChange");
+        	lastChange_element.setText(getLastChange().toString());
+        	element.addContent(lastChange_element);
 
         	element_mydrive.addContent(element);
         }

@@ -1,7 +1,7 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
-import org.joda.time.LocalTime;
+import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
 
@@ -28,7 +28,7 @@ public class File extends File_Base {
 			throw new InvalidFileNameException(name);
 		}
 		
-		LocalTime dt=new LocalTime();
+		DateTime dt = new DateTime();
         setOwner(owner);
         setName(name);
         setId(id);
@@ -39,7 +39,7 @@ public class File extends File_Base {
 	}
 	
 	protected void initRoot(String name, int id, User owner, Directory father) throws InvalidFileNameException{
-		LocalTime dt=new LocalTime();
+		DateTime dt = new DateTime();
         setOwner(owner);
         setName(name);
         setId(id);

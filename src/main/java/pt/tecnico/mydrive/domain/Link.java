@@ -73,6 +73,10 @@ public class Link extends Link_Base {
         Element value_element = new Element ("value");
         value_element.setText(getContent());
         element.addContent(value_element);
+        
+        Element lastChange_element = new Element ("lastChange");
+    	lastChange_element.setText(getLastChange().toString());
+    	element.addContent(lastChange_element);
 
         element_mydrive.addContent(element);
     }

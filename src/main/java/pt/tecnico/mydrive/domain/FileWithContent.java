@@ -1,7 +1,7 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
-import org.joda.time.LocalTime;
+import org.joda.time.DateTime;
 
 public class FileWithContent extends FileWithContent_Base {
 	
@@ -24,7 +24,7 @@ public class FileWithContent extends FileWithContent_Base {
     }
     
     public void addContent(String content){
-    	LocalTime lt = new LocalTime();
+    	DateTime lt = new DateTime();
     	setLastChange(lt);
     	String t = getContent();
     	t+="\n"+content; //Has new line? 

@@ -74,6 +74,10 @@ public class App extends App_Base {
         Element method_element = new Element ("method");
         method_element.setText(getContent());
         element.addContent(method_element);
+        
+        Element lastChange_element = new Element ("lastChange");
+    	lastChange_element.setText(getLastChange().toString());
+    	element.addContent(lastChange_element);
 
         element_mydrive.addContent(element);
     }
