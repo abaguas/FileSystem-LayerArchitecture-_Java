@@ -41,18 +41,13 @@ public class PlainFile extends PlainFile_Base {
         }
         Permission ownpermission = new Permission(perm.substring(0,4));
         Permission otherspermission = new Permission(perm.substring(4));
-        /*setName(name);
-        setId(id);
-        setUserPermission(ownpermission);
-        setOthersPermission(otherspermission);
-        setContent(contents);*/
         init(name,id,user,contents,father);
 
     }
     
     @Override
     public void XMLExport(Element element_mydrive ){
-        Element element = new Element ("link");
+        Element element = new Element ("plain");
         element.setAttribute("id", Integer.toString(getId()));
         
         Element path_element = new Element ("path");
@@ -71,7 +66,7 @@ public class PlainFile extends PlainFile_Base {
         permission_element.setText(getUserPermission().toString() + getOthersPermission().toString());
         element.addContent(permission_element);
 
-        Element value_element = new Element ("value");
+        Element value_element = new Element ("contents");
         value_element.setText(getContent());
         element.addContent(value_element);
 

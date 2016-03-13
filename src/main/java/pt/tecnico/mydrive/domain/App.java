@@ -40,7 +40,7 @@ public class App extends App_Base {
         if(perm == null){
             perm = "rwxd--x-";
         }
-        String contents= app_element.getChildText("methods");
+        String contents= app_element.getChildText("method");
         Permission ownpermission = new Permission(perm.substring(0,4));
         Permission otherspermission = new Permission(perm.substring(4));
         setName(name);

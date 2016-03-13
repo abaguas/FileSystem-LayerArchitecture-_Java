@@ -82,14 +82,15 @@ public class File extends File_Base {
     
     public String getAbsolutePath(){
         String path="";
-        Directory current = getDirectory().getFatherDirectory();
+        Directory current = getDirectory();
         if(current.getName().equals("/")){
             path = "/";
-            return path;
         }
-        while(!current.getDirectory().getName().equals("/")){
-            path = "/" + getName() + path;
-            current = current.getFatherDirectory();
+        else{
+            while(!current.getName().equals("/")){
+                path = "/" + current.getName() + path;
+                current = current.getFatherDirectory();
+            }
         }
         return path;
     }

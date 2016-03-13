@@ -35,6 +35,7 @@ public class MyDrive extends MyDrive_Base {
         setCurrentUser(getRootUser());
         setCounter(0);
         setRootDirectory(Directory.newRootDir(getRootUser()));
+        getRootDirectory().setOwner(getRootUser());
         setCurrentDir(getRootDirectory());
         createDir("home");
         cd("home");
@@ -69,6 +70,29 @@ public class MyDrive extends MyDrive_Base {
     public void removeFile(String name) throws NoSuchFileException{
         getCurrentDir().remove(name);
     }
+
+    public File fileFactory(String name, String content, String code){
+        if(code.equals("PlainFile")){
+            return new PlainFile(name, getCounter(), getCurrentUser(), content, getCurrentDir());
+        }
+        else if(code.equals("App")){
+            return new App(name, getCounter(), getCurrentUser(), content, getCurrentDir());
+        }
+        else{
+            return new Link(name, getCounter(), getCurrentUser(), content, getCurrentDir());
+        }
+    }
+
+    public void createFile(String name, String content, String code) throws FileAlreadyExistsException{
+        try{
+            incCounter();
+            getCurrentDir().addFiles(fileFactory(name, content, code));
+        }
+        catch(FileAlreadyExistsException e){
+            decCounter();
+            throw new FileAlreadyExistsException(name);
+        }
+    }
     
     public void createDir(String name) throws FileAlreadyExistsException{
         try{
@@ -82,37 +106,17 @@ public class MyDrive extends MyDrive_Base {
     }
     
     public void createPlainFile(String name, String content) throws FileAlreadyExistsException{
-        try{
-            incCounter();
-            getCurrentDir().addFiles(new PlainFile(name, getCounter(), getCurrentUser(), content, getCurrentDir()));
-        }
-        catch(FileAlreadyExistsException e){
-            decCounter();
-            throw new FileAlreadyExistsException(name);
-        }
+        createFile(name, content, "PlainFile");
     }
     
     public void createApp(String name, String content) throws FileAlreadyExistsException{
-        try{
-            incCounter();
-            getCurrentDir().addFiles(new App(name, getCounter(), getCurrentUser(), content, getCurrentDir()));
-        }
-        catch(FileAlreadyExistsException e){
-            decCounter();
-            throw new FileAlreadyExistsException(name);
-        }
+        createFile(name, content, "App");
     }
     
     public void createLink(String name, String content) throws FileAlreadyExistsException{
-        try{
-            incCounter();
-            getCurrentDir().addFiles(new Link(name, getCounter(), getCurrentUser(), content, getCurrentDir()));
-        }
-        catch(FileAlreadyExistsException e){
-            decCounter();
-            throw new FileAlreadyExistsException(name);
-        }
+        createFile(name, content, "Link");
     }    
+
     public void cd(String name) throws NoSuchFileException, FileNotDirectoryException {
     	File f = getCurrentDir().get(name);
    	    cdable(f);
@@ -133,11 +137,10 @@ public class MyDrive extends MyDrive_Base {
     }
     
 
-    public User createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
-	if (userExists(username))
+    public void createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
+	   if (userExists(username))
 		throw new UserAlreadyExistsException(username);
-    	User user = null;
-    	//Directory mainDirectory = null;
+        User user = null;
 	   setCurrentUser(getRootUser());
 	   setCurrentDir(getRootDirectory());
 	   cd("home");
@@ -146,8 +149,8 @@ public class MyDrive extends MyDrive_Base {
 	   //user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
 	   getCurrentDir().setOwner(user);				
 	   getUsersSet().add(user);
-	   return user; //FIXME verificar se é necessario fazer return
     }
+
     public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home";
     	String home = user_element.getChildText("home");
@@ -279,6 +282,7 @@ public class MyDrive extends MyDrive_Base {
             }
             else{}
         }
+        setCurrentDir(getRootUser().getMainDirectory());
     }
     
     public Document XMLExport(){

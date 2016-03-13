@@ -108,26 +108,31 @@ public class User extends User_Base
     }
     
     public void XMLExport(Element element_mydrive){
-        Element user_element = new Element ("user");
-        user_element.setAttribute("username", getUsername());
         
-        Element pass_element = new Element ("password");
-        pass_element.setText(getPassword());
-        user_element.addContent(pass_element);
+        if(!getUsername().equals("root")){
 
-        Element name_element = new Element ("name");
-        name_element.setText(getName());
-        user_element.addContent(name_element);        
-        
-        Element home_element = new Element ("home");
-        home_element.setText(getMainDirectory().getAbsolutePath());
-        user_element.addContent(home_element);
-        
-        Element mask_element = new Element ("mask");
-        mask_element.setText(getOwnPermission().toString() + getOthersPermission().toString());
-        user_element.addContent(mask_element);
+            Element user_element = new Element ("user");
+            user_element.setAttribute("username", getUsername());
 
-        element_mydrive.addContent(user_element);
+            Element pass_element = new Element ("password");
+            pass_element.setText(getPassword());
+            user_element.addContent(pass_element);
+
+            Element name_element = new Element ("name");
+            name_element.setText(getName());
+            user_element.addContent(name_element);        
+            
+            Element home_element = new Element ("home");
+            home_element.setText(getMainDirectory().getAbsolutePath() + "/" + getMainDirectory().getName());
+            user_element.addContent(home_element);
+            
+            Element mask_element = new Element ("mask");
+            mask_element.setText(getOwnPermission().toString() + getOthersPermission().toString());
+            user_element.addContent(mask_element);
+
+            element_mydrive.addContent(user_element);
+
+        }
     }	
     
 }

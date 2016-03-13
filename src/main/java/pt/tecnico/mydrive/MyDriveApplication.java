@@ -1,5 +1,7 @@
 package pt.tecnico.mydrive;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -25,10 +27,11 @@ public class MyDriveApplication {
     public static void main(String[] args) {
         System.out.println("*** Welcome to the MyDrive application! ***");
         try{
-        // setup();
-        // for (String s: args) XMLScan(new File(s));
-        //XMLPrint();
-         test();
+        delivery11(); 
+        XMLPrint();
+        delivery12();
+        //for (String s: args) XMLScan(new File(s));
+        //test2();
         }catch(NoSuchFileException e){
             System.out.println("NoSuchFileException...");
         }catch(FileNotDirectoryException e){
@@ -43,12 +46,47 @@ public class MyDriveApplication {
     }
 
     @Atomic
+    public static void delivery11() { 
+        MyDrive md = MyDrive.getInstance();
+        md.cd("..");
+        md.createPlainFile("README", "lista de Utilizadores");
+        md.cd("..");
+        md.createDir("usr");
+        md.cd("usr");
+        md.createDir("local");
+        md.cd("local");
+        md.createDir("bin");
+        md.cd("bin");
+        md.cd("..");
+        md.cd("..");
+        md.cd("..");
+        md.cd("home");
+        md.ls("README");
+        md.cd("..");
+        md.cd("usr");
+        md.cd("local");
+        md.removeFile("bin");
+    }       
+
+    @Atomic
+    public static void delivery12() { 
+        MyDrive md = MyDrive.getInstance();
+        md.cd("..");
+        md.cd("..");
+        md.cd("home");
+        md.removeFile("README");
+        md.ls();
+    }       
+
+    @Atomic
     public static void test() { 
         MyDrive md = MyDrive.getInstance();
-        //md.getDirectoryByAbsolutePath("/home/filipe");
+             //System.out.println(md.getRootUser().getMainDirectory().getAbsolutePath());
         /*for(User u : md.getUsers()){
             System.out.println(u.getUsername());
-        }*/
+        }
+             System.out.println(md.getRootUser().getMainDirectory().getAbsolutePath());
+
         System.out.println(md.pwd());
         System.out.println(md.ls());
         md.cd("..");
@@ -60,13 +98,40 @@ public class MyDriveApplication {
         md.cd("..");
         System.out.println(md.pwd());
         System.out.println(md.ls());
-        /*md.cd("..");
+        md.cd("..");
         System.out.println(md.pwd());
         System.out.println(md.ls());
         md.cd("..");
+        System.out.println(md.getRootUser().getMainDirectory().getAbsolutePath());
+
      System.out.println(md.pwd());
-     System.out.println(md.ls());
-*/
+     System.out.println(md.ls());*/
+     System.out.println("AAAAAAAAAA" + md.getRootUser().getMainDirectory().getAbsolutePath());
+    }
+
+    @Atomic
+    public static void test2() { 
+        MyDrive md = MyDrive.getInstance();
+        System.out.println("USERS");
+        for (User u: md.getUsers()){
+            System.out.println(u);
+        }
+        System.out.println("-------------------------------");
+        System.out.println(md.pwd());
+        md.cd("..");
+        System.out.println(md.pwd());
+        md.cd("..");
+        System.out.println(md.pwd());
+        md.cd("home");
+        System.out.println(md.pwd());        
+        System.out.println(md.ls());
+        md.cd("jtb");
+        System.out.println(md.ls("profile"));
+        System.out.println(md.ls("documents"));
+        System.out.println(md.ls("doc"));
+        /*md.cd("bin");
+        System.out.println(md.ls());
+        System.out.println(md.ls("length"));*/
     }
     
     @Atomic
