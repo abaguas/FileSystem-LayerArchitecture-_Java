@@ -16,9 +16,9 @@ public class PlainFile extends PlainFile_Base {
     }
     public PlainFile(Element plain_element, User user, Directory father){
         super();
-        setOwner(user);
-        setDirectory(father);
-        XMLImport(plain_element);
+        //setOwner(user);
+        //setDirectory(father);
+        XMLImport(plain_element, user, father);
     }
     
     public void execute(){
@@ -31,22 +31,27 @@ public class PlainFile extends PlainFile_Base {
     	return t;
     }
     
-    public void XMLImport(Element plain_element){
+    public void XMLImport(Element plain_element, User user, Directory father){
         int id= Integer.parseInt(plain_element.getAttribute("id").getValue());
         String name = plain_element.getChildText("name");
         String perm= plain_element.getChildText("perm");
         String contents= plain_element.getChildText("contents");
-        Permission ownpermission = new Permission(plain_element.getChildText("perm").substring(0,4));
-        Permission otherspermission = new Permission(plain_element.getChildText("perm").substring(4));
-        setName(name);
+        if(perm == null){
+            perm = "rwxd--x-";
+        }
+        Permission ownpermission = new Permission(perm.substring(0,4));
+        Permission otherspermission = new Permission(perm.substring(4));
+        /*setName(name);
         setId(id);
         setUserPermission(ownpermission);
         setOthersPermission(otherspermission);
-        setContent(contents);
+        setContent(contents);*/
+        init(name,id,user,contents,father);
+
     }
     
     @Override
-    public void XMLExport(Element element_mydrive){
+    public void XMLExport(Element element_mydrive ){
         Element element = new Element ("link");
         element.setAttribute("id", Integer.toString(getId()));
         

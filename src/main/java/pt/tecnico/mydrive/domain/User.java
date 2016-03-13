@@ -96,8 +96,8 @@ public class User extends User_Base
             setUsername(username);
             setPassword(password);
             setName(name);
-            Permission ownpermission = new Permission(user_element.getChildText("mask_xml").substring(0,4));
-            Permission otherspermission = new Permission(user_element.getChildText("mask_xml").substring(4));
+            Permission ownpermission = new Permission(mask_xml.substring(0,4));
+            Permission otherspermission = new Permission(mask_xml.substring(4));
             setOwnPermission(ownpermission);
             setOthersPermission(otherspermission);
         }
@@ -115,15 +115,15 @@ public class User extends User_Base
 
         Element name_element = new Element ("name");
         name_element.setText(getName());
-        user_element.addContent(pass_element);        
+        user_element.addContent(name_element);        
         
         Element home_element = new Element ("home");
         home_element.setText(getMainDirectory().getAbsolutePath());
-        user_element.addContent(pass_element);
+        user_element.addContent(home_element);
         
         Element mask_element = new Element ("mask");
         mask_element.setText(getOwnPermission().toString() + getOthersPermission().toString());
-        user_element.addContent(pass_element);
+        user_element.addContent(mask_element);
 
         element_mydrive.addContent(user_element);
     }	

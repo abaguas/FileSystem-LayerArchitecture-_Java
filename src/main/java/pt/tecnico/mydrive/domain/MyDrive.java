@@ -3,7 +3,6 @@ package pt.tecnico.mydrive.domain;
 import pt.ist.fenixframework.FenixFramework;
 
 import org.jdom2.Element;
-import org.apache.logging.log4j.LogManager;
 import org.jdom2.Document;
 import pt.tecnico.mydrive.exception.MyDriveException;
 
@@ -17,19 +16,12 @@ import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class MyDrive extends MyDrive_Base {
-	
-	static final Logger log = LogManager.getRootLogger();
-	
+		
     public static MyDrive getInstance(){
-        /*MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
+        MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
         if (md != null)
             return md;
-        
-        log.trace("new PhoneBook");*/
         return new MyDrive();
     }
 
@@ -44,7 +36,6 @@ public class MyDrive extends MyDrive_Base {
         setCounter(0);
         setRootDirectory(Directory.newRootDir(getRootUser()));
         getRootDirectory().setOwner(getRootUser());
-        incCounter();
         setCurrentDir(getRootDirectory());
         createDir("home");
         cd("home");
@@ -159,11 +150,11 @@ public class MyDrive extends MyDrive_Base {
 	   return user; //FIXME verificar se é necessario fazer return
     }
     public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
-    	String default_home="/home/";
+    	String default_home="/home";
     	String home = user_element.getChildText("home");
         String username = user_element.getAttribute("username").getValue();
     	if(home==null){
-            home=default_home.concat(username);
+            home=default_home.concat("/" + username);
         }
 		Directory home_user = getDirectoryByAbsolutePath(home);
 		User user = new User(user_element,home_user);
@@ -191,6 +182,7 @@ public class MyDrive extends MyDrive_Base {
             return new Link(element, owner, father);
         }
         else{
+            System.out.println("KKKKKKKKKNNNNNnnnnnnnnNNNNNnNNNNNNNNNN"+owner);
             return new Directory(element, owner, father);
         }
     }
@@ -226,7 +218,8 @@ public class MyDrive extends MyDrive_Base {
     public Directory getDirectoryByAbsolutePath(String absolutepath){
 	String[] parts = absolutepath.split("/");
 	setCurrentDir(getRootDirectory());
-	for(int i=1; i < parts.length - 1; i++){
+	for(int i=1; i < parts.length; i++){
+        System.out.println(parts[i]);
 		try{
 			cd(parts[i]);
 		}
@@ -252,25 +245,42 @@ public class MyDrive extends MyDrive_Base {
             throw new InvalidIdException(id);
         }
     }
+    public int getHigherId(Element element){
+        int temporary_id = 2;
+        for (Element node : element.getChildren()) {
+            if(!node.getName().equals("user")){
+                if(Integer.parseInt(node.getAttribute("id").getValue()) > temporary_id){ 
+                    temporary_id = Integer.parseInt(node.getAttribute("id").getValue());
+                }    
+            }
+        }
+        return temporary_id;
+
+    }
     
     
     public void XMLImport(Element element){
+        int higher_id = getHigherId(element);
+        int mem = getCounter();
+        setCounter(higher_id);
+        for(Element node : element.getChildren("user")){
+            createUser_xml(node);
+        }
+        setCounter(mem);
         for(Element node: element.getChildren()){
-            if(node.getName().equals("user")){
-                createUser_xml(node);
-            }
-            else if(node.getName().equals("plain")){
+            if(node.getName().equals("plain")){
                 createFile_xml(node, "PlainFile");
             }
-            else if(node.getName().equals("Dir")){
+            else if(node.getName().equals("dir")){
                 createFile_xml(node,"Dir");
             }
-            else if(node.getName().equals("Link")){  
+            else if(node.getName().equals("link")){  
                 createFile_xml(node,"Link");
             }
-            else if(node.getName().equals("App")){
+            else if(node.getName().equals("app")){
                 createFile_xml(node,"App");
             }
+            else{}
         }
     }
     
@@ -282,8 +292,7 @@ public class MyDrive extends MyDrive_Base {
             u.XMLExport(element);
 	
         for (File f: getRootDirectory().getFiles()){
-            if (f.getName().equals("home"))
-                f.XMLExport(element);
+            f.XMLExport(element);
         }
 	return doc;
     }

@@ -9,7 +9,9 @@ public class Permission extends Permission_Base {
         setExecute(execute);
         setEliminate(eliminate);
     }
-    public Permission(String mask){}//Fix me
+    public Permission(String mask){
+        super();
+    }//Fix me
 
     
     public String toString(){

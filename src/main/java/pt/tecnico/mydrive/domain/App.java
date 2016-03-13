@@ -37,9 +37,12 @@ public class App extends App_Base {
         int id= Integer.parseInt(app_element.getAttribute("id").getValue());
         String name = app_element.getChildText("name");
         String perm= app_element.getChildText("perm");
+        if(perm == null){
+            perm = "rwxd--x-";
+        }
         String contents= app_element.getChildText("methods");
-        Permission ownpermission = new Permission(app_element.getChildText("perm").substring(0,4));
-        Permission otherspermission = new Permission(app_element.getChildText("perm").substring(4));
+        Permission ownpermission = new Permission(perm.substring(0,4));
+        Permission otherspermission = new Permission(perm.substring(4));
         setName(name);
         setId(id);
         setUserPermission(ownpermission);

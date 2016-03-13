@@ -37,8 +37,11 @@ public class Link extends Link_Base {
         String owner= link_element.getChildText("owner");
         String perm= link_element.getChildText("perm");
         String contents= link_element.getChildText("value");
-        Permission ownpermission = new Permission(link_element.getChildText("perm").substring(0,4));
-        Permission otherspermission = new Permission(link_element.getChildText("perm").substring(4));
+        if(perm == null){
+            perm = "rwxd--x-";
+        }
+        Permission ownpermission = new Permission(perm.substring(0,4));
+        Permission otherspermission = new Permission(perm.substring(4));
         setName(name);
         setId(id);
         setUserPermission(ownpermission);

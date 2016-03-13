@@ -63,7 +63,7 @@ public class File extends File_Base {
     	s+=getUserPermission().toString()+" ";
     	s+=getOthersPermission().toString()+" ";
     	s+=dimension()+" ";
-    	//s+=getOwner().getUsername()+" ";
+    	s+=getOwner();//.getUsername()+" ";
     	s+=getId()+" ";
     	s+=getLastChange()+" ";
     	s+=getName();
@@ -72,14 +72,14 @@ public class File extends File_Base {
     
     public String getAbsolutePath(){
         String path="";
-        File current = getDirectory();
+        Directory current = getDirectory().getFatherDirectory();
         if(current.getName().equals("/")){
             path = "/";
             return path;
         }
         while(!current.getDirectory().getName().equals("/")){
             path = "/" + getName() + path;
-            current = current.getDirectory();
+            current = current.getFatherDirectory();
         }
         return path;
     }

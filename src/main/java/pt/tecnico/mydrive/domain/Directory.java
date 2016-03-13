@@ -18,6 +18,7 @@ public class Directory extends Directory_Base {
     }
     
     private Directory(User user){
+   		super();
         init("a", 0, user, this);
         setName("/");
         setSelfDirectory(this);
@@ -25,10 +26,9 @@ public class Directory extends Directory_Base {
     }
     
 	public Directory(String name, int id, User user, Directory father) {
+		super();
         init(name, id, user, father);
 		init(father);
-		setFatherDirectory(father);
-        setSelfDirectory(this);
     }
 	
 	public void init(Directory father){
@@ -37,15 +37,14 @@ public class Directory extends Directory_Base {
 	}
 	
 	public Directory(String name, int id, User user) {
+		super();
 		init(name, id, user, this);
         init(this);
     }
 	
     public Directory(Element directory_element, User owner, Directory father){
     	super();
-    	setFatherDirectory(father);
-    	setOwner(owner);
-    	XMLImport(directory_element);
+    	XMLImport(directory_element, owner, father);
     }
 
 	public void createDir(String name, int id, User user) throws FileAlreadyExistsException {
@@ -135,20 +134,30 @@ public class Directory extends Directory_Base {
 		v.execute(this);
 	}
 	
-	public void XMLImport(Element directory_element){
+	public void XMLImport(Element directory_element,User user, Directory father){
 		int id= Integer.parseInt(directory_element.getAttribute("id").getValue());
         String name = directory_element.getChildText("name");
         String perm= directory_element.getChildText("perm");
-        Permission ownpermission = new Permission(directory_element.getChildText("perm").substring(0,4));
-        Permission otherspermission = new Permission(directory_element.getChildText("perm").substring(4));
-        setName(name);
+        if(perm == null){
+            perm = "rwxd--x-";
+        }
+        Permission ownpermission = new Permission(perm.substring(0,4));
+        Permission otherspermission = new Permission(perm.substring(4));
+       /* setName(name);
         setId(id);
         setUserPermission(ownpermission);
-        setOthersPermission(otherspermission);
+        setOthersPermission(otherspermission);*/
+        init(name, id, user, father);
+		init(father);
 	}
+	public boolean isHome(){
+		if(getId() == getOwner().getMainDirectory().getId())
+			return true;
+		return false;
+	} 
 
 	public void XMLExport(Element element_mydrive){
-        if(getId() != 3){
+        if(getId() > 2 && !isHome()){
 
         	Element element = new Element ("dir");
         	element.setAttribute("id", Integer.toString(getId()));
