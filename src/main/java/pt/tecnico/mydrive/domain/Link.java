@@ -15,9 +15,7 @@ public class Link extends Link_Base {
     }
     public Link(Element link_element, User owner, Directory father){
         super();
-        setOwner(owner);
-        setDirectory(father);
-        XMLImport(link_element);
+        XMLImport(link_element, owner, father);
 
     }
     
@@ -31,10 +29,9 @@ public class Link extends Link_Base {
     	return t;
     }
 
-    public void XMLImport(Element link_element){
+    public void XMLImport(Element link_element, User owner, Directory father){
         int id= Integer.parseInt(link_element.getAttribute("id").getValue());
         String name = link_element.getChildText("name");
-        String owner= link_element.getChildText("owner");
         String perm= link_element.getChildText("perm");
         String contents= link_element.getChildText("value");
         if(perm == null){
@@ -42,11 +39,9 @@ public class Link extends Link_Base {
         }
         Permission ownpermission = new Permission(perm.substring(0,4));
         Permission otherspermission = new Permission(perm.substring(4));
-        setName(name);
-        setId(id);
         setUserPermission(ownpermission);
         setOthersPermission(otherspermission);
-        setContent(contents);
+        init(name, id, owner, contents, father);
     }
     
     @Override

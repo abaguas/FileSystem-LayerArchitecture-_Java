@@ -32,6 +32,8 @@ public class MyDriveApplication {
         XMLPrint();
         delivery12();
         //for (String s: args) XMLScan(new File(s));
+        //XMLPrint();
+        //init();
         //test2();
         }catch(NoSuchFileException e){
             System.out.println("NoSuchFileException...");
@@ -41,9 +43,14 @@ public class MyDriveApplication {
     }
     
     @Atomic
-    public static void init() { // empty phonebook
-        //log.trace("Init: " + FenixFramework.getDomainRoot());
-        //MyDrive.getInstance().cleanup();
+    public static void init() { 
+        MyDrive md = MyDrive.getInstance();
+        md.cd("..");
+        md.cd("jtb");
+        System.out.println(md.getCurrentDir().getId());
+        md.cd("bin");        
+        System.out.println(md.getCurrentDir().getId());
+
     }
 
     @Atomic

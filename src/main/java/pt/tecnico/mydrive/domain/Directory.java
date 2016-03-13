@@ -45,16 +45,31 @@ public class Directory extends Directory_Base {
     	XMLImport(directory_element, owner, father);
     }
 
-	public void createDir(String name, int id, User user) throws FileAlreadyExistsException {
+	public void createFile(String name, String content, int id, User user, String code) throws FileAlreadyExistsException {
 		try {
 			search(name);
-			throw new FileAlreadyExistsException(name);
+			throw new FileAlreadyExistsException(name, id);
 		} 
 		catch (NoSuchFileException e) {
-			Directory d = new Directory(name, id, user, this);
-			addFiles(d);
+			File f = fileFactory(name, content, id, user, code);
+			addFiles(f);
 		}
-	}
+	}	
+
+	public File fileFactory(String name, String content, int id, User user, String code){
+        if(code.equals("PlainFile")){
+            return new PlainFile(name, id, user, content, this);
+        }
+        else if(code.equals("App")){
+            return new App(name, id, user, content, this);
+        }
+        else if(code.equals("Dir")){
+        	return new Directory(name, id, user, this);
+        }
+        else{
+            return new Link(name, id, user, content, this);
+        }
+    }
 
 	public void remove(String name) throws NoSuchFileException{
 		File f = search(name);
@@ -95,7 +110,6 @@ public class Directory extends Directory_Base {
 		throw new NoSuchFileException(name);
 	}
 	
-	//lista o conteudo da diretoria
 	public String ls(){
 		String output="";
 		Set<File> files = getFiles();
@@ -116,14 +130,12 @@ public class Directory extends Directory_Base {
 		return output;
 	}
 	
-	//devolve a descricao da diretoria
 	public String toString(){
 		String t = getClass().getSimpleName();
 		t+=print();
     	return t;
 	}
 	
-	//devolve a dimensao da diretoria
 	public int dimension(){
 		return 2 + getFiles().size();
 	}
@@ -141,10 +153,6 @@ public class Directory extends Directory_Base {
         }
         Permission ownpermission = new Permission(perm.substring(0,4));
         Permission otherspermission = new Permission(perm.substring(4));
-       /* setName(name);
-        setId(id);
-        setUserPermission(ownpermission);
-        setOthersPermission(otherspermission);*/
         init(name, id, user, father);
 		init(father);
 	}

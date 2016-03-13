@@ -7,6 +7,7 @@ import org.jdom2.Document;
 import pt.tecnico.mydrive.exception.MyDriveException;
 
 import java.util.Set;
+import java.util.ArrayList;
 
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -17,6 +18,8 @@ import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
 
 public class MyDrive extends MyDrive_Base {
+
+    private ArrayList<Integer> _ids = new ArrayList(); 
 
     public static MyDrive getInstance(){
         MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
@@ -33,7 +36,7 @@ public class MyDrive extends MyDrive_Base {
         setRootUser(r);
         addUsers(r);
         setCurrentUser(getRootUser());
-        setCounter(0);
+        _ids.add(0);
         setRootDirectory(Directory.newRootDir(getRootUser()));
         getRootDirectory().setOwner(getRootUser());
         setCurrentDir(getRootDirectory());
@@ -44,12 +47,17 @@ public class MyDrive extends MyDrive_Base {
         getRootUser().setMainDirectory(getCurrentDir());
     }
 
-    public void incCounter(){
-    	setCounter(getCounter() + 1);
+    public Integer generateId(){
+    	Integer i = 1;
+        while(_ids.contains(i)){
+            i++;
+        }
+        _ids.add(i);
+        return i;
     }
 
-    public void decCounter(){
-        setCounter(getCounter() - 1);
+    public void removeId(Integer id){
+        _ids.remove(id);
     }
 
     public String pwd(){
@@ -71,37 +79,24 @@ public class MyDrive extends MyDrive_Base {
         getCurrentDir().remove(name);
     }
 
-    public File fileFactory(String name, String content, String code){
-        if(code.equals("PlainFile")){
-            return new PlainFile(name, getCounter(), getCurrentUser(), content, getCurrentDir());
-        }
-        else if(code.equals("App")){
-            return new App(name, getCounter(), getCurrentUser(), content, getCurrentDir());
-        }
-        else{
-            return new Link(name, getCounter(), getCurrentUser(), content, getCurrentDir());
-        }
-    }
 
     public void createFile(String name, String content, String code) throws FileAlreadyExistsException{
         try{
-            incCounter();
-            getCurrentDir().addFiles(fileFactory(name, content, code));
+            getCurrentDir().createFile(name, content, generateId(), getCurrentUser(), code);
         }
         catch(FileAlreadyExistsException e){
-            decCounter();
-            throw new FileAlreadyExistsException(name);
+            removeId(e.getId());
+            throw new FileAlreadyExistsException(name, e.getId());
         }
     }
     
     public void createDir(String name) throws FileAlreadyExistsException{
         try{
-            incCounter();
-            getCurrentDir().createDir(name, getCounter(), getCurrentUser());
+            getCurrentDir().createFile(name, "", generateId(), getCurrentUser(), "Dir");
         }
         catch(FileAlreadyExistsException e){
-            decCounter();
-            throw new FileAlreadyExistsException(name);
+            removeId(e.getId());
+            throw new FileAlreadyExistsException(name, e.getId());
         }
     }
     
@@ -190,21 +185,16 @@ public class MyDrive extends MyDrive_Base {
 
     public void createFile_xml(Element file_element, String code) throws NoSuchUserException {
     	String owner = file_element.getChildText("owner");
-        int id= Integer.parseInt(file_element.getAttribute("id").getValue());
         User user = null;
     	if(owner ==null){
     		user = getRootUser();
     	}
     	else {
-            user = getUserByUsername(owner); //criar
+            user = getUserByUsername(owner); 
     	}
-        boolean idOk=fileIdExists(id);
-    	if(!idOk){
-            setCounter(id);//Falta verificar se o id está correto
-    	    Directory d =  getDirectoryByAbsolutePath(file_element.getChildText("path"));
-            File file = fileFactory(file_element,user, d, code);
-    	    d.addFiles(file);
-        }
+    	Directory d =  getDirectoryByAbsolutePath(file_element.getChildText("path"));
+        File file = fileFactory(file_element,user, d, code);
+    	d.addFiles(file);
     }
 
     public User getUserByUsername(String username) throws NoSuchUserException {
@@ -245,28 +235,20 @@ public class MyDrive extends MyDrive_Base {
             throw new InvalidIdException(id);
         }
     }
-    public int getHigherId(Element element){
-        int temporary_id = 2;
+    public void reserveIds(Element element){
         for (Element node : element.getChildren()) {
             if(!node.getName().equals("user")){
-                if(Integer.parseInt(node.getAttribute("id").getValue()) > temporary_id){ 
-                    temporary_id = Integer.parseInt(node.getAttribute("id").getValue());
-                }    
+                _ids.add(Integer.parseInt(node.getAttribute("id").getValue()));  
             }
         }
-        return temporary_id;
-
     }
     
     
     public void XMLImport(Element element){
-        int higher_id = getHigherId(element);
-        int mem = getCounter();
-        setCounter(higher_id);
+        reserveIds(element);
         for(Element node : element.getChildren("user")){
             createUser_xml(node);
         }
-        setCounter(mem);
         for(Element node: element.getChildren()){
             if(node.getName().equals("plain")){
                 createFile_xml(node, "PlainFile");

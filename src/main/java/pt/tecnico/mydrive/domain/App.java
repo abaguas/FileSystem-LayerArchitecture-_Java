@@ -17,9 +17,7 @@ public class App extends App_Base {
     }
     public App(Element app_element, User owner, Directory father){
         super();
-        setOwner(owner);
-        setDirectory(father);
-        XMLImport(app_element);
+        XMLImport(app_element, owner, father);
 
     }
     
@@ -33,7 +31,7 @@ public class App extends App_Base {
     	return t;
     }
 
-    public void XMLImport(Element app_element){
+    public void XMLImport(Element app_element, User owner, Directory father){
         int id= Integer.parseInt(app_element.getAttribute("id").getValue());
         String name = app_element.getChildText("name");
         String perm= app_element.getChildText("perm");
@@ -43,12 +41,9 @@ public class App extends App_Base {
         String contents= app_element.getChildText("method");
         Permission ownpermission = new Permission(perm.substring(0,4));
         Permission otherspermission = new Permission(perm.substring(4));
-        setName(name);
-        setId(id);
+        init(name, id, owner, contents, father);
         setUserPermission(ownpermission);
         setOthersPermission(otherspermission);
-        setContent(contents);
-
     }
 
     public void XMLExport(Element element_mydrive){
