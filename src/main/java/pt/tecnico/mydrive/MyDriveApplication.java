@@ -25,10 +25,10 @@ public class MyDriveApplication {
     public static void main(String[] args) {
         System.out.println("*** Welcome to the MyDrive application! ***");
         try{
-         setup();
-         for (String s: args) XMLScan(new File(s));
-        XMLPrint();
-         //test();
+        // setup();
+        // for (String s: args) XMLScan(new File(s));
+        //XMLPrint();
+         test();
         }catch(NoSuchFileException e){
             System.out.println("NoSuchFileException...");
         }catch(FileNotDirectoryException e){
@@ -45,14 +45,28 @@ public class MyDriveApplication {
     @Atomic
     public static void test() { 
         MyDrive md = MyDrive.getInstance();
-        for(User u : md.getUsers()){
-            //System.out.println(u.getUsername());
-        }
-        /*System.out.println(md.pwd());
-                System.out.println("*** Welcome to the MyDrive application! ***");
-        System.out.println("*** Welcome to the MyDrive application! ***");
-*/
+        //md.getDirectoryByAbsolutePath("/home/filipe");
+        /*for(User u : md.getUsers()){
+            System.out.println(u.getUsername());
+        }*/
+        System.out.println(md.pwd());
         System.out.println(md.ls());
+        md.cd("..");
+        System.out.println(md.pwd());
+        System.out.println(md.ls());
+        md.cd("..");
+        System.out.println(md.pwd());
+        System.out.println(md.ls());
+        md.cd("..");
+        System.out.println(md.pwd());
+        System.out.println(md.ls());
+        /*md.cd("..");
+        System.out.println(md.pwd());
+        System.out.println(md.ls());
+        md.cd("..");
+     System.out.println(md.pwd());
+     System.out.println(md.ls());
+*/
     }
     
     @Atomic

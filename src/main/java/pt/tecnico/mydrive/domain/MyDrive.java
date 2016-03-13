@@ -116,7 +116,7 @@ public class MyDrive extends MyDrive_Base {
     }    
     public void cd(String name) throws NoSuchFileException, FileNotDirectoryException {
     	File f = getCurrentDir().get(name);
-   	cdable(f);
+   	    cdable(f);
     	setCurrentDir((Directory) f);
     }
 
@@ -218,7 +218,6 @@ public class MyDrive extends MyDrive_Base {
 	String[] parts = absolutepath.split("/");
 	setCurrentDir(getRootDirectory());
 	for(int i=1; i < parts.length; i++){
-        System.out.println(parts[i]);
 		try{
 			cd(parts[i]);
 		}
