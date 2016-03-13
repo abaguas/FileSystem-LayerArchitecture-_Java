@@ -182,7 +182,6 @@ public class MyDrive extends MyDrive_Base {
             return new Link(element, owner, father);
         }
         else{
-            System.out.println("KKKKKKKKKNNNNNnnnnnnnnNNNNNnNNNNNNNNNN"+owner);
             return new Directory(element, owner, father);
         }
     }

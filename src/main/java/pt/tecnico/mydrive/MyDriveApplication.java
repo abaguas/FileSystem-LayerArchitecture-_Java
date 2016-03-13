@@ -27,8 +27,8 @@ public class MyDriveApplication {
         try{
          setup();
          for (String s: args) XMLScan(new File(s));
-        //XMLPrint();
-         test();
+        XMLPrint();
+         //test();
         }catch(NoSuchFileException e){
             System.out.println("NoSuchFileException...");
         }catch(FileNotDirectoryException e){
