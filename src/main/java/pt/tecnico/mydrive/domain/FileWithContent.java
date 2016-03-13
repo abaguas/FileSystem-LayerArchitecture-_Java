@@ -42,7 +42,6 @@ public class FileWithContent extends FileWithContent_Base {
 	@Override
 	public void accept(Visitor v) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public void XMLExport(Element element_mydrive){}

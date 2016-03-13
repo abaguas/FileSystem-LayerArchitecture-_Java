@@ -58,8 +58,9 @@ public class Directory extends Directory_Base {
 
 	public void remove(String name) throws NoSuchFileException{
 		File f = search(name);
-		f.remove();
+		System.out.println(f);
 		removeFiles(f);
+		f.remove();
 	}
 	
 	public void remove() {

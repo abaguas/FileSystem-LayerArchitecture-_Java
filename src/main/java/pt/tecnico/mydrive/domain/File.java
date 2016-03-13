@@ -52,12 +52,12 @@ public class File extends File_Base {
     	return 0;
     }
 
-    protected void remove() {
+    public void remove() {
     	setOwner(null);
-        setUserPermission(null);
+    	setUserPermission(null);
         setOthersPermission(null);
-        setLastChange(null);
-    	deleteDomainObject();
+        setDirectory(null);
+        deleteDomainObject();
     }
     
     public void accept(Visitor v){
@@ -100,6 +100,5 @@ public class File extends File_Base {
 
     public String ls(){
 		return null;
-	}
-    
+    }
 }

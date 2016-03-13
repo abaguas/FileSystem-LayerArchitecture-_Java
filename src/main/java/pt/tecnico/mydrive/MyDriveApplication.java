@@ -27,7 +27,8 @@ public class MyDriveApplication {
     public static void main(String[] args) {
         System.out.println("*** Welcome to the MyDrive application! ***");
         try{
-        delivery11(); 
+        testDelivery11();
+        System.out.println("--------------------------------");
         XMLPrint();
         delivery12();
         //for (String s: args) XMLScan(new File(s));
@@ -66,16 +67,92 @@ public class MyDriveApplication {
         md.cd("usr");
         md.cd("local");
         md.removeFile("bin");
-    }       
+    }
+    
+    @Atomic
+    public static void testDelivery11() { 
+        MyDrive md = MyDrive.getInstance();
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.createPlainFile("README", "lista de Utilizadores");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.createDir("usr");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("usr");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.createDir("local");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("local");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.createDir("bin");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("bin");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("home");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        System.out.println(md.ls("README"));
+        System.out.println("--------------------------------");
+        md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("usr");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("local");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.removeFile("bin");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        try{
+        	md.cd("bin");
+        }catch (Exception e){
+        	System.out.println("Excecao apanhada");
+        }
+    }
 
     @Atomic
     public static void delivery12() { 
         MyDrive md = MyDrive.getInstance();
+        System.out.println("--------------------------------");
+        System.out.println("--------------------------------");
+        System.out.println("--------------------------------");
         md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
         md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
         md.cd("home");
-        md.removeFile("README");
-        md.ls();
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.removeFile("README");System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
     }       
 
     @Atomic
