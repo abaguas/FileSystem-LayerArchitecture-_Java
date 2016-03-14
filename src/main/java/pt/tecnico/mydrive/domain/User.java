@@ -54,7 +54,7 @@ public class User extends User_Base
     }
     
     protected void init(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException{
-    	super();
+    	
     	if (validUsername(username)){
 	        setUsername(username);
 	        setPassword(password);
