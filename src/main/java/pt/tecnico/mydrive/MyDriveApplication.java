@@ -27,30 +27,15 @@ public class MyDriveApplication {
     public static void main(String[] args) {
         System.out.println("*** Welcome to the MyDrive application! ***");
         try{
-        testDelivery11();
         System.out.println("--------------------------------");
+        delivery11();
         xmlPrint();
         delivery12();
-        //for (String s: args) xmlScan(new File(s));
-        //xmlPrint();
-        //init();
-        //test2();
         }catch(NoSuchFileException e){
             System.out.println("NoSuchFileException...");
         }catch(FileNotDirectoryException e){
             System.out.println("FileNotDirectoryException...");
         } finally { FenixFramework.shutdown(); }
-    }
-    
-    @Atomic
-    public static void init() { 
-        MyDrive md = MyDrive.getInstance();
-        md.cd("..");
-        md.cd("jtb");
-        System.out.println(md.getCurrentDir().getId());
-        md.cd("bin");        
-        System.out.println(md.getCurrentDir().getId());
-
     }
 
     @Atomic
@@ -76,6 +61,76 @@ public class MyDriveApplication {
         md.removeFile("bin");
     }
     
+
+    @Atomic
+    public static void delivery12() { 
+        MyDrive md = MyDrive.getInstance();
+        System.out.println("--------------------------------");
+        System.out.println("--------------------------------");
+        System.out.println("--------------------------------");
+        md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("..");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.cd("home");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        md.removeFile("README");System.out.println(md.ls());
+        System.out.println("--------------------------------");
+        System.out.println(md.ls());
+        System.out.println("--------------------------------");
+    }       
+
+    @Atomic
+    public static void xmlPrint() {
+        Document doc = MyDrive.getInstance().xmlExport();
+        XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
+        try { xmlOutput.output(doc, new PrintStream(System.out));
+        } catch (IOException e) { System.out.println(e); }
+    }
+
+    @Atomic
+    public static void xmlScan(File file) {
+        //log.trace("xmlScan: " + FenixFramework.getDomainRoot());
+        MyDrive md = MyDrive.getInstance();
+        SAXBuilder builder = new SAXBuilder();
+        try {
+            Document document = (Document)builder.build(file);
+            md.xmlImport(document.getRootElement());
+        } catch (JDOMException | IOException e) {
+        e.printStackTrace();
+        }
+    }
+
+    //a few tests
+
+    @Atomic
+    public static void test2() { 
+        MyDrive md = MyDrive.getInstance();
+        System.out.println("USERS");
+        for (User u: md.getUsers()){
+            System.out.println(u);
+        }
+        System.out.println("-------------------------------");
+        System.out.println(md.pwd());
+        md.cd("..");
+        System.out.println(md.pwd());
+        md.cd("..");
+        System.out.println(md.pwd());
+        md.cd("home");
+        System.out.println(md.pwd());        
+        System.out.println(md.ls());
+        md.cd("jtb");
+        System.out.println(md.ls("profile"));
+        System.out.println(md.ls("documents"));
+        System.out.println(md.ls("doc"));
+        /*md.cd("bin");
+        System.out.println(md.ls());
+        System.out.println(md.ls("length"));*/
+    }
+
     @Atomic
     public static void testDelivery11() { 
         MyDrive md = MyDrive.getInstance();
@@ -136,135 +191,9 @@ public class MyDriveApplication {
         System.out.println(md.ls());
         System.out.println("19--------------------------------");
         try{
-        	md.cd("bin");
+            md.cd("bin");
         }catch (Exception e){
-        	System.out.println("Excecao apanhada");
-        }
-    }
-
-    @Atomic
-    public static void delivery12() { 
-        MyDrive md = MyDrive.getInstance();
-        System.out.println("--------------------------------");
-        System.out.println("--------------------------------");
-        System.out.println("--------------------------------");
-        md.cd("..");
-        System.out.println(md.ls());
-        System.out.println("--------------------------------");
-        md.cd("..");
-        System.out.println(md.ls());
-        System.out.println("--------------------------------");
-        md.cd("home");
-        System.out.println(md.ls());
-        System.out.println("--------------------------------");
-        md.removeFile("README");System.out.println(md.ls());
-        System.out.println("--------------------------------");
-        System.out.println(md.ls());
-        System.out.println("--------------------------------");
-    }       
-
-    @Atomic
-    public static void test() { 
-        MyDrive md = MyDrive.getInstance();
-             //System.out.println(md.getRootUser().getMainDirectory().getAbsolutePath());
-        /*for(User u : md.getUsers()){
-            System.out.println(u.getUsername());
-        }
-             System.out.println(md.getRootUser().getMainDirectory().getAbsolutePath());
-
-        System.out.println(md.pwd());
-        System.out.println(md.ls());
-        md.cd("..");
-        System.out.println(md.pwd());
-        System.out.println(md.ls());
-        md.cd("..");
-        System.out.println(md.pwd());
-        System.out.println(md.ls());
-        md.cd("..");
-        System.out.println(md.pwd());
-        System.out.println(md.ls());
-        md.cd("..");
-        System.out.println(md.pwd());
-        System.out.println(md.ls());
-        md.cd("..");
-        System.out.println(md.getRootUser().getMainDirectory().getAbsolutePath());
-
-     System.out.println(md.pwd());
-     System.out.println(md.ls());*/
-     System.out.println("AAAAAAAAAA" + md.getRootUser().getMainDirectory().getAbsolutePath());
-    }
-
-    @Atomic
-    public static void test2() { 
-        MyDrive md = MyDrive.getInstance();
-        System.out.println("USERS");
-        for (User u: md.getUsers()){
-            System.out.println(u);
-        }
-        System.out.println("-------------------------------");
-        System.out.println(md.pwd());
-        md.cd("..");
-        System.out.println(md.pwd());
-        md.cd("..");
-        System.out.println(md.pwd());
-        md.cd("home");
-        System.out.println(md.pwd());        
-        System.out.println(md.ls());
-        md.cd("jtb");
-        System.out.println(md.ls("profile"));
-        System.out.println(md.ls("documents"));
-        System.out.println(md.ls("doc"));
-        /*md.cd("bin");
-        System.out.println(md.ls());
-        System.out.println(md.ls("length"));*/
-    }
-    
-    @Atomic
-    public static void setup() throws MyDriveException{
-        MyDrive md = MyDrive.getInstance();
-        System.out.println("*** Welcome to the MyDrive application! ***");
-        System.out.println("*** Welcome to the MyDrive application! ***");
-        System.out.println("*** Welcome to the MyDrive application! ***");
-        System.out.println("*** Welcome to the MyDrive application! ***");
-        /*md.cd("..");
-        md.createPlainFile("README", "lista de Utilizadores. ");
-        System.out.println(md.getCurrentDir().ls());
-        System.out.println(md.ls("README"));
-        System.out.println(md.pwd());
-        md.cd("..");
-        System.out.println(md.pwd());
-        md.createDir("usr");
-        md.cd("usr");
-        System.out.println(md.pwd());
-        md.createDir("local");
-        md.cd("local");
-        System.out.println(md.pwd());
-        md.createDir("bin");
-        md.cd("bin");
-        System.out.println(md.pwd());
-        System.out.println("*** Welcome to the MyDrive application! ***");
-        //md.createUser("luissacouto", "pass", "Luis");
-        //md.createDir("ist");*/
-    }
-    
-    @Atomic
-    public static void xmlPrint() {
-        Document doc = MyDrive.getInstance().xmlExport();
-        XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
-        try { xmlOutput.output(doc, new PrintStream(System.out));
-        } catch (IOException e) { System.out.println(e); }
-    }
-
-    @Atomic
-    public static void xmlScan(File file) {
-        //log.trace("xmlScan: " + FenixFramework.getDomainRoot());
-        MyDrive md = MyDrive.getInstance();
-        SAXBuilder builder = new SAXBuilder();
-        try {
-            Document document = (Document)builder.build(file);
-            md.xmlImport(document.getRootElement());
-        } catch (JDOMException | IOException e) {
-        e.printStackTrace();
+            System.out.println("Excecao apanhada");
         }
     }
 
