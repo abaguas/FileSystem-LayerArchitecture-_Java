@@ -46,7 +46,6 @@ public class FileWithContent extends FileWithContent_Base {
 	
 	public String ls(){
 		return getContent();
-		//LUIS: Era isto que querias?
 	}
     
 }

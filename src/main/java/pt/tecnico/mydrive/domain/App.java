@@ -23,7 +23,7 @@ public class App extends App_Base {
     }
   
     public String toString(){
-    	String t = getClass().getSimpleName();
+    	String t = "App ";
     	t+=print();
     	return t;
     }

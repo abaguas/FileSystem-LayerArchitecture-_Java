@@ -23,7 +23,7 @@ public class PlainFile extends PlainFile_Base {
     }
   
     public String toString(){
-    	String t = getClass().getSimpleName();
+    	String t = "PlainFile ";
     	t+=print();
     	return t;
     }
