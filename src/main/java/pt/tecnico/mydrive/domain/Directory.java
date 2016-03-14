@@ -22,13 +22,12 @@ public class Directory extends Directory_Base {
     }
     
     private Directory(User user) {
-        initRoot("/", 0, user, this);
+        initRoot("/", 0, user);
         setSelfDirectory(this);
         setFatherDirectory(this);
     }
     
 	public Directory(String name, int id, User user, Directory father) {
-		super();
         init(name, id, user, father);
 		init(father);
     }
@@ -39,14 +38,12 @@ public class Directory extends Directory_Base {
 	}
 	
 	public Directory(String name, int id, User user) {
-		super();
 		init(name, id, user, this);
         init(this);
     }
 	
     public Directory(Element directory_element, User owner, Directory father){
-    	super();
-    	XMLImport(directory_element, owner, father);
+    	xmlImport(directory_element, owner, father);
     }
 
 	public void createFile(String name, String content, int id, User user, String code) throws FileAlreadyExistsException {
@@ -156,7 +153,7 @@ public class Directory extends Directory_Base {
 		v.execute(this);
 	}
 	
-	public void XMLImport(Element directory_element,User user, Directory father){
+	public void xmlImport(Element directory_element,User user, Directory father){
 		int id= Integer.parseInt(directory_element.getAttribute("id").getValue());
         String name = directory_element.getChildText("name");
         String perm= directory_element.getChildText("perm");
@@ -174,7 +171,7 @@ public class Directory extends Directory_Base {
 		return false;
 	} 
 
-	public void XMLExport(Element element_mydrive){
+	public void xmlExport(Element element_mydrive){
         if(getId() > 2 && !isHome()){
 
         	Element element = new Element ("dir");
@@ -204,7 +201,7 @@ public class Directory extends Directory_Base {
         }
 
         for (File f: getFiles()){
-            f.XMLExport(element_mydrive);
+            f.xmlExport(element_mydrive);
         }
     }
 

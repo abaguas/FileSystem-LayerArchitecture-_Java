@@ -29,7 +29,6 @@ public class MyDrive extends MyDrive_Base {
     }
 
     private MyDrive() throws MyDriveException{
-        super();
         setRoot(FenixFramework.getDomainRoot());
         RootUser r = null;
         r = RootUser.getInstance();
@@ -221,7 +220,7 @@ public class MyDrive extends MyDrive_Base {
 			catch(MyDriveException e2){}
 		}
 		catch(FileNotDirectoryException e){
-			//FIXME: se houver XML errado mandar InvalidPathException
+			//FIXME: se houver xml errado mandar InvalidPathException
 		}
 	}
         return getCurrentDir();
@@ -244,7 +243,7 @@ public class MyDrive extends MyDrive_Base {
     }
     
     
-    public void XMLImport(Element element){
+    public void xmlImport(Element element){
         reserveIds(element);
         for(Element node : element.getChildren("user")){
             createUser_xml(node);
@@ -267,15 +266,15 @@ public class MyDrive extends MyDrive_Base {
         setCurrentDir(getRootUser().getMainDirectory());
     }
     
-    public Document XMLExport(){
+    public Document xmlExport(){
 	   Element element = new Element ("mydrive");
 	   Document doc = new Document (element);
 
 	   for (User u: getUsersSet())
-            u.XMLExport(element);
+            u.xmlExport(element);
 	
         for (File f: getRootDirectory().getFiles()){
-            f.XMLExport(element);
+            f.xmlExport(element);
         }
 	return doc;
     }

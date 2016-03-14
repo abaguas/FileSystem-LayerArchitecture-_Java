@@ -8,12 +8,10 @@ public class FileWithContent extends FileWithContent_Base {
 	public FileWithContent(){}
     
     public FileWithContent(String name, int id, User owner, String content, Directory father) {
-    	//super(); 
     	init(name,id,owner,content, father);
     }
     
     public FileWithContent(String name, int id, String content) {
-    	//super();
     	//FIXME (root)
     }
     
@@ -44,7 +42,7 @@ public class FileWithContent extends FileWithContent_Base {
 		// TODO Auto-generated method stub
 	}
 	
-	public void XMLExport(Element element_mydrive){}
+	public void xmlExport(Element element_mydrive){}
 	
 	public String ls(){
 		return getContent();

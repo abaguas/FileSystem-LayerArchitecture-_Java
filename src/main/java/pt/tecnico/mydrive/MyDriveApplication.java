@@ -29,10 +29,10 @@ public class MyDriveApplication {
         try{
         testDelivery11();
         System.out.println("--------------------------------");
-        XMLPrint();
+        xmlPrint();
         delivery12();
-        //for (String s: args) XMLScan(new File(s));
-        //XMLPrint();
+        //for (String s: args) xmlScan(new File(s));
+        //xmlPrint();
         //init();
         //test2();
         }catch(NoSuchFileException e){
@@ -248,21 +248,21 @@ public class MyDriveApplication {
     }
     
     @Atomic
-    public static void XMLPrint() {
-        Document doc = MyDrive.getInstance().XMLExport();
+    public static void xmlPrint() {
+        Document doc = MyDrive.getInstance().xmlExport();
         XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
         try { xmlOutput.output(doc, new PrintStream(System.out));
         } catch (IOException e) { System.out.println(e); }
     }
 
     @Atomic
-    public static void XMLScan(File file) {
+    public static void xmlScan(File file) {
         //log.trace("xmlScan: " + FenixFramework.getDomainRoot());
         MyDrive md = MyDrive.getInstance();
         SAXBuilder builder = new SAXBuilder();
         try {
             Document document = (Document)builder.build(file);
-            md.XMLImport(document.getRootElement());
+            md.xmlImport(document.getRootElement());
         } catch (JDOMException | IOException e) {
         e.printStackTrace();
         }

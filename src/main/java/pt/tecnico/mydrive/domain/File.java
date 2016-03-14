@@ -12,19 +12,17 @@ public class File extends File_Base {
 	public File(){}
     
 	public File(String name, int id, User owner, Directory father) throws InvalidFileNameException{
-		super();
 		init(name,id,owner, father);
 	}
 
 	/*public File(String name, int id) throws InvalidFileNameException{
-	    super();
+	    
 	    //FIXME (root)
 	}*/
 	
 	//Enables inheritance
 	protected void init(String name, int id, User owner, Directory father) throws InvalidFileNameException{
-
-		if(name.contains("/") || name.contains("0")){
+		if(name.contains("/") || name.contains("\0")){
 			throw new InvalidFileNameException(name);
 		}
 		
@@ -38,7 +36,7 @@ public class File extends File_Base {
         setDirectory(father);
 	}
 	
-	protected void initRoot(String name, int id, User owner, Directory father) throws InvalidFileNameException{
+	protected void initRoot(String name, int id, User owner) throws InvalidFileNameException{
 		DateTime dt = new DateTime();
         setOwner(owner);
         setName(name);
@@ -95,7 +93,7 @@ public class File extends File_Base {
         return path;
     }
 
-    public void XMLExport(Element element_mydrive){}
+    public void xmlExport(Element element_mydrive){}
     
 
     public String ls(){

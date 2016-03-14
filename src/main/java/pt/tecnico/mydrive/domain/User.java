@@ -9,17 +9,14 @@ public class User extends User_Base
 	public User(){}
 	
 	public User(String username, String password, String name) throws InvalidUsernameException{
-		super();
 		init(username, password, name);
 	}
 	
 	public User(String username, String password, String name, Directory home) throws InvalidUsernameException{
-		super();
 		init(username, password, name, home);
 	}
 
 	public User(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException{
-		super();
 		init(username, password, name, home, mask);
 	}
 	
@@ -39,39 +36,18 @@ public class User extends User_Base
     	
 	
     protected void init(String username, String password, String name, Directory home) throws InvalidUsernameException{
-    	if (validUsername(username)){
-	        setUsername(username);
-	        setPassword(password);
-	        setName(name);
-	        setMainDirectory(home);
-	        Permission ownP = new Permission(true, true, true, true);
-			Permission othP = new Permission(false, false, false, false);
-			setOwnPermission(ownP);
-			setOthersPermission(othP);
-    	}
-    	else
-    		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
+    	init(username,password,name);
+    	setMainDirectory(home);
     }
     
     protected void init(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException{
-    	
-    	if (validUsername(username)){
-	        setUsername(username);
-	        setPassword(password);
-	        setName(name);
-	        setMainDirectory(home);
-	        setOwnPermission(mask);
-	        Permission othersPermission = new Permission(false, false, false, false);
-	        setOthersPermission(othersPermission);
-    	}
-    	else
-    		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
+    	init(username,password,name,home);
+    	setOwnPermission(mask);
     }
     
 	public User(Element user_element, Directory home){
-        super();
         setMainDirectory(home);
-        XMLImport(user_element);
+        xmlImport(user_element);
     }
 
     protected void init(){}
@@ -90,7 +66,7 @@ public class User extends User_Base
     public String toString(){
     	return "Username: " + getUsername() + "Name: "  + getName();
     }
-    public void XMLImport(Element user_element){
+    public void xmlImport(Element user_element){
         String username= user_element.getAttribute("username").getValue();
         String password= user_element.getChildText("password");
         String name= user_element.getChildText("name");
@@ -115,7 +91,7 @@ public class User extends User_Base
             throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
     }
     
-    public void XMLExport(Element element_mydrive){
+    public void xmlExport(Element element_mydrive){
         
         if(!getUsername().equals("root")){
 

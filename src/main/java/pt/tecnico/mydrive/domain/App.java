@@ -6,18 +6,15 @@ import org.jdom2.Document;
 public class App extends App_Base {
     //o conteudo representa o nome completo de um metodo de uma classe Java
     public App(String name, int id, User owner, String content, Directory father) {
-    	super();
     	init(name,id,owner,content, father);
     }
     
     public App(String name, int id, String content) {
-    	super();
     	//FIXME (root)
 
     }
     public App(Element app_element, User owner, Directory father){
-        super();
-        XMLImport(app_element, owner, father);
+        xmlImport(app_element, owner, father);
 
     }
     
@@ -31,7 +28,7 @@ public class App extends App_Base {
     	return t;
     }
 
-    public void XMLImport(Element app_element, User owner, Directory father){
+    public void xmlImport(Element app_element, User owner, Directory father){
         int id= Integer.parseInt(app_element.getAttribute("id").getValue());
         String name = app_element.getChildText("name");
         String perm= app_element.getChildText("perm");
@@ -46,7 +43,7 @@ public class App extends App_Base {
         setOthersPermission(otherspermission);
     }
 
-    public void XMLExport(Element element_mydrive){
+    public void xmlExport(Element element_mydrive){
         Element element = new Element ("app");
         element.setAttribute("id", Integer.toString(getId()));
         

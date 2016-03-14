@@ -6,16 +6,13 @@ import org.jdom2.Document;
 public class Link extends Link_Base {
     //o conteudo representa o caminho (absoluto ou relativo) para outro ficheiro
     public Link(String name, int id, User owner, String content, Directory father) {
-    	super();
     	init(name,id,owner,content, father);
     }
     public Link(String name, int id, String content) {
-    	super();
     	//FIXME (root)
     }
     public Link(Element link_element, User owner, Directory father){
-        super();
-        XMLImport(link_element, owner, father);
+        xmlImport(link_element, owner, father);
 
     }
     
@@ -29,7 +26,7 @@ public class Link extends Link_Base {
     	return t;
     }
 
-    public void XMLImport(Element link_element, User owner, Directory father){
+    public void xmlImport(Element link_element, User owner, Directory father){
         int id= Integer.parseInt(link_element.getAttribute("id").getValue());
         String name = link_element.getChildText("name");
         String perm= link_element.getChildText("perm");
@@ -45,7 +42,7 @@ public class Link extends Link_Base {
     }
     
     @Override
-    public void XMLExport(Element element_mydrive){
+    public void xmlExport(Element element_mydrive){
         Element element = new Element ("link");
         element.setAttribute("id",Integer.toString(getId()));
         
