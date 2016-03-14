@@ -164,6 +164,7 @@ public class Directory extends Directory_Base {
         init(name, id, user, father);
 		init(father);
 	}
+
 	public boolean isHome(){
 		if(getId() == getOwner().getMainDirectory().getId())
 			return true;
