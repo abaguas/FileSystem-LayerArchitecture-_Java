@@ -21,7 +21,7 @@ public class Link extends Link_Base {
     }
   
     public String toString(){
-    	String t = "Link ";
+    	String t = "Link";
     	t+=print()+" -> "+getContent();
     	return t;
     }

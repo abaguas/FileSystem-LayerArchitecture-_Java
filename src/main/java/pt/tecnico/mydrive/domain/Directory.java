@@ -139,7 +139,7 @@ public class Directory extends Directory_Base {
 	}
 
 	public String toString(){
-		String t = "Directory ";
+		String t = "Directory";
 		t+=print();
     	return t;
 	}
