@@ -16,9 +16,9 @@ public class RootUser extends RootUser_Base{
     	setUsername("root");
         setPassword("***");
         setName("Super User");
-		Permission ownP = new Permission(true, true, true, true);
-		Permission othP = new Permission(true, false, true, false);
-		setOwnPermission(ownP);
+	Permission ownP = new Permission(true, true, true, true);
+	Permission othP = new Permission(true, false, true, false);
+	setOwnPermission(ownP);
         setOthersPermission(othP);
     }
     
