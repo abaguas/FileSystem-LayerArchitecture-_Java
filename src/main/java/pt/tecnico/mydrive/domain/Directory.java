@@ -2,6 +2,10 @@ package pt.tecnico.mydrive.domain;
 
 import pt.ist.fenixframework.FenixFramework;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import org.jdom2.Element;
 import org.jdom2.Document;
@@ -113,7 +117,15 @@ public class Directory extends Directory_Base {
 	public String ls(){
 		String output="";
 		Set<File> files = getFiles();
-	
+		List<File> list = new ArrayList<File>(files);
+		
+		Collections.sort(list, new Comparator<File>() {
+		    public int compare(File f1, File f2) {
+		    	int compare=f1.getName().compareTo(f2.getName());
+		    	return compare;
+		    }
+		});
+		
 		String name = getFatherDirectory().getName();
 		getFatherDirectory().setName("..");
 		output+=getFatherDirectory().toString()+"\n";
@@ -124,7 +136,7 @@ public class Directory extends Directory_Base {
 		output+=getSelfDirectory().toString();
 	 	getSelfDirectory().setName(name);
 	 	
-   	 	for (File f: files){
+   	 	for (File f: list){
    	 		output+= "\n"+f.toString();
    	 	}
 		return output;
