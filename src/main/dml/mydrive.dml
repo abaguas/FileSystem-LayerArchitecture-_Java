@@ -4,6 +4,13 @@ class MyDrive {
   int counter;
 }
 
+class Login {
+  long token;
+}
+
+class Session {
+}
+
 class User {
   String username;
   String password;
@@ -46,8 +53,27 @@ relation DomainRootHasMyDriveApplication {
   }
 }
 
-relation MyDriveContainsRootDirectory{
+relation MyDriveHasLogin {
   MyDrive playsRole myDrive {
+    multiplicity 0..1;
+  }
+  Login playsRole login {
+    multiplicity 1;
+  }
+}
+
+relation LoginHasSessions {
+  Login playsRole login {
+    multiplicity 0..1;
+  }
+  Session playsRole session {
+    multiplicity 1..*;
+  }
+}
+
+
+relation MyDriveContainsRootDirectory{
+  MyDrive playsRole mydrive {
     multiplicity 1;
   }
   Directory playsRole rootDirectory {
