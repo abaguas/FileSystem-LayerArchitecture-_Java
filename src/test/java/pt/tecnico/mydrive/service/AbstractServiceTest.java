@@ -1,11 +1,16 @@
-package pt.tecnico.phonebook.service;
+package pt.tecnico.mydrive.service;
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+/*
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.BeforeClass; 
+*/
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
@@ -13,7 +18,7 @@ import pt.tecnico.mydrive.MyDriveApplication;
 
 public abstract class AbstractServiceTest {
 
-    @BeforeClass // run once berfore each test class
+    @BeforeClass // run once before each test class
     public static void setUpBeforeAll() throws Exception {
 	// run tests with a clean database!!!
 	   //MyDriveApplication.init();
