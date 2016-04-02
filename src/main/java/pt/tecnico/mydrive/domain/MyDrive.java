@@ -10,11 +10,13 @@ import java.util.Set;
 import java.util.ArrayList;
 
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
+import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidUsernameException;
 import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
+import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
 
 public class MyDrive extends MyDrive_Base {
@@ -194,6 +196,17 @@ public class MyDrive extends MyDrive_Base {
     	Directory d =  getDirectoryByAbsolutePath(file_element.getChildText("path"));
         File file = fileFactory(file_element,user, d, code);
     	d.addFiles(file);
+    }
+    
+    public void writeFile(String filename, String content, long token) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
+    	/*
+        Session s = getLogin().getSession(token);
+        Directory current = s.getDirectory();
+        File file = current.get(filename);
+        writeable(file);
+        //checkpermissions    
+        file.writeContent(content);
+        */
     }
 
     public User getUserByUsername(String username) throws NoSuchUserException {
