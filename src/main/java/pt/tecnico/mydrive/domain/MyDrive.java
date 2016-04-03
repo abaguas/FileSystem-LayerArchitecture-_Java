@@ -15,6 +15,7 @@ import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidUsernameException;
+import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
@@ -83,7 +84,7 @@ public class MyDrive extends MyDrive_Base {
     }
 
 
-    public void createFile(String name, String content, String code) throws FileAlreadyExistsException{
+    public void createFile(String name, String content, String code) throws FileAlreadyExistsException, MaximumPathException {
    //FIXME       try{
       /*      getCurrentDir().createFile(name, content, generateId(), getCurrentUser(), code);
         }

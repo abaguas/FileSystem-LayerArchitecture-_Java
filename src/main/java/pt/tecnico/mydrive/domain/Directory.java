@@ -45,19 +45,28 @@ public class Directory extends Directory_Base {
     	xmlImport(directory_element, owner, father);
     }
 
-	public void createFile(String name, String content, int id, User user, String code) throws FileAlreadyExistsException {
+	public void createFile(String name, String content, int id, User user, String code) throws FileAlreadyExistsException, MaximumPathException {
 		try {
 			search(name);
 			throw new FileAlreadyExistsException(name, id);
 		}
 		catch (NoSuchFileException e) {
+			validateFile(name);
 			File f = fileFactory(name, content, id, user, code);
 			addFiles(f);
 		}
 	}
+	
+	public void validateFile(String name){
+		if ((getAbsolutePath().length() + name.length()) > 1024){
+			throw new MaximumPathException(name);
+		}
+		
+	}
 
 	public File fileFactory(String name, String content, int id, User user, String code){
-	    if(code.equals("PlainFile")){
+	    
+		if(code.equals("PlainFile")){
             return new PlainFile(name, id, user, content, this);
         }
         else if(code.equals("App")){
