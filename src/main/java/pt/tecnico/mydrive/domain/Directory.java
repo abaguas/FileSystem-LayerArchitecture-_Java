@@ -15,9 +15,9 @@ import pt.tecnico.mydrive.exception.*;
 public class Directory extends Directory_Base {
 
     public static Directory newRootDir(RootUser user){
-        Directory rootDir = FenixFramework.getDomainRoot().getMyDrive().getRootDirectory();
-        if (rootDir != null)
-            return rootDir;
+  //FIXME     Directory rootDir = FenixFramework.getDomainRoot().getMyDrive().getRootDirectory();
+  /*      if (rootDir != null)
+            return rootDir; */
         return new Directory((User)user);
     }
 
@@ -57,19 +57,19 @@ public class Directory extends Directory_Base {
 	}
 
 	public File fileFactory(String name, String content, int id, User user, String code){
-	        if(code.equals("PlainFile")){
-        		return new PlainFile(name, id, user, content, this);
-        	}
-        	else if(code.equals("App")){
-            		return new App(name, id, user, content, this);
-        	}
-        	else if(code.equals("Dir")){
-        		return new Directory(name, id, user, this);
-        	}
-        	else{
-            		return new Link(name, id, user, content, this);
-        	}
-    	}
+	    if(code.equals("PlainFile")){
+            return new PlainFile(name, id, user, content, this);
+        }
+        else if(code.equals("App")){
+            return new App(name, id, user, content, this);
+        }
+        else if(code.equals("Dir")){
+        	return new Directory(name, id, user, this);
+        }
+        else{
+           		return new Link(name, id, user, content, this);
+        }
+    }
 
 	public void remove(String name) throws NoSuchFileException{
 		File f = search(name);

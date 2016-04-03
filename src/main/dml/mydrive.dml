@@ -5,10 +5,11 @@ class MyDrive {
 }
 
 class Login {
-  long token;
 }
 
 class Session {
+  long token;
+  DateTime timestamp;
 }
 
 class User {
@@ -72,8 +73,8 @@ relation LoginHasSessions {
 }
 
 
-relation MyDriveContainsRootDirectory{
-  MyDrive playsRole mydrive {
+relation LoginContainsRootDirectory{
+  Login playsRole lg {
     multiplicity 1;
   }
   Directory playsRole rootDirectory {
@@ -167,15 +168,15 @@ relation MyDrivehasRootUser{
   }
 }
 
-relation MyDrivehasCurrentDirectory{
-  MyDrive playsRole;
+relation SessionhasCurrentDirectory{
+  Session playsRole;
   Directory playsRole currentDir{
    multiplicity 1;
   }
 }
 
-relation MyDrivehasCurrentUser{
-  MyDrive playsRole;
+relation SessionhasCurrentUser{
+  Session playsRole;
   User playsRole currentUser{
    multiplicity 1;
   }
