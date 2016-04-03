@@ -3,8 +3,9 @@ package pt.tecnico.mydrive.service;
 import pt.ist.fenixframework.Atomic;
 
 import pt.tecnico.mydrive.domain.MyDrive;
-
+import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.MyDriveException;
+
 
 public abstract class MyDriveService {
 
@@ -17,14 +18,19 @@ public abstract class MyDriveService {
         return MyDrive.getInstance();
     }
 
-    /*static Person getPerson(String personName) throws PersonDoesNotExistException {
-        Person p = getPhoneBook().getPersonByName(personName);
+    /*
+    static User getUser(String username) throws NoSuchUserException
+    {
+    	User u = getMyDrive().getUserByUsername(username);
+    	
+    	if(u == null)
+    		throw new NoSuchUserException(username);
+    	
+    	return u;
+    }
+    */ 
 
-        if (p == null)
-            throw new PersonDoesNotExistException(personName);
-
-        return p;
-    }*/
+    
 
     protected abstract void dispatch() throws MyDriveException;
 }

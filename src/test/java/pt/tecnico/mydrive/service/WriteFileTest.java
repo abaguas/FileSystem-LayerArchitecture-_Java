@@ -29,7 +29,7 @@
 //	            file = f;
 //	        }
 //	    }
-//	    WriteFileService wfs = new WriteFileService(1, "Caso Bruma", "abc"); // token = 1
+//	    WriteFileService wfs = new WriteFileService(Caso Bruma", "abc", 1); // token = 1
 //	    wfs.execute();
 //	    assertEquals("Wrong Content", "abc", file.getContent());
 //
@@ -38,32 +38,32 @@
 //
 //	@Test(expected = PermissionDeniedException.class)
 //	public void notPermittedFile() {
-//	    WriteFileService wfs = new WriteFileService(1, "Exemplo", "abc"); // token = 1
+//	    WriteFileService wfs = new WriteFileService("Exemplo", "abc", 1); // token = 1
 //	    wfs.execute();
 //	}
 //
 //	@Test(expected = NoSuchFileException.class)
 //	public void noSuchFile() {
-//	    WriteFileService wfs = new WriteFileService(1, "blabla", "abc"); // token = 1
+//	    WriteFileService wfs = new WriteFileService("blabla", "abc", 1); // token = 1
 //	    wfs.execute();
 //	}
 //
 //	@Test(expected = FileIsDirectoryException.class)
 //	public void writeOnDirectory() {
-//	    WriteFileService wfs = new WriteFileService(1, "folder", "abc"); // token = 1
+//	    WriteFileService wfs = new WriteFileService("folder", "abc", 1); // token = 1
 //	    wfs.execute();
 //	}
 //
 //
 //	@Test(expected = FileIsAppException.class)
 //	public void writeOnApp() {
-//	    WriteFileService wfs = new WriteFileService(1, "application", "abc"); // token = 1
+//	    WriteFileService wfs = new WriteFileService("application", "abc", 1); // token = 1
 //	    wfs.execute();
 //	}
 //
 //	@Test(expected = FileIsLinkException.class)
 //	public void writeOnLink() {
-//	    WriteFileService wfs = new WriteFileService(1, "ligacao", "abc"); // token = 1
+//	    WriteFileService wfs = new WriteFileService("ligacao", "abc", 1); // token = 1
 //	    wfs.execute();
 //	}
 
