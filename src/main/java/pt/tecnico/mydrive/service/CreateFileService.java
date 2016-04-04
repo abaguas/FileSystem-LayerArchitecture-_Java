@@ -30,9 +30,9 @@ public class CreateFileService extends MyDriveService
     public final void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException {
        MyDrive md = getMyDrive();
        if(code.equals("Dir"))
-    	   md.createDir(fileName); //md.createDir(fileName, content, code, token);
+    	   md.createDir(token, fileName); //md.createDir(fileName, content, code, token);
        else
-    	   md.createFile(fileName, content, code); //md.createFile(fileName, content, code, token);
+    	   md.createFile(token, fileName, content, code); //md.createFile(fileName, content, code, token);
     }
 }
 

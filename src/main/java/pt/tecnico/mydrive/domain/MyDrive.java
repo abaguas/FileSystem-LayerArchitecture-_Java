@@ -213,8 +213,7 @@ public class MyDrive extends MyDrive_Base {
     }
     
     public void writeFile(String filename, String content, long token) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-        Session s = getLogin().getSession(token);
-        Directory current = s.getCurrentDir();
+        Directory current = getCurrentDir(token);
         File file = current.get(filename);
         writeable(file);
         FileWithContent f = (FileWithContent)file;
