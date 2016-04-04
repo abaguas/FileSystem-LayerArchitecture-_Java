@@ -8,5 +8,9 @@ public class Session extends Session_Base {
         setToken(token);
         setLogin(login);
     }
+
+    public Session(User u, long token, Login l){
+    	//Fix meeeeeeeee
+    }
     
 }
