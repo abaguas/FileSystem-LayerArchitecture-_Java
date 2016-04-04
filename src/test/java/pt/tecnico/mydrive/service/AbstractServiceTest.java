@@ -3,6 +3,10 @@ package pt.tecnico.mydrive.service;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+
 /*
 import org.junit.After;
 import org.junit.Before;
