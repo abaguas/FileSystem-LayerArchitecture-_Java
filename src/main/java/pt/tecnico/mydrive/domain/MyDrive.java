@@ -29,10 +29,10 @@ public class MyDrive extends MyDrive_Base {
         MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
         if (md != null)
             return md;
-        return new MyDrive();
+        return new MyDrive(0); //roottoken
     }
 
-    private MyDrive() throws MyDriveException{
+    private MyDrive(long token) throws MyDriveException{
         setRoot(FenixFramework.getDomainRoot());
         RootUser r = null;
         r = RootUser.getInstance();
@@ -41,24 +41,24 @@ public class MyDrive extends MyDrive_Base {
         setCounter(0);
         setRootDirectory(Directory.newRootDir(getRootUser()));
         getRootDirectory().setOwner(getRootUser());
-        setCurrentDir(getRootDirectory());
-        createDir("home");
-        cd("home");
-        createDir("root");
-        cd("root");
-        getRootUser().setMainDirectory(getCurrentDir());
+        setCurrentDir(token, getRootDirectory());
+        createDir(token, "home");
+        cd(token, "home");
+        createDir(token, "root");
+        cd(token, "root");
+        getRootUser().setMainDirectory(getCurrentDir(token));
     }
 
-    public Directory getCurrentDir(){
-        return getLogin().getSession(getToken()).getCurrentDir();
+    public Directory getCurrentDir(long token){
+        return getLogin().getCurrentDirByToken(token);
     }
 
-    public void setCurrentDir(Directory dir){
-        getLogin().getSession(getToken()).setCurrentDir(dir);
+    public void setCurrentDir(long token, Directory dir){
+        getLogin().setCurrentDirByToken(token, dir);
     }
 
-    public User getCurrentUser(){
-        return getLogin().getSession(getToken()).getCurrentUser();
+    public User getCurrentUser(long token){
+        return getLogin().getCurrentUserByToken(token);
     }
 
     public int generateId(){
@@ -70,10 +70,10 @@ public class MyDrive extends MyDrive_Base {
         setCounter(getCounter()-1);
     }
 
-    public String pwd(){
-        Directory current = getCurrentDir();
+    public String pwd(long token){
+        Directory current = getCurrentDir(token);
         String output="";
-        if(getCurrentDir().getName().equals("/")){
+        if(getCurrentDir(token).getName().equals("/")){
             output="/";
         }
         else{
@@ -85,14 +85,14 @@ public class MyDrive extends MyDrive_Base {
         return output;
     }
 
-    public void removeFile(String name) throws NoSuchFileException{
-    	//getCurrentDir().remove(name);
+    public void removeFile(long token, String name) throws NoSuchFileException{
+    	//getCurrentDir(token).remove(name);
     }
 
 
-    public void createFile(String name, String content, String code) throws FileAlreadyExistsException, MaximumPathException {
+    public void createFile(long token, String name, String content, String code) throws FileAlreadyExistsException, MaximumPathException {
         try{
-            getCurrentDir().createFile(name, content, generateId(), getCurrentUser(), code);
+            getCurrentDir(token).createFile(name, content, generateId(), getCurrentUser(token), code);
         }
         catch(FileAlreadyExistsException e){
             removeId();
@@ -100,9 +100,9 @@ public class MyDrive extends MyDrive_Base {
         }
     }
     
-    public void createDir(String name) throws FileAlreadyExistsException{
+    public void createDir(long token, String name) throws FileAlreadyExistsException{
         try{
-        	getCurrentDir().createFile(name, "", generateId(), getCurrentUser(), "Dir");
+        	getCurrentDir(token).createFile(name, "", generateId(), getCurrentUser(token), "Dir");
         }
         catch(FileAlreadyExistsException e){
             removeId();
@@ -110,22 +110,30 @@ public class MyDrive extends MyDrive_Base {
         }
     }
     
-    public void createPlainFile(String name, String content) throws FileAlreadyExistsException{
-        createFile(name, content, "PlainFile");
+    public void createPlainFile(long token, String name, String content) throws FileAlreadyExistsException{
+        createFile(token, name, content, "PlainFile");
     }
     
-    public void createApp(String name, String content) throws FileAlreadyExistsException{
-        createFile(name, content, "App");
+    public void createApp(long token, String name, String content) throws FileAlreadyExistsException{
+        createFile(token, name, content, "App");
     }
     
-    public void createLink(String name, String content) throws FileAlreadyExistsException{
-        createFile(name, content, "Link");
+    public void createLink(long token, String name, String content) throws FileAlreadyExistsException{
+        createFile(token, name, content, "Link");
     }    
 
-    public void cd(String name) throws NoSuchFileException, FileNotCdAbleException {
-    	File f = getCurrentDir().get(name);
-    	cdable(f);
-   	    setCurrentDir((Directory) f);
+    public void cd(long token, String name) throws NoSuchFileException, FileNotCdAbleException {
+    	File f = null;
+        if(name.contains("/")){
+            f = getDirectoryByAbsolutePath(token, name);
+            cdable(f);
+            setCurrentDir(token, (Directory) f);
+        }
+        else{
+            f = getCurrentDir(token).get(name);
+        	cdable(f);
+       	    setCurrentDir(token, (Directory) f);
+        }
     }
 
     public void cdable(File f) throws FileNotCdAbleException{
@@ -138,37 +146,37 @@ public class MyDrive extends MyDrive_Base {
         f.accept(v);
     }
     
-    public String ls(String name) throws NoSuchFileException{
-    	return getCurrentDir().get(name).ls();
+    public String ls(long token, String name) throws NoSuchFileException{
+    	return getCurrentDir(token).get(name).ls();
     }
     
-    public String ls(){
-		return getCurrentDir().ls();
+    public String ls(long token){
+		return getCurrentDir(token).ls();
     }
     
 
-    public void createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
+    public void createUser(long token, String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
 	   if (userExists(username))
         throw new UserAlreadyExistsException(username);
         User user = null;
-        setToken(getRootUser().getSession().getToken());
-        setCurrentDir(getRootDirectory());
-        cd("home");
-        createDir(username);
-        cd("username");
-        user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
-        getCurrentDir().setOwner(user);				
+        long roottoken = getRootUser().getSession().getToken();
+        setCurrentDir(roottoken, getRootDirectory());
+        cd(roottoken, "home");
+        createDir(roottoken, username);
+        cd(roottoken, "username");
+        user = new User(username, password, name, getCurrentDir(token)); //RUI faz permissao default
+        getCurrentDir(roottoken).setOwner(user);				
         getUsersSet().add(user);
     }
 
-    public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
+    public void createUser_xml(long token, Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home";
     	String home = user_element.getChildText("home");
         String username = user_element.getAttribute("username").getValue();
     	if(home==null){
             home=default_home.concat("/" + username);
         }
-		Directory home_user = getDirectoryByAbsolutePath(home);
+		Directory home_user = getDirectoryByAbsolutePath(token, home);
 		User user = new User(user_element,home_user);
 		home_user.setOwner(user);
 		addUsers(user);
@@ -198,7 +206,7 @@ public class MyDrive extends MyDrive_Base {
         }
     }
 
-    public void createFile_xml(Element file_element, String code) throws NoSuchUserException {
+    public void createFile_xml(long token, Element file_element, String code) throws NoSuchUserException {
     	String owner = file_element.getChildText("owner");
         User user = null;
     	if(owner ==null){
@@ -207,14 +215,13 @@ public class MyDrive extends MyDrive_Base {
     	else {
             user = getUserByUsername(owner); 
     	}
-    	Directory d =  getDirectoryByAbsolutePath(file_element.getChildText("path"));
+    	Directory d =  getDirectoryByAbsolutePath(token, file_element.getChildText("path"));
         File file = fileFactory(file_element,user, d, code);
     	d.addFiles(file);
     }
     
     public void writeFile(String filename, String content, long token) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-        Session s = getLogin().getSession(token);
-        Directory current = s.getCurrentDir();
+        Directory current = getCurrentDir(token);
         File file = current.get(filename);
         writeable(file);
         FileWithContent f = (FileWithContent)file;
@@ -231,17 +238,17 @@ public class MyDrive extends MyDrive_Base {
         throw new NoSuchUserException(username);
     }
 
-    public Directory getDirectoryByAbsolutePath(String absolutepath){
+    public Directory getDirectoryByAbsolutePath(long token, String absolutepath){
 	String[] parts = absolutepath.split("/");
-	setCurrentDir(getRootDirectory());
+	setCurrentDir(token, getRootDirectory());
 	for(int i=1; i < parts.length; i++){
 		try{
-			cd(parts[i]);
+			cd(token, parts[i]);
 		}
 		catch(NoSuchFileException e1){
 			try{
-				createDir(parts[i]);
-				setCurrentDir((Directory) getCurrentDir().get(parts[i]));
+				createDir(token, parts[i]);
+				setCurrentDir(token, (Directory) getCurrentDir(token).get(parts[i]));
 			}
 			catch(MyDriveException e2){}
 		}
@@ -249,7 +256,7 @@ public class MyDrive extends MyDrive_Base {
 			//FIXME: se houver xml errado mandar InvalidPathException
 		}
 	}
-	   return getCurrentDir();
+	   return getCurrentDir(token);
     }
 
     public boolean fileIdExists(int id){
@@ -269,27 +276,27 @@ public class MyDrive extends MyDrive_Base {
     }
     
     
-    public void xmlImport(Element element){
+    public void xmlImport(long token, Element element){
         reserveIds(element);
         for(Element node : element.getChildren("user")){
-            createUser_xml(node);
+            createUser_xml(token, node);
         }
         for(Element node: element.getChildren()){
             if(node.getName().equals("plain")){
-                createFile_xml(node, "PlainFile");
+                createFile_xml(token, node, "PlainFile");
             }
             else if(node.getName().equals("dir")){
-                createFile_xml(node,"Dir");
+                createFile_xml(token, node,"Dir");
             }
             else if(node.getName().equals("link")){  
-                createFile_xml(node,"Link");
+                createFile_xml(token, node,"Link");
             }
             else if(node.getName().equals("app")){
-                createFile_xml(node,"App");
+                createFile_xml(token, node,"App");
             }
             else{}
         }
-        setCurrentDir(getRootUser().getMainDirectory());
+        setCurrentDir(token, getRootUser().getMainDirectory());
     }
     
     public Document xmlExport(){

@@ -25,7 +25,7 @@ import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 public class MyDriveApplication {
 
     public static void main(String[] args) {
-        System.out.println("*** Welcome to the MyDrive application! ***");
+        /*System.out.println("*** Welcome to the MyDrive application! ***");
         try{
         System.out.println("--------------------------------");
         delivery11();
@@ -35,10 +35,10 @@ public class MyDriveApplication {
             System.out.println("NoSuchFileException...");
         }catch(FileNotDirectoryException e){
             System.out.println("FileNotDirectoryException...");
-        } finally { FenixFramework.shutdown(); }
+        } finally { FenixFramework.shutdown(); }*/
     }
 
-    @Atomic
+    /*@Atomic
     public static void delivery11() { 
         MyDrive md = MyDrive.getInstance();
         md.cd("..");
@@ -128,7 +128,7 @@ public class MyDriveApplication {
         System.out.println(md.ls("doc"));
         /*md.cd("bin");
         System.out.println(md.ls());
-        System.out.println(md.ls("length"));*/
+        System.out.println(md.ls("length"));
     }
 
     @Atomic
@@ -195,6 +195,6 @@ public class MyDriveApplication {
         }catch (Exception e){
             System.out.println("Excecao apanhada");
         }
-    }
+    }*/
 
 }

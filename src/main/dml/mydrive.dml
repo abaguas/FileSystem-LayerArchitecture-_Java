@@ -2,7 +2,6 @@ package pt.tecnico.mydrive.domain;
 
 class MyDrive {
   int counter;
-  long token;
 }
 
 class Login {
