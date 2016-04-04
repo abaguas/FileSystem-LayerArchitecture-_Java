@@ -28,6 +28,12 @@ public class FileWithContent extends FileWithContent_Base {
     	t+="\n"+content; //Has new line? 
     	setContent(t);
     }
+
+    public void writeContent(String content){
+        DateTime lt = new DateTime();
+        setLastChange(lt);
+        setContent(content);
+    }
     
     public void execute(){
     	//FIXME?

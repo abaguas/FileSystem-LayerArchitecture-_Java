@@ -74,8 +74,8 @@ relation LoginHasSessions {
 }
 
 
-relation LoginContainsRootDirectory{
-  Login playsRole lg {
+relation MyDriveContainsRootDirectory{
+  MyDrive playsRole mydrive {
     multiplicity 1;
   }
   Directory playsRole rootDirectory {
@@ -177,7 +177,9 @@ relation SessionhasCurrentDirectory{
 }
 
 relation SessionhasCurrentUser{
-  Session playsRole;
+  Session playsRole session{
+    multiplicity 1;
+  }
   User playsRole currentUser{
    multiplicity 1;
   }

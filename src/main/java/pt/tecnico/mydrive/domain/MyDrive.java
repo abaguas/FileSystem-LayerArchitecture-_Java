@@ -39,28 +39,26 @@ public class MyDrive extends MyDrive_Base {
         setRootUser(r);
         addUsers(r);
         setCounter(0);
-        //setRootDirectory(Directory.newRootDir(getRootUser()));
-        //getRootDirectory().setOwner(getRootUser());
-        //setCurrentDir(getRootDirectory());
+        setRootDirectory(Directory.newRootDir(getRootUser()));
+        getRootDirectory().setOwner(getRootUser());
+        setCurrentDir(getRootDirectory());
         createDir("home");
         cd("home");
         createDir("root");
         cd("root");
-        //getRootUser().setMainDirectory(getCurrentDir());
+        getRootUser().setMainDirectory(getCurrentDir());
     }
 
     public Directory getCurrentDir(){
-        return null;
-        //return getLogin().getSession(getToken()).getCurrentDir();
+        return getLogin().getSession(getToken()).getCurrentDir();
     }
 
     public void setCurrentDir(Directory dir){
-        //getLogin().getSession(getToken()).setCurrentDir(dir);
+        getLogin().getSession(getToken()).setCurrentDir(dir);
     }
 
     public User getCurrentUser(){
-        return null;
-        //return getLogin().getSession(getToken()).getCurrentUser();
+        return getLogin().getSession(getToken()).getCurrentUser();
     }
 
     public int generateId(){
@@ -73,8 +71,7 @@ public class MyDrive extends MyDrive_Base {
     }
 
     public String pwd(){
-		return null;   //FIXME
-        /*Directory current = getCurrentDir();
+        Directory current = getCurrentDir();
         String output="";
         if(getCurrentDir().getName().equals("/")){
             output="/";
@@ -85,7 +82,7 @@ public class MyDrive extends MyDrive_Base {
                 current= current.getFatherDirectory();
             }
         }
-        return output;  */
+        return output;
     }
 
     public void removeFile(String name) throws NoSuchFileException{
@@ -94,18 +91,18 @@ public class MyDrive extends MyDrive_Base {
 
 
     public void createFile(String name, String content, String code) throws FileAlreadyExistsException, MaximumPathException {
-        /*try{
+        try{
             getCurrentDir().createFile(name, content, generateId(), getCurrentUser(), code);
         }
         catch(FileAlreadyExistsException e){
             removeId();
             throw new FileAlreadyExistsException(name, e.getId());
-        }*/
+        }
     }
     
     public void createDir(String name) throws FileAlreadyExistsException{
         try{
-        	//getCurrentDir().createFile(name, "", generateId(), getCurrentUser(), "Dir");
+        	getCurrentDir().createFile(name, "", generateId(), getCurrentUser(), "Dir");
         }
         catch(FileAlreadyExistsException e){
             removeId();
@@ -135,6 +132,11 @@ public class MyDrive extends MyDrive_Base {
 		Visitor v = new CdableVisitor();
    	 	f.accept(v);
    	}
+
+    public void writeable(File f) throws FileIsNotWriteAbleException{
+        Visitor v = new WriteAbleVisitor();
+        f.accept(v);
+    }
     
     public String ls(String name) throws NoSuchFileException{
     	return getCurrentDir().get(name).ls();
@@ -147,16 +149,16 @@ public class MyDrive extends MyDrive_Base {
 
     public void createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
 	   if (userExists(username))
-		throw new UserAlreadyExistsException(username);
+        throw new UserAlreadyExistsException(username);
         User user = null;
-      //	   setCurrentUser(getRootUser());   -> setToken(ROOTTOKEN)
-        //setCurrentDir(getRootDirectory());
+        setToken(getRootUser().getSession().getToken());
+        setCurrentDir(getRootDirectory());
         cd("home");
-	   //createDir(username);
-	   cd("username");
-	   //user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
-	   //getCurrentDir().setOwner(user);				
-	   getUsersSet().add(user);
+        createDir(username);
+        cd("username");
+        user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
+        getCurrentDir().setOwner(user);				
+        getUsersSet().add(user);
     }
 
     public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
@@ -211,14 +213,13 @@ public class MyDrive extends MyDrive_Base {
     }
     
     public void writeFile(String filename, String content, long token) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-    	/*
         Session s = getLogin().getSession(token);
-        Directory current = s.getDirectory();
+        Directory current = s.getCurrentDir();
         File file = current.get(filename);
         writeable(file);
+        FileWithContent f = (FileWithContent)file;
         //checkpermissions    
-        file.writeContent(content);
-        */
+        f.writeContent(content);
     }
 
     public User getUserByUsername(String username) throws NoSuchUserException {
@@ -232,7 +233,7 @@ public class MyDrive extends MyDrive_Base {
 
     public Directory getDirectoryByAbsolutePath(String absolutepath){
 	String[] parts = absolutepath.split("/");
-	//setCurrentDir(getRootDirectory());
+	setCurrentDir(getRootDirectory());
 	for(int i=1; i < parts.length; i++){
 		try{
 			cd(parts[i]);
@@ -298,9 +299,9 @@ public class MyDrive extends MyDrive_Base {
 	   for (User u: getUsersSet())
             u.xmlExport(element);
 	
-	 //for (File f: getRootDirectory().getFiles()){
-          /*  f.xmlExport(element);
-        }*/
+	   for (File f: getRootDirectory().getFiles()){
+            f.xmlExport(element);
+        }
 	return doc;
     }
 
