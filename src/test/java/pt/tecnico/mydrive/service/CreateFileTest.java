@@ -33,9 +33,11 @@ public class CreateFileTest extends AbstractServiceTest {
 		
 		PlainFile pf1 = new PlainFile("ana-calendario", 1, "ana-cal");
 	    
-		//Session s1 = new Session(u1, md.getLogin());
-	    //s1.setCurrentDirectory(home);
-	    //s1.setToken(1);
+		Session s1 = new Session(u1, 1, md.getLogin());
+	    s1.setCurrentDirectory(home);
+	    
+	    
+	    
 	}
 
 
@@ -57,7 +59,7 @@ public class CreateFileTest extends AbstractServiceTest {
 
     @Test
     public void successFileWithContent() {
-        CreateFileService service = new CreateFileService("joao-calendario", "j-cal", "PlainFile", 10); //token=10
+        CreateFileService service = new CreateFileService("joao-calendario", "j-cal", "PlainFile", 1); //token=1
         service.execute();
         
         //check plain file was created
