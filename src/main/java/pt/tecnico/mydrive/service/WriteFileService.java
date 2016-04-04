@@ -9,15 +9,15 @@ import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 
 public class WriteFileService extends MyDriveService
 {
-    private long token;
     private String fileName;
     private String content;
+    private long token;
 
-    public WriteFileService(long token, String fileName, String content)
-    {
-        this.token=token;
+    public WriteFileService(String fileName, String content, long token)
+    {        
         this.fileName=fileName;
         this.content=content;
+        this.token=token;
     }
 
 

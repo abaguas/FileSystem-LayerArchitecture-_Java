@@ -15,6 +15,7 @@ import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidUsernameException;
+import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
@@ -37,35 +38,41 @@ public class MyDrive extends MyDrive_Base {
         r = RootUser.getInstance();
         setRootUser(r);
         addUsers(r);
-    //FIXME setCurrentUser(getRootUser());
-        _ids.add(0);
-    //FIXME setRootDirectory(Directory.newRootDir(getRootUser()));
-    //FIXME getRootDirectory().setOwner(getRootUser());
-    //FIXME    setCurrentDir(getRootDirectory());
+        setCounter(0);
+        setRootDirectory(Directory.newRootDir(getRootUser()));
+        getRootDirectory().setOwner(getRootUser());
+        setCurrentDir(getRootDirectory());
         createDir("home");
         cd("home");
         createDir("root");
         cd("root");
-    //FIXME   getRootUser().setMainDirectory(getCurrentDir());
+        getRootUser().setMainDirectory(getCurrentDir());
     }
 
-    public Integer generateId(){
-    	Integer i = 1;
-        while(_ids.contains(i)){
-            i++;
-        }
-        _ids.add(i);
-        return i;
+    public Directory getCurrentDir(){
+        return getLogin().getSession(getToken()).getCurrentDir();
     }
 
-    public void removeId(Integer id){
-        _ids.remove(id);
+    public void setCurrentDir(Directory dir){
+        getLogin().getSession(getToken()).setCurrentDir(dir);
+    }
+
+    public User getCurrentUser(){
+        return getLogin().getSession(getToken()).getCurrentUser();
+    }
+
+    public int generateId(){
+    	setCounter(getCounter()+1);
+        return getCounter();
+    }
+
+    public void removeId(){
+        setCounter(getCounter()-1);
     }
 
     public String pwd(){
-		return null;   //FIXME
-  //FIXME        Directory current = getCurrentDir();
-  /*      String output="";
+        Directory current = getCurrentDir();
+        String output="";
         if(getCurrentDir().getName().equals("/")){
             output="/";
         }
@@ -75,30 +82,30 @@ public class MyDrive extends MyDrive_Base {
                 current= current.getFatherDirectory();
             }
         }
-        return output;  */
+        return output;
     }
 
     public void removeFile(String name) throws NoSuchFileException{
-    	//FIXME        getCurrentDir().remove(name);
+    	//getCurrentDir().remove(name);
     }
 
 
-    public void createFile(String name, String content, String code) throws FileAlreadyExistsException{
-   //FIXME       try{
-      /*      getCurrentDir().createFile(name, content, generateId(), getCurrentUser(), code);
+    public void createFile(String name, String content, String code) throws FileAlreadyExistsException, MaximumPathException {
+        try{
+            getCurrentDir().createFile(name, content, generateId(), getCurrentUser(), code);
         }
         catch(FileAlreadyExistsException e){
-            removeId(e.getId());
+            removeId();
             throw new FileAlreadyExistsException(name, e.getId());
-        }*/
+        }
     }
     
     public void createDir(String name) throws FileAlreadyExistsException{
         try{
-        	//FIXME         getCurrentDir().createFile(name, "", generateId(), getCurrentUser(), "Dir");
+        	getCurrentDir().createFile(name, "", generateId(), getCurrentUser(), "Dir");
         }
         catch(FileAlreadyExistsException e){
-            removeId(e.getId());
+            removeId();
             throw new FileAlreadyExistsException(name, e.getId());
         }
     }
@@ -116,39 +123,42 @@ public class MyDrive extends MyDrive_Base {
     }    
 
     public void cd(String name) throws NoSuchFileException, FileNotCdAbleException {
-    	//FIXME	File f = getCurrentDir().get(name);
-    	//FIXME   cdable(f);
-   	//FIXME   	setCurrentDir((Directory) f);
+    	File f = getCurrentDir().get(name);
+    	cdable(f);
+   	    setCurrentDir((Directory) f);
     }
 
     public void cdable(File f) throws FileNotCdAbleException{
 		Visitor v = new CdableVisitor();
    	 	f.accept(v);
    	}
+
+    public void writeable(File f) throws FileIsNotWriteAbleException{
+        Visitor v = new WriteAbleVisitor();
+        f.accept(v);
+    }
     
     public String ls(String name) throws NoSuchFileException{
-		return name;  //FIXME
-    	//FIXME    	return getCurrentDir().get(name).ls();
+    	return getCurrentDir().get(name).ls();
     }
     
     public String ls(){
-		return null; //FIXME
-    	//FIXME  	return getCurrentDir().ls();
+		return getCurrentDir().ls();
     }
     
 
     public void createUser(String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
 	   if (userExists(username))
-		throw new UserAlreadyExistsException(username);
+        throw new UserAlreadyExistsException(username);
         User user = null;
-      //FIXME	   setCurrentUser(getRootUser());
-      //FIXME	   setCurrentDir(getRootDirectory());
-	   cd("home");
-	 //FIXME	   createDir(username);
-	   cd("username");
-	   //user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
-	 //FIXME	   getCurrentDir().setOwner(user);				
-	   getUsersSet().add(user);
+        setToken(getRootUser().getSession().getToken());
+        setCurrentDir(getRootDirectory());
+        cd("home");
+        createDir(username);
+        cd("username");
+        user = new User(username, password, name, getCurrentDir()); //RUI faz permissao default
+        getCurrentDir().setOwner(user);				
+        getUsersSet().add(user);
     }
 
     public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
@@ -203,14 +213,13 @@ public class MyDrive extends MyDrive_Base {
     }
     
     public void writeFile(String filename, String content, long token) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-    	/*
         Session s = getLogin().getSession(token);
-        Directory current = s.getDirectory();
+        Directory current = s.getCurrentDir();
         File file = current.get(filename);
         writeable(file);
+        FileWithContent f = (FileWithContent)file;
         //checkpermissions    
-        file.writeContent(content);
-        */
+        f.writeContent(content);
     }
 
     public User getUserByUsername(String username) throws NoSuchUserException {
@@ -224,7 +233,7 @@ public class MyDrive extends MyDrive_Base {
 
     public Directory getDirectoryByAbsolutePath(String absolutepath){
 	String[] parts = absolutepath.split("/");
-	//FIXME	setCurrentDir(getRootDirectory());
+	setCurrentDir(getRootDirectory());
 	for(int i=1; i < parts.length; i++){
 		try{
 			cd(parts[i]);
@@ -232,7 +241,7 @@ public class MyDrive extends MyDrive_Base {
 		catch(NoSuchFileException e1){
 			try{
 				createDir(parts[i]);
-				//FIXME				setCurrentDir((Directory) getCurrentDir().get(parts[i]));
+				setCurrentDir((Directory) getCurrentDir().get(parts[i]));
 			}
 			catch(MyDriveException e2){}
 		}
@@ -240,8 +249,7 @@ public class MyDrive extends MyDrive_Base {
 			//FIXME: se houver xml errado mandar InvalidPathException
 		}
 	}
-	//FIXME        return getCurrentDir();
-	return null; //FIXME
+	   return getCurrentDir();
     }
 
     public boolean fileIdExists(int id){
@@ -281,7 +289,7 @@ public class MyDrive extends MyDrive_Base {
             }
             else{}
         }
-      //FIXME      setCurrentDir(getRootUser().getMainDirectory());
+        setCurrentDir(getRootUser().getMainDirectory());
     }
     
     public Document xmlExport(){
@@ -291,9 +299,9 @@ public class MyDrive extends MyDrive_Base {
 	   for (User u: getUsersSet())
             u.xmlExport(element);
 	
-	 //FIXME       for (File f: getRootDirectory().getFiles()){
-          /*  f.xmlExport(element);
-        }*/
+	   for (File f: getRootDirectory().getFiles()){
+            f.xmlExport(element);
+        }
 	return doc;
     }
 

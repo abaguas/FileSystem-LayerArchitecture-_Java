@@ -65,6 +65,7 @@ public class Login extends Login_Base {
     public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException{
     	Session session = getSessionByToken(token);
     	session.setCurrentDir(dir);
+
     }
     
 }
