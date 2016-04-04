@@ -123,9 +123,17 @@ public class MyDrive extends MyDrive_Base {
     }    
 
     public void cd(long token, String name) throws NoSuchFileException, FileNotCdAbleException {
-    	File f = getCurrentDir(token).get(name);
-    	cdable(f);
-   	    setCurrentDir(token, (Directory) f);
+    	File f = null;
+        if(name.contains("/")){
+            f = getDirectoryByAbsolutePath(token, name);
+            cdable(f);
+            setCurrentDir(token, (Directory) f);
+        }
+        else{
+            f = getCurrentDir(token).get(name);
+        	cdable(f);
+       	    setCurrentDir(token, (Directory) f);
+        }
     }
 
     public void cdable(File f) throws FileNotCdAbleException{
