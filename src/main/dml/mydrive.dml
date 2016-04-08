@@ -31,17 +31,15 @@ class File{
   DateTime lastChange;
 }
 
-class FileWithContent extends File {
+class PlainFile extends File {
   String content;
 }
 
 class Directory extends File;
 
-class PlainFile extends FileWithContent;
+class Link extends PlainFile;
 
-class Link extends FileWithContent;
-
-class App extends FileWithContent;
+class App extends PlainFile;
 
 class RootUser extends User;
 

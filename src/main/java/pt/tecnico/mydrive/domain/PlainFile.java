@@ -1,6 +1,7 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
+import org.joda.time.DateTime;
 import org.jdom2.Document;
 
 public class PlainFile extends PlainFile_Base {
@@ -17,16 +18,49 @@ public class PlainFile extends PlainFile_Base {
         //setDirectory(father);
         xmlImport(plain_element, user, father);
     }
+
+    //Enables inheritance
+    protected void init(String name, int id, User owner, String content, Directory father){
+    	init(name,id,owner, father);
+    	setContent(content);
+    }
+    
+    public void addContent(String content){
+    	DateTime lt = new DateTime();
+    	setLastChange(lt);
+    	String t = getContent();
+    	t+="\n"+content; //Has new line? 
+    	setContent(t);
+    }
+
+    public void writeContent(String content){
+        DateTime lt = new DateTime();
+        setLastChange(lt);
+        setContent(content);
+    }
     
     public void execute(){
     	//FIXME?
     }
-  
+    
+    public int dimension(){
+    	return getContent().length();
+    }
+
+	@Override
+	public void accept(Visitor v) {
+		// TODO Auto-generated method stub
+	}
+ 
     public String toString(){
     	String t = "PlainFile";
     	t+=print();
     	return t;
     }
+    
+	public String ls(){
+		return getContent();
+	}
     
     public void xmlImport(Element plain_element, User user, Directory father){
         int id= Integer.parseInt(plain_element.getAttribute("id").getValue());
