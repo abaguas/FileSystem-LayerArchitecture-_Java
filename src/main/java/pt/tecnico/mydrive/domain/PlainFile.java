@@ -19,6 +19,7 @@ public class PlainFile extends PlainFile_Base {
         xmlImport(plain_element, user, father);
     }
 
+    public PlainFile() {};
     //Enables inheritance
     protected void init(String name, int id, User owner, String content, Directory father){
     	init(name,id,owner, father);

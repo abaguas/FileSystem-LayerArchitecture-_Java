@@ -224,7 +224,7 @@ public class MyDrive extends MyDrive_Base {
         Directory current = getCurrentDir(token);
         File file = current.get(filename);
         writeable(file);
-        FileWithContent f = (FileWithContent)file;
+        PlainFile f = (PlainFile)file;
         //checkpermissions    
         f.writeContent(content);
     }

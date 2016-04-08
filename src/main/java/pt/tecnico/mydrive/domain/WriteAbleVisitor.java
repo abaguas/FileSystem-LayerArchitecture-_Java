@@ -5,7 +5,7 @@ import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 public class WriteAbleVisitor implements Visitor {
 
 	@Override
-	public void execute(FileWithContent f) {		
+	public void execute(PlainFile f) {		
 	}
 
 	@Override
