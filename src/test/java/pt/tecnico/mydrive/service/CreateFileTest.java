@@ -1,10 +1,8 @@
-/*
-import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
-import pt.tecnico.mydrive.exception.InvalidFileNameException;
-
-
 package pt.tecnico.mydrive.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.MyDrive;
@@ -12,6 +10,8 @@ import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.domain.PlainFile;
 import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.User;
+import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
+import pt.tecnico.mydrive.exception.InvalidFileNameException;
 
 
 
@@ -27,30 +27,66 @@ public class CreateFileTest extends AbstractServiceTest {
 		User u1 = new User("ana", "pass1", "Ana");
 		User u2 = new User("maria", "pass2", "Maria");
 		
+		//este getMainDirectory faz mesmo o que quero?
 		Directory dir0 = u1.getMainDirectory();
 		Directory dir1 = u1.getMainDirectory();
 		Directory dir2 = u1.getMainDirectory();
-		
-		PlainFile pf1 = new PlainFile("ana-calendario", 1, "ana-cal");
 	    
-		Session s1 = new Session(u1, 1, md.getLogin());
-	    s1.setCurrentDirectory(home);
+		Session s1 = new Session(u1, 1, md.getLogin()); //token=1
+	    s1.setCurrentDir(dir1);
 	    
-	    
+	    Session s2 = new Session(u2, 2, md.getLogin()); //token=2
+	    s2.setCurrentDir(dir2);
+
+	    //PlainFile pf1 = new PlainFile("ana-calendario", 1, "ana-cal");
 	    
 	}
-
+	
+	
+	private User getUser(long token) {
+		User u = MyDriveService.getMyDrive().getCurrentUser(token);
+		return u;
+	}
+	
+	private Directory getDirectory(long token) {
+		Directory d = MyDriveService.getMyDrive().getCurrentDir(token);
+		return d;
+	}
+	
+	
+	/*
+    @Test
+    public void successPlainFile() {
+        CreateFileService service = new CreateFileService(1, "calendar", "day 1 - nothing to do", "PlainFile");
+        service.execute();
+        
+        //check plain file was created
+        //User owner = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentUser();
+        //Directory currentDirectory = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentDirectory();
+        
+        //Directory currentDirectory = MyDriveService.getMyDrive().getCurrentDir(1);
+        
+        PlainFile pf = (PlainFile) currentDirectory.get("calendar");
+        assertNotNull("plain file was not created", pf);
+        assertEquals("plain file name not correct", "calendar", pf.getName());
+    	
+        //assertEquals("plain file owner not correct", pf.getOwner(), owner);
+    }
+	*/
+	
+}
+/*
 
 // IMPORTANTE PARA EVITAR OS COMBOIOS ----------------------------------------------------------------
 
 
 	private User getUser(long token) {
-		User u = MyDriveService.getLogin().getSessionByToken(token).getCurrentUser();
+		User u = MyDriveService.getInstance().getCurrentUser(token);
 		return u;
 	}
 	
 	private Directory getDirectory(long token) {
-		Directory d = MyDriveService.getLogin().getSessionByToken(token).getCurrentDirectory();
+		Directory d = MyDriveService.getInstance().getCurrentDir(token);
 		return d;
 	}
 
@@ -64,7 +100,10 @@ public class CreateFileTest extends AbstractServiceTest {
         
         //check plain file was created
         //User owner = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentUser();
-        //Directory currentDirectory = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentDirectory;
+        //Directory currentDirectory = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentDirectory();
+        
+        Directory currentDirectory = MyDriveService.getMyDrive().getCurrentDir(1);
+
         
         PlainFile pf = (PlainFile) getDirectory().get("joao-calendario");
         assertNotNull("plain file was not created", pf);
@@ -94,7 +133,7 @@ public class CreateFileTest extends AbstractServiceTest {
     
     @Test (expected = PermissionDeniedException.class)
     public void notPermittedFileCreation() {
-    	 CreateFileService service = new CreateFileService("folder1", "", "Dir", 10); //token=10
+    	 CreateFileService service = new CreateFileService("dir1", "", "Dir", 2);
     }
 
 
@@ -109,6 +148,12 @@ public class CreateFileTest extends AbstractServiceTest {
     	 CreateFileService service = new CreateFileService("folder1", "", "\0", 10); //token=10
     }
 
+
+	@Test (expected = MaximumPathException.class)
+	public void maxPathExceededFileCreation() {
+		CreateFileService service = new CreateFileService("folder1", "", "\0", 10);
+	}
+	
 }
 */
 

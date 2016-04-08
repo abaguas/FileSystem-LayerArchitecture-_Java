@@ -4,30 +4,31 @@ import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.MaximumPathException;
 
 
 public class CreateFileService extends MyDriveService
 {
-    private String fileName;
+    private long token;
+	private String fileName;
     private String content;
     private String code;
-    private long token;
 
-    public CreateFileService(String fileName, String code, long token) {
-        this.fileName = fileName;
+    public CreateFileService(long token, String fileName, String code) {
+    	this.token = token;
+    	this.fileName = fileName;
         this.content = "";
         this.code = code;
-        this.token = token;
     }
 
     
-    public CreateFileService(String fileName, String content, String code, long token) {
-        this(fileName, code, token);
+    public CreateFileService(long token, String fileName, String content, String code) {
+        this(token, fileName, code);
         this.content = content;
     }
        
     
-    public final void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException {
+    public final void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, MaximumPathException {
        MyDrive md = getMyDrive();
        if(code.equals("Dir"))
     	   md.createDir(token, fileName); //md.createDir(fileName, content, code, token);

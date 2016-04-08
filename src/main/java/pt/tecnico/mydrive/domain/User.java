@@ -26,7 +26,7 @@ public class User extends User_Base
 	        setPassword(password);
 	        setName(name);
 			Permission ownP = new Permission(true, true, true, true);
-			Permission othP = new Permission(false, false, false, false); //acho que devia ser (true, false, true, false)
+			Permission othP = new Permission(false, false, false, false);
 			setOwnPermission(ownP);
 			setOthersPermission(othP);
     	}
