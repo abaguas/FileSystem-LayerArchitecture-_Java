@@ -50,15 +50,17 @@ public class MyDrive extends MyDrive_Base {
     }
 
     public Directory getCurrentDir(long token){
-        return getLogin().getCurrentDirByToken(token);
+		return null;
+        //FIXME return getLogin().getCurrentDirByToken(token);
     }
 
     public void setCurrentDir(long token, Directory dir){
-        getLogin().setCurrentDirByToken(token, dir);
+    	//FIXME getLogin().setCurrentDirByToken(token, dir);
     }
 
     public User getCurrentUser(long token){
-        return getLogin().getCurrentUserByToken(token);
+		return null;
+    	//FIXME return getLogin().getCurrentUserByToken(token);
     }
 
     public int generateId(){
