@@ -25,12 +25,6 @@ public class Link extends Link_Base {
     	t+=print()+" -> "+getContent();
     	return t;
     }
-    
-    @Override
-    public String ls() {
-		return getContent();
-		//FIXME cannot cd here
-	}
 
     public void xmlImport(Element link_element, User owner, Directory father){
         int id= Integer.parseInt(link_element.getAttribute("id").getValue());
