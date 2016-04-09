@@ -4,9 +4,6 @@ class MyDrive {
   int counter;
 }
 
-class Login {
-}
-
 class Session {
   long token;
   DateTime timestamp;
@@ -52,24 +49,14 @@ relation DomainRootHasMyDriveApplication {
   }
 }
 
-relation MyDriveHasLogin {
-  MyDrive playsRole myDrive {
-    multiplicity 0..1;
-  }
-  Login playsRole login {
+relation MyDriveHasSessions {
+  MyDrive playsRole md {
     multiplicity 1;
   }
-}
-
-relation LoginHasSessions {
-  Login playsRole login {
-    multiplicity 0..1;
-  }
   Session playsRole session {
-    multiplicity 1..*;
+    multiplicity 0..*;
   }
 }
-
 
 relation MyDriveContainsRootDirectory{
   MyDrive playsRole mydrive {
@@ -107,7 +94,7 @@ relation UserHasMainDirectory{
 
 relation DirectoryHasFiles {
   Directory playsRole directory {
-    multiplicity 0..1;
+    multiplicity 1;
   }
   File playsRole files {
     multiplicity 0..*;

@@ -1,4 +1,4 @@
-package pt.tecnico.mydrive.domain;
+/*package pt.tecnico.mydrive.domain;
 import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -69,3 +69,4 @@ public class Login extends Login_Base {
     }
     
 }
+*/
