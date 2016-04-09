@@ -33,7 +33,7 @@ public class Login extends Login_Base {
     	for(Session session : sessions){
     		int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
     		if(session.getToken()== token){
-    			if(result == -1 && result == 0 ){
+    			if(result == -1 || result == 0 ){
     				session.setTimestamp(actual);
     				return session;
     			}
