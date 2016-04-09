@@ -1,3 +1,5 @@
+
+
 package pt.tecnico.mydrive.service;
 
 import static org.junit.Assert.assertEquals;
@@ -32,16 +34,17 @@ public class CreateFileTest extends AbstractServiceTest {
 		Directory dir1 = u1.getMainDirectory();
 		Directory dir2 = u1.getMainDirectory();
 	    
-		Session s1 = new Session(u1, 1, md.getLogin()); //token=1
+		Session s1 = new Session(u1, 1); //token=1
 	    s1.setCurrentDir(dir1);
 	    
-	    Session s2 = new Session(u2, 2, md.getLogin()); //token=2
+	    Session s2 = new Session(u2, 2); //token=2
 	    s2.setCurrentDir(dir2);
 
 	    //PlainFile pf1 = new PlainFile("ana-calendario", 1, "ana-cal");
 	    
 	}
-	
+
+
 	
 	private User getUser(long token) {
 		User u = MyDriveService.getMyDrive().getCurrentUser(token);
@@ -53,8 +56,9 @@ public class CreateFileTest extends AbstractServiceTest {
 		return d;
 	}
 	
-	
-	/*
+}	
+
+/*
     @Test
     public void successPlainFile() {
         CreateFileService service = new CreateFileService(1, "calendar", "day 1 - nothing to do", "PlainFile");
@@ -64,7 +68,7 @@ public class CreateFileTest extends AbstractServiceTest {
         //User owner = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentUser();
         //Directory currentDirectory = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentDirectory();
         
-        //Directory currentDirectory = MyDriveService.getMyDrive().getCurrentDir(1);
+        Directory currentDirectory = MyDriveService.getMyDrive().getCurrentDir(1);
         
         PlainFile pf = (PlainFile) currentDirectory.get("calendar");
         assertNotNull("plain file was not created", pf);
@@ -72,10 +76,10 @@ public class CreateFileTest extends AbstractServiceTest {
     	
         //assertEquals("plain file owner not correct", pf.getOwner(), owner);
     }
-	*/
 	
-}
-/*
+	
+
+
 
 // IMPORTANTE PARA EVITAR OS COMBOIOS ----------------------------------------------------------------
 
@@ -155,7 +159,10 @@ public class CreateFileTest extends AbstractServiceTest {
 	}
 	
 }
+
+
 */
+
 
 
 

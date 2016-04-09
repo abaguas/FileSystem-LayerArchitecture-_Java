@@ -119,7 +119,7 @@ public class Directory extends Directory_Base {
 		throw new NoSuchFileException(name);
 	}
 
-	public String ls(){
+	public String ls() {
 		String output="";
 		Set<File> files = getFiles();
 		List<File> list = new ArrayList<File>(files);
@@ -141,9 +141,11 @@ public class Directory extends Directory_Base {
 		output+=getSelfDirectory().toString();
 	 	getSelfDirectory().setName(name);
 
-   	 	for (File f: list){
-   	 		output+= "\n"+f.toString();
-   	 	}
+	 	if (getName()!="/") {
+	   	 	for (File f: list){
+	   	 		output+= "\n"+f.toString();
+	   	 	}
+	 	}
 		return output;
 	}
 

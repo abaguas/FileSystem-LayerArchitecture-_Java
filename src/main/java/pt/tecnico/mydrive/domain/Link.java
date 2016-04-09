@@ -20,11 +20,17 @@ public class Link extends Link_Base {
     	//FIXME?
     }
   
+    @Override
     public String toString(){
     	String t = "Link";
     	t+=print()+" -> "+getContent();
     	return t;
     }
+    
+    public String ls(){
+		return getContent();
+		//FIXME cannot cd here to get the plainfile
+	}
 
     public void xmlImport(Element link_element, User owner, Directory father){
         int id= Integer.parseInt(link_element.getAttribute("id").getValue());

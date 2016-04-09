@@ -1,4 +1,4 @@
-package pt.tecnico.mydrive.domain;
+/*package pt.tecnico.mydrive.domain;
 import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -33,7 +33,7 @@ public class Login extends Login_Base {
     	for(Session session : sessions){
     		int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
     		if(session.getToken()== token){
-    			if(result == -1 && result == 0 ){
+    			if(result == -1 || result == 0 ){
     				session.setTimestamp(actual);
     				return session;
     			}
@@ -69,3 +69,4 @@ public class Login extends Login_Base {
     }
     
 }
+*/
