@@ -1,4 +1,4 @@
-/*package pt.tecnico.mydrive.service;
+package pt.tecnico.mydrive.service;
 
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.File;
@@ -24,7 +24,7 @@ public class ReadFileService extends MyDriveService{
     }
     
     public final void dispatch() throws PermissionDeniedException, InvalidFileNameException, NoSuchFileException{
-        MyDrive md = MyDrive.getInstance();
+        /*MyDrive md = MyDrive.getInstance();
         currentUser = md.getSessionByToken(token).getCurrentUser();
         currentDir = md.getSessionByToken(token).getCurrentDir();
         if(fileName != null){
@@ -34,17 +34,16 @@ public class ReadFileService extends MyDriveService{
             }
             throw new PermissionDeniedException("Reading " + fileName + " ");
         }
-        throw new InvalidFileNameException("Invalid file name null ");
+        throw new InvalidFileNameException("Invalid file name null ");*/
     }
 
     public final String result() {
-        return result;
+        //return result;
     }
 
     private boolean checkPermissions(File file){
-        boolean ownerOrRoot = file.getOwner().getUsername().equals(currentUser.getUsername()) || currentUser.getUsername().equals("root");
+        /*boolean ownerOrRoot = file.getOwner().getUsername().equals(currentUser.getUsername()) || currentUser.getUsername().equals("root");
         boolean hasReadingPermission = file.getOthersPermission().getRead() && currentUser.getOthersPermission().getRead();
-        return ownerOrRoot || hasReadingPermission;
+        return ownerOrRoot || hasReadingPermission;*/
     }
 }
-*/

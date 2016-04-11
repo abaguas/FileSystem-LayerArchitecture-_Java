@@ -23,8 +23,6 @@ import pt.tecnico.mydrive.exception.InvalidIdException;
 
 public class MyDrive extends MyDrive_Base {
 
-    private ArrayList<Integer> _ids = new ArrayList<Integer>(); 
-
     public static MyDrive getInstance(){
         MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
         if (md != null)
@@ -272,11 +270,11 @@ public class MyDrive extends MyDrive_Base {
         }
     }
     public void reserveIds(Element element){
-        for (Element node : element.getChildren()) {
+        /*for (Element node : element.getChildren()) {
             if(!node.getName().equals("user")){
                 _ids.add(Integer.parseInt(node.getAttribute("id").getValue()));  
             }
-        }
+        }*/
     }
     
     
