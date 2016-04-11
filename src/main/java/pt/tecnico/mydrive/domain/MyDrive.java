@@ -49,7 +49,7 @@ public class MyDrive extends MyDrive_Base {
         getRootUser().setMainDirectory(getCurrentDir(token));
     }
 
-    public Session getSessionByToken(long token){return null;} //FIXME
+    public Session getSessionByToken(long token){return null;} //TODO implementation of this method //FIXME throws InvalidTokenException
 
     public Directory getCurrentDir(long token){
 		return null;
@@ -168,7 +168,12 @@ public class MyDrive extends MyDrive_Base {
         getCurrentDir(roottoken).setOwner(user);				
         getUsersSet().add(user);
     }
-
+    
+    public void removeUser(long token, User user) throws NoSuchUserException{
+    	//TODO implentation of this method
+    	//FIXME throws UserIsRootException
+    }
+    
     public void createUser_xml(long token, Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home";
     	String home = user_element.getChildText("home");
