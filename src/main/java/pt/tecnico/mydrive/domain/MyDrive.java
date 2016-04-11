@@ -49,6 +49,8 @@ public class MyDrive extends MyDrive_Base {
         getRootUser().setMainDirectory(getCurrentDir(token));
     }
 
+    public Session getSessionByToken(long token){return null;} //FIXME
+
     public Directory getCurrentDir(long token){
 		return null;
         //FIXME return getLogin().getCurrentDirByToken(token);

@@ -6,6 +6,7 @@ public class Session extends Session_Base {
         super();
         setCurrentUser(u);
         setToken(token);
+        setCurrentDir(u.getMainDirectory());
     }
     
 }
