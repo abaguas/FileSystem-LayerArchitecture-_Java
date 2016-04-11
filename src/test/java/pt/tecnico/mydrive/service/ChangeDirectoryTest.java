@@ -1,24 +1,61 @@
-//package pt.tecnico.mydrive.service;
+package pt.tecnico.mydrive.service;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import junit.framework.Assert;
+import pt.tecnico.mydrive.domain.Directory;
+import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.domain.Permission;
+import pt.tecnico.mydrive.domain.PlainFile;
+import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.User;
+import pt.tecnico.mydrive.exception.MaximumPathException;
+import pt.tecnico.mydrive.exception.NoSuchFileException;
+import pt.tecnico.mydrive.exception.PermissionDeniedException;
+
+public class ChangeDirectoryTest extends AbstractServiceTest {
+
+	protected void populate() {
+		
+		MyDrive md = MyDrive.getInstance();
+		User u1 = new User("Catio Balde", "pass1", "Catio");
+	    User u2 = md.getUserByUsername("root");
+	    Directory home1 = u1.getMainDirectory();
+		Directory home2 = u2.getMainDirectory();
+	    
+	    Directory d1 = new Directory("folder", 125, u1, home1);
+	    Directory d2 = new Directory("folder2", 126, u2, home2);        
+	    PlainFile p1 = new PlainFile("Caso Bruma", 123, u1, "conteudo1", home1);
+		PlainFile p2 = new PlainFile("Exemplo", 124, u2, "conteudo3", home2);
+
+		Directory rootdir = MyDrive.getInstance().getRootDirectory();
+	    
+//	    Session s1 = new Session(u1, 1);
+//	    s1.setCurrentDirectory(home1);
 //
-//import pt.tecnico.mydrive.domain.Directory;
-//import pt.tecnico.mydrive.domain.MyDrive;
-//import pt.tecnico.mydrive.domain.Permission;
-//import pt.tecnico.mydrive.domain.PlainFile;
-//import pt.tecnico.mydrive.domain.Session;
-//import pt.tecnico.mydrive.domain.User;
+//	    Session s2 = new Session(u1, 2);
+//	    s2.setCurrentDirectory(home2);
 //
-//public class ChangeDirectoryTest extends AbstractServiceTest {
+//	    Session s3 = new Session(u1, 3);
+//	    s3.setCurrentDirectory(rootdir);
 //
-//	protected void populate() {
+//	    Session s4 = new Session(u2, 4);
+//	    s3.setCurrentDirectory(home2);
+//
+//	    Session s5 = new Session(u1, 5);
+//	    s5.setCurrentDirectory(rootdir.get("home"));
+//
+//	    Session s6 = new Session(u1, 6);
+//	    s6.setCurrentDirectory(rootdir.get("home"));
 //		
-//		MyDrive md = MyDrive.getInstance();
-//		
-//	}
-//
-//
-//// IMPORTANTE PARA EVITAR OS COMBOIOS ----------------------------------------------------------------
-//
-//
+	}
+
+
+// IMPORTANTE PARA EVITAR OS COMBOIOS ----------------------------------------------------------------
+
+
 //	private User getUser(long token) {
 //		User u = MyDriveService.getLogin().getSessionByToken(token).getCurrentUser();
 //		return u;
@@ -28,48 +65,96 @@
 //		Directory d = MyDriveService.getLogin().getSessionByToken(token).getCurrentDirectory();
 //		return d;
 //	}
-//
-//// ----------------------------------------------------------------------------------------------------
-//
-//
-//    @Test
-//    public void successCDRelativePath() {
-//        ChangeDirectoryService service = new ChangeDirectoryService(); //token=10
+
+// ----------------------------------------------------------------------------------------------------
+
+
+    @SuppressWarnings("deprecation")
+	@Test
+    public void successCDRelativePath() { //Testing CD with a valid token, permitted and existing relative path
+    	MyDrive md = MyDrive.getInstance();
+    	long token = 0; //FIXME create a valid token
+    	Directory dir = md.getDirectoryByAbsolutePath(token, "/home");
+    	User root = md.getUserByUsername("root");
+    	
+    	md.getSessionByToken(token).setCurrentUser(root);
+    
+    	md.setCurrentDir(token, dir);
+    	
+       // ChangeDirectoryService service = new ChangeDirectoryService("root", false, token); 
+        
+      //  service.execute();
+        
+        
+        md.getCurrentDir(token);
+
+        assertEquals("Changed Directory with a relative path with success", "/home/root", md.pwd(token));
+//____________________________________________________________________________________        
+//      try{
+//    	assertEquals("/home/root", md.pwd(token), "");
+//    	Assert.fail("Changed Directory with success");
+//    }
+//    catch(Exception e){
+//    	String expectedMessage = "this is the message I expect to get";
+//        Assert.assertEquals( "Exception message must be correct", expectedMessage, e.getMessage() );
+//    }
+    }
+
+    
+    @Test
+    public void successCDAbsolutePath() { //Testing CD with a valid token, permitted and existing absolute path
+    	MyDrive md = MyDrive.getInstance();
+    	long token = 0; //FIXME create a valid token
+
+    	User root = md.getUserByUsername("root");
+    	
+    	md.getSessionByToken(token).setCurrentUser(root);
+   
+//        ChangeDirectoryService service = new ChangeDirectoryService("/home/root", true, token); 
+//        
 //        service.execute();
 //        
-//        
-//        PlainFile pf = (PlainFile) getDirectory().get("joao-calendario");
-//        assertNotNull("plain file was not created", pf);
-//        assertEquals("plain file name not correct", "joao-calendario", pf.getName());
-//    	//assertEquals("plain file owner not correct", pf.getOwner(), owner);
-//    }
-//
-//    
-//    @Test
-//    public void successCDAbsolutePath() {
-//
-//
-//    }
-//    
-//    
-//    
-//    @Test 
-//    public void notPermittedFileCreation() {
-//    	 
-//    }
-//
-//
-//	@Test 
-//    public void duplicatedFileCreation() {
-//    	 
-//    }
-//
-//
-//	@Test (expected = InvalidFileNameException.class)
-//    public void invalidFileNameCreation() {
-//    	 CreateFileService service = new CreateFileService("folder1", "", "\0", 10); //token=10
-//    }
-//
-//}
-//
-//
+        md.getCurrentDir(token);
+        
+        assertEquals("Changed Directory with an absolute path with success", "/home/root", md.pwd(token));
+    }
+    
+    
+    @Test (expected = PermissionDeniedException.class)
+    public void notPermittedRelativePath() { //Testing CD with relative path with not permitted directory (no read permissions)
+    	 
+    }
+
+
+	@Test (expected = PermissionDeniedException.class)
+    public void notPermittedAbsolutePath() { //Testing CD with absolute path with not permitted directory (no read permissions)
+    	 
+    }
+	
+	@Test (expected = NoSuchFileException.class)
+    public void nonExistentRelativePath() { //Testing CD with non-existent relative path
+    	 
+    }
+	
+	@Test (expected = NoSuchFileException.class)
+    public void nonExistentAbsolutePath() { //Testing CD with non-existent absolute path
+    	 
+    }
+	
+	@Test 	
+    public void messageToOwnDirectory() { //Testing CD to "." and verify the returned message
+    	 
+    }
+	
+	@Test (expected = MaximumPathException.class)
+    public void absolutePathTooLarge() { //Testing CD with more than 1024 character in an absolute path
+    	 
+    }
+
+	@Test //(expected = InvalidTokenException.class)
+    public void invalidToken() { //Testing CD with an invalid token
+    	 
+    }
+	
+
+}
