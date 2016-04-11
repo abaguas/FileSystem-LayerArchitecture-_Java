@@ -11,6 +11,7 @@ import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.domain.PlainFile;
 import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.User;
+import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
@@ -55,15 +56,15 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 // IMPORTANTE PARA EVITAR OS COMBOIOS ----------------------------------------------------------------
 
 
-	private User getUser(long token) {
-		User u = MyDriveService.getLogin().getSessionByToken(token).getCurrentUser();
-		return u;
-	}
-	
-	private Directory getDirectory(long token) {
-		Directory d = MyDriveService.getLogin().getSessionByToken(token).getCurrentDirectory();
-		return d;
-	}
+//	private User getUser(long token) {
+//		User u = MyDriveService.getLogin().getSessionByToken(token).getCurrentUser();
+//		return u;
+//	}
+//	
+//	private Directory getDirectory(long token) {
+//		Directory d = MyDriveService.getLogin().getSessionByToken(token).getCurrentDirectory();
+//		return d;
+//	}
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -80,23 +81,23 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     
     	md.setCurrentDir(token, dir);
     	
-        ChangeDirectoryService service = new ChangeDirectoryService("root", false, token); 
+       // ChangeDirectoryService service = new ChangeDirectoryService("root", false, token); 
         
-        service.execute();
+      //  service.execute();
         
         
         md.getCurrentDir(token);
-//        try{
-//        	assertEquals("/home/root", md.pwd(token), "");
-//        	Assert.fail("Changed Directory with success");
-//        }
-//        catch(Exception e){
-//        	String expectedMessage = "this is the message I expect to get";
-//            Assert.assertEquals( "Exception message must be correct", expectedMessage, e.getMessage() );
-//        }
+
         assertEquals("Changed Directory with a relative path with success", "/home/root", md.pwd(token));
-        
-    	//assertEquals("plain file owner not correct", pf.getOwner(), owner);
+//____________________________________________________________________________________        
+//      try{
+//    	assertEquals("/home/root", md.pwd(token), "");
+//    	Assert.fail("Changed Directory with success");
+//    }
+//    catch(Exception e){
+//    	String expectedMessage = "this is the message I expect to get";
+//        Assert.assertEquals( "Exception message must be correct", expectedMessage, e.getMessage() );
+//    }
     }
 
     
@@ -109,10 +110,10 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     	
     	md.getSessionByToken(token).setCurrentUser(root);
    
-        ChangeDirectoryService service = new ChangeDirectoryService("/home/root", true, token); 
-        
-        service.execute();
-        
+//        ChangeDirectoryService service = new ChangeDirectoryService("/home/root", true, token); 
+//        
+//        service.execute();
+//        
         md.getCurrentDir(token);
         
         assertEquals("Changed Directory with an absolute path with success", "/home/root", md.pwd(token));
@@ -144,47 +145,16 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     public void messageToOwnDirectory() { //Testing CD to "." and verify the returned message
     	 
     }
-
 	
+	@Test (expected = MaximumPathException.class)
+    public void absolutePathTooLarge() { //Testing CD with more than 1024 character in an absolute path
+    	 
+    }
 
-	@Test
-	public void deletePermittedFileAbsolutePath(){
-
-		DeleteService dfs = DeleteService("/home/Catio Balde/Caso Bruma", 1);
-		dfs.execute();
+	@Test //(expected = InvalidTokenException.class)
+    public void invalidToken() { //Testing CD with an invalid token
+    	 
+    }
 	
-		assertFalse("file was not removed", home1.hasFile("Caso Bruma"));	
-	
-	}
 
 }
-
-//PROF 
-//	@Test
-//	public void success() {
-//		final String personName = "João";
-//		RemoveContactService service = new RemoveContactService(personName, "António");
-//		service.execute();
-//
-//		// check contact was removed
-//		Contact c = getContact(personName, "António");
-//		assertNull("contact was not removed", c);
-//		assertEquals("Invalid number of contacts", 0, PhoneBookService.getPerson(personName).getContactSet().size());
-//	}
-//	
-//	
-//
-//	@Test(expected = ContactDoesNotExistException.class)
-//	public void removeInvalidContact() {
-//		final String personName = "João";
-//		RemoveContactService service = new RemoveContactService(personName, "Ant");
-//		service.execute();
-//	}
-//
-//	@Test(expected = PersonDoesNotExistException.class)
-//	public void invalidPerson() {
-//		final String personName = "José";
-//		RemoveContactService service = new RemoveContactService(personName, "António");
-//		service.execute();
-//	}
-
