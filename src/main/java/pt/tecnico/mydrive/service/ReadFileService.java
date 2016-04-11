@@ -1,4 +1,4 @@
-package pt.tecnico.mydrive.service;
+/*package pt.tecnico.mydrive.service;
 
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.File;
@@ -47,3 +47,4 @@ public class ReadFileService extends MyDriveService{
         return ownerOrRoot || hasReadingPermission;
     }
 }
+*/
