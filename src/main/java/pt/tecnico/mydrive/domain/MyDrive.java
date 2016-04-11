@@ -89,10 +89,6 @@ public class MyDrive extends MyDrive_Base {
         return output;
     }
 
-    public void removeFile(long token, String name) throws NoSuchFileException{
-    	//getCurrentDir(token).remove(name);
-    }
-
 
     public void createFile(long token, String name, String content, String code) throws FileAlreadyExistsException, MaximumPathException {
         try{
