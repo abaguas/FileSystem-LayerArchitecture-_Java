@@ -125,7 +125,8 @@ public class MyDrive extends MyDrive_Base {
     public void createLink(long token, String name, String content) throws FileAlreadyExistsException{
         createFile(token, name, content, "Link");
     }    
-
+    
+    /*
     public void cd(long token, String name) throws NoSuchFileException, FileNotCdAbleException {
     	File f = null;
         if(name.contains("/")){
@@ -139,6 +140,31 @@ public class MyDrive extends MyDrive_Base {
        	    setCurrentDir(token, (Directory) f);
         }
     }
+	*/
+    
+    public void cd(long token, String name) throws NoSuchFileException, FileNotCdAbleException, PermissionDeniedException {
+    	File f = null;
+        if(name.charAt(0)=='/') {
+            f = getDirectoryByAbsolutePath(token, name); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
+            cdable(f);
+            setCurrentDir(token, (Directory) f);
+        }
+        else if(name.contains("/")) {
+        	String result = pwd(token);
+        	result = result + "/" + name;
+            f = getDirectoryByAbsolutePath(token, result); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
+            cdable(f);
+            setCurrentDir(token, (Directory) f);
+        }
+        else {
+            f = getCurrentDir(token).get(name);
+        	cdable(f);
+        	checkPermissions(token, name, "cd", "");
+       	    setCurrentDir(token, (Directory) f);
+        }
+    }
+    
+    
 
     public void cdable(File f) throws FileNotCdAbleException{
 		Visitor v = new CdableVisitor();
@@ -229,7 +255,7 @@ public class MyDrive extends MyDrive_Base {
         File file = current.get(filename);
         writeable(file);
         PlainFile f = (PlainFile)file;
-        //checkpermissions    
+        checkPermissions(token, filename, "read-write-execute", "write");
         f.writeContent(content);
     }
 
@@ -315,5 +341,144 @@ public class MyDrive extends MyDrive_Base {
         }
 	return doc;
     }
-
+    
+    
+    
+    
+    //parameter code can be "create-delete", "read-write-execute", "cd" or "ls"
+    //parameter access can be "create", "delete" (1st case) or "read", "write", "execute" (2nd case)
+    public void checkPermissions(long token, String fileName, String code, String access) throws PermissionDeniedException {
+    	if(code.equals("create-delete")) {
+    		checkFileCreateDeletePermissions(token, fileName, access);
+    	}
+    	else if(code.equals("read-write-execute")) {
+    		checkFileReadWriteExecutePermissions(token, fileName, access);
+    	}
+    	else if(code.equals("cd")) {
+    		checkChangeDirPermission(token, fileName);
+    	}
+    	else if(code.equals("ls")) {
+    		checkListPermission(token);
+    	}
+    		
+    }
+    
+    
+    public void checkFileCreateDeletePermissions(long token, String fileName, String access) throws PermissionDeniedException {
+    	User u = getCurrentUser(token);
+    	Directory d = getCurrentDir(token);
+    	User owner = d.getOwner();
+    	Permission dirOwnP = d.getUserPermission();
+    	Permission dirOthP = d.getOthersPermission();    	
+    	
+    	if(u.getUsername().equals(owner.getUsername())) {
+    		if(access.equals("delete")) {
+    			File f = d.get(fileName);
+    			if(!f.getUserPermission().getEliminate()) {
+    				throw new PermissionDeniedException(fileName);
+    			}
+    		}
+    		if(!dirOwnP.getWrite()) {
+    			throw new PermissionDeniedException(fileName);
+    		}		
+    	}
+    	else {
+    		if(access.equals("delete")) {
+    			File f = d.get(fileName);
+    			if(!f.getOthersPermission().getEliminate()) {
+    				throw new PermissionDeniedException(fileName);
+    			}
+    		}
+    		if(!dirOthP.getWrite()) {
+    			throw new PermissionDeniedException(fileName);
+    		}
+    	}
+    }
+    
+    
+    public void checkFileReadWriteExecutePermissions(long token, String fileName, String access) {
+    	User u = getCurrentUser(token);
+    	Directory d = getCurrentDir(token);	
+    	File f = d.get(fileName);
+    	User owner = f.getOwner();
+    	Permission fileUserP = f.getUserPermission(); 
+    	Permission fileOthP = f.getOthersPermission();
+    	
+    	if(u.getUsername().equals(owner.getUsername())) {
+    		if(access.equals("read")) {
+    			if(!fileUserP.getRead()) {
+    				throw new PermissionDeniedException(fileName);
+    			}
+    		}
+    		else if(access.equals("write")) {
+    			if(!fileUserP.getWrite()) {
+    				throw new PermissionDeniedException(fileName);
+    			}    			
+    		}
+    		else if(access.equals("execute")) {
+    			if(!fileUserP.getExecute()) {
+    				throw new PermissionDeniedException(fileName);
+    			}    			
+    		}
+    	}
+    	else {
+    		if(access.equals("read")) {
+    			if(!fileOthP.getRead()) {
+    				throw new PermissionDeniedException(fileName);
+    			}    			
+    		}
+    		else if(access.equals("write")) {
+    			if(!fileOthP.getWrite()) {
+    				throw new PermissionDeniedException(fileName);
+    			}    			
+    		}
+    		else if(access.equals("execute")) {
+    			if(!fileOthP.getExecute()) {
+    				throw new PermissionDeniedException(fileName);
+    			}    			
+    		}
+    	}
+    }
+    
+    
+    public void checkChangeDirPermission(long token, String fileName) {
+    	User u = getCurrentUser(token);
+    	Directory d = getCurrentDir(token);
+    	User owner = d.getOwner();
+    	Permission dirOwnP = d.getUserPermission();
+    	Permission dirOthP = d.getOthersPermission();
+    	
+    	if(u.getUsername().equals(owner.getUsername())) {
+    		if(!dirOwnP.getExecute()) {
+    			throw new PermissionDeniedException(fileName);
+    		}
+    	}
+    	else {
+    		if(!dirOthP.getExecute()) {
+    			throw new PermissionDeniedException(fileName);
+    		}
+    	} 
+    }
+    
+    
+    public void checkListPermission(long token) {
+    	User u = getCurrentUser(token);
+    	Directory d = getCurrentDir(token);
+    	User owner = d.getOwner();
+    	Permission dirOwnP = d.getUserPermission();
+    	Permission dirOthP = d.getOthersPermission();
+    	
+    	if(u.getUsername().equals(owner.getUsername())) {
+    		if(!dirOwnP.getRead()) {
+    			throw new PermissionDeniedException(d.getName());
+    		}
+    	}
+    	else {
+    		if(!dirOthP.getRead()) {
+    			throw new PermissionDeniedException(d.getName());
+    		}
+    	}    	
+    }
+    
+    
 }

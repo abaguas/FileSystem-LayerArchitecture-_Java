@@ -1,35 +1,29 @@
-
-/*package pt.tecnico.mydrive.service;
+package pt.tecnico.mydrive.service;
 
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
-import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
+import pt.tecnico.mydrive.exception.FileNotCdAbleException;
+import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.NoSuchFileException;
 
 
 public class ChangeDirectoryService extends MyDriveService
 {
-    private String path;
     private long token;
-    boolean absolute = false;
+	private String path;
 
-    public ChangeDirectoryService(String path, boolean absolute, long token) {
-        this.path = path;
-        this.token = token;
-        this.absolute = absolute;
+
+    public ChangeDirectoryService(long token, String path) {
+    	this.token = token;
+    	this.path = path;
     }
 
     
        
     
-    public final void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException {
+    public final void dispatch() throws FileNotCdAbleException, FileNotDirectoryException, InvalidFileNameException, NoSuchFileException, PermissionDeniedException {
        MyDrive md = getMyDrive();
-       
-       if(absolute)
-    	   md.cd(path, true); //md.cd(path, true, token)
-       else
-    	   md.cd(path); //md.cd(path, token)
+       md.cd(token, path);
     }
 }
-*/
-

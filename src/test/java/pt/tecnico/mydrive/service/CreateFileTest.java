@@ -1,12 +1,8 @@
 /*
-
 package pt.tecnico.mydrive.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.io.File;
-
 import org.junit.Test;
 
 import pt.tecnico.mydrive.domain.App;
@@ -15,6 +11,7 @@ import pt.tecnico.mydrive.domain.Link;
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.domain.PlainFile;
+import pt.tecnico.mydrive.domain.RootUser;
 import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
@@ -29,20 +26,23 @@ public class CreateFileTest extends AbstractServiceTest {
 	protected void populate() {
 		
 		MyDrive md = MyDrive.getInstance();
-		
-		
-		User u0 = md.getRootUser(); //User u0 = md.getUserByUsername("root");
+				
+		//User u0 = md.getRootUser(); //User u0 = md.getUserByUsername("root");
+		RootUser u0 = RootUser.getInstance();
 		User u1 = new User("ana", "pass1", "Ana");
+		md.addUsers(u1);
 		User u2 = new User("maria", "pass2", "Maria");
+		md.addUsers(u2);
 		User u3 = new User("filipa", "pass3", "Filipa");
+		md.addUsers(u3);
 		
-		//este getMainDirectory faz mesmo o que quero?
 		Directory dir0 = u0.getMainDirectory();
 		Directory dir1 = u1.getMainDirectory();
 		Directory dir2 = u2.getMainDirectory();
 		Directory dir3 = u3.getMainDirectory();
 		
 		Session s0 = md.getRootUser().getSession();
+		//Session s0 = new Session(u0, 0); //acho que a sessão do User é sempre criada
 		s0.setCurrentDir(dir0);
 	    
 		Session s1 = new Session(u1, 1); // ana - token=1
@@ -55,34 +55,48 @@ public class CreateFileTest extends AbstractServiceTest {
 	    s3.setCurrentDir(dir3);
 
 	    
-	    md.createPlainFile(1, "agenda-Ana", "cozinhar para o Rui");
-	    //PlainFile pf1 = new PlainFile("agenda-Ana", 31, u1, "cozinhar para o Rui", dir1); // id=31
+	    //md.createPlainFile(1, "agenda-Ana", "cozinhar para o Rui");
+	    PlainFile pf1 = new PlainFile("agenda-Ana", 31, u1, "cozinhar para o Rui", dir1); // id=31
 		
 	    
-	    long roottoken = s0.getToken();
-		md.setCurrentDir(roottoken, md.getRootDirectory());
-        md.cd(roottoken, "home");
-        md.cd(roottoken, "maria");
-		md.createDir(roottoken, "forbiddenFolder");
-        Directory forbidden = (Directory) s0.getCurrentDir().get("forbiddenFolder");
+	    
+//	    long roottoken = s0.getToken(); //acho que roottoken é sempre 0
+//	    md.setCurrentDir(roottoken, md.getRootDirectory());
+//		md.cd(roottoken, "home");
+//      md.cd(roottoken, "maria");
+//		md.createDir(roottoken, "forbiddenFolder");
+//      Directory forbidden = (Directory) s0.getCurrentDir().get("forbiddenFolder");
+//		Permission rootP = new Permission(true, true, true, true);
+//		Permission othersP = new Permission(false, false, false, false);
+//		forbidden.setUserPermission(rootP);
+//		forbidden.setOthersPermission(othersP);
+//		md.cd(roottoken, "forbiddenFolder");
+//		s2.setCurrentDir(forbidden); // s2.setCurrentDir(s0.getCurrentDir())   or    md.cd(maria-token, "forbiddenFolder")
+//		s0.setCurrentDir(dir0);
+		
+	    
+		s0.setCurrentDir(dir2);
+		Directory forbidden = new Directory("forbiddenFolder", 50, u0, dir2); // id=50
 		Permission rootP = new Permission(true, true, true, true);
-		Permission othersP = new Permission(false, false, false, false);
+		Permission othersP = new Permission(true, false, true, true); //caso limite: pode-se fazer tudo menos criar/remover ficheiros dessa pasta
 		forbidden.setUserPermission(rootP);
 		forbidden.setOthersPermission(othersP);
-		md.cd(roottoken, "forbiddenFolder");
-		s2.setCurrentDir(forbidden); // s2.setCurrentDir(s0.getCurrentDir())   or    md.cd(maria-token, "forbiddenFolder")
+		s2.setCurrentDir(forbidden);
 		s0.setCurrentDir(dir0);
-	
+		
 		
 		String hugeDirName = "";
 		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
 			hugeDirName += "a"; // "a" ou 'a' ??
 		}
 		
-		md.createDir(3, hugeDirName);
-		Directory hugeDir = (Directory) s3.getCurrentDir().get("hugeDirName");
-		md.setCurrentDir(3, hugeDir);
 		
+//		md.createDir(3, hugeDirName);
+//		Directory hugeDir = (Directory) s3.getCurrentDir().get("hugeDirName");
+//		md.setCurrentDir(3, hugeDir);
+		
+		Directory hugeDir = new Directory(hugeDirName, 60, u3, dir3); // id=60
+		s3.setCurrentDir(hugeDir);
 	}
 
 
@@ -201,11 +215,35 @@ public class CreateFileTest extends AbstractServiceTest {
     
     
 	@Test (expected = FileAlreadyExistsException.class)
-    public void duplicatedFileCreation() {
-    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "receitas", "PlainFile");
+    public void duplicatedFileCreation1() {
+    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "receitas", "PlainFile"); //nome agenda-Ana é único, apesar do conteúdo do ficehiro que se queria criar ser diferente
     	 service.execute();
     }
 
+	
+	// independentemente do tipo do ficheiro, o nome tem de ser único
+	@Test (expected = FileAlreadyExistsException.class)
+    public void duplicatedFileCreation2() {
+    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "/home/ana/agenda-Ana", "Link");
+    	 service.execute();
+    }
+
+
+	// independentemente do tipo do ficheiro, o nome tem de ser único
+	@Test (expected = FileAlreadyExistsException.class)
+    public void duplicatedFileCreation3() {
+    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "App");
+    	 service.execute();
+    }
+	
+	
+	// independentemente do tipo do ficheiro, o nome tem de ser único
+	@Test (expected = FileAlreadyExistsException.class)
+    public void duplicatedFileCreation4() {
+    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "Dir");
+    	 service.execute();
+    }
+    
 	
 	@Test (expected = InvalidFileNameException.class)
     public void invalidFileNameCreation1() {
@@ -227,100 +265,13 @@ public class CreateFileTest extends AbstractServiceTest {
 		service.execute();
 	}
     
+	
+// 	user exists but not associated with session	
+//	@Test (expected = UserNotRegistered.class)
+//	public void userNotRegisteredFileCreation() {
+//		CreateFileService service = new CreateFileService(4, "attempt", "attempt", "PlainFile");
+//		service.execute();
+//	}
 
 }	
-
-
-*/
-
-
-
-
-
-
-
-
-
-/*
-DRAFTS   ---------------------------------------------------------------------------------------
-
-
-// IMPORTANTE PARA EVITAR OS COMBOIOS 
-
-
-	private User getUser(long token) {
-		User u = MyDriveService.getInstance().getCurrentUser(token);
-		return u;
-	}
-	
-	private Directory getDirectory(long token) {
-		Directory d = MyDriveService.getInstance().getCurrentDir(token);
-		return d;
-	}
-
-
-
-
-    @Test
-    public void successPlainFile() {
-        CreateFileService service = new CreateFileService(1, "calendar", "day 1 - nothing to do", "PlainFile");
-        service.execute();
-        
-        //check plain file was created
-        //User owner = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentUser();
-        //Directory currentDirectory = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentDirectory();
-        
-        Directory currentDirectory = MyDriveService.getMyDrive().getCurrentDir(1);
-        
-        PlainFile pf = (PlainFile) currentDirectory.get("calendar");
-        assertNotNull("plain file was not created", pf);
-        assertEquals("plain file name not correct", "calendar", pf.getName());
-    	
-        //assertEquals("plain file owner not correct", pf.getOwner(), owner);
-    }
-
-    
-    @Test
-    public void successDirectory() {
-        CreateFileService service = new CreateFileService("folder1", "", "Dir", 10); //token=10, content é vazio
-        service.execute();
-        
-        //check directory was created
-        //User owner = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentUser();
-        //Directory currentDirectory = MyDriveService.getMyDrive().getLogin().getSessionByToken(1).getCurrentDirectory;
-        
-        Directory d = (Directory) getDirectory().get("folder1");
-        assertNotNull("directory was not created", d);
-        assertEquals("directory name not correct", "folder1", d.getName());
-    	//assertEquals("directory owner not correct", d.getOwner(), owner);
-        
-        //alternativa: assertTrue("directory was not created", currentDirectory.hasFile("folder1")) ; 
-    }
-    
-    
-    
-    @Test (expected = PermissionDeniedException.class)
-    public void notPermittedFileCreation() {
-    	 CreateFileService service = new CreateFileService("dir1", "", "Dir", 2);
-    }
-
-
-	@Test (expected = FileAlreadyExistsException.class)
-    public void duplicatedFileCreation() {
-    	 CreateFileService service = new CreateFileService("folder1", "", "ana-calendario", 10); //token=10
-    }
-
-
-	@Test (expected = InvalidFileNameException.class)
-    public void invalidFileNameCreation() {
-    	 CreateFileService service = new CreateFileService("folder1", "", "\0", 10); //token=10
-    }
-
-
-	@Test (expected = MaximumPathException.class)
-	public void maxPathExceededFileCreation() {
-		CreateFileService service = new CreateFileService("folder1", "", "\0", 10);
-	}
-	
-}
 */
