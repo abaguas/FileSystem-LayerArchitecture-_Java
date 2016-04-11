@@ -15,11 +15,11 @@ public class LoginTest extends AbstractServiceTest{
 		
 		Session s4 = new Session(u1, md);
 		int time = s4.getTime().getTimestamp();
-/*		if time != 0 ->Erro */
+		if time != 0 ->Erro 
 		
 		Session s5 = new Session (u1, md);
 		int time = s5.getTime().getTimestamp();
-/*		if time != 0 ->Erro */
+		if time != 0 ->Erro 
 
 		Session s6 = new Session (u1, md);
 		int time = s6.getTime().getTimestamp();
