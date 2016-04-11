@@ -1,0 +1,17 @@
+/*package pt.tecnico.mydrive.service;
+import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.exception.NoSuchFileException;
+
+public class ListDirectoryService extends MyDriveService{
+	private long token;
+	private String name;
+	
+	public String ListDirectoryService(long token, String name) throws NoSuchFileException{
+    		return getMyDrive.getCurrentDir(token).get(name).ls();
+    	}
+    
+    	public String ListDirectoryService(long token){
+		return getMyDrive.getCurrentDir(token).ls();
+    	}
+}
+*/

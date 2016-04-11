@@ -23,8 +23,6 @@ import pt.tecnico.mydrive.exception.InvalidIdException;
 
 public class MyDrive extends MyDrive_Base {
 
-    private ArrayList<Integer> _ids = new ArrayList<Integer>(); 
-
     public static MyDrive getInstance(){
         MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
         if (md != null)
@@ -49,7 +47,7 @@ public class MyDrive extends MyDrive_Base {
         getRootUser().setMainDirectory(getCurrentDir(token));
     }
 
-    public Session getSessionByToken(long token){return null;} //FIXME
+    public Session getSessionByToken(long token){return null;} //TODO implementation of this method //FIXME throws InvalidTokenException
 
     public Directory getCurrentDir(long token){
 		return null;
@@ -87,10 +85,6 @@ public class MyDrive extends MyDrive_Base {
             }
         }
         return output;
-    }
-
-    public void removeFile(long token, String name) throws NoSuchFileException{
-    	//getCurrentDir(token).remove(name);
     }
 
 
@@ -198,7 +192,12 @@ public class MyDrive extends MyDrive_Base {
         getCurrentDir(roottoken).setOwner(user);				
         getUsersSet().add(user);
     }
-
+    
+    public void removeUser(long token, User user) throws NoSuchUserException{
+    	//TODO implentation of this method
+    	//FIXME throws UserIsRootException
+    }
+    
     public void createUser_xml(long token, Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home";
     	String home = user_element.getChildText("home");
@@ -298,11 +297,11 @@ public class MyDrive extends MyDrive_Base {
         }
     }
     public void reserveIds(Element element){
-        for (Element node : element.getChildren()) {
+        /*for (Element node : element.getChildren()) {
             if(!node.getName().equals("user")){
                 _ids.add(Integer.parseInt(node.getAttribute("id").getValue()));  
             }
-        }
+        }*/
     }
     
     

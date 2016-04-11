@@ -34,6 +34,12 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 
 	    Session s4 = new Session(u2, 4);
 	    s3.setCurrentDirectory(home2);
+
+	    Session s5 = new Session(u1, 5);
+	    s5.setCurrentDirectory(rootdir.get("home"));
+
+	    Session s6 = new Session(u1, 6);
+	    s6.setCurrentDirectory(rootdir.get("home"));
 	    
 	}
 
@@ -153,24 +159,26 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 
 	@test(expected=NotDeleteAbleException.class)
 	public void deleteUserHomeDirectory(){
-		DeleteService dfs = DeleteService("..", 3);
+		DeleteService dfs = DeleteService("Catio Balde", 5);
 		dfs.execute();
 	}
 
 	@test(expected=NotDeleteAbleException.class)
 	public void deleteUserHomeDirectoryByRoot(){
-		DeleteService dfs = DeleteService("home", 4);
+		DeleteService dfs = DeleteService("Catio Balde", 6);
 		dfs.execute();
 	}
 
 	@test(expected=NotDeleteAbleException.class)
 	public void deleteUserHomeDirectoryAbsolutePath(){
-		
+		DeleteService dfs = DeleteService("/home/Catio Balde", 5);
+		dfs.execute();
 	}
 
 	@test(expected=NotDeleteAbleException.class)
 	public void deleteUserHomeDirectoryAbsolutePathRoot(){
-		
+		DeleteService dfs = DeleteService("/home/Catio Balde", 6);
+		dfs.execute();	
 	}
 
 }*/
