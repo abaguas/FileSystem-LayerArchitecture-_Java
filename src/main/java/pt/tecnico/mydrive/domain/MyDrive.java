@@ -341,9 +341,6 @@ public class MyDrive extends MyDrive_Base {
 	return doc;
     }
     
-    
-    
-    
     //parameter code can be "create-delete", "read-write-execute", "cd" or "ls"
     //parameter access can be "create", "delete" (1st case) or "read", "write", "execute" (2nd case)
     public void checkPermissions(long token, String fileName, String code, String access) throws PermissionDeniedException {

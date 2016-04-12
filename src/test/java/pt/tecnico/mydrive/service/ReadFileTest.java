@@ -36,19 +36,6 @@ import pt.tecnico.mydrive.exception.PermissionDeniedException;
  * link relativo
  * link broken
  * 
- * TESTES COM PERMISSAO DE EXECUCAO
- * 
- * owner: ler file c todas as permissoes validas em diretoria sem permissoes de execucao
- * other: ler file c todas as permissoes validas em diretoria sem permissoes de execucao
- *
- * root: ler file c sem permissoes de execucao
- * 
- * read non-existing file
- * 
- * TODO diretorio sem permissoes
- * TODO diretorio com permissoes
- * 
- * 
  * **********************************
  * DUVIDAS:
  * vale a pena testar todos os casos na leitura de uma App?, ou mesmo algum caso?
@@ -71,12 +58,6 @@ public class ReadFileTest extends AbstractServiceTest{
 		md.addUsers(other);
 		User root = md.getRootUser();
 		
-		User ownerBlocked = new User("DeAngelo", "password", "elFrog");
-		md.addUsers(ownerBlocked);
-		
-		User otherBlocked = new User("DeRussel", "password", "elFridge");
-		md.addUsers(otherBlocked);
-		
 		//create directory with permissions for all to insert the files
 		Directory workingDirectory = owner.getMainDirectory();
         workingDirectory.setOthersPermission(new Permission("--x-"));
@@ -89,20 +70,16 @@ public class ReadFileTest extends AbstractServiceTest{
 		PlainFile denied = new PlainFile("Denied", 2, owner, "Cannot see", workingDirectory);
 		PlainFile visit = new PlainFile("To Visit", 3, owner, "Welcome Visitor", workingDirectory);
 		Directory dir = new Directory("Dir", 4, owner, workingDirectory);
-		Directory dir2 = new Directory("Dir Without Permissions", 5, owner, workingDirectory);
 		new Link("Relative", 6, owner, "../Granted to owner", dir);
 		new Link("Absolute", 7, owner, "/home/pizz/Granted to owner", dir);
 		new Link("Broken", 8, owner, "/home/piz/Granted to owner", dir);
-		
-		//files for directories without execute permissions
-		PlainFile brokenFile = new PlainFile("Nobody can execute", 9, ownerBlocked, "You cant see me", brokenDirectory);
 		
 		
 		//change permissions
 		denied.setUserPermission(new Permission("-wxd"));
 		visit.setOthersPermission(new Permission("r---"));
-		dir2.setOthersPermission(new Permission("--x-"));
-		brokenFile.setOthersPermission(new Permission("r---"));
+		other.setOthersPermission(new Permission("----"));//remove permissions because they dont matter
+		other.setOthersPermission(new Permission("----"));//remove permissions because they dont matter
 		
 		//create session and set current directory
 		Session sessionOwner = new Session(owner, 1);
@@ -117,15 +94,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		sessionRoot.setCurrentDir(workingDirectory);
 		md.addSession(sessionRoot);
 		
-		Session sessionOwnerBlocked = new Session(ownerBlocked, 4);
-		sessionOwnerBlocked.setCurrentDir(brokenDirectory);
-		md.addSession(sessionOwnerBlocked);
-		
-		Session sessionOtherBlocked = new Session(otherBlocked, 5);
-		sessionOtherBlocked.setCurrentDir(brokenDirectory);
-		md.addSession(sessionOtherBlocked);
 	}
-
 
 	@Test
 	public void readFileWithOwnPermissions() {
@@ -214,30 +183,6 @@ public class ReadFileTest extends AbstractServiceTest{
 	@Test(expected = NoSuchFileException.class)
 	public void readLinkWithInvalidPath() {
 		ReadFileService rfs = new ReadFileService(1, "Broken");
-		rfs.execute();
-	}
-	
-	@Test(expected = PermissionDeniedException.class)
-	public void readFileWithoutOwnExecutePermissions() {
-		ReadFileService rfs = new ReadFileService(4, "Nobody can execute");
-		rfs.execute();
-	}
-	
-	@Test(expected = PermissionDeniedException.class)
-	public void readFileWithoutOtherExecutePermissions() {
-		ReadFileService rfs = new ReadFileService(5, "Nobody can execute");
-		rfs.execute();
-	}
-	
-	@Test
-	public void readFileWithoutOtherExecutePermissionsByRoot() {
-		ReadFileService rfs = new ReadFileService(3, "Nobody can execute");
-		rfs.execute();
-	}
-	
-	@Test(expected = PermissionDeniedException.class)
-	public void readNonExistingFileInNonExecuteDir() {
-		ReadFileService rfs = new ReadFileService(5, "Flowers and honey");
 		rfs.execute();
 	}
 	

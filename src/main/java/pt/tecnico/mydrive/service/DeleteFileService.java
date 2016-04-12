@@ -23,40 +23,16 @@ public class DeleteFileService extends MyDriveService{
     
     //FIXME avisar sá couto para nao usar o invalid file name exception
     public final void dispatch() throws PermissionDeniedException, NoSuchFileException {
-        /*MyDrive md = MyDrive.getInstance();
+       /* MyDrive md = MyDrive.getInstance();
         currentUser = md.getSessionByToken(token).getCurrentUser();
         currentDir = md.getSessionByToken(token).getCurrentDir();
         
         if (fileName != null){  //FIXME todos têm de verificar isto
             File file = currentDir.get(fileName); // throws no such file exception 
-            try {
-            	//check execute permissions (current directory
-            	//check read permissions (file)
-	            md.cdable(file);
-	            Directory d = (Directory) file;
-	            for (File f: d.getFiles()){
-	            	try{
-	            		this.dispatch();
-	            	} catch (PermissionDeniedException pde){
-	            		//nothing to do
-	            	}
-	            }
-            } catch (FileNotCdAbleException fnde){
-            	currentDir.remove(fileName);
-            }
+            file.remove(md, token);
         }        
         else {
         	throw new NoSuchFileException("Invalid file name: null");
         }*/
-    }
-    //FIXME
-   //ver as permissoes de execucao e leitura
-    //pensar em como voltar a chamar o servico (acho que está bem
-    // a funcao check permissions deve enviar uma excepcao
-    
-    
-    //FIXME devo passar um file ou o nome dele? Depende da implementacao do Rui
-    void checkPermissions(File file, User user) {
-    	
     }
 }

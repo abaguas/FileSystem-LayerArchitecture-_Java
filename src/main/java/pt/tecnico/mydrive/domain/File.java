@@ -4,6 +4,7 @@ import org.jdom2.Element;
 import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 import org.jdom2.Document;
 
@@ -50,7 +51,8 @@ public class File extends File_Base {
     	return 0;
     }
 
-    public void remove() {
+    public void remove(MyDrive md, long token) throws PermissionDeniedException {
+    	md.checkPermissions(token, getName(), "create-delete", "delete");
     	setOwner(null);
     	setUserPermission(null);
         setOthersPermission(null);
