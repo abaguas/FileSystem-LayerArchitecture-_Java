@@ -38,10 +38,12 @@ public class ReadFileService extends MyDriveService{
     }
 
     public final String result() {
+		return fileName; //FIXME remover depois de descomentar, apenas para permitir compilacao
         //return result;
     }
 
     private boolean checkPermissions(File file){
+		return false; //FIXME remover depois de descomentar, apenas para permitir compilacao
         /*boolean ownerOrRoot = file.getOwner().getUsername().equals(currentUser.getUsername()) || currentUser.getUsername().equals("root");
         boolean hasReadingPermission = file.getOthersPermission().getRead() && currentUser.getOthersPermission().getRead();
         return ownerOrRoot || hasReadingPermission;*/
