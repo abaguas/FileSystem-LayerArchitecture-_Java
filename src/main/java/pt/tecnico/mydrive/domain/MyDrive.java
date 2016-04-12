@@ -370,7 +370,11 @@ public class MyDrive extends MyDrive_Base {
     	Permission dirOwnP = d.getUserPermission();
     	Permission dirOthP = d.getOthersPermission();    	
     	
-    	if(u.getUsername().equals(owner.getUsername())) {
+    	if(u.getUsername().equals("root")) {
+    		return;
+    	}
+    	
+    	else if(u.getUsername().equals(owner.getUsername())) {
     		if(access.equals("delete")) {
     			File f = d.get(fileName);
     			if(!f.getUserPermission().getEliminate()) {
@@ -403,7 +407,11 @@ public class MyDrive extends MyDrive_Base {
     	Permission fileUserP = f.getUserPermission(); 
     	Permission fileOthP = f.getOthersPermission();
     	
-    	if(u.getUsername().equals(owner.getUsername())) {
+    	if(u.getUsername().equals("root")) {
+    		return;
+    	}
+    	
+    	else if(u.getUsername().equals(owner.getUsername())) {
     		if(access.equals("read")) {
     			if(!fileUserP.getRead()) {
     				throw new PermissionDeniedException(fileName);
@@ -447,7 +455,11 @@ public class MyDrive extends MyDrive_Base {
     	Permission dirOwnP = d.getUserPermission();
     	Permission dirOthP = d.getOthersPermission();
     	
-    	if(u.getUsername().equals(owner.getUsername())) {
+    	if(u.getUsername().equals("root")) {
+    		return;
+    	}
+    	
+    	else if(u.getUsername().equals(owner.getUsername())) {
     		if(!dirOwnP.getExecute()) {
     			throw new PermissionDeniedException(fileName);
     		}
@@ -467,7 +479,11 @@ public class MyDrive extends MyDrive_Base {
     	Permission dirOwnP = d.getUserPermission();
     	Permission dirOthP = d.getOthersPermission();
     	
-    	if(u.getUsername().equals(owner.getUsername())) {
+    	if(u.getUsername().equals("root")) {
+    		return;
+    	}
+    	
+    	else if(u.getUsername().equals(owner.getUsername())) {
     		if(!dirOwnP.getRead()) {
     			throw new PermissionDeniedException(d.getName());
     		}
