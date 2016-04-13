@@ -19,13 +19,19 @@ import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 public class ChangeDirectoryTest extends AbstractServiceTest {
-
+	//FIXME açways finish with assert?
 	protected void populate() {
 		
 		MyDrive md = MyDrive.getInstance();
+    	long token = 0; //FIXME create a valid token
+    	
+    	md.getSessionByToken(token);
+    	
+    	User user1 = new User("neto","***", "netjinho");
+    	PlainFile pf = new PlainFile("example.txt", 1024, "");
 		
-	    
-//	    Session s1 = new Session(u1, 1);
+	   
+	    Session s1 = new Session(user1, 1);
 //	    s1.setCurrentDirectory(home1);
 	
 	}
