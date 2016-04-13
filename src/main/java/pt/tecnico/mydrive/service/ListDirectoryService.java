@@ -8,24 +8,25 @@ import java.util.List;
 public class ListDirectoryService extends MyDriveService{
 
 	private long token;
-	private String name;
+	//private String result;
+	private List<File> _result;
 	
 	public ListDirectoryService(long token) throws NoSuchFileException{
-    		//return getMyDrive.getCurrentDir(token).get(name).ls();
-
+    		this.token = token;
    	}
 
 	public final void dispatch() {
-
+			MyDrive md = MyDrive.getInstance();
+    		_result = null ;//md.getCurrentDirByToken(token).ls();
 	}
 
+	/*public final String result(){
+		return result;
+	} */
+
 	public final List<File> result(){
-		return null;
+		return _result;
 	}    
-    	/*public String ListDirectoryService(long token){
-		return getMyDrive.getCurrentDir(token).ls();
-    	}
-*/
 
 }
 
