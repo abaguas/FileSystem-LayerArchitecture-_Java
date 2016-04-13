@@ -40,16 +40,16 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     	Directory dir = md.getDirectoryByAbsolutePath(token, path);
     	User root = md.getUserByUsername("root");
     	
-    	md.getSessionByToken(token).setCurrentUser(root);
+    	md.setCurrentUserByToken(token, root);
     
-    	md.setCurrentDir(token, dir);
+    	md.setCurrentDirByToken(token, dir);
     	
         ChangeDirectoryService service = new ChangeDirectoryService(token, "root"); 
         
         service.execute();
         
         
-        md.getCurrentDir(token);
+        md.getCurrentDirByToken(token);
 
         assertEquals("Changed Directory with a relative path with success", "/home/root", md.pwd(token));
 
@@ -63,13 +63,13 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     	final String path = "/home/root";
     	User root = md.getUserByUsername("root");
     	
-    	md.getSessionByToken(token).setCurrentUser(root);
+    	md.setCurrentUserByToken(token, root);
    
         ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
         
         service.execute();
         
-        md.getCurrentDir(token);
+        md.getCurrentDirByToken(token);
         
         assertEquals("Changed Directory with an absolute path with success", "/home/root", md.pwd(token));
     }
@@ -82,7 +82,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     	final String path = "root"; //FIXME check permissions and cd to /home
     	User user = md.getUserByUsername("netjinho"); //FIXME create user netjinho
     	
-    	md.getSessionByToken(token).setCurrentUser(user);
+    	md.setCurrentUserByToken(token, user);
    
         ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
         
@@ -98,7 +98,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     	final String path = "/home/root"; //FIXME check permissions
     	User user = md.getUserByUsername("netjinho"); //FIXME create user netjinho
     	
-    	md.getSessionByToken(token).setCurrentUser(user);
+    	md.setCurrentUserByToken(token, user);
    
         ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
         
@@ -143,7 +143,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 		ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
         service.execute();
         
-        md.getCurrentDir(token);
+        md.getCurrentDirByToken(token);
         assertEquals("Changed Directory with maximum path size with success", path, md.pwd(token));
     }
 

@@ -15,7 +15,7 @@ public class ReadFileService extends MyDriveService{
 	private String fileName;
     private Directory currentDir;
     private User currentUser;
-    private String result;
+    private String _result;
     
 
     public ReadFileService(long token, String fileName) {
@@ -24,28 +24,21 @@ public class ReadFileService extends MyDriveService{
     }
     
     public final void dispatch() throws PermissionDeniedException, InvalidFileNameException, NoSuchFileException{
-        /*MyDrive md = MyDrive.getInstance();
-        currentUser = md.getSessionByToken(token).getCurrentUser();
-        currentDir = md.getSessionByToken(token).getCurrentDir();
+        MyDrive md = MyDrive.getInstance();
+        currentUser = md.getCurrentUserByToken(token);
+        currentDir = md.getCurrentDirByToken(token);
         if(fileName != null){
-            File file = currentDir.get(fileName); // throws no such file exception            
-            if(checkPermissions(file)){
-                result = file.ls();
-            }
+            File file = currentDir.get(fileName); // throws no such file exception
+            md.checkPermissions(token, fileName, "ls", "read");            
+            _result = file.ls();
             throw new PermissionDeniedException("Reading " + fileName + " ");
         }
-        throw new InvalidFileNameException("Invalid file name null ");*/
+        throw new InvalidFileNameException("Invalid file name null ");
     }
 
     public final String result() {
-		return fileName; //FIXME remover depois de descomentar, apenas para permitir compilacao
-        //return result;
+        return _result;
     }
 
-    private boolean checkPermissions(File file){
-		return false; //FIXME remover depois de descomentar, apenas para permitir compilacao
-        /*boolean ownerOrRoot = file.getOwner().getUsername().equals(currentUser.getUsername()) || currentUser.getUsername().equals("root");
-        boolean hasReadingPermission = file.getOthersPermission().getRead() && currentUser.getOthersPermission().getRead();
-        return ownerOrRoot || hasReadingPermission;*/
-    }
+    
 }
