@@ -79,20 +79,37 @@ public class Directory extends Directory_Base {
            		return new Link(name, id, user, content, this);
         }
     }
-
-	public void remove(String name) throws NoSuchFileException{
-		File f = search(name);
-		System.out.println(f);
-		removeFiles(f);
-		f.remove();
-	}
-
-	public void remove() {
+	
+	@Override
+	public void remove(MyDrive md, long token) throws PermissionDeniedException {
+		boolean allDeleted = true;
+		md.checkPermissions(token, getName(), "create-delete", "delete"); //verify delete permission
 		Set<File> files = getFiles();
-		for (File f: files) {
-   	 		f.remove();
-   	 		removeFiles(f);
-   	 	}
+		while (!files.isEmpty()){
+			for (File f: files) {
+				try {
+					files.remove(f);
+					md.cdable(f);
+					md.checkPermissions(token, getName(), "read-write-execute", "execute"); //verify execute permission for other files
+		   	 		f.remove(md, token);
+		   	 	}catch (PermissionDeniedException pde){
+		   	 		allDeleted = false;
+		   	 	} catch (FileNotCdAbleException fncde){
+		   	 		try{
+		   	 			f.remove(md, token);
+		   	 		}catch (PermissionDeniedException pde2){
+		   	 			allDeleted = false;
+		   	 		}
+		   	 	}
+			}
+		}
+		if (allDeleted) {
+			setOwner(null);
+	    	setUserPermission(null);
+	        setOthersPermission(null);
+	        setDirectory(null);
+	        deleteDomainObject();
+		}
 	}
 
 	public File get(String name) throws NoSuchFileException, FileNotDirectoryException{
@@ -105,6 +122,16 @@ public class Directory extends Directory_Base {
 		else {
 			File f = search(name);
    	 		return f;
+		}
+	}
+
+	public boolean hasFile(String name){
+		try{
+			search(name);
+			return true;
+		}
+		catch(NoSuchFileException e){
+			return false;
 		}
 	}
 

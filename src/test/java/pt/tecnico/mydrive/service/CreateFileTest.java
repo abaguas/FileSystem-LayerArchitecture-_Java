@@ -256,12 +256,25 @@ public class CreateFileTest extends AbstractServiceTest {
     	CreateFileService service = new CreateFileService(1, "ab\0cd", "attempt", "PlainFile"); 
     	service.execute();
     }
+    
+    @Test (expected = InvalidFileNameException.class)
+    public void invalidFileNameCreation2() {
+    	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
+    	service.execute();
+    }
 	
 	
 	@Test (expected = MaximumPathException.class)
 	public void maxPathExceededFileCreation() {
 		String name = ""; //caso limite
 		CreateFileService service = new CreateFileService(1, name, "attempt", "PlainFile");
+		service.execute();
+	}
+    
+    
+    @Test (expected = LinkWithoutContentException.class)
+	public void linkWithouthContentFileCreation() {
+		CreateFileService service = new CreateFileService(1, "invalidLink", "", "Link");
 		service.execute();
 	}
     

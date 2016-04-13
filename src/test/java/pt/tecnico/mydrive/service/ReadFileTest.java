@@ -14,64 +14,108 @@ import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
+import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
 
 /*casos de teste:
- * ler ficheiro com own permissions
- * ler ficheiro sem own permissions
+ * TESTES PLAIN FILES (todos com permissao de execucao
  * 
- * ler ficheiro com other permissions
- * ler ficheiro sem other permissions
+ * ler ficheiro com permissoes
+ * -owner
+ * -other
+ * -root
+ * 
+ * ler plain file sem permissoes
+ * -owner
+ * -other
+ * -root
+ *  
+ * ler ficheiro inexistente
+ * 
+ * ler diretorio sem permissoes
+ * 
+ * ler diretorio com permissoes
+ * 
+ * 
+ * TESTES LINKS (todos com pass absoluto, excepto se nao mencionado)
  *
- * root: ler ficheiro sem other permissions
- * root: ler ficheiro sem own permissions
- * 
- * read non-existing file
- * 
- * diretorio sem permissoes
- * diretorio com permissoes
- * 
- * link absoluto
- * link relativo
  * link broken
+ * 
+ * link com todas as permissoes garantidas
+ * -owner com pass relativo
+ * -owner
+ * -other
+ * -root
+ *
+ * link sem permissoes de execucao na diretoria dois links depois (primeiro link é relativo)
+ * -owner
+ * -other
+ * -root
+ *
+ *  
+ * link sem permissoes de leitura no ficheiro dois links depois (primeiro link é relativo)
+ * -owner
+ * -other
+ * -root
+ * 
+ * link que indica diretoria
+ * 
+ * link com loop infinito
  * 
  * **********************************
  * DUVIDAS:
- * vale a pena testar todos os casos na leitura de uma App?
+ * vale a pena testar todos os casos na leitura de uma App?, ou mesmo algum caso?
  	@Test(expected = FileIsNotReadAbleException.class)
 	  public void readAppWithPermissions() {
-	}
- * 
- * TODO testar os links depois de receber o mail
- 	
+	
  */
-
+/*
 public class ReadFileTest extends AbstractServiceTest{
 	protected void populate() {
 		MyDrive md = MyDrive.getInstance();
 		
 		//create users
 		User owner = new User("Pizza", "password", "pizz");
+		md.addUsers(owner);
 		User other = new User("Popcorn", "password", "corn");
+		md.addUsers(other);
 		User root = md.getRootUser();
 		
 		//create directory with permissions for all to insert the files
 		Directory workingDirectory = owner.getMainDirectory();
-        workingDirectory.setOthersPermission(new Permission("rwxd"));
-		
+        workingDirectory.setOthersPermission(new Permission("--x-"));
+        
         //create files
+        //files for directories with execute permissions
 		new PlainFile("Granted to owner", 1, owner, "Owner can see", workingDirectory);
 		PlainFile denied = new PlainFile("Denied", 2, owner, "Cannot see", workingDirectory);
 		PlainFile visit = new PlainFile("To Visit", 3, owner, "Welcome Visitor", workingDirectory);
-		Directory dir = new Directory("Dir", 4, owner, workingDirectory);
-		new Directory("Dir Without Permissions", 5, owner, workingDirectory);
-		new Link("Relative", 6, owner, "../Granted to owner", dir);
-		new Link("Absolute", 7, owner, "/home/pizz/Granted to owner", dir);
-		new Link("Broken", 8, owner, "/home/piz/Granted to owner", dir);
+		new Directory("Dir", 4, owner, workingDirectory);
+		new Link("Hop One", 5, owner, "../pizz/Hop Two", workingDirectory);
+		new Link("Hop Two", 6, owner, "/home/pizz/Cannot Execute/Inside Cannot Execute", workingDirectory);
+		new Link("Relative", 7, owner, "../Granted to owner", workingDirectory);
+		new Link("AbsoluteWPermissions", 8, owner, "/home/pizz/To Visit", workingDirectory);
+		new Link("Broken", 9, owner, "/home/piz/Granted to owner", workingDirectory);
+		Directory cannotExecute = new Directory("Cannot Execute", 10, owner, workingDirectory);
+		PlainFile insideCannotExecute = new PlainFile("Inside Cannot Execute", 11, owner, "poor me", cannotExecute);
+		Directory canExecute = new Directory("Can execute", 12, owner, workingDirectory);
+		PlainFile noYouCant = new PlainFile("No You Cant", 13, owner, "poor you", workingDirectory);
+		new Link("Hop One1", 14, owner, "../dir/Hop Two2", workingDirectory);
+		new Link("Hop Two2", 15, owner, "/home/pizz/Can Execute/No You Cant", canExecute);
+		new Link("Infinite Loop", 16, owner, "/home/pizz/loop", workingDirectory);
+		new Link("loop", 17, owner, "/home/pizz/Infinite Loop", workingDirectory);
+		new Link("I point to Dir", 18, owner, "/home/pizz/Can Execute", workingDirectory);
 		
 		//change permissions
 		denied.setUserPermission(new Permission("-wxd"));
 		visit.setOthersPermission(new Permission("r---"));
-		
+		other.setOthersPermission(new Permission("----"));//remove permissions because they dont matter
+		other.setOthersPermission(new Permission("----"));//remove permissions because they dont matter
+		cannotExecute.setOthersPermission(new Permission("rw-d"));
+		cannotExecute.setUserPermission(new Permission("rw-d"));
+		insideCannotExecute.setOthersPermission(new Permission("r---"));
+		canExecute.setOthersPermission(new Permission("--x-"));
+		noYouCant.setOthersPermission(new Permission("-wxd"));
+		noYouCant.setUserPermission(new Permission("-wxd"));
 		
 		//create session and set current directory
 		Session sessionOwner = new Session(owner, 1);
@@ -88,14 +132,13 @@ public class ReadFileTest extends AbstractServiceTest{
 		
 	}
 
-
 	@Test
 	public void readFileWithOwnPermissions() {
 		ReadFileService rfs = new ReadFileService(1, "Granted to Owner");
 		rfs.execute();
 		String content = rfs.result();
 		
-		assertEquals("Content is 'Owner can see'", "Owner can see", content);
+		assertEquals("Content is not 'Owner can see'", "Owner can see", content);
 	}
 	
 	@Test(expected = PermissionDeniedException.class)
@@ -110,7 +153,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		rfs.execute();
 		String content = rfs.result();
 		
-		assertEquals("Content is 'Welcome Visitor'", "Welcome Visitor", content);
+		assertEquals("Content is not 'Welcome Visitor'", "Welcome Visitor", content);
 	}
 	
 	@Test(expected = PermissionDeniedException.class)
@@ -125,7 +168,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		rfs.execute();
 		String content = rfs.result();
 		
-		assertEquals("Content is 'Owner can see'", "Owner can see", content);
+		assertEquals("Content is not 'Owner can see'", "Owner can see", content);
 	}
 	
 	@Test
@@ -134,12 +177,12 @@ public class ReadFileTest extends AbstractServiceTest{
 		rfs.execute();
 		String content = rfs.result();
 		
-		assertEquals("Content is 'Cannot see'", "Cannot see", content);
+		assertEquals("Content is not 'Cannot see'", "Cannot see", content);
 	}
 	
 	@Test(expected = NoSuchFileException.class)
 	public void readNonExistingFile() {
-		ReadFileService rfs = new ReadFileService(1, "Broccoli");
+		ReadFileService rfs = new ReadFileService(3, "Broccoli");
 		rfs.execute();
 	}
 
@@ -155,27 +198,101 @@ public class ReadFileTest extends AbstractServiceTest{
 		rfs.execute();
 	}
 	
-	@Test
-	public void readLinkWithRelativePath() {
-		ReadFileService rfs = new ReadFileService(1, "Relative");
-		rfs.execute();
-		String content = rfs.result();
-		
-		assertEquals("Content is 'Owner can see'", "Owner can see", content);
-	}
-	
-	@Test
-	public void readLinkWithAbsolutePath() {
-		ReadFileService rfs = new ReadFileService(1, "Absolute");
-		rfs.execute();
-		String content = rfs.result();
-		
-		assertEquals("Content is 'Owner can see'", "Owner can see", content);
-	}
-	
 	@Test(expected = NoSuchFileException.class)
 	public void readLinkWithInvalidPath() {
 		ReadFileService rfs = new ReadFileService(1, "Broken");
 		rfs.execute();
 	}
+	
+	@Test
+	public void readLinkWithRelativePathWithAllPermissionsByOwner() {
+		ReadFileService rfs = new ReadFileService(1, "Relative");
+		rfs.execute();
+		String content = rfs.result();
+		
+		assertEquals("Content is not 'Owner can see'", "Owner can see", content);
+	}
+	
+	@Test
+	public void readLinkWithAbsolutePathWithAllPermissionsByOwner() {
+		ReadFileService rfs = new ReadFileService(1, "AbsoluteWithPermissions");
+		rfs.execute();
+		String content = rfs.result();
+		
+		assertEquals("Content is not 'Welcome Visitor'", "Welcome Visitor", content);
+	}
+	
+	@Test
+	public void readLinkWithAbsolutePathWithAllPermissionsByOther() {
+		ReadFileService rfs = new ReadFileService(2, "AbsoluteWithPermissions");
+		rfs.execute();
+		String content = rfs.result();
+		
+		assertEquals("Content is not 'Welcome Visitor'", "Welcome Visitor", content);
+	}
+	
+	@Test
+	public void readLinkWithAbsolutePathWithAllPermissionsByRoot() {
+		ReadFileService rfs = new ReadFileService(3, "AbsoluteWithPermissions");
+		rfs.execute();
+		String content = rfs.result();
+		
+		assertEquals("Content is not 'Welcome Visitor'", "Welcome Visitor", content);
+	}
+	
+	@Test(expected = PermissionDeniedException.class)
+	public void readLinkWithoutExecutePermissionsByOwner() {
+		ReadFileService rfs = new ReadFileService(1, "Hop One");
+		rfs.execute();
+	}
+	
+	@Test(expected = PermissionDeniedException.class)
+	public void readLinkWithoutExecutePermissionsByOther() {
+		ReadFileService rfs = new ReadFileService(2, "Hop One");
+		rfs.execute();
+	}
+	
+	@Test
+	public void readLinkWithoutExecutePermissionsByRoot() {
+		ReadFileService rfs = new ReadFileService(3, "Hop One");
+		rfs.execute();
+		String content = rfs.result();
+		
+		assertEquals("Content is not 'poor me'", "poor me", content);
+	}
+	
+	@Test(expected = PermissionDeniedException.class)
+	public void readLinkWithoutReadPermissionsByOwner() {
+		ReadFileService rfs = new ReadFileService(1, "Hop One1");
+		rfs.execute();
+	}
+	
+	@Test(expected = PermissionDeniedException.class)
+	public void readLinkWithoutReadPermissionsByOther() {
+		ReadFileService rfs = new ReadFileService(2, "Hop One1");
+		rfs.execute();
+	}
+	
+	@Test
+	public void readLinkWithoutreadPermissionsByRoot() {
+		ReadFileService rfs = new ReadFileService(3, "Hop One1");
+		rfs.execute();
+		String content = rfs.result();
+		
+		assertEquals("Content is not 'poor you'", "poor you", content);
+	}
+	
+	@Test(expected = TooManyLevelsOfSymbolicLinksException.class)
+	public void infiniteLoopByRoot() {
+		ReadFileService rfs = new ReadFileService(3, "Infinite Loop");
+		rfs.execute();
+	}
+	
+	@Test(expected = FileIsNotReadAbleException.class)
+	public void readDirectoryWithPermissionsByLink() {
+		ReadFileService rfs = new ReadFileService(1, "I Point to Dir");
+		rfs.execute();
+	}
+	
 }
+*/

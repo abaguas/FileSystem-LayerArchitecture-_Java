@@ -1,4 +1,20 @@
-/*package pt.tecnico.mydrive.service;
+package pt.tecnico.mydrive.service;
+
+import java.util.List;
+
+import pt.tecnico.mydrive.exception.NoSuchFileException;
+import pt.tecnico.mydrive.domain.Directory;
+import pt.tecnico.mydrive.domain.User;
+import pt.tecnico.mydrive.domain.PlainFile;
+import pt.tecnico.mydrive.domain.Link;
+import pt.tecnico.mydrive.domain.App;
+import pt.tecnico.mydrive.domain.File;
+import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.MyDrive;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 
 public class ListDirectoryTest extends AbstractServiceTest{
@@ -10,18 +26,19 @@ public class ListDirectoryTest extends AbstractServiceTest{
 	    PlainFile p2 = new PlainFile("Exemplo", 124, u1, "conteudo3", home);
 	    App a1 = new App("application", 125, u1, "conteudo1", home);
 	   	Link l1 = new Link("ligacao", 126, u1, "conteudo1", home);
-	   	Session s1 = new Session(u1,1,md.getLogin();
-    	s1.setCurrentDirectory(home);
+	   	Session s1 = new Session(u1,1,md);
+	   	Session s2 = new Session(u1,2,md);
+	   	s2.setCurrentDir(md.getRootDirectory());
 
 
 	}
 
 	@Test
-	public void PermitedListDirectory{
+	public void PermitedListDirectory() throws NoSuchFileException{
 		final long token = 1;
         ListDirectoryService service = new ListDirectoryService(token);
         service.execute();
-        List<File> files = service.result();
+        List<File> cs = service.result();
 
         // check contact listing
         assertEquals("List with 6 Contacts", 6, cs.size());
@@ -33,16 +50,21 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		assertEquals("Sixth File is ligacao ligacao", "ligacao", cs.get(5).getName());
 
 	}
-
 	@Test
-	public void ListInexistedDirectory{
-
+	public void ListRootDirectory() throws NoSuchFileException{
+		final long token = 2;
+		ListDirectoryService service= new ListDirectoryService(token);
+		service.execute();
+		List<File> cs = service.result();
+		assertEquals("List with 3 Contacts", 3, cs.size());
+		assertEquals("First File is FatherDir", "..", cs.get(0).getName());
+		assertEquals("Second File is SelfDir", ".", cs.get(1).getName());
+		assertEquals("Third File is Home", "home", cs.get(2).getName());
 
 	}
 
-	@Test
-	public void NotPermitedListDirectory{
 
 
-	}
-}*/
+	
+
+}

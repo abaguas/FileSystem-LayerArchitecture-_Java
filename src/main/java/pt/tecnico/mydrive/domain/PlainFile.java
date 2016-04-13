@@ -74,7 +74,6 @@ public class PlainFile extends PlainFile_Base {
         Permission ownpermission = new Permission(perm.substring(0,4));
         Permission otherspermission = new Permission(perm.substring(4));
         init(name,id,user,contents,father);
-
     }
     
     @Override
