@@ -1,5 +1,5 @@
 package pt.tecnico.mydrive.domain;
-
+import org.joda.time.DateTime;
 public class Session extends Session_Base {
     
     public Session(User u, long token, MyDrive mydrive) {   //Login //FIXME retirei o argumento login que era recebido
@@ -9,5 +9,7 @@ public class Session extends Session_Base {
         setMd(mydrive);
         setCurrentDir(u.getMainDirectory());
         getMd().addSession(this);
+        DateTime actual = new DateTime();
+        setTimestamp(actual);
     } 
 }
