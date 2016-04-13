@@ -125,6 +125,16 @@ public class Directory extends Directory_Base {
 		}
 	}
 
+	public boolean hasFile(String name){
+		try{
+			search(name);
+			return true;
+		}
+		catch(NoSuchFileException e){
+			return false;
+		}
+	}
+
 	public File search(String name) throws NoSuchFileException{
 		Set<File> files = getFiles();
 
