@@ -37,22 +37,22 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 
 		rootdir = MyDrive.getInstance().getRootDirectory();
 	    
-	    Session s1 = new Session(u1, 1);
+	    Session s1 = new Session(u1, 1, md);
 	    s1.setCurrentDir(home1);
 
-	    Session s2 = new Session(u1, 2);
+	    Session s2 = new Session(u1, 2, md);
 	    s2.setCurrentDir(home2);
 
-	    Session s3 = new Session(u1, 3);
+	    Session s3 = new Session(u1, 3, md);
 	    s3.setCurrentDir(rootdir);
 
-	    Session s4 = new Session(u2, 4);
+	    Session s4 = new Session(u2, 4, md);
 	    s3.setCurrentDir(home2);
 
-	    Session s5 = new Session(u1, 5);
+	    Session s5 = new Session(u1, 5, md);
 	    s5.setCurrentDir((Directory)rootdir.get("home"));
 
-	    Session s6 = new Session(u1, 6);
+	    Session s6 = new Session(u1, 6, md);
 	    s6.setCurrentDir((Directory)rootdir.get("home"));
 	    
 	}

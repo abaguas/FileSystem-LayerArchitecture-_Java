@@ -1,5 +1,21 @@
 package pt.tecnico.mydrive.service;
 
+import java.util.List;
+
+import pt.tecnico.mydrive.exception.NoSuchFileException;
+import pt.tecnico.mydrive.domain.Directory;
+import pt.tecnico.mydrive.domain.User;
+import pt.tecnico.mydrive.domain.PlainFile;
+import pt.tecnico.mydrive.domain.Link;
+import pt.tecnico.mydrive.domain.App;
+import pt.tecnico.mydrive.domain.File;
+import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.MyDrive;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 
 public class ListDirectoryTest extends AbstractServiceTest{
 	protected void populate(){
@@ -22,7 +38,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		final long token = 1;
         ListDirectoryService service = new ListDirectoryService(token);
         service.execute();
-        List<File> files = service.result();
+        List<File> cs = service.result();
 
         // check contact listing
         assertEquals("List with 6 Contacts", 6, cs.size());
@@ -37,9 +53,9 @@ public class ListDirectoryTest extends AbstractServiceTest{
 	@Test
 	public void ListRootDirectory() throws NoSuchFileException{
 		final long token = 2;
-		ListDirectoryService service= ListDirectoryService(token);
+		ListDirectoryService service= new ListDirectoryService(token);
 		service.execute();
-		List<File> files = service.result();
+		List<File> cs = service.result();
 		assertEquals("List with 3 Contacts", 3, cs.size());
 		assertEquals("First File is FatherDir", "..", cs.get(0).getName());
 		assertEquals("Second File is SelfDir", ".", cs.get(1).getName());
