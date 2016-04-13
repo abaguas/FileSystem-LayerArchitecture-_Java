@@ -8,6 +8,12 @@ import pt.tecnico.mydrive.exception.MyDriveException;
 
 import java.util.Set;
 import java.util.ArrayList;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Random;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
@@ -20,6 +26,7 @@ import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
+import pt.tecnico.mydrive.exception.ExpiredSessionException;
 
 public class MyDrive extends MyDrive_Base {
 
@@ -49,25 +56,49 @@ public class MyDrive extends MyDrive_Base {
         getRootUser().setMainDirectory(getCurrentDirByToken(token));
     }
 
-    public Session getSessionByToken(long token){return null;} //TODO implementation of this method //FIXME throws InvalidTokenException
+    public Session getSessionByToken(long token) throws ExpiredSessionException{
+        Set<Session> sessions = getSessionSet();
+        DateTime actual = new DateTime();
+        DateTime twohoursbefore = actual.minusHours(2);
+        for(Session session : sessions){
+            int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
+            if(session.getToken()== token){
+                if(result == -1 || result == 0 ){
+                    session.setTimestamp(actual);
+                    return session;
+                }
+                else{
+                    removeSession(session);
 
-    public Directory getCurrentDirByToken(long token){
-		return null;
-        //FIXME return getLogin().getCurrentDirByToken(token);
+                } 
+            }
+            else{
+                if(result == 1){
+                    removeSession(session);
+                }
+            }
+        }
+        throw new ExpiredSessionException();
+    } 
+
+    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException{
+		Session session = getSessionByToken(token);
+        return session.getCurrentDir();
     }
 
-    public void setCurrentDirByToken(long token, Directory dir){
-    	//FIXME getLogin().setCurrentDirByToken(token, dir);
+    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException{
+    	Session session = getSessionByToken(token);
+        session.setCurrentDir(dir);
     }
 
-    public User getCurrentUserByToken(long token){
-		return null;
-    	//FIXME return getLogin().getCurrentUserByToken(token);
+    public User getCurrentUserByToken(long token)throws ExpiredSessionException{
+		Session session = getSessionByToken(token);
+        return session.getCurrentUser();
     }
 
-    public User setCurrentUserByToken(long token, User u){
-        return null;
-        //FIXME return getLogin().getCurrentUserByToken(token);
+    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException{
+        Session session = getSessionByToken(token);
+        session.setCurrentUser(u);
     }
 
     public int generateId(){
