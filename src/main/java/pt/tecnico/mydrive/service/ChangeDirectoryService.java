@@ -67,5 +67,10 @@ public class ChangeDirectoryService extends MyDriveService
        cd(token, path, md);
        
     }
+    
+    public String getResult(){
+    	return result;
+    }
+
 
 }
