@@ -66,7 +66,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         String result = service.result();
 
-		assertEquals("Changed Directory with a relative path with success", result, targetDir);
+		assertEquals("Error changing Directory with a relative path", result, targetDir);
 
     }
 
@@ -83,7 +83,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         String result = service.result();
 
-		assertEquals("Changed Directory with an absolute path with success", result, targetDir);
+		assertEquals("Error changing Directory with an absolute path", result, targetDir);
 
     }
     
@@ -172,7 +172,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         String result = service.result();
 
-        assertEquals("Changed Directory with maximum path size with success", result, targetDir);
+        assertEquals("Error changing Directory with maximum path size", result, targetDir);
        
     }
 
