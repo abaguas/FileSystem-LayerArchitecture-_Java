@@ -8,7 +8,6 @@ import java.util.List;
 public class ListDirectoryService extends MyDriveService{
 
 	private long token;
-	//private String result;
 	private List<String> _result;
 	
 	public ListDirectoryService(long token) throws NoSuchFileException{
@@ -17,13 +16,9 @@ public class ListDirectoryService extends MyDriveService{
 
 	public final void dispatch() {
 			MyDrive md = MyDrive.getInstance();
-    		_result = null ;//md.getCurrentDirByToken(token).ls();
+    		_result = md.getCurrentDirByToken(token).lsList();
 	}
-
-	/*public final String result(){
-		return result;
-	} */
-
+	
 	public final List<String> result(){
 		return _result;
 	}    
