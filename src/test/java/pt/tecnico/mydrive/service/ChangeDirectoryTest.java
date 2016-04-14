@@ -49,9 +49,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    Session s3 = new Session(root, 3, md);
 	    s3.setCurrentDir(homeRoot);
 	    
-	    md.addSession(s1);
-	    md.addSession(s3);
-	    md.addSession(s4);
+	
 	    String name = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
 	    md.getDirectoryByAbsolutePath(3, name); //Creates big directory path
 	    
