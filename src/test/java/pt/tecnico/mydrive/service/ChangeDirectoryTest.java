@@ -5,8 +5,9 @@ import static org.junit.Assert.*;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
-import junit.framework.Assert;
+import pt.tecnico.mydrive.domain.App;
 import pt.tecnico.mydrive.domain.Directory;
+import pt.tecnico.mydrive.domain.Link;
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.domain.PlainFile;
@@ -19,78 +20,81 @@ import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 public class ChangeDirectoryTest extends AbstractServiceTest {
-	//FIXME açways finish with assert?
+
+	
+	
 	protected void populate() {
 		
 		MyDrive md = MyDrive.getInstance();
-    	long token = 0; //FIXME create a valid token
     	
-    	md.getSessionByToken(token);
-    	
-    	User user1 = new User("neto","***", "netjinho");
-    	PlainFile pf = new PlainFile("example.txt", 1024, "");
-		
-	   
-	    Session s1 = new Session(user1, 1);
-//	    s1.setCurrentDirectory(home1);
-	
+    	User u1 = new User("neto", "***", "netjinho");
+    	User u2 = new User("zecarlos", "***", "zecarlos");
+	    User root = md.getUserByUsername("root");
+	    
+	    Directory home1= u1.getMainDirectory();
+	    Directory home2= u2.getMainDirectory();
+	    Directory homeRoot = root.getMainDirectory();
+	    Directory home = md.getDirectoryByAbsolutePath(2, "/home");
+	    
+	    String name = StringUtils.rightPad("", 1024, "/zezacarias");
+	    Directory bigDirectory = new Directory(name, md.generateId(), root, homeRoot);
+	    Directory images = new Directory("images",md.generateId(),root,homeRoot);
+
+		Session s1 = new Session(u1,1,md);
+	 	s1.setCurrentDir(home1);
+	 	
+	 	Session s4 = new Session(u1,4,md);
+	 	s4.setCurrentDir(home);
+	    
+	    Session s3 = new Session(root, 3, md);
+	    s3.setCurrentDir(homeRoot);
+	    
+	    
+	    PlainFile p1 = new PlainFile("example.txt",md.generateId(), u1, "",home1);
 	}
 
 
 
     @Test
     public void successCdRelativePath() { //Testing CD with a valid token, permitted and existing relative path
-    	MyDrive md = MyDrive.getInstance();
-    	long token = 0; //FIXME create a valid token
-    	final String path = "root"; //FIXME cd to /home
-    	Directory dir = md.getDirectoryByAbsolutePath(token, path);
-    	User root = md.getUserByUsername("root");
+    	final long token = 3; 
+    	final String targetDir = "/home/root/images";
     	
-    	md.setCurrentUserByToken(token, root);
-    
-    	md.setCurrentDirByToken(token, dir);
-    	
-        ChangeDirectoryService service = new ChangeDirectoryService(token, "root"); 
+        ChangeDirectoryService service = new ChangeDirectoryService(token, "images"); 
         
         service.execute();
         
-        
-        md.getCurrentDirByToken(token);
+        String result = service.result();
 
-        assertEquals("Changed Directory with a relative path with success", "/home/root", md.pwd(token));
+		assertEquals("Error changing Directory with a relative path", result, targetDir);
 
     }
 
     
     @Test
     public void successCdAbsolutePath() { //Testing CD with a valid token, permitted and existing absolute path
-    	MyDrive md = MyDrive.getInstance();
-    	final long token = 0; //FIXME create a valid token
-    	final String path = "/home/root";
-    	User root = md.getUserByUsername("root");
-    	
-    	md.setCurrentUserByToken(token, root);
-   
-        ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+        
+    	final long token = 3; 
+    	final String targetDir = "/home/neto";
+    	    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, "/home/neto"); 
         
         service.execute();
         
-        md.getCurrentDirByToken(token);
-        
-        assertEquals("Changed Directory with an absolute path with success", "/home/root", md.pwd(token));
+        String result = service.result();
+
+		assertEquals("Error changing Directory with an absolute path", result, targetDir);
+
     }
     
     
     @Test (expected = PermissionDeniedException.class)
     public void notPermittedRelativePath() { //Testing CD with relative path with not permitted directory (no read permissions)
-    	MyDrive md = MyDrive.getInstance();
-    	final long token = 0; //FIXME create a valid token
-    	final String path = "root"; //FIXME check permissions and cd to /home
-    	User user = md.getUserByUsername("netjinho"); //FIXME create user netjinho
-    	
-    	md.setCurrentUserByToken(token, user);
-   
-        ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+        
+    	final long token = 4;
+    	final String targetDir = "zecarlos";
+    	    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
         
         service.execute();
         
@@ -99,74 +103,109 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 
 	@Test (expected = PermissionDeniedException.class)
     public void notPermittedAbsolutePath() { //Testing CD with absolute path with not permitted directory (no read permissions)
-		MyDrive md = MyDrive.getInstance();
-    	final long token = 0; //FIXME create a valid token
-    	final String path = "/home/root"; //FIXME check permissions
-    	User user = md.getUserByUsername("netjinho"); //FIXME create user netjinho
+    	final long token = 1;
+    	final String targetDir = "/home/zecarlos";
     	
-    	md.setCurrentUserByToken(token, user);
-   
-        ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
         
         service.execute();
     }
 	
 	@Test (expected = NoSuchFileException.class)
     public void nonExistentRelativePath() { //Testing CD with non-existent relative path
-		final long token = 0; //FIXME create a valid token
-		final String path = "zacarias"; //FIXME cd to /home
-		ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+    	final long token = 1; 
+    	final String targetDir = "zacarias";
+    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
+        
         service.execute();
 		
     }
 	
 	@Test (expected = NoSuchFileException.class)
     public void nonExistentAbsolutePath() { //Testing CD with non-existent absolute path
-		final long token = 0; //FIXME create a valid token
-		final String path = "/home/zacarias";
-		ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+    	final long token = 1; 
+    	final String targetDir = "/home/zacarias";
+  
+    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
+        
         service.execute();
     }
 	
 	@Test 	
     public void messageToOwnDirectory() { //Testing CD to "." and verify the returned message
-    	 //FIXME change to success?
+		final long token = 3;
+    	final String targetDir = ("/home/root");
+    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, "."); 
+        
+        service.execute();
+        
+        String result = service.result();
+		
+		assertEquals("Changed to '.' Directory with success", result, targetDir);
+
     }
 	
 	@Test (expected = MaximumPathException.class)
     public void absolutePathTooLarge() { //Testing CD with more than 1024 character in an absolute path
-		final long token = 0; //FIXME create a valid token
-		final String path = StringUtils.leftPad("/zacarias", 1025, "/zacarias");
-		ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+		
+    	final long token = 3; //FIXME create a valid token
+		final String targetDir = StringUtils.rightPad("/home/root/", 1025, "/zezacarias");
+    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
+        
         service.execute();
+		
     }
 	
 	@Test 
     public void successCdWithMaxPath() { //Testing CD with 1024 character in an absolute path
-		MyDrive md = MyDrive.getInstance();
-		final long token = 0; //FIXME create a valid token
-		final String path = StringUtils.leftPad("/zacarias", 1024, "/zacarias"); //FIXME create these dir
-		ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+
+    	final long token = 3;
+    	final String targetDir = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
+    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
+        
         service.execute();
         
-        md.getCurrentDirByToken(token);
-        assertEquals("Changed Directory with maximum path size with success", path, md.pwd(token));
+        String result = service.result();
+
+        assertEquals("Error changing Directory with maximum path size", result, targetDir);
+       
     }
 
 	@Test //(expected = InvalidTokenException.class)
     public void invalidToken() { //Testing CD with an invalid token
-		final long token = -1; //FIXME create an invalid token
-		final String path = "/home/root";
-		ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+
+		MyDrive md = MyDrive.getInstance();
+		final long token = -1;
+    	final String targetDir = "/home/root";
+    	User root = md.getUserByUsername("root");
+    	md.setCurrentUserByToken(token, root);
+    	
+    	final String path = "/home/root"; 
+    	Directory currentDir = md.getDirectoryByAbsolutePath(token, path);
+    	
+    	md.setCurrentDirByToken(token, currentDir);
+    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
+        
         service.execute();
+       
     }
 	
 	@Test (expected = FileNotCdAbleException.class)
-    public void notADirectory() { //Testing CD with more than 1024 character in an absolute path
-		final long token = 0; //FIXME create a valid token
-		final String path = "/home/root/example.txt"; //FIXME create example.txt file
-		ChangeDirectoryService service = new ChangeDirectoryService(token,path); 
+    public void notADirectory() { //Testing CD to a PlainFile
+		final long token = 3; 
+    	final String targetDir = "/home/root/example.txt";
+    	
+    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
+        
         service.execute();
+      
     }
 	
 
