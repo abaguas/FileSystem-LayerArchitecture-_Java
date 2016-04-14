@@ -1,5 +1,6 @@
 package pt.tecnico.mydrive.domain;
 import org.joda.time.DateTime;
+import pt.tecnico.mydrive.exception.ExpiredSessionException;
 public class Session extends Session_Base {
     
     public Session(User u, long token, MyDrive mydrive) {   //Login //FIXME retirei o argumento login que era recebido
@@ -8,8 +9,18 @@ public class Session extends Session_Base {
         setToken(token);
         setMd(mydrive);
         setCurrentDir(u.getMainDirectory());
-        getMd().addSession(this);
+        //getMd().addSession(this);
         DateTime actual = new DateTime();
         setTimestamp(actual);
     } 
+
+    @Override
+    public void setMd(MyDrive md){
+        if(md == null){
+            super.setMd(null);
+        }
+        else{
+            md.addSession(this);
+        }
+    }
 }

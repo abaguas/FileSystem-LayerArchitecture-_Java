@@ -39,22 +39,18 @@ public class MyDrive extends MyDrive_Base {
     }
 
     private MyDrive() throws MyDriveException{
-        long token = 0; //generate root token
         setRoot(FenixFramework.getDomainRoot());
-        RootUser r = null;
-        r = RootUser.getInstance();
-        //Session rootSession = new Session(r, token, this);
+        RootUser r = RootUser.getInstance();;
+        setCounter(0); 
         setRootUser(r);
         addUsers(r);
-        setCounter(0);
-        setRootDirectory(Directory.newRootDir(getRootUser()));
-        getRootDirectory().setOwner(getRootUser());
-        setCurrentDirByToken(token, getRootDirectory());
-        createDir(token, "home");
-        cd(token, "home");
-        createDir(token, "root");
-        cd(token, "root");
-        getRootUser().setMainDirectory(getCurrentDirByToken(token));
+        Directory rootDir = Directory.newRootDir(getRootUser());
+        rootDir.setOwner(getRootUser());
+        Directory home = new Directory("home", generateId(), getRootUser(), rootDir);
+        Directory root = new Directory("root", generateId(), getRootUser(), home);
+        getRootUser().setMainDirectory(root);
+        setRootDirectory(rootDir);
+
     }
 
     public Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
@@ -66,8 +62,8 @@ public class MyDrive extends MyDrive_Base {
         Session s = null;
         for(Session session : sessions){
             int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
-            if(session.getToken()== token){
-                if(result == -1 || result == 0 ){
+            if(session.getToken() == token){
+                if(result <= 0 ){
                     session.setTimestamp(actual);
                     s = session;
                 }
@@ -78,7 +74,7 @@ public class MyDrive extends MyDrive_Base {
                 } 
             }
             else{
-                if(result == 1){
+                if(result > 0){
                     removeSession(session);
                 }
             }
