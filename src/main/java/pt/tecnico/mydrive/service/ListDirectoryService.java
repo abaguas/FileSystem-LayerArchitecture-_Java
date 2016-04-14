@@ -9,7 +9,7 @@ public class ListDirectoryService extends MyDriveService{
 
 	private long token;
 	//private String result;
-	private List<File> _result;
+	private List<String> _result;
 	
 	public ListDirectoryService(long token) throws NoSuchFileException{
     		this.token = token;
@@ -24,7 +24,7 @@ public class ListDirectoryService extends MyDriveService{
 		return result;
 	} */
 
-	public final List<File> result(){
+	public final List<String> result(){
 		return _result;
 	}    
 
