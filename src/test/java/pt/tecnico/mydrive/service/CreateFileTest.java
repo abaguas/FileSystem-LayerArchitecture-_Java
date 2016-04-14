@@ -1,4 +1,4 @@
-/*
+
 package pt.tecnico.mydrive.service;
 
 import static org.junit.Assert.assertEquals;
@@ -16,6 +16,7 @@ import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.LinkWithoutContentException;
 import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
@@ -45,13 +46,13 @@ public class CreateFileTest extends AbstractServiceTest {
 		//Session s0 = new Session(u0, 0); //acho que a sessão do User é sempre criada
 		s0.setCurrentDir(dir0);
 	    
-		Session s1 = new Session(u1, 1); // ana - token=1
+		Session s1 = new Session(u1, 1, md); // ana - token=1
 	    s1.setCurrentDir(dir1);
 	    
-	    Session s2 = new Session(u2, 2); // maria - token=2
+	    Session s2 = new Session(u2, 2, md); // maria - token=2
 	    s2.setCurrentDir(dir2);
 	    
-	    Session s3 = new Session(u3, 3); // filipa - token=3
+	    Session s3 = new Session(u3, 3, md); // filipa - token=3
 	    s3.setCurrentDir(dir3);
 
 	    
@@ -103,12 +104,12 @@ public class CreateFileTest extends AbstractServiceTest {
 	// SHORTCUTS
 	
 	private User getUser(long token) {
-		User u = MyDriveService.getMyDrive().getCurrentUser(token);
+		User u = MyDriveService.getMyDrive().getCurrentUserByToken(token);
 		return u;
 	}
 	
 	private Directory getDirectory(long token) {
-		Directory d = MyDriveService.getMyDrive().getCurrentDir(token);
+		Directory d = MyDriveService.getMyDrive().getCurrentDirByToken(token);
 		return d;
 	}
 	
@@ -258,7 +259,7 @@ public class CreateFileTest extends AbstractServiceTest {
     }
     
     @Test (expected = InvalidFileNameException.class)
-    public void invalidFileNameCreation2() {
+    public void invalidFileNameCreation3() {
     	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
     	service.execute();
     }
@@ -287,4 +288,4 @@ public class CreateFileTest extends AbstractServiceTest {
 //	}
 
 }	
-*/
+

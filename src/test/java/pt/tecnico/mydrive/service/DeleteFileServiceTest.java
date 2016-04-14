@@ -24,18 +24,21 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 
 		MyDrive md = MyDrive.getInstance();
 
-	    User u1 = new User("Catio Balde", "pass1", "Catio");
+		rootdir = MyDrive.getInstance().getRootDirectory();
+
+		home1 = (Directory)rootdir.get("home");
+
+	    User u1 = new User("CatioBalde", "pass1", "Catio");
+	    u1.setMainDirectory(home1);
+
 	    User u2 = md.getUserByUsername("root");
-		home1 = u1.getMainDirectory();
 		home2 = u2.getMainDirectory();
 		Directory home2 = u2.getMainDirectory();
 	    
 	    Directory d1 = new Directory("folder", 125, u1, home1);
 	    Directory d2 = new Directory("folder2", 126, u2, home2);        
-	    PlainFile p1 = new PlainFile("Caso Bruma", 123, u1, "conteudo1", home1);
+	    PlainFile p1 = new PlainFile("CasoBruma", 123, u1, "conteudo1", home1);
 		PlainFile p2 = new PlainFile("Exemplo", 124, u2, "conteudo3", home2);
-
-		rootdir = MyDrive.getInstance().getRootDirectory();
 	    
 	    Session s1 = new Session(u1, 1, md);
 	    s1.setCurrentDir(home1);
@@ -60,10 +63,10 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	@Test
 	public void deletePermittedFile(){
 
-		DeleteFileService dfs = new DeleteFileService(1, "Caso Bruma");
+		DeleteFileService dfs = new DeleteFileService(1, "CasoBruma");
 		dfs.execute();
 
- 		assertFalse("file was not removed", home1.hasFile("Caso Bruma"));	
+ 		assertFalse("file was not removed", MyDrive.getInstance().getCurrentDirByToken(1).hasFile("CasoBruma"));	
  	}
 
 	@Test(expected=PermissionDeniedException.class)
@@ -96,7 +99,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 		DeleteFileService dfs = new DeleteFileService(1, "folder");
 		dfs.execute();
 
- 		assertFalse("Directory was not removed", home1.hasFile("folder"));	
+ 		assertFalse("Directory was not removed", MyDrive.getInstance().getCurrentDirByToken(1).hasFile("folder"));	
  	}
 
 	@Test(expected=PermissionDeniedException.class)
@@ -129,13 +132,13 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 
 	@Test(expected=NotDeleteAbleException.class)
 	public void deleteUserHomeDirectory(){
-		DeleteFileService dfs = new DeleteFileService(5, "Catio Balde");
+		DeleteFileService dfs = new DeleteFileService(5, "CatioBalde");
 		dfs.execute();
 	}
 
 	@Test(expected=NotDeleteAbleException.class)
 	public void deleteUserHomeDirectoryByRoot(){
-		DeleteFileService dfs = new DeleteFileService(6, "Catio Balde");
+		DeleteFileService dfs = new DeleteFileService(6, "CatioBalde");
 		dfs.execute();
 	}
 

@@ -18,7 +18,6 @@ public class ListDirectoryService extends MyDriveService{
 			MyDrive md = MyDrive.getInstance();
     		_result = md.getCurrentDirByToken(token).lsList();
 	}
-	
 	public final List<String> result(){
 		return _result;
 	}    
