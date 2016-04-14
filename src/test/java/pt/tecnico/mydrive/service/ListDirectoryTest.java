@@ -62,12 +62,12 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		assertEquals("Sixth File is ligacao ligacao", "ligacao", cs.get(5).getName());*/
 
 		assertEquals("List with 6 Contacts", 6, cs.size());
-		assertEquals("First File is FatherDir", "..", cs.get(0).getName());
-		assertEquals("Second File is SelfDir", ".", cs.get(1).getName());
-		assertEquals("Third File is application", list.get(0), cs.get(2).getName());
-		assertEquals("Fourth File is Caso Bruma", list.get(1), cs.get(3).getName());
-		assertEquals("Fifth File is Exemplo", list.get(2), cs.get(4).getName());
-		assertEquals("Sixth File is ligacao ligacao", list.get(3), cs.get(5).getName());
+		assertEquals("First File is FatherDir", "..", cs.get(0));
+		assertEquals("Second File is SelfDir", ".", cs.get(1));
+		assertEquals("Third File is application", list.get(0), cs.get(2));
+		assertEquals("Fourth File is Caso Bruma", list.get(1), cs.get(3));
+		assertEquals("Fifth File is Exemplo", list.get(2), cs.get(4));
+		assertEquals("Sixth File is ligacao ligacao", list.get(3), cs.get(5));
 
 
 	}
@@ -78,9 +78,9 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		service.execute();
 		List<String> cs = service.result();
 		assertEquals("List with 3 Contacts", 3, cs.size());
-		assertEquals("First File is FatherDir", "..", cs.get(0).getName());
-		assertEquals("Second File is SelfDir", ".", cs.get(1).getName());
-		assertEquals("Third File is Home", home_string, cs.get(2).getName());
+		assertEquals("First File is FatherDir", "..", cs.get(0));
+		assertEquals("Second File is SelfDir", ".", cs.get(1));
+		assertEquals("Third File is Home", home_string, cs.get(2));
 
 	}
 
