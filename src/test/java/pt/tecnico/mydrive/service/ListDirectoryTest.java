@@ -25,7 +25,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		
 	protected void populate(){
 		MyDrive md = MyDrive.getInstance();
-		User u1 = new User("Eusebio Silva","pass1", "Eusebio");
+		User u1 = new User("EusebioSilva","pass1", "Eusebio");
 		Directory home= u1.getMainDirectory();
 		PlainFile p1 = new PlainFile("CasoBruma", 123, u1, "conteudo1", home);
 	    PlainFile p2 = new PlainFile("Exemplo", 124, u1, "conteudo3", home);
