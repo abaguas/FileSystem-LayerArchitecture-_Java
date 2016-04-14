@@ -15,6 +15,7 @@ import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
@@ -34,10 +35,9 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    Directory home1= u1.getMainDirectory();
 	    Directory home2= u2.getMainDirectory();
 	    Directory homeRoot = root.getMainDirectory();
-	    Directory home = md.getDirectoryByAbsolutePath(2, "/home");
+	    Directory home = (Directory) md.getRootDirectory().get("home");
 	    
-	    String name = StringUtils.rightPad("", 1024, "/zezacarias");
-	    Directory bigDirectory = new Directory(name, md.generateId(), root, homeRoot);
+	    
 	    Directory images = new Directory("images",md.generateId(),root,homeRoot);
 
 		Session s1 = new Session(u1,1,md);
@@ -49,6 +49,8 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    Session s3 = new Session(root, 3, md);
 	    s3.setCurrentDir(homeRoot);
 	    
+	    String name = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
+	    md.getDirectoryByAbsolutePath(3, name); //Creates big directory path
 	    
 	    PlainFile p1 = new PlainFile("example.txt",md.generateId(), u1, "",home1);
 	}
@@ -176,7 +178,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
        
     }
 
-	@Test //(expected = InvalidTokenException.class)
+	@Test (expected = InvalidTokenException.class)
     public void invalidToken() { //Testing CD with an invalid token
 
 		MyDrive md = MyDrive.getInstance();
