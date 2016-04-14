@@ -68,7 +68,7 @@ import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
 	  public void readAppWithPermissions() {
 	
  */
-/*
+
 public class ReadFileTest extends AbstractServiceTest{
 	protected void populate() {
 		MyDrive md = MyDrive.getInstance();
@@ -295,4 +295,4 @@ public class ReadFileTest extends AbstractServiceTest{
 	}
 	
 }
-*/
+
