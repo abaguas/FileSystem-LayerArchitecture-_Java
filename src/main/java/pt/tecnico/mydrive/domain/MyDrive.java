@@ -27,6 +27,7 @@ import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
 import pt.tecnico.mydrive.exception.ExpiredSessionException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 
 public class MyDrive extends MyDrive_Base {
 
@@ -56,19 +57,23 @@ public class MyDrive extends MyDrive_Base {
         getRootUser().setMainDirectory(getCurrentDirByToken(token));
     }
 
-    public Session getSessionByToken(long token) throws ExpiredSessionException{
+    public Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
+
+
         Set<Session> sessions = getSessionSet();
         DateTime actual = new DateTime();
         DateTime twohoursbefore = actual.minusHours(2);
+        Session s = null;
         for(Session session : sessions){
             int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
             if(session.getToken()== token){
                 if(result == -1 || result == 0 ){
                     session.setTimestamp(actual);
-                    return session;
+                    s = session;
                 }
                 else{
                     removeSession(session);
+                    throw new ExpiredSessionException();
 
                 } 
             }
@@ -78,25 +83,30 @@ public class MyDrive extends MyDrive_Base {
                 }
             }
         }
-        throw new ExpiredSessionException();
+        if(s==null){
+            throw new InvalidTokenException();
+        }
+        else{
+            return s;
+        }
     } 
 
-    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException{
+    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException,InvalidTokenException{
 		Session session = getSessionByToken(token);
         return session.getCurrentDir();
     }
 
-    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException{
+    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException,InvalidTokenException{
     	Session session = getSessionByToken(token);
         session.setCurrentDir(dir);
     }
 
-    public User getCurrentUserByToken(long token)throws ExpiredSessionException{
+    public User getCurrentUserByToken(long token)throws ExpiredSessionException,InvalidTokenException{
 		Session session = getSessionByToken(token);
         return session.getCurrentUser();
     }
 
-    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException{
+    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException,InvalidTokenException{
         Session session = getSessionByToken(token);
         session.setCurrentUser(u);
     }
