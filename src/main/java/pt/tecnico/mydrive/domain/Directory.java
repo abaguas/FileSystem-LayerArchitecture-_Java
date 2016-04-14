@@ -125,6 +125,16 @@ public class Directory extends Directory_Base {
 		}
 	}
 
+	public boolean hasFile(String name){
+		try{
+			search(name);
+			return true;
+		}
+		catch(NoSuchFileException e){
+			return false;
+		}
+	}
+
 	public File search(String name) throws NoSuchFileException{
 		Set<File> files = getFiles();
 
@@ -164,6 +174,37 @@ public class Directory extends Directory_Base {
 	   	 	}
 	 	}
 		return output;
+	}
+
+	public List<String> lsList() {
+		String output="";
+		Set<File> files = getFiles();
+		List<File> list = new ArrayList<File>(files);
+		List<String> stringList = new ArrayList<String>();
+
+		Collections.sort(list, new Comparator<File>() {
+		    public int compare(File f1, File f2) {
+		    	int compare=f1.getName().compareTo(f2.getName());
+		    	return compare;
+		    }
+		});
+
+		String name = getFatherDirectory().getName();
+		getFatherDirectory().setName("..");
+		stringList.add(getFatherDirectory().toString());
+		getFatherDirectory().setName(name);
+
+		name = getSelfDirectory().getName();
+		getSelfDirectory().setName(".");
+		stringList.add(getSelfDirectory().toString());
+	 	getSelfDirectory().setName(name);
+
+	 	if (getName()!="/") {
+	   	 	for (File f: list){
+	   	 		stringList.add(f.toString());
+	   	 	}
+	 	}
+		return stringList;
 	}
 
 	public String toString(){

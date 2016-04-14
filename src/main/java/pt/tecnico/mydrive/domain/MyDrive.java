@@ -8,6 +8,12 @@ import pt.tecnico.mydrive.exception.MyDriveException;
 
 import java.util.Set;
 import java.util.ArrayList;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Random;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
@@ -20,6 +26,8 @@ import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
+import pt.tecnico.mydrive.exception.ExpiredSessionException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 
 public class MyDrive extends MyDrive_Base {
 
@@ -27,40 +35,80 @@ public class MyDrive extends MyDrive_Base {
         MyDrive md = FenixFramework.getDomainRoot().getMyDrive();
         if (md != null)
             return md;
-        return new MyDrive(0); //roottoken
+        return new MyDrive(); 
     }
 
-    private MyDrive(long token) throws MyDriveException{
+    private MyDrive() throws MyDriveException{
+        long token = 0; //generate root token
         setRoot(FenixFramework.getDomainRoot());
         RootUser r = null;
         r = RootUser.getInstance();
+        //Session rootSession = new Session(r, token, this);
         setRootUser(r);
         addUsers(r);
         setCounter(0);
         setRootDirectory(Directory.newRootDir(getRootUser()));
         getRootDirectory().setOwner(getRootUser());
-        setCurrentDir(token, getRootDirectory());
+        setCurrentDirByToken(token, getRootDirectory());
         createDir(token, "home");
         cd(token, "home");
         createDir(token, "root");
         cd(token, "root");
-        getRootUser().setMainDirectory(getCurrentDir(token));
+        getRootUser().setMainDirectory(getCurrentDirByToken(token));
     }
 
-    public Session getSessionByToken(long token){return null;} //TODO implementation of this method //FIXME throws InvalidTokenException
+    public Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
 
-    public Directory getCurrentDir(long token){
-		return null;
-        //FIXME return getLogin().getCurrentDirByToken(token);
+
+        Set<Session> sessions = getSessionSet();
+        DateTime actual = new DateTime();
+        DateTime twohoursbefore = actual.minusHours(2);
+        Session s = null;
+        for(Session session : sessions){
+            int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
+            if(session.getToken()== token){
+                if(result == -1 || result == 0 ){
+                    session.setTimestamp(actual);
+                    s = session;
+                }
+                else{
+                    removeSession(session);
+                    throw new ExpiredSessionException();
+
+                } 
+            }
+            else{
+                if(result == 1){
+                    removeSession(session);
+                }
+            }
+        }
+        if(s==null){
+            throw new InvalidTokenException();
+        }
+        else{
+            return s;
+        }
+    } 
+
+    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException,InvalidTokenException{
+		Session session = getSessionByToken(token);
+        return session.getCurrentDir();
     }
 
-    public void setCurrentDir(long token, Directory dir){
-    	//FIXME getLogin().setCurrentDirByToken(token, dir);
+    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException,InvalidTokenException{
+    	Session session = getSessionByToken(token);
+        session.setCurrentDir(dir);
     }
 
-    public User getCurrentUser(long token){
-		return null;
-    	//FIXME return getLogin().getCurrentUserByToken(token);
+    public User getCurrentUserByToken(long token)throws ExpiredSessionException,InvalidTokenException{
+		Session session = getSessionByToken(token);
+        return session.getCurrentUser();
+    }
+
+    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException,InvalidTokenException{
+        Session session = getSessionByToken(token);
+        session.setCurrentUser(u);
     }
 
     public int generateId(){
@@ -73,9 +121,9 @@ public class MyDrive extends MyDrive_Base {
     }
 
     public String pwd(long token){
-        Directory current = getCurrentDir(token);
+        Directory current = getCurrentDirByToken(token);
         String output="";
-        if(getCurrentDir(token).getName().equals("/")){
+        if(getCurrentDirByToken(token).getName().equals("/")){
             output="/";
         }
         else{
@@ -90,7 +138,7 @@ public class MyDrive extends MyDrive_Base {
 
     public void createFile(long token, String name, String content, String code) throws FileAlreadyExistsException, MaximumPathException {
         try{
-            getCurrentDir(token).createFile(name, content, generateId(), getCurrentUser(token), code);
+            getCurrentDirByToken(token).createFile(name, content, generateId(), getCurrentUserByToken(token), code);
         }
         catch(FileAlreadyExistsException e){
             removeId();
@@ -100,7 +148,7 @@ public class MyDrive extends MyDrive_Base {
     
     public void createDir(long token, String name) throws FileAlreadyExistsException{
         try{
-        	getCurrentDir(token).createFile(name, "", generateId(), getCurrentUser(token), "Dir");
+        	getCurrentDirByToken(token).createFile(name, "", generateId(), getCurrentUserByToken(token), "Dir");
         }
         catch(FileAlreadyExistsException e){
             removeId();
@@ -141,20 +189,20 @@ public class MyDrive extends MyDrive_Base {
         if(name.charAt(0)=='/') {
             f = getDirectoryByAbsolutePath(token, name); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
             cdable(f);
-            setCurrentDir(token, (Directory) f);
+            setCurrentDirByToken(token, (Directory) f);
         }
         else if(name.contains("/")) {
         	String result = pwd(token);
         	result = result + "/" + name;
             f = getDirectoryByAbsolutePath(token, result); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
             cdable(f);
-            setCurrentDir(token, (Directory) f);
+            setCurrentDirByToken(token, (Directory) f);
         }
         else {
-            f = getCurrentDir(token).get(name);
+            f = getCurrentDirByToken(token).get(name);
         	cdable(f);
         	checkPermissions(token, name, "cd", "");
-       	    setCurrentDir(token, (Directory) f);
+       	    setCurrentDirByToken(token, (Directory) f);
         }
     }
     
@@ -171,11 +219,11 @@ public class MyDrive extends MyDrive_Base {
     }
     
     public String ls(long token, String name) throws NoSuchFileException{
-    	return getCurrentDir(token).get(name).ls();
+    	return getCurrentDirByToken(token).get(name).ls();
     }
     
     public String ls(long token){
-		return getCurrentDir(token).ls();
+		return getCurrentDirByToken(token).ls();
     }
     
 
@@ -184,12 +232,12 @@ public class MyDrive extends MyDrive_Base {
         throw new UserAlreadyExistsException(username);
         User user = null;
         long roottoken = getRootUser().getSession().getToken();
-        setCurrentDir(roottoken, getRootDirectory());
+        setCurrentDirByToken(roottoken, getRootDirectory());
         cd(roottoken, "home");
         createDir(roottoken, username);
         cd(roottoken, "username");
-        user = new User(username, password, name, getCurrentDir(token)); //RUI faz permissao default
-        getCurrentDir(roottoken).setOwner(user);				
+        user = new User(username, password, name, getCurrentDirByToken(token)); //RUI faz permissao default
+        getCurrentDirByToken(roottoken).setOwner(user);				
         getUsersSet().add(user);
     }
     
@@ -250,7 +298,7 @@ public class MyDrive extends MyDrive_Base {
     }
     
     public void writeFile(String filename, String content, long token) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-        Directory current = getCurrentDir(token);
+        Directory current = getCurrentDirByToken(token);
         File file = current.get(filename);
         writeable(file);
         PlainFile f = (PlainFile)file;
@@ -269,7 +317,7 @@ public class MyDrive extends MyDrive_Base {
 
     public Directory getDirectoryByAbsolutePath(long token, String absolutepath){
 	String[] parts = absolutepath.split("/");
-	setCurrentDir(token, getRootDirectory());
+	setCurrentDirByToken(token, getRootDirectory());
 	for(int i=1; i < parts.length; i++){
 		try{
 			cd(token, parts[i]);
@@ -277,7 +325,7 @@ public class MyDrive extends MyDrive_Base {
 		catch(NoSuchFileException e1){
 			try{
 				createDir(token, parts[i]);
-				setCurrentDir(token, (Directory) getCurrentDir(token).get(parts[i]));
+				setCurrentDirByToken(token, (Directory) getCurrentDirByToken(token).get(parts[i]));
 			}
 			catch(MyDriveException e2){}
 		}
@@ -285,7 +333,29 @@ public class MyDrive extends MyDrive_Base {
 			//FIXME: se houver xml errado mandar InvalidPathException
 		}
 	}
-	   return getCurrentDir(token);
+	   return getCurrentDirByToken(token);
+    }
+
+    public File getFileByAbsolutePath(long token, String absolutepath) throws NoSuchFileException{
+        String[] parts = absolutepath.split("/");
+        setCurrentDirByToken(token, getRootDirectory());
+        int i;
+        for(i=1; i < parts.length - 1; i++){
+            try{
+                cd(token, parts[i]);
+            }
+            catch(NoSuchFileException e1){
+                try{
+                    createDir(token, parts[i]);
+                    setCurrentDirByToken(token, (Directory) getCurrentDirByToken(token).get(parts[i]));
+                }
+                catch(MyDriveException e2){}
+            }
+            catch(FileNotDirectoryException e){
+                //FIXME: se houver xml errado mandar InvalidPathException
+            }
+        }
+        return getCurrentDirByToken(token).get(parts[i]);
     }
 
     public boolean fileIdExists(int id){
@@ -325,7 +395,7 @@ public class MyDrive extends MyDrive_Base {
             }
             else{}
         }
-        setCurrentDir(token, getRootUser().getMainDirectory());
+        setCurrentDirByToken(token, getRootUser().getMainDirectory());
     }
     
     public Document xmlExport(){
@@ -361,8 +431,8 @@ public class MyDrive extends MyDrive_Base {
     
     
     public void checkFileCreateDeletePermissions(long token, String fileName, String access) throws PermissionDeniedException {
-    	User u = getCurrentUser(token);
-    	Directory d = getCurrentDir(token);
+    	User u = getCurrentUserByToken(token);
+    	Directory d = getCurrentDirByToken(token);
     	User owner = d.getOwner();
     	Permission dirOwnP = d.getUserPermission();
     	Permission dirOthP = d.getOthersPermission();    	
@@ -397,8 +467,8 @@ public class MyDrive extends MyDrive_Base {
     
     
     public void checkFileReadWriteExecutePermissions(long token, String fileName, String access) {
-    	User u = getCurrentUser(token);
-    	Directory d = getCurrentDir(token);	
+    	User u = getCurrentUserByToken(token);
+    	Directory d = getCurrentDirByToken(token);	
     	File f = d.get(fileName);
     	User owner = f.getOwner();
     	Permission fileUserP = f.getUserPermission(); 
@@ -446,8 +516,8 @@ public class MyDrive extends MyDrive_Base {
     
     
     public void checkChangeDirPermission(long token, String fileName) {
-    	User u = getCurrentUser(token);
-    	Directory d = getCurrentDir(token);
+    	User u = getCurrentUserByToken(token);
+    	Directory d = getCurrentDirByToken(token);
     	User owner = d.getOwner();
     	Permission dirOwnP = d.getUserPermission();
     	Permission dirOthP = d.getOthersPermission();
@@ -470,8 +540,8 @@ public class MyDrive extends MyDrive_Base {
     
     
     public void checkListPermission(long token) {
-    	User u = getCurrentUser(token);
-    	Directory d = getCurrentDir(token);
+    	User u = getCurrentUserByToken(token);
+    	Directory d = getCurrentDirByToken(token);
     	User owner = d.getOwner();
     	Permission dirOwnP = d.getUserPermission();
     	Permission dirOthP = d.getOthersPermission();

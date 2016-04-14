@@ -8,6 +8,7 @@ import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
 import pt.tecnico.mydrive.exception.LinkWithoutContentException;
+import pt.tecnico.mydrive.exception.MaximumPathException;
 
 public class CreateFileService extends MyDriveService{
 	
@@ -28,24 +29,25 @@ public class CreateFileService extends MyDriveService{
 	}
 	
 	@Override
-	protected void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, LinkWithoutContentException  {
+	protected void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, LinkWithoutContentException, MaximumPathException {
+		//Invalid token exception
 		MyDrive md = MyDrive.getInstance();
         User currentUser = md.getSessionByToken(token).getCurrentUser();
         Directory currentDir = md.getSessionByToken(token).getCurrentDir();
         
-        boolean ownerPermission = currentDir.getOwner().getUsername().equals(currentUser.getUsername()) || currentUser.getUsername().equals("root");
-        boolean createPermission = currentDir.getOthersPermission().getWrite() && currentUser.getOthersPermission().getWrite();
+        md.checkPermissions(token, name, "create-delete", "create");
         
-        if(!(ownerPermission || createPermission)){
-        	throw new PermissionDeniedException("Creating " + name);
+        if(code.equals("Link")){
+        	if(content.equals("")){
+        		throw new LinkWithoutContentException(name);
+        	}
+        	else if(content.length()>1024){
+        		throw new MaximumPathException(name);
+        	}
         }
         
-        if(code.equals("Link") && content.equals("")){
-        	throw new LinkWithoutContentException(name);
-        }
-        //FIXME guarantee to receive maximumpathexception from mydrive
-//        int id = md.getId();
-//        currentDir.createFile(name,content,id+1,currentUser,code); //FIXME verify ID
+        int id = md.generateId();
+        currentDir.createFile(name,content,id,currentUser,code);
     }
 	
 }
