@@ -23,7 +23,7 @@ public class DeleteFileService extends MyDriveService{
     
     //FIXME avisar sá couto para nao usar o invalid file name exception
     public final void dispatch() throws PermissionDeniedException, NoSuchFileException {
-       /* MyDrive md = MyDrive.getInstance();
+        MyDrive md = MyDrive.getInstance();
         currentUser = md.getSessionByToken(token).getCurrentUser();
         currentDir = md.getSessionByToken(token).getCurrentDir();
         
@@ -33,6 +33,6 @@ public class DeleteFileService extends MyDriveService{
         }        
         else {
         	throw new NoSuchFileException("Invalid file name: null");
-        }*/
+        }
     }
 }

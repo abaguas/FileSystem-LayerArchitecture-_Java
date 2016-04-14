@@ -49,6 +49,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    Session s3 = new Session(root, 3, md);
 	    s3.setCurrentDir(homeRoot);
 	    
+	
 	    String name = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
 	    md.getDirectoryByAbsolutePath(3, name); //Creates big directory path
 	    
@@ -66,7 +67,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         service.execute();
         
-        String result = service.result();
+        String result = service.getResult();
 
 		assertEquals("Error changing Directory with a relative path", result, targetDir);
 
@@ -83,7 +84,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         service.execute();
         
-        String result = service.result();
+        String result = service.getResult();
 
 		assertEquals("Error changing Directory with an absolute path", result, targetDir);
 
@@ -144,7 +145,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         service.execute();
         
-        String result = service.result();
+        String result = service.getResult();
 		
 		assertEquals("Changed to '.' Directory with success", result, targetDir);
 
@@ -172,7 +173,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         service.execute();
         
-        String result = service.result();
+        String result = service.getResult();
 
         assertEquals("Error changing Directory with maximum path size", result, targetDir);
        
