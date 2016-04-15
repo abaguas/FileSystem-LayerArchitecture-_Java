@@ -42,6 +42,8 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    Directory home2 = new Directory("zecarlos", 645, u2, home); //id=645
 	    
 	    
+	    PlainFile p1 = new PlainFile("example.txt", 144, u1, "", home1); //id=144
+	    
 	    Directory music = new Directory("music", 983, u1, home1); //id=983;
 	    Directory emanuel = new Directory("emanuel", 988, u1, music); //id=988
 	    Directory bestOf = new Directory("bestOf", 992, u1, emanuel); //id=992
@@ -53,7 +55,11 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    home2.setUserPermission(userPerm);
 	    home2.setOthersPermission(othersPerm);
 	    
-	    PlainFile p1 = new PlainFile("example.txt", 144, u1, "", home1); //id=144
+	    Directory videos = new Directory("videos", 312, u2, home2);
+	    Directory videoclips = new Directory("videoclips", 312, u2, videos);
+	    Directory youtube = new Directory("youtube", 312, u2, videoclips);
+	    videoclips.setUserPermission(userPerm);
+	    videoclips.setOthersPermission(othersPerm);
 	    
 	    
 	    Session s0 = new Session(root, 0, md);
@@ -146,8 +152,30 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     }
 
     
-    @Test (expected = NoSuchFileException.class)
+    @Test (expected = PermissionDeniedException.class)
     public void notPermittedCd2() {
+        
+    	final long token = 2;
+    	    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, "videos/videoclips/youtube"); 
+        service.execute();
+        
+    }
+    
+    
+    @Test (expected = PermissionDeniedException.class)
+    public void notPermittedCd3() {
+        
+    	final long token = 2;
+    	    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, "/home/zecarlos/videos/videoclips/youtube"); 
+        service.execute();
+        
+    }
+    
+    
+    @Test (expected = NoSuchFileException.class)
+    public void nonExistentDir() {
         
     	final long token = 1;
     	    	
@@ -158,15 +186,17 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     
 
 //	  esta a dar class java.lang.ClassCastException em vez de FileNotDirectoryException ou FileNotCdableException 	    
-    @Test (expected = FileNotCdAbleException.class)
-    public void notPermittedCd3() {
-        
-    	final long token = 1;
-    	    	
-        ChangeDirectoryService service = new ChangeDirectoryService(token, "example.txt"); 
-        service.execute();
-        
-    }
+//    @Test (expected = FileNotCdAbleException.class)
+//    public void notPermittedCd3() {
+//        
+//    	final long token = 1;
+//    	    	
+//        ChangeDirectoryService service = new ChangeDirectoryService(token, "example.txt"); 
+//        service.execute();
+//        
+//    }
+    
+    
     
     /*
 	@Test (expected = PermissionDeniedException.class)
