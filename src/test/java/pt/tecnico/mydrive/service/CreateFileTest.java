@@ -17,6 +17,7 @@ import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.LinkWithoutContentException;
 import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
@@ -87,7 +88,7 @@ public class CreateFileTest extends AbstractServiceTest {
 		
 		String hugeDirName = "";
 		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
-			hugeDirName += "a"; // "a" ou 'a' ??
+			hugeDirName += "a";
 		}
 
 		Directory hugeDir = new Directory(hugeDirName, 60, u3, dir3); // id=60
@@ -305,6 +306,15 @@ public class CreateFileTest extends AbstractServiceTest {
 		CreateFileService service = new CreateFileService(1, "invalidLink", "", "Link");
 		service.execute();
 	}
+    
+	
+	@Test (expected = InvalidTokenException.class)
+    public void invalidToken() { //Testing CD with an invalid token
+		final long token = 1234567890;
+    	    	
+    	CreateFileService service = new CreateFileService(token, "impossible", "content1", "PlainFile");    
+        service.execute();
+    }
     
 	
 // 	user exists but not associated with session	
