@@ -1,4 +1,4 @@
-package pt.tecnico.mydrive.domain;
+    package pt.tecnico.mydrive.domain;
 
 import pt.ist.fenixframework.FenixFramework;
 
@@ -52,8 +52,8 @@ public class MyDrive extends MyDrive_Base {
         setRootDirectory(rootDir);
 
     }
-
-    public Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
+    
+    private Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
 
 
         Set<Session> sessions = getSessionSet();
