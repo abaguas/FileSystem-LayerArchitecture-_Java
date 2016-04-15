@@ -102,10 +102,10 @@ public class CreateFileTest extends AbstractServiceTest {
 		s0.setCurrentDir(dir0);
 		
 		
-		String hugeDirName = "";
-		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
-			hugeDirName += "a"; // "a" ou 'a' ??
-		}
+//		String hugeDirName = "";
+//		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
+//			hugeDirName += "a"; // "a" ou 'a' ??
+//		}
 		
 		
 //		md.createDir(3, hugeDirName);
@@ -150,8 +150,14 @@ public class CreateFileTest extends AbstractServiceTest {
         assertEquals("plain file content not correct", "day 1 - nothing to do", pf.getContent());
         assertEquals("plain file owner not correct", owner, pf.getOwner());
         assertEquals("plain file directory not correct", currentDirectory, pf.getDirectory());
-        assertEquals("plain file user permission not correct", userPermission, pf.getUserPermission());
-        assertEquals("plain file others permission not correct", othersPermission, pf.getOthersPermission());
+        assertEquals("plain file user read permission not correct", userPermission.getRead(), pf.getUserPermission().getRead());
+        assertEquals("plain file user write permission not correct", userPermission.getWrite(), pf.getUserPermission().getWrite());
+        assertEquals("plain file user execute permission not correct", userPermission.getExecute(), pf.getUserPermission().getExecute());
+        assertEquals("plain file user eliminate permission not correct", userPermission.getEliminate(), pf.getUserPermission().getEliminate());
+        assertEquals("plain file others read permission not correct", othersPermission.getRead(), pf.getOthersPermission().getRead());
+        assertEquals("plain file others write permission not correct", othersPermission.getWrite(), pf.getOthersPermission().getWrite());
+        assertEquals("plain file others execute permission not correct", othersPermission.getExecute(), pf.getOthersPermission().getExecute());
+        assertEquals("plain file others eliminate permission not correct", othersPermission.getEliminate(), pf.getOthersPermission().getEliminate());
         //assertEquals("plain file id not correct", 2, pf.getId());
     }
 
@@ -172,9 +178,17 @@ public class CreateFileTest extends AbstractServiceTest {
         assertEquals("link name not correct", "agenda-Ana_link", l.getName());
         assertEquals("link content not correct", "/home/ana/agenda-Ana", l.getContent());
         assertEquals("link owner not correct", owner, l.getOwner());
-        assertEquals("link directory not correct", currentDirectory, l.getDirectory());
-        assertEquals("link user permission not correct", userPermission, l.getUserPermission());
-        assertEquals("link others permission not correct", othersPermission, l.getOthersPermission());
+        assertEquals("link directory not correct", currentDirectory, l.getDirectory());      
+        assertEquals("link user read permission not correct", userPermission.getRead(), l.getUserPermission().getRead());
+        assertEquals("link user write permission not correct", userPermission.getWrite(), l.getUserPermission().getWrite());
+        assertEquals("link user execute permission not correct", userPermission.getExecute(), l.getUserPermission().getExecute());
+        assertEquals("link user eliminate permission not correct", userPermission.getEliminate(), l.getUserPermission().getEliminate());
+        assertEquals("link others read permission not correct", othersPermission.getRead(), l.getOthersPermission().getRead());
+        assertEquals("link others write permission not correct", othersPermission.getWrite(), l.getOthersPermission().getWrite());
+        assertEquals("link others execute permission not correct", othersPermission.getExecute(), l.getOthersPermission().getExecute());
+        assertEquals("link others eliminate permission not correct", othersPermission.getEliminate(), l.getOthersPermission().getEliminate());        
+        
+        
         //assertEquals("link id not correct", 2, l.getId());
     }
     
@@ -196,8 +210,16 @@ public class CreateFileTest extends AbstractServiceTest {
         assertEquals("app content not correct", "pt.tecnico.mydrive.MyDriveApplication.main", a.getContent());
         assertEquals("app owner not correct", owner, a.getOwner());
         assertEquals("app directory not correct", currentDirectory, a.getDirectory());
-        assertEquals("app user permission not correct", userPermission, a.getUserPermission());
-        assertEquals("app others permission not correct", othersPermission, a.getOthersPermission());
+        assertEquals("app user read permission not correct", userPermission.getRead(), a.getUserPermission().getRead());
+        assertEquals("app user write permission not correct", userPermission.getWrite(), a.getUserPermission().getWrite());
+        assertEquals("app user execute permission not correct", userPermission.getExecute(), a.getUserPermission().getExecute());
+        assertEquals("app user eliminate permission not correct", userPermission.getEliminate(), a.getUserPermission().getEliminate());
+        assertEquals("app others read permission not correct", othersPermission.getRead(), a.getOthersPermission().getRead());
+        assertEquals("app others write permission not correct", othersPermission.getWrite(), a.getOthersPermission().getWrite());
+        assertEquals("app others execute permission not correct", othersPermission.getExecute(), a.getOthersPermission().getExecute());
+        assertEquals("app others eliminate permission not correct", othersPermission.getEliminate(), a.getOthersPermission().getEliminate());        
+        
+        
         //assertEquals("app id not correct", 2, a.getId());
     }
     
@@ -215,11 +237,18 @@ public class CreateFileTest extends AbstractServiceTest {
     	Directory d = (Directory) currentDirectory.get("picsFolder");
         //check directory was created correctly
         assertNotNull("directory was not created", d);
-        assertEquals("directory name not correct", "MyDrive Application", d.getName());
+        assertEquals("directory name not correct", "picsFolder", d.getName());
         assertEquals("directory owner not correct", owner, d.getOwner());
         assertEquals("directory directory not correct", currentDirectory, d.getDirectory());
-        assertEquals("directory user permission not correct", userPermission, d.getUserPermission());
-        assertEquals("directory others permission not correct", othersPermission, d.getOthersPermission());
+        assertEquals("directory user read permission not correct", userPermission.getRead(), d.getUserPermission().getRead());
+        assertEquals("directory user write permission not correct", userPermission.getWrite(), d.getUserPermission().getWrite());
+        assertEquals("directory user execute permission not correct", userPermission.getExecute(), d.getUserPermission().getExecute());
+        assertEquals("directory user eliminate permission not correct", userPermission.getEliminate(), d.getUserPermission().getEliminate());
+        assertEquals("directory others read permission not correct", othersPermission.getRead(), d.getOthersPermission().getRead());
+        assertEquals("directory others write permission not correct", othersPermission.getWrite(), d.getOthersPermission().getWrite());
+        assertEquals("directory others execute permission not correct", othersPermission.getExecute(), d.getOthersPermission().getExecute());
+        assertEquals("directory others eliminate permission not correct", othersPermission.getEliminate(), d.getOthersPermission().getEliminate());        
+        
         //assertEquals("directory id not correct", 2, a.getId());
     }
     
@@ -283,7 +312,14 @@ public class CreateFileTest extends AbstractServiceTest {
 	
 	@Test (expected = MaximumPathException.class)
 	public void maxPathExceededFileCreation() {
-		String name = ""; //caso limite
+		//String name = "a"; //caso limite
+		
+		String name = "";
+		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
+			name += "a";
+		}
+		
+		
 		CreateFileService service = new CreateFileService(1, name, "attempt", "PlainFile");
 		service.execute();
 	}
