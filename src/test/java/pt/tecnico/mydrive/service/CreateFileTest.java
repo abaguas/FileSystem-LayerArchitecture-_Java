@@ -102,18 +102,14 @@ public class CreateFileTest extends AbstractServiceTest {
 		s0.setCurrentDir(dir0);
 		
 		
-//		String hugeDirName = "";
-//		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
-//			hugeDirName += "a"; // "a" ou 'a' ??
-//		}
-		
-		
-//		md.createDir(3, hugeDirName);
-//		Directory hugeDir = (Directory) s3.getCurrentDir().get("hugeDirName");
-//		md.setCurrentDir(3, hugeDir);
-		
+		String hugeDirName = "";
+		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
+			hugeDirName += "a"; // "a" ou 'a' ??
+		}
+
 		Directory hugeDir = new Directory(hugeDirName, 60, u3, dir3); // id=60
 		s3.setCurrentDir(hugeDir);
+		
 	}
 
 
@@ -312,15 +308,8 @@ public class CreateFileTest extends AbstractServiceTest {
 	
 	@Test (expected = MaximumPathException.class)
 	public void maxPathExceededFileCreation() {
-		//String name = "a"; //caso limite
-		
-		String name = "";
-		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
-			name += "a";
-		}
-		
-		
-		CreateFileService service = new CreateFileService(1, name, "attempt", "PlainFile");
+		String name = ""; //caso limite
+		CreateFileService service = new CreateFileService(3, name, "attempt", "PlainFile");
 		service.execute();
 	}
     
