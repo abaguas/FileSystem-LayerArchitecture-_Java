@@ -354,6 +354,32 @@ public class MyDrive extends MyDrive_Base {
         return getCurrentDirByToken(token).get(parts[i]);
     }
 
+    public File getFileByPath(String path, Directory dir) throws  NoSuchFileException, FileNotDirectoryException {
+        String[] parts = path.split("/");
+        int i = 0;
+        int numOfParts = parts.length;
+        if(numOfParts == 0){
+            return dir.get(parts[i]);
+        }
+        else if(path.charAt(0)=='/'){
+            i = 1;
+            dir = getRootDirectory();
+        }
+        else{
+            i = 0;
+        }
+        while(i < numOfParts-1){
+            try{
+                dir = (Directory)dir.get(parts[i]);
+            }
+            catch(Exception e){
+                throw new NoSuchFileException(parts[i]);
+            }
+            i++;
+        }
+        return dir.get(parts[numOfParts-1]);        
+    }
+
     public boolean fileIdExists(int id){
         if(id > getCounter()){
             return false;

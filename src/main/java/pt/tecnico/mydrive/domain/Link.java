@@ -29,7 +29,6 @@ public class Link extends Link_Base {
     
     public String ls(){
 		return getContent();
-		//FIXME cannot cd here to get the plainfile
 	}
 
     public void xmlImport(Element link_element, User owner, Directory father){
