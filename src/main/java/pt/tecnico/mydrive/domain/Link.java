@@ -4,12 +4,11 @@ import org.jdom2.Element;
 import org.jdom2.Document;
 
 public class Link extends Link_Base {
-    //o conteudo representa o caminho (absoluto ou relativo) para outro ficheiro
+
     public Link(String name, int id, User owner, String content, Directory father) {
     	init(name,id,owner,content, father);
     }
     public Link(String name, int id, String content) {
-    	//FIXME (root)
     }
     public Link(Element link_element, User owner, Directory father){
         xmlImport(link_element, owner, father);
@@ -17,7 +16,6 @@ public class Link extends Link_Base {
     }
     
     public void execute(){
-    	//FIXME?
     }
   
     @Override
@@ -29,7 +27,6 @@ public class Link extends Link_Base {
     
     public String ls(){
 		return getContent();
-		//FIXME cannot cd here to get the plainfile
 	}
 
     public void xmlImport(Element link_element, User owner, Directory father){

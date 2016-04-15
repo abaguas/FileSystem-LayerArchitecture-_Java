@@ -16,59 +16,6 @@ import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
 
-/*casos de teste:
- * TESTES PLAIN FILES (todos com permissao de execucao
- * 
- * ler ficheiro com permissoes
- * -owner
- * -other
- * -root
- * 
- * ler plain file sem permissoes
- * -owner
- * -other
- * -root
- *  
- * ler ficheiro inexistente
- * 
- * ler diretorio sem permissoes
- * 
- * ler diretorio com permissoes
- * 
- * 
- * TESTES LINKS (todos com pass absoluto, excepto se nao mencionado)
- *
- * link broken
- * 
- * link com todas as permissoes garantidas
- * -owner com pass relativo
- * -owner
- * -other
- * -root
- *
- * link sem permissoes de execucao na diretoria dois links depois (primeiro link é relativo)
- * -owner
- * -other
- * -root
- *
- *  
- * link sem permissoes de leitura no ficheiro dois links depois (primeiro link é relativo)
- * -owner
- * -other
- * -root
- * 
- * link que indica diretoria
- * 
- * link com loop infinito
- * 
- * **********************************
- * DUVIDAS:
- * vale a pena testar todos os casos na leitura de uma App?, ou mesmo algum caso?
- 	@Test(expected = FileIsNotReadAbleException.class)
-	  public void readAppWithPermissions() {
-	
- */
-
 public class ReadFileTest extends AbstractServiceTest{
 	protected void populate() {
 		MyDrive md = MyDrive.getInstance();
@@ -90,20 +37,24 @@ public class ReadFileTest extends AbstractServiceTest{
         
         //create files
         //files for directories with execute permissions
+		new PlainFile("Granted to owner", 1, owner, "Owner can see", home);
 		new PlainFile("Granted to owner", 1, owner, "Owner can see", workingDirectory);
 		PlainFile denied = new PlainFile("Denied", 2, owner, "Cannot see", workingDirectory);
 		PlainFile visit = new PlainFile("To Visit", 3, owner, "Welcome Visitor", workingDirectory);
-		new Directory("Dir", 4, owner, workingDirectory);
+		Directory dir = new Directory("Dir", 4, owner, workingDirectory);
 		new Link("Hop One", 5, owner, "../pizz/Hop Two", workingDirectory);
 		new Link("Hop Two", 6, owner, "/home/pizz/Cannot Execute/Inside Cannot Execute", workingDirectory);
+		new Link("Hop Two", 6, owner, "/home/pizz/Cannot Execute/Inside Cannot Execute", dir);
+
 		new Link("Relative", 7, owner, "../Granted to owner", workingDirectory);
-		new Link("AbsoluteWPermissions", 8, owner, "/home/pizz/To Visit", workingDirectory);
+		new Link("AbsoluteWithPermissions", 8, owner, "/home/pizz/To Visit", workingDirectory);
 		new Link("Broken", 9, owner, "/home/piz/Granted to owner", workingDirectory);
 		Directory cannotExecute = new Directory("Cannot Execute", 10, owner, workingDirectory);
 		PlainFile insideCannotExecute = new PlainFile("Inside Cannot Execute", 11, owner, "poor me", cannotExecute);
-		Directory canExecute = new Directory("Can execute", 12, owner, workingDirectory);
+		Directory canExecute = new Directory("Can Execute", 12, owner, workingDirectory);
 		PlainFile noYouCant = new PlainFile("No You Cant", 13, owner, "poor you", workingDirectory);
-		new Link("Hop One1", 14, owner, "../dir/Hop Two2", workingDirectory);
+		new Link("Hop One1", 14, owner, "Hop Two", dir);
+		new Link("Hop One1", 20, owner, "Dir/Hop Two", workingDirectory);
 		new Link("Hop Two2", 15, owner, "/home/pizz/Can Execute/No You Cant", canExecute);
 		new Link("Infinite Loop", 16, owner, "/home/pizz/loop", workingDirectory);
 		new Link("loop", 17, owner, "/home/pizz/Infinite Loop", workingDirectory);
@@ -117,7 +68,8 @@ public class ReadFileTest extends AbstractServiceTest{
 		other.setOthersPermission(new Permission("----"));//remove permissions because they dont matter
 		cannotExecute.setOthersPermission(new Permission("rw-d"));
 		cannotExecute.setUserPermission(new Permission("rw-d"));
-		insideCannotExecute.setOthersPermission(new Permission("r---"));
+		insideCannotExecute.setOthersPermission(new Permission("----"));
+		insideCannotExecute.setUserPermission(new Permission("----"));
 		canExecute.setOthersPermission(new Permission("--x-"));
 		noYouCant.setOthersPermission(new Permission("-wxd"));
 		noYouCant.setUserPermission(new Permission("-wxd"));
@@ -130,9 +82,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		sessionOther.setCurrentDir(workingDirectory);
 		
 		Session sessionRoot = new Session(root, 3, md);
-		sessionRoot.setCurrentDir(workingDirectory);
-		System.out.println("tenho as sessoes");
-	}
+		sessionRoot.setCurrentDir(workingDirectory);	}
 
 	@Test
 	public void readFileWithOwnPermissions() {
@@ -145,13 +95,13 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test(expected = PermissionDeniedException.class)
 	public void readFileWithoutOwnPermissions() {
-		ReadFileService rfs = new ReadFileService(1, "Denied");
+		ReadFileService rfs = new ReadFileService(2, "Denied");
 		rfs.execute();
 	}
 	
 	@Test
 	public void readFileWithOthersPermissions() {
-		ReadFileService rfs = new ReadFileService(2, "To Visit");
+		ReadFileService rfs = new ReadFileService(3, "To Visit");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -196,7 +146,7 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test(expected = FileIsNotReadAbleException.class)
 	public void readDirectoryWithoutPermissions() {
-		ReadFileService rfs = new ReadFileService(1, "Dir Without Permissions");
+		ReadFileService rfs = new ReadFileService(1, "Cannot Execute");
 		rfs.execute();
 	}
 	
@@ -225,8 +175,8 @@ public class ReadFileTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void readLinkWithAbsolutePathWithAllPermissionsByOther() {
-		ReadFileService rfs = new ReadFileService(2, "AbsoluteWithPermissions");
+	public void readLinkWithAbsolutePathWithAllPermissionsByOther() { ///////////////
+		ReadFileService rfs = new ReadFileService(3, "AbsoluteWithPermissions");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -281,7 +231,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		rfs.execute();
 		String content = rfs.result();
 		
-		assertEquals("Content is not 'poor you'", "poor you", content);
+		assertEquals("Content is not 'poor me'", "poor me", content);
 	}
 	
 	@Test(expected = TooManyLevelsOfSymbolicLinksException.class)
@@ -292,7 +242,7 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test(expected = FileIsNotReadAbleException.class)
 	public void readDirectoryWithPermissionsByLink() {
-		ReadFileService rfs = new ReadFileService(1, "I Point to Dir");
+		ReadFileService rfs = new ReadFileService(1, "I point to Dir");
 		rfs.execute();
 	}
 	

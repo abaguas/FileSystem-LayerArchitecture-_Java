@@ -65,15 +65,4 @@ public class Permission extends Permission_Base {
     	return s;
     }
     
-    /*
-    @Override
-    public boolean equals(Object o) {
-    	if(o instanceof Permission) {
-    		Permission p = (Permission) o;
-    		return getRead()==p.getRead() && getWrite()==p.getWrite() && getExecute()==p.getExecute() && getEliminate()==p.getEliminate();
-    	}
-    	return false;
-    }
-    */
-    
 }

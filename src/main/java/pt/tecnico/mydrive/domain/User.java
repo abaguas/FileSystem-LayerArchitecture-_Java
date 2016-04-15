@@ -31,7 +31,7 @@ public class User extends User_Base
 			setOthersPermission(othP);
     	}
     	else
-    		throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
+    		throw new InvalidUsernameException(username); 
     }
     	
 	
@@ -90,7 +90,7 @@ public class User extends User_Base
             setOthersPermission(otherspermission);
         }
         else
-            throw new InvalidUsernameException(username); //no myDrive vai ter de se apanhar esta excepção
+            throw new InvalidUsernameException(username); 
     }
     
     public void xmlExport(Element element_mydrive){

@@ -3,7 +3,7 @@ import org.joda.time.DateTime;
 import pt.tecnico.mydrive.exception.ExpiredSessionException;
 public class Session extends Session_Base {
     
-    public Session(User u, long token, MyDrive mydrive) {   //Login //FIXME retirei o argumento login que era recebido
+    public Session(User u, long token, MyDrive mydrive) {   
         super();
         setCurrentUser(u);
         setToken(token);
