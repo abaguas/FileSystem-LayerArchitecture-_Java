@@ -134,16 +134,17 @@ public class MyDrive extends MyDrive_Base {
 		return getCurrentDirByToken(token).ls();
     }
     
-    public void createUser_xml(long token, Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
+    public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home";
     	String home = user_element.getChildText("home");
         String username = user_element.getAttribute("username").getValue();
     	if(home==null){
             home=default_home.concat("/" + username);
         }
-		Directory home_user = getDirectoryByAbsolutePath(token, home);
+		Directory home_user = (Directory)getFileByPathXml(home, getRootDirectory());
 		User user = new User(user_element,home_user);
 		home_user.setOwner(user);
+        user.setMainDirectory(home_user);
 		addUsers(user);
     }
 
@@ -183,7 +184,7 @@ public class MyDrive extends MyDrive_Base {
         }
     }
 
-    public void createFile_xml(long token, Element file_element, String code) throws NoSuchUserException {
+    public void createFile_xml(Element file_element, String code) throws NoSuchUserException {
     	String owner = file_element.getChildText("owner");
         User user = null;
     	if(owner ==null){
@@ -192,7 +193,7 @@ public class MyDrive extends MyDrive_Base {
     	else {
             user = getUserByUsername(owner); 
     	}
-    	Directory d =  getDirectoryByAbsolutePath(token, file_element.getChildText("path"));
+    	Directory d =  (Directory)getFileByPathXml(file_element.getChildText("path"), getRootDirectory());
         File file = fileFactory(file_element,user, d, code);
     	d.addFiles(file);
     }
@@ -206,10 +207,37 @@ public class MyDrive extends MyDrive_Base {
         throw new NoSuchUserException(username);
     }
 
-    public Directory getDirectoryByAbsolutePath(long token, String absolutepath){
-       Directory d = (Directory)getFileByPath(absolutepath, getCurrentDirByToken(token));
-       setCurrentDirByToken(token, d);
-       return d;
+    public File getFileByPathXml(String path, Directory dir) throws  NoSuchFileException, FileNotDirectoryException {
+        String[] parts = path.split("/");
+        int i = 0;
+        int numOfParts = parts.length;
+        if(numOfParts == 0){
+            return dir.get(parts[i]);
+        }
+        else if(path.charAt(0)=='/'){
+            i = 1;
+            dir = getRootDirectory();
+        }
+        else{
+            i = 0;
+        }
+        while(i < numOfParts-1){
+            try{
+                dir = (Directory)dir.get(parts[i]);
+            }
+            catch(Exception e){
+                dir = new Directory(parts[i], generateId(), getRootUser(), dir);
+            }
+            i++;
+        }
+        File ret = null; 
+        try{
+            ret = dir.get(parts[numOfParts-1]);
+        }
+        catch(Exception e){
+            ret = new Directory(parts[numOfParts-1], generateId(), getRootUser(), dir);
+        }
+        return ret;        
     }
 
     public File getFileByPath(String path, Directory dir) throws  NoSuchFileException, FileNotDirectoryException {
@@ -247,26 +275,25 @@ public class MyDrive extends MyDrive_Base {
         }
     }
     
-    public void xmlImport(long token, Element element){
+    public void xmlImport(Element element){
         for(Element node : element.getChildren("user")){
-            createUser_xml(token, node);
+            createUser_xml(node);
         }
         for(Element node: element.getChildren()){
             if(node.getName().equals("plain")){
-                createFile_xml(token, node, "PlainFile");
+                createFile_xml(node, "PlainFile");
             }
             else if(node.getName().equals("dir")){
-                createFile_xml(token, node,"Dir");
+                createFile_xml(node,"Dir");
             }
             else if(node.getName().equals("link")){  
-                createFile_xml(token, node,"Link");
+                createFile_xml(node,"Link");
             }
             else if(node.getName().equals("app")){
-                createFile_xml(token, node,"App");
+                createFile_xml(node,"App");
             }
             else{}
         }
-        setCurrentDirByToken(token, getRootUser().getMainDirectory());
     }
     
     public Document xmlExport(){
