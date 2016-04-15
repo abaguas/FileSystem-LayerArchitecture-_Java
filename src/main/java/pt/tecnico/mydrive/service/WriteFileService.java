@@ -4,6 +4,7 @@ import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.User;
+import pt.tecnico.mydrive.domain.PlainFile;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
@@ -11,23 +12,34 @@ import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 
 
 public class WriteFileService extends MyDriveService
-{
+{ 
     private String fileName;
     private String content;
     private long token;
+    private String result;
 
     public WriteFileService(String fileName, String content, long token)
     {        
         this.fileName=fileName;
         this.content=content;
         this.token=token;
+
     }
 
+  public String writeFile(String filename, String content, long token, MyDrive md) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
+        Directory current = md.getCurrentDirByToken(token);
+        File file = current.get(filename);
+        md.writeable(file);
+        PlainFile f = (PlainFile)file;
+        md.checkPermissions(token, filename, "read-write-execute", "write");
+        f.writeContent(content);
+        return f.getContent();
+    }
 
     
     public final void dispatch() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
        MyDrive md = getMyDrive();
-       User currentUser = md.getCurrentUserByToken(token);
+       /*User currentUser = md.getCurrentUserByToken(token);
        Directory currentDir = md.getCurrentDirByToken(token);
        
        
@@ -39,9 +51,14 @@ public class WriteFileService extends MyDriveService
        if(!(ownerPermission || writePermission)){
        		throw new PermissionDeniedException("Writing on " + fileName);
        }
+       */
+       result=writeFile(fileName, content, token, md);
        
-       md.writeable(file); //should it be mydrive?
-//       currentDir.writeFile())   
+
+    }
+
+    public final String result(){
+      return result;
     }
     
 }
