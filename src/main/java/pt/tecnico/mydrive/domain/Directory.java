@@ -199,11 +199,12 @@ public class Directory extends Directory_Base {
 		stringList.add(getSelfDirectory().toString());
 	 	getSelfDirectory().setName(name);
 
-	 	if (getName()!="/") {
-	   	 	for (File f: list){
-	   	 		stringList.add(f.toString());
-	   	 	}
-	 	}
+	  	for (File f: list){
+	  		if (getName()!="/") {
+	  			stringList.add(f.toString());
+	  		}
+	  	}
+	 	
 		return stringList;
 	}
 
