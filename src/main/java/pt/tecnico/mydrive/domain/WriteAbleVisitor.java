@@ -14,9 +14,6 @@ public class WriteAbleVisitor implements Visitor {
 		throw new FileIsNotWriteAbleException(d.getName());
 	}
 
-	@Override
-	public void execute(File f) throws FileNotCdAbleException {
-		// TODO Auto-generated method stub
-		
+	public void execute(File f) throws FileIsNotWriteAbleException {
 	}
 }

@@ -9,13 +9,11 @@ public class CdableVisitor implements Visitor {
 	}
 
 	@Override
-	public void execute(File f) throws FileNotCdAbleException {
+	public void execute(PlainFile f) throws FileNotCdAbleException  {
 		throw new FileNotCdAbleException(f.getName());
 	}
 
-	@Override
-	public void execute(PlainFile f) {
-		// TODO Auto-generated method stub
-		
+	public void execute(File f) {
 	}
+
 }
