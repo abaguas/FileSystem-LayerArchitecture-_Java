@@ -68,6 +68,15 @@ public class User extends User_Base
     public String toString(){
     	return "Username: " + getUsername() + "Name: "  + getName();
     }
+
+    public void remove(){
+        setMainDirectory(null);
+        setOwnPermission(null);
+        setOthersPermission(null);
+        setMyDrive(null);
+        deleteDomainObject();
+    }
+
     public void xmlImport(Element user_element){
         String username= user_element.getAttribute("username").getValue();
         String password= user_element.getChildText("password");

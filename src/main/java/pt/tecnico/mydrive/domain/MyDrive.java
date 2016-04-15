@@ -42,7 +42,7 @@ public class MyDrive extends MyDrive_Base {
         setRoot(FenixFramework.getDomainRoot());
         RootUser r = RootUser.getInstance();;
         setCounter(0); 
-        setRootUser(r);
+        super.setRootUser(r);
         addUsers(r);
         Directory rootDir = Directory.newRootDir(getRootUser());
         rootDir.setOwner(getRootUser());
@@ -154,6 +154,18 @@ public class MyDrive extends MyDrive_Base {
 	 		if (u.getName().equals(u.getUsername()))
 	 			return true;
 		return false;
+    }
+
+    @Override 
+    public void removeUsers(User u){
+        if(!u.getUsername().equals("root")){
+            u.remove();
+        }
+    }
+
+    @Override
+    public void setRootUser(RootUser r){
+        
     }
     
     public File fileFactory(Element element, User owner, Directory father, String code){
