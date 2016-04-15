@@ -77,8 +77,6 @@ public class ReadFileTest extends AbstractServiceTest{
 
 		Directory home = (Directory)rootdir.get("home");
 
-		
-		System.out.println("tenho o md");
 		//create users
 		User owner = new User("Pizza", "password", "pizz");
 		md.addUsers(owner);
@@ -86,12 +84,10 @@ public class ReadFileTest extends AbstractServiceTest{
 		md.addUsers(other);
 		User root = md.getRootUser();
 		
-		System.out.println("tenho os users");
 		//create directory with permissions for all to insert the files
 		Directory workingDirectory = new Directory("pizz", 954, owner, home); 
         workingDirectory.setOthersPermission(new Permission("--x-"));
         
-        System.out.println("tenho o diretorio");
         //create files
         //files for directories with execute permissions
 		new PlainFile("Granted to owner", 1, owner, "Owner can see", workingDirectory);
@@ -113,7 +109,6 @@ public class ReadFileTest extends AbstractServiceTest{
 		new Link("loop", 17, owner, "/home/pizz/Infinite Loop", workingDirectory);
 		new Link("I point to Dir", 18, owner, "/home/pizz/Can Execute", workingDirectory);
 		
-		System.out.println("tenho os ficheiros");
 		
 		//change permissions
 		denied.setUserPermission(new Permission("-wxd"));
@@ -126,7 +121,6 @@ public class ReadFileTest extends AbstractServiceTest{
 		canExecute.setOthersPermission(new Permission("--x-"));
 		noYouCant.setOthersPermission(new Permission("-wxd"));
 		noYouCant.setUserPermission(new Permission("-wxd"));
-		System.out.println("tenho as permissoes");
 		
 		//create session and set current directory
 		Session sessionOwner = new Session(owner, 1, md);

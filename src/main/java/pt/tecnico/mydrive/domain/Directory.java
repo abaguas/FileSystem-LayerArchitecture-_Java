@@ -85,23 +85,20 @@ public class Directory extends Directory_Base {
 		boolean allDeleted = true;
 		md.checkPermissions(token, getName(), "create-delete", "delete"); //verify delete permission
 		Set<File> files = getFiles();
-		while (!files.isEmpty()){
-			for (File f: files) {
-				try {
-					files.remove(f);
-					md.cdable(f);
-					md.checkPermissions(token, getName(), "read-write-execute", "execute"); //verify execute permission for other files
-		   	 		f.remove(md, token);
-		   	 	}catch (PermissionDeniedException pde){
-		   	 		allDeleted = false;
-		   	 	} catch (FileNotCdAbleException fncde){
-		   	 		try{
-		   	 			f.remove(md, token);
-		   	 		}catch (PermissionDeniedException pde2){
-		   	 			allDeleted = false;
-		   	 		}
-		   	 	}
-			}
+		for (File f: files) {
+			try {
+				md.cdable(f);
+				md.checkPermissions(token, getName(), "read-write-execute", "execute"); //verify execute permission for other files
+	   	 		f.remove(md, token);
+	   	 	}catch (PermissionDeniedException pde){
+	   	 		allDeleted = false;
+	   	 	} catch (FileNotCdAbleException fncde){
+	   	 		try{
+	   	 			f.remove(md, token);
+	   	 		}catch (PermissionDeniedException pde2){
+	   	 			allDeleted = false;
+	   	 		}
+	   	 	}
 		}
 		if (allDeleted) {
 			setOwner(null);
