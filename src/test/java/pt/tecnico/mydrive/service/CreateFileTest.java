@@ -3,6 +3,8 @@ package pt.tecnico.mydrive.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import pt.tecnico.mydrive.domain.App;
@@ -29,7 +31,6 @@ public class CreateFileTest extends AbstractServiceTest {
 		MyDrive md = MyDrive.getInstance();
 				
 		//User u0 = md.getUserByUsername("root");
-		//User u0 = md.getUserByUsername("root");
 		//RootUser u0 = RootUser.getInstance();
 		User u0 = md.getRootUser();
 		User u1 = new User("ana", "pass1", "Ana");
@@ -40,15 +41,15 @@ public class CreateFileTest extends AbstractServiceTest {
 		md.addUsers(u3);
 		
 		Directory rootdir = md.getRootDirectory();
-		Directory home = u0.getMainDirectory();
-		//Directory home = (Directory)rootdir.get("home");
+		//Directory roothome = u0.getMainDirectory();
+		Directory home = (Directory)rootdir.get("home");
 		
 //		Directory dir0 = u0.getMainDirectory();
 //		Directory dir1 = u1.getMainDirectory();
 //		Directory dir2 = u2.getMainDirectory();
 //		Directory dir3 = u3.getMainDirectory();
 		
-		Directory dir0 = home;
+		Directory dir0 = u0.getMainDirectory();
 		Directory dir1 = new Directory("ana", 10, u1, home); //id=10
 		Directory dir2 = new Directory("maria", 20, u2, home); //id=20
 		Directory dir3 = new Directory("filipa", 30, u3, home); //id=30
@@ -72,24 +73,7 @@ public class CreateFileTest extends AbstractServiceTest {
 	    s3.setCurrentDir(dir3);
 
 	    
-	    //md.createPlainFile(1, "agenda-Ana", "cozinhar para o Rui");
 	    PlainFile pf1 = new PlainFile("agenda-Ana", 31, u1, "cozinhar para o Rui", dir1); // id=31
-		
-	    
-	    
-//	    long roottoken = s0.getToken(); //acho que roottoken é sempre 0
-//	    md.setCurrentDir(roottoken, md.getRootDirectory());
-//		md.cd(roottoken, "home");
-//      md.cd(roottoken, "maria");
-//		md.createDir(roottoken, "forbiddenFolder");
-//      Directory forbidden = (Directory) s0.getCurrentDir().get("forbiddenFolder");
-//		Permission rootP = new Permission(true, true, true, true);
-//		Permission othersP = new Permission(false, false, false, false);
-//		forbidden.setUserPermission(rootP);
-//		forbidden.setOthersPermission(othersP);
-//		md.cd(roottoken, "forbiddenFolder");
-//		s2.setCurrentDir(forbidden); // s2.setCurrentDir(s0.getCurrentDir())   or    md.cd(maria-token, "forbiddenFolder")
-//		s0.setCurrentDir(dir0);
 		
 	    
 		s0.setCurrentDir(dir2);
@@ -109,6 +93,7 @@ public class CreateFileTest extends AbstractServiceTest {
 
 		Directory hugeDir = new Directory(hugeDirName, 60, u3, dir3); // id=60
 		s3.setCurrentDir(hugeDir);
+			
 		
 	}
 
@@ -293,12 +278,14 @@ public class CreateFileTest extends AbstractServiceTest {
     	service.execute();
     }
 
+	
 	@Test (expected = InvalidFileNameException.class)
     public void invalidFileNameCreation2() {
     	CreateFileService service = new CreateFileService(1, "ab\0cd", "attempt", "PlainFile"); 
     	service.execute();
     }
-    
+
+	
 //    @Test (expected = InvalidFileNameException.class)
 //    public void invalidFileNameCreation3() {
 //    	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
@@ -308,12 +295,12 @@ public class CreateFileTest extends AbstractServiceTest {
 	
 	@Test (expected = MaximumPathException.class)
 	public void maxPathExceededFileCreation() {
-		String name = ""; //caso limite
+		String name = "a"; //caso limite
 		CreateFileService service = new CreateFileService(3, name, "attempt", "PlainFile");
 		service.execute();
 	}
-    
-    
+
+
     @Test (expected = LinkWithoutContentException.class)
 	public void linkWithouthContentFileCreation() {
 		CreateFileService service = new CreateFileService(1, "invalidLink", "", "Link");
