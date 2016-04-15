@@ -168,11 +168,12 @@ public class Directory extends Directory_Base {
 		output+=getSelfDirectory().toString();
 	 	getSelfDirectory().setName(name);
 
-	 	if (getName()!="/") {
+	 	
 	   	 	for (File f: list){
-	   	 		output+= "\n"+f.toString();
+	   	 		if (f.getName()!="/") {
+	   	 			output+= "\n"+f.toString();
+	   	 		}
 	   	 	}
-	 	}
 		return output;
 	}
 
@@ -200,7 +201,7 @@ public class Directory extends Directory_Base {
 	 	getSelfDirectory().setName(name);
 
 	  	for (File f: list){
-	  		if (getName()!="/") {
+	  		if (f.getName()!="/") {
 	  			stringList.add(f.toString());
 	  		}
 	  	}
