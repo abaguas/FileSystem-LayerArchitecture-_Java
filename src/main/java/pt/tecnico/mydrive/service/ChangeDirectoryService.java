@@ -7,6 +7,7 @@ import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.MyDriveException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 
 
@@ -22,10 +23,12 @@ public class ChangeDirectoryService extends MyDriveService
     	this.path = path;
     }
 
+    
+    
      public String pwd(long token, MyDrive md){
         Directory current = md.getCurrentDirByToken(token);
         String output="";
-        if(md.getCurrentDirByToken(token).getName().equals("/")){
+        if(current.getName().equals("/")){
             output="/";
         }
         else{
@@ -37,26 +40,39 @@ public class ChangeDirectoryService extends MyDriveService
         return output;
     }
 
+     
+     public Directory getDirectoryByAbsolutePath(long token, String absolutepath, MyDrive md) {
+		
+    	String[] parts = absolutepath.split("/");
+		md.setCurrentDirByToken(token, md.getRootDirectory());
+		
+		for(int i=1; i < parts.length; i++){		
+			cd(token, parts[i], md);
+		}	
+		
+		return md.getCurrentDirByToken(token);
+     }
+     
     
      public void cd(long token, String name, MyDrive md) throws NoSuchFileException, FileNotCdAbleException, PermissionDeniedException {
-     	File f = null;
+    	 File f = null;
          if(name.charAt(0)=='/') {
-             f = md.getDirectoryByAbsolutePath(token, name); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
+             f = getDirectoryByAbsolutePath(token, name, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
              md.cdable(f);
              md.setCurrentDirByToken(token, (Directory) f);
          }
          else if(name.contains("/")) {
-         	String result = pwd(token, md);
-         	result = result + "/" + name;
-             f = md.getDirectoryByAbsolutePath(token, result); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
+        	 String result = pwd(token, md);
+        	 result = result + "/" + name;
+             f = getDirectoryByAbsolutePath(token, result, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
              md.cdable(f);
              md.setCurrentDirByToken(token, (Directory) f);
          }
          else {
-             f = md.getCurrentDirByToken(token).get(name);
-         	md.cdable(f);
-         	md.checkPermissions(token, name, "cd", "");
-        	md.setCurrentDirByToken(token, (Directory) f);
+        	 f = md.getCurrentDirByToken(token).get(name);
+        	 md.cdable(f);
+        	 md.checkPermissions(token, name, "cd", "");
+        	 md.setCurrentDirByToken(token, (Directory) f);
          }
      }     
      
