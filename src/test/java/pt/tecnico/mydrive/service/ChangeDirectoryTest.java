@@ -29,30 +29,39 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 		MyDrive md = MyDrive.getInstance();
     	
     	User u1 = new User("neto", "***", "netjinho");
-    	User u2 = new User("zecarlos", "***", "zecarlos");
-	    User root = md.getUserByUsername("root");
+	    User u2 = new User("zecarlos", "***", "zecarlos");
+    	User root = md.getUserByUsername("root");
 	    
-	    Directory home1= u1.getMainDirectory();
-	    Directory home2= u2.getMainDirectory();
-	    Directory homeRoot = root.getMainDirectory();
-	    Directory home = (Directory) md.getRootDirectory().get("home");
+    	Directory home = (Directory) md.getRootDirectory().get("home");
+    	
+    	
+    	
+	    Directory home1= new Directory("neto",md.generateId(),u1,home);
+	    Directory home2 = new Directory("zecarlos",md.generateId(),u2,home);
+	    Directory homeRoot = new Directory("root",md.generateId(),root,home);
 	    
+	 	
 	    
 	    Directory images = new Directory("images",md.generateId(),root,homeRoot);
-
+	    
+	    Permission perm = new Permission(false,false,false,false);
+	    home2.setOthersPermission(perm);
+	    home2.setUserPermission(perm);
 		Session s1 = new Session(u1,1,md);
 	 	s1.setCurrentDir(home1);
-	 	
+	 
 	 	Session s4 = new Session(u1,4,md);
 	 	s4.setCurrentDir(home);
+
 	    
 	    Session s3 = new Session(root, 3, md);
 	    s3.setCurrentDir(homeRoot);
+
 	    
-	
+	    
 	    String name = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
 	    md.getDirectoryByAbsolutePath(3, name); //Creates big directory path
-	    
+//	    new Directory(name,md.generateId(),root,home);
 	    PlainFile p1 = new PlainFile("example.txt",md.generateId(), u1, "",home1);
 	}
 
@@ -69,7 +78,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         String result = service.getResult();
 
-		assertEquals("Error changing Directory with a relative path", result, targetDir);
+		assertEquals("Error changing Directory with a relative path", targetDir, result);
 
     }
 
@@ -86,7 +95,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         String result = service.getResult();
 
-		assertEquals("Error changing Directory with an absolute path", result, targetDir);
+		assertEquals("Error changing Directory with an absolute path", targetDir, result);
 
     }
     
@@ -147,7 +156,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         String result = service.getResult();
 		
-		assertEquals("Changed to '.' Directory with success", result, targetDir);
+		assertEquals("Error changing to '.' Directory", targetDir, result);
 
     }
 	
@@ -175,7 +184,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         String result = service.getResult();
 
-        assertEquals("Error changing Directory with maximum path size", result, targetDir);
+        assertEquals("Error changing Directory with maximum path size",  targetDir, result);
        
     }
 
