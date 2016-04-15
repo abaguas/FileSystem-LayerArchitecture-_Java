@@ -32,8 +32,8 @@ public class CreateFileService extends MyDriveService{
 	protected void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, LinkWithoutContentException, MaximumPathException {
 		//Invalid token exception
 		MyDrive md = MyDrive.getInstance();
-        User currentUser = md.getSessionByToken(token).getCurrentUser();
-        Directory currentDir = md.getSessionByToken(token).getCurrentDir();
+        User currentUser = md.getCurrentUserByToken(token);
+        Directory currentDir = md.getCurrentDirByToken(token);
         
         md.checkPermissions(token, name, "create-delete", "create");
         

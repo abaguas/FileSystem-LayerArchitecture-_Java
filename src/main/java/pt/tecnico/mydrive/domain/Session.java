@@ -9,7 +9,6 @@ public class Session extends Session_Base {
         setToken(token);
         setMd(mydrive);
         setCurrentDir(u.getMainDirectory());
-        //getMd().addSession(this);
         DateTime actual = new DateTime();
         setTimestamp(actual);
     } 

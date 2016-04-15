@@ -16,12 +16,6 @@ public class File extends File_Base {
 		init(name,id,owner, father);
 	}
 
-	/*public File(String name, int id) throws InvalidFileNameException{
-	    
-	    //FIXME (root)
-	}*/
-	
-	//Enables inheritance
 	protected void init(String name, int id, User owner, Directory father) throws InvalidFileNameException{
 		if(name.contains("/") || name.contains("\0")){
 			throw new InvalidFileNameException(name);

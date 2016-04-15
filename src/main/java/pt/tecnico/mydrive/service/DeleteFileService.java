@@ -7,6 +7,7 @@ import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
+import pt.tecnico.mydrive.exception.NotDeleteAbleException;
 
 
 public class DeleteFileService extends MyDriveService{
@@ -21,14 +22,24 @@ public class DeleteFileService extends MyDriveService{
     	this.fileName = fileName;
     }
     
-    //FIXME avisar sá couto para nao usar o invalid file name exception
+    
     public final void dispatch() throws PermissionDeniedException, NoSuchFileException {
+        boolean isDirectory = true;
         MyDrive md = MyDrive.getInstance();
-        currentUser = md.getSessionByToken(token).getCurrentUser();
-        currentDir = md.getSessionByToken(token).getCurrentDir();
+        currentUser = md.getCurrentUserByToken(token);
+        currentDir = md.getCurrentDirByToken(token);
         
-        if (fileName != null){  //FIXME todos têm de verificar isto
-            File file = currentDir.get(fileName); // throws no such file exception 
+        if (fileName != null){  
+            if(fileName.equals(".") || fileName.equals("..")){
+                throw new NotDeleteAbleException("Cant delete special directories . and ..");
+            }
+            else if(fileName.equals("/")){
+                throw new NotDeleteAbleException("Cant delete File System Root");
+            }
+            File file = currentDir.get(fileName); 
+            if(file.getOwner().getMainDirectory().getId() == file.getId()){
+                throw new NotDeleteAbleException("Cant delete User's home despite permissions");
+            }
             file.remove(md, token);
         }        
         else {

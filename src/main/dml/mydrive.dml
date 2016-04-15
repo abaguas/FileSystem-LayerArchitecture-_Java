@@ -162,7 +162,7 @@ relation SessionhasCurrentDirectory{
 
 relation SessionhasCurrentUser{
   Session playsRole session{
-    multiplicity 1;
+    multiplicity 0..*;
   }
   User playsRole currentUser{
    multiplicity 1;

@@ -1,4 +1,4 @@
-package pt.tecnico.mydrive.domain;
+    package pt.tecnico.mydrive.domain;
 
 import pt.ist.fenixframework.FenixFramework;
 
@@ -52,8 +52,8 @@ public class MyDrive extends MyDrive_Base {
         setRootDirectory(rootDir);
 
     }
-
-    public Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
+    
+    private Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
 
 
         Set<Session> sessions = getSessionSet();
@@ -224,7 +224,7 @@ public class MyDrive extends MyDrive_Base {
     
 
     public void createUser(long token, String username, String password, String name) throws InvalidUsernameException, UserAlreadyExistsException {
-	   if (userExists(username))
+	   /*if (userExists(username))
         throw new UserAlreadyExistsException(username);
         User user = null;
         long roottoken = getRootUser().getSession().getToken();
@@ -234,7 +234,7 @@ public class MyDrive extends MyDrive_Base {
         cd(roottoken, "username");
         user = new User(username, password, name, getCurrentDirByToken(token)); //RUI faz permissao default
         getCurrentDirByToken(roottoken).setOwner(user);				
-        getUsersSet().add(user);
+        getUsersSet().add(user);*/
     }
     
     public void removeUser(long token, User user) throws NoSuchUserException{
@@ -426,13 +426,12 @@ public class MyDrive extends MyDrive_Base {
     }
     
     
-    public void checkFileCreateDeletePermissions(long token, String fileName, String access) throws PermissionDeniedException {
+    public void checkFileCreateDeletePermissions(long token, String fileName, String access) throws PermissionDeniedException, ExpiredSessionException,InvalidTokenException {
     	User u = getCurrentUserByToken(token);
     	Directory d = getCurrentDirByToken(token);
     	User owner = d.getOwner();
     	Permission dirOwnP = d.getUserPermission();
     	Permission dirOthP = d.getOthersPermission();    	
-    	
     	if(u.getUsername().equals("root")) {
     		return;
     	}
