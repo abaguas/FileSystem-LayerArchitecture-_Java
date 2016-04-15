@@ -56,17 +56,18 @@ public class ChangeDirectoryService extends MyDriveService
     
      public void cd(long token, String name, MyDrive md) throws NoSuchFileException, FileNotCdAbleException, PermissionDeniedException {
     	 File f = null;
+    	 Directory d = null;
          if(name.charAt(0)=='/') {
-             f = getDirectoryByAbsolutePath(token, name, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
-             md.cdable(f);
-             md.setCurrentDirByToken(token, (Directory) f);
+             d = getDirectoryByAbsolutePath(token, name, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
+             //md.cdable(f);
+             md.setCurrentDirByToken(token, d);
          }
          else if(name.contains("/")) {
         	 String result = pwd(token, md);
         	 result = result + "/" + name;
-             f = getDirectoryByAbsolutePath(token, result, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
-             md.cdable(f);
-             md.setCurrentDirByToken(token, (Directory) f);
+             d = getDirectoryByAbsolutePath(token, result, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
+             //md.cdable(f);
+             md.setCurrentDirByToken(token, d);
          }
          else {
         	 f = md.getCurrentDirByToken(token).get(name);
