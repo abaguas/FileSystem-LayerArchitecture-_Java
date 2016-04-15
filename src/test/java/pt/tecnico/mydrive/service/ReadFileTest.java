@@ -118,15 +118,15 @@ public class ReadFileTest extends AbstractServiceTest{
 		noYouCant.setUserPermission(new Permission("-wxd"));
 		
 		//create session and set current directory
-		Session sessionOwner = new Session(owner, 1);
+		Session sessionOwner = new Session(owner, 1, md);
 		sessionOwner.setCurrentDir(workingDirectory);
 		md.addSession(sessionOwner);
 		
-		Session sessionOther = new Session(other, 2);
+		Session sessionOther = new Session(other, 2, md);
 		sessionOther.setCurrentDir(workingDirectory);
 		md.addSession(sessionOther);
 		
-		Session sessionRoot = new Session(root, 3);
+		Session sessionRoot = new Session(root, 3, md);
 		sessionRoot.setCurrentDir(workingDirectory);
 		md.addSession(sessionRoot);
 		
