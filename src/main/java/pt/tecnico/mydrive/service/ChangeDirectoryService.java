@@ -59,18 +59,15 @@ public class ChangeDirectoryService extends MyDriveService
     	 File f = null;
     	 Directory d = null;
     	 if(name.equals(".")) {
-    		 //nothing needed to be done
     	 }
     	 else if(name.charAt(0)=='/') {
-             d = getDirectoryByAbsolutePath(token, name, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
-             //md.cdable(f);
+             d = getDirectoryByAbsolutePath(token, name, md); 
              md.setCurrentDirByToken(token, d);
          }
          else if(name.contains("/")) {
         	 String result = pwd(token, md);
         	 result = result + "/" + name;
-             d = getDirectoryByAbsolutePath(token, result, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
-             //md.cdable(f);
+             d = getDirectoryByAbsolutePath(token, result, md); 
              md.setCurrentDirByToken(token, d);
          }
          else {
@@ -83,7 +80,7 @@ public class ChangeDirectoryService extends MyDriveService
      
 
     
-    public final void dispatch() throws FileNotCdAbleException, NoSuchFileException, PermissionDeniedException, InvalidTokenException { //FileNotDirectoryException, InvalidFileNameException
+    public final void dispatch() throws FileNotCdAbleException, NoSuchFileException, PermissionDeniedException, InvalidTokenException { 
        MyDrive md = getMyDrive();     
        cd(token, path, md);
        

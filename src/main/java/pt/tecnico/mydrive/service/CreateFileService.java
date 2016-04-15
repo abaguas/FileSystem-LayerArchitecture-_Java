@@ -13,7 +13,7 @@ import pt.tecnico.mydrive.exception.MaximumPathException;
 
 public class CreateFileService extends MyDriveService{
 	
-	private long token; //FIXME valid token?
+	private long token; 
 	private String name;
 	private String content;
 	private String code;
@@ -31,7 +31,6 @@ public class CreateFileService extends MyDriveService{
 	
 	@Override
 	protected void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, LinkWithoutContentException, MaximumPathException, InvalidTokenException {
-		//Invalid token exception
 		MyDrive md = MyDrive.getInstance();
         User currentUser = md.getCurrentUserByToken(token);
         Directory currentDir = md.getCurrentDirByToken(token);
