@@ -158,7 +158,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     
 
 //	  esta a dar class java.lang.ClassCastException em vez de FileNotDirectoryException ou FileNotCdableException 	    
-    @Test (expected = FileNotDirectoryException.class)
+    @Test (expected = FileNotCdAbleException.class)
     public void notPermittedCd3() {
         
     	final long token = 1;
