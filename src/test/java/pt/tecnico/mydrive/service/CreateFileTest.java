@@ -28,9 +28,10 @@ public class CreateFileTest extends AbstractServiceTest {
 		
 		MyDrive md = MyDrive.getInstance();
 				
-		//User u0 = md.getRootUser(); //User u0 = md.getUserByUsername("root");
 		//User u0 = md.getUserByUsername("root");
-		RootUser u0 = RootUser.getInstance();
+		//User u0 = md.getUserByUsername("root");
+		//RootUser u0 = RootUser.getInstance();
+		User u0 = md.getRootUser();
 		User u1 = new User("ana", "pass1", "Ana");
 		md.addUsers(u1);
 		User u2 = new User("maria", "pass2", "Maria");
@@ -42,23 +43,23 @@ public class CreateFileTest extends AbstractServiceTest {
 		Directory home = u0.getMainDirectory();
 		//Directory home = (Directory)rootdir.get("home");
 		
-		Directory dir0 = u0.getMainDirectory();
-		Directory dir1 = u1.getMainDirectory();
-		Directory dir2 = u2.getMainDirectory();
-		Directory dir3 = u3.getMainDirectory();
+//		Directory dir0 = u0.getMainDirectory();
+//		Directory dir1 = u1.getMainDirectory();
+//		Directory dir2 = u2.getMainDirectory();
+//		Directory dir3 = u3.getMainDirectory();
 		
-//		Directory dir0 = (Directory)home.get("root"); 
-//		Directory dir1 = new Directory("ana", 10, u1, home); //id=10
-//		Directory dir2 = new Directory("maria", 20, u2, home); //id=20
-//		Directory dir3 = new Directory("filipa", 30, u3, home); //id=30
+		Directory dir0 = home;
+		Directory dir1 = new Directory("ana", 10, u1, home); //id=10
+		Directory dir2 = new Directory("maria", 20, u2, home); //id=20
+		Directory dir3 = new Directory("filipa", 30, u3, home); //id=30
 		
 //		u1.setMainDirectory(dir1);
 //		u2.setMainDirectory(dir2);
 //		u3.setMainDirectory(dir3);
 		
 		
-		//Session s0 = new Session(u0, 0, md); //acho que a sessão do User é sempre criada
-		Session s0 = md.getRootUser().getSession();
+		//Session s0 = md.getRootUser().getSession();
+		Session s0 = new Session(u0, 0, md); //acho que a sessão do User é sempre criada
 		s0.setCurrentDir(dir0);
 	    
 		Session s1 = new Session(u1, 1, md); // ana - token=1
@@ -273,11 +274,11 @@ public class CreateFileTest extends AbstractServiceTest {
     	service.execute();
     }
     
-    @Test (expected = InvalidFileNameException.class)
-    public void invalidFileNameCreation3() {
-    	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
-    	service.execute();
-    }
+//    @Test (expected = InvalidFileNameException.class)
+//    public void invalidFileNameCreation3() {
+//    	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
+//    	service.execute();
+//    }
 	
 	
 	@Test (expected = MaximumPathException.class)
