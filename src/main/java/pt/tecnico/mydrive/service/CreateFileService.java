@@ -7,6 +7,7 @@ import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.LinkWithoutContentException;
 import pt.tecnico.mydrive.exception.MaximumPathException;
 
@@ -29,7 +30,7 @@ public class CreateFileService extends MyDriveService{
 	}
 	
 	@Override
-	protected void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, LinkWithoutContentException, MaximumPathException {
+	protected void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, LinkWithoutContentException, MaximumPathException, InvalidTokenException {
 		//Invalid token exception
 		MyDrive md = MyDrive.getInstance();
         User currentUser = md.getCurrentUserByToken(token);

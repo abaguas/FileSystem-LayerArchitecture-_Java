@@ -7,6 +7,7 @@ import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.MyDriveException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 
@@ -58,7 +59,7 @@ public class ChangeDirectoryService extends MyDriveService
     	 File f = null;
     	 Directory d = null;
     	 if(name.equals(".")) {
-    		 //do nothing
+    		 //nothing needed to be done
     	 }
     	 else if(name.charAt(0)=='/') {
              d = getDirectoryByAbsolutePath(token, name, md); //getDirectoryByAbsolutePath chama o último caso desta função, que chama o checkPermissions
@@ -82,7 +83,7 @@ public class ChangeDirectoryService extends MyDriveService
      
 
     
-    public final void dispatch() throws FileNotCdAbleException, FileNotDirectoryException, InvalidFileNameException, NoSuchFileException, PermissionDeniedException {
+    public final void dispatch() throws FileNotCdAbleException, NoSuchFileException, PermissionDeniedException, InvalidTokenException { //FileNotDirectoryException, InvalidFileNameException
        MyDrive md = getMyDrive();     
        cd(token, path, md);
        

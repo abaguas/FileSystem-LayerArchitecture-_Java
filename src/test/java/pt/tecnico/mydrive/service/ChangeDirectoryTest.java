@@ -23,6 +23,7 @@ import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 public class ChangeDirectoryTest extends AbstractServiceTest {
 
+	private String hugeDirName = "";
 	
 	
 	protected void populate() {
@@ -64,6 +65,16 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    home2.setUserPermission(userPerm);
 	    home2.setOthersPermission(othersPerm);
 	     
+		hugeDirName = "";
+		for (int i = 0; i<1013; i++) { // "/home/neto" length=10, mais descontar /, logo 1024-11=1013
+			hugeDirName += "a"; 
+		}
+
+		Directory hugeDir = new Directory(hugeDirName, 239, u1, home1); // id=239
+
+	    
+	 	//String name = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
+	    //md.getDirectoryByAbsolutePath(3, name); //Creates big directory path
 	    
 	    
 	    Session s0 = new Session(root, 0, md);
@@ -76,8 +87,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	 	s2.setCurrentDir(home2);
 
 	 	
-	 	//String name = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
-	    //md.getDirectoryByAbsolutePath(3, name); //Creates big directory path
+
 
 	    
 	}
@@ -99,8 +109,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	
 	
     @Test
-    public void successCd() {
-    	
+    public void successCd() {	
     	final long token = 1;
         ChangeDirectoryService service = new ChangeDirectoryService(token, "music");    
         service.execute();
@@ -115,7 +124,6 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	
     @Test
     public void successCdRelativePath() {
-    	
     	final long token = 1;
         ChangeDirectoryService service = new ChangeDirectoryService(token, "music/emanuel/bestOf");    
         service.execute();
@@ -125,13 +133,11 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         assertNotNull("null final directory", finalDir);
         assertEquals("error changing directory", expectedDir, finalDir.getAbsolutePath());
-
     }
 	
     
     @Test
     public void successCdAbsolutePath() {
-    	
     	final long token = 1;
         ChangeDirectoryService service = new ChangeDirectoryService(token, "/home/neto/music/emanuel/bestOf");    
         service.execute();
@@ -141,7 +147,6 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         
         assertNotNull("null final directory", finalDir);
         assertEquals("error changing directory", expectedDir, finalDir.getAbsolutePath());
-
     }
 
     
@@ -157,68 +162,56 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 
         
 		assertEquals("error changing to '.' directory", expectedDir, selfDir.getAbsolutePath());
-
     }
      
 	
     @Test(expected = PermissionDeniedException.class)
     public void notPermittedCd() {
-        
     	final long token = 2;
     	    	
         ChangeDirectoryService service = new ChangeDirectoryService(token, "images"); 
-        service.execute();
-        
+        service.execute();       
     }
 
     
     @Test (expected = PermissionDeniedException.class)
     public void notPermittedCd2() {
-        
     	final long token = 1;
     	    	
         ChangeDirectoryService service = new ChangeDirectoryService(token, "videos/videoclips/youtube"); 
-    	service.execute();
-        
+    	service.execute();       
     }
     
     
     @Test (expected = PermissionDeniedException.class)
     public void notPermittedCd3() {
-        
     	final long token = 1;
     	    	
         ChangeDirectoryService service = new ChangeDirectoryService(token, "/home/neto/videos/videoclips/youtube"); 
     	service.execute();
-        
     }
     
     
     @Test (expected = NoSuchFileException.class)
     public void nonExistentDir() {
-        
     	final long token = 1;
     	    	
         ChangeDirectoryService service = new ChangeDirectoryService(token, "casa"); 
-        service.execute();
-        
+        service.execute();        
     }
     
     
     @Test (expected = NoSuchFileException.class)
     public void nonExistentRelativeDir() {
-        
     	final long token = 1;
     	    	
         ChangeDirectoryService service = new ChangeDirectoryService(token, "music/emanuel/abc"); 
         service.execute();
-        
     }
     
     
     @Test (expected = NoSuchFileException.class)
     public void nonExistentAbsoluteDir() {
-        
     	final long token = 1;
     	    	
         ChangeDirectoryService service = new ChangeDirectoryService(token, "/home/neto/music/abc/emanuel"); 
@@ -226,92 +219,37 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     }
     
     
-    
-
-    
-    
-    
-    
-    
-//	  esta a dar class java.lang.ClassCastException em vez de FileNotDirectoryException ou FileNotCdableException 	    
-//    @Test (expected = FileNotCdAbleException.class)
-//    public void notPermittedCd3() {
-//        
-//    	final long token = 1;
-//    	    	
-//        ChangeDirectoryService service = new ChangeDirectoryService(token, "example.txt"); 
-//        service.execute();
-//        
-//    }
-    
-    
-    
-    /*
-	
-	
-	
-	
-
-	
-	@Test (expected = MaximumPathException.class)
-    public void absolutePathTooLarge() { //Testing CD with more than 1024 character in an absolute path
-		
-    	final long token = 3; //FIXME create a valid token
-		final String targetDir = StringUtils.rightPad("/home/root/", 1025, "/zezacarias");
-    	
-        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
-        
+    @Test (expected = FileNotCdAbleException.class)
+    public void notADirectory() {
+    	final long token = 1;
+    	    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, "example.txt"); 
         service.execute();
-		
     }
-	
-	@Test 
-    public void successCdWithMaxPath() { //Testing CD with 1024 character in an absolute path
-
-    	final long token = 3;
-    	final String targetDir = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
-    	
-        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
         
-        service.execute();
-        
-        String result = service.getResult();
-
-        assertEquals("Error changing Directory with maximum path size",  targetDir, result);
-       
-    }
-
+    
 	@Test (expected = InvalidTokenException.class)
     public void invalidToken() { //Testing CD with an invalid token
+		final long token = 1234567890;
+    	final String targetDir = "/home/neto/music";
+    	    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir);    
+        service.execute();
+    }
+    
+    
+	@Test 
+    public void successCdWithMaxPath() { //Testing CD with 1024 character in an absolute path
+    	final long token = 1;
+    	
+        ChangeDirectoryService service = new ChangeDirectoryService(token, hugeDirName); 
+        service.execute();
+        
+        Directory finalDir = getDirectory(token);
+        String expected = "/home/neto/" + hugeDirName;
+        
+        assertEquals("error changing to directory with maximum path size",  expected, finalDir.getAbsolutePath());
+    }
 
-		MyDrive md = MyDrive.getInstance();
-		final long token = -1;
-    	final String targetDir = "/home/root";
-    	User root = md.getUserByUsername("root");
-    	md.setCurrentUserByToken(token, root);
-    	
-    	final String path = "/home/root"; 
-    	Directory currentDir = md.getDirectoryByAbsolutePath(token, path);
-    	
-    	md.setCurrentDirByToken(token, currentDir);
-    	
-        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
-        
-        service.execute();
-       
-    }
-	
-	@Test (expected = FileNotCdAbleException.class)
-    public void notADirectory() { //Testing CD to a PlainFile
-		final long token = 3; 
-    	final String targetDir = "/home/root/example.txt";
-    	
-    	
-        ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir); 
-        
-        service.execute();
-      
-    }
-	*/
 
 }
