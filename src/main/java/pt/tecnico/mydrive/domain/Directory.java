@@ -15,9 +15,6 @@ import pt.tecnico.mydrive.exception.*;
 public class Directory extends Directory_Base {
 
     public static Directory newRootDir(RootUser user){
-  //FIXME     Directory rootDir = FenixFramework.getDomainRoot().getMyDrive().getRootDirectory();
-  /*      if (rootDir != null)
-            return rootDir; */
         return new Directory((User)user);
     }
 
@@ -83,30 +80,21 @@ public class Directory extends Directory_Base {
 	@Override
 	public void remove(MyDrive md, long token) throws PermissionDeniedException {
 		boolean allDeleted = true;
-		md.checkPermissions(token, getName(), "create-delete", "delete"); //verify delete permission
+		md.checkPermissions(token, getName(), "create-delete", "delete"); 
 		Set<File> files = getFiles();
 		for (File f: files) {
-			try {
-				md.cdable(f);
-				md.checkPermissions(token, getName(), "read-write-execute", "execute"); //verify execute permission for other files
-	   	 		f.remove(md, token);
-	   	 	}catch (PermissionDeniedException pde){
-	   	 		allDeleted = false;
-	   	 	} catch (FileNotCdAbleException fncde){
-	   	 		try{
-	   	 			f.remove(md, token);
-	   	 		}catch (PermissionDeniedException pde2){
-	   	 			allDeleted = false;
-	   	 		}
-	   	 	}
+				md.checkPermissions(token, getName(), "create-delete", "delete"); 
 		}
-		if (allDeleted) {
-			setOwner(null);
-	    	setUserPermission(null);
-	        setOthersPermission(null);
-	        setDirectory(null);
-	        deleteDomainObject();
+		for (File f: files) {
+				f.remove(md, token); 
 		}
+		setOwner(null);
+	    setUserPermission(null);
+	    setOthersPermission(null);
+	    setDirectory(null);
+	    setSelfDirectory(null);
+	    setFatherDirectory(null);
+	    deleteDomainObject();
 	}
 
 	public File get(String name) throws NoSuchFileException, FileNotDirectoryException{

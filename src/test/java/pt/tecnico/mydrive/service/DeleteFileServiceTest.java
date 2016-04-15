@@ -29,19 +29,20 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 		home1 = (Directory)rootdir.get("home");
 
 	    User u1 = new User("CatioBalde", "pass1", "Catio");
-	    u1.setMainDirectory(home1);
+	    Directory home3 = new Directory("CatioBalde", 127, u1, home1);
+	    u1.setMainDirectory(home3);
 
 	    User u2 = md.getUserByUsername("root");
 		home2 = u2.getMainDirectory();
 		Directory home2 = u2.getMainDirectory();
 	    
-	    Directory d1 = new Directory("folder", 125, u1, home1);
+	    Directory d1 = new Directory("folder", 125, u1, home3);
 	    Directory d2 = new Directory("folder2", 126, u2, home2);        
-	    PlainFile p1 = new PlainFile("CasoBruma", 123, u1, "conteudo1", home1);
+	    PlainFile p1 = new PlainFile("CasoBruma", 123, u1, "conteudo1", home3);
 		PlainFile p2 = new PlainFile("Exemplo", 124, u2, "conteudo3", home2);
 	    
 	    Session s1 = new Session(u1, 1, md);
-	    s1.setCurrentDir(home1);
+	    s1.setCurrentDir(home3);
 
 	    Session s2 = new Session(u1, 2, md);
 	    s2.setCurrentDir(home2);
@@ -85,7 +86,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 
 	}
 
-	@Test(expected=InvalidFileNameException.class)
+	@Test(expected=NoSuchFileException.class)
 	public void deleteWithNullName(){
 
 		DeleteFileService dfs = new DeleteFileService(1, null);
