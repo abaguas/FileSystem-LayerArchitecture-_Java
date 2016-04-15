@@ -23,22 +23,26 @@ public class LoginService extends MyDriveService{
 		_password= password;
 		_username= username;
 	}
-	public  long createSession(String username, String password, MyDrive mydrive) throws InvalidUsernameOrPasswordException, NoSuchUserException {
-        User user= mydrive.getUserByUsername(username);
-        if(user.getPassword().equals(password)){
-            long token= new BigInteger(64, new Random()).longValue();
-            DateTime actual = new DateTime();
-            Session s = new Session(user,token,mydrive);
-            s.setTimestamp(actual);
-            return token;
+	public  long createSession(String username, String password, MyDrive mydrive) throws InvalidUsernameOrPasswordException{
+        try{
+        	User user= mydrive.getUserByUsername(username);
+        	if(user.getPassword().equals(password)){
+            	long token= new BigInteger(64, new Random()).longValue();
+            	Session s = new Session(user,token,mydrive);
+            	return token;
+        	}
+        	else{
+            	throw new InvalidUsernameOrPasswordException(username);
+        	}
         }
-        else{
-            throw new InvalidUsernameOrPasswordException(username);
+        catch(NoSuchUserException e){
+        	throw new InvalidUsernameOrPasswordException(username);
         }
+        
     }
 	
 	@Override
-	protected void dispatch() throws InvalidUsernameOrPasswordException, NoSuchUserException {
+	protected void dispatch() throws InvalidUsernameOrPasswordException{
 		MyDrive md = MyDrive.getInstance();
 		_returntoken= createSession(_username,_password,md);
           

@@ -1,41 +1,47 @@
-/*package pt.tecnico.mydrive.service;
+package pt.tecnico.mydrive.service;
 
-public class LoginTest extends AbstractServiceTest{
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import pt.tecnico.mydrive.exception.InvalidUsernameOrPasswordException;
+import pt.tecnico.mydrive.exception.NoSuchUserException ;
+import pt.tecnico.mydrive.domain.User;
+import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.MyDrive;
+
+
+public class LoginServiceTest extends AbstractServiceTest{
 	protected void populate(){
 
 		MyDrive md = MyDrive.getInstance();
-		User u1= new User("Utilizador1", "1234", "user1");
+		User u1= new User("user1", "1234", "Utilizador1");
+		md.addUsers(u1);
 
 
 	}
 
 	@Test
 	public void SuccessfulLogin(){
-		long token = LoginService("user1", "1234");
+		LoginService login = new  LoginService("user1", "1234");
+		login.execute();
+		long token= login.result();
 		assertNotNull (token);
 		 //Sucesso
 	}
 	
-	@Test(expected = InvalidUserOrPasswordException.class)
-		public void UnsuccessfulLoginDueToWrongPassword() throws InvalidUserOrPasswordException{
-		long token = LoginService("user1", "1235");
- //Erro
+	@Test(expected = InvalidUsernameOrPasswordException.class)
+		public void UnsuccessfulLoginDueToWrongPassword() throws InvalidUsernameOrPasswordException{
+		LoginService login= new LoginService("user1", "1235");
+		login.execute();
+ 
 		}
 	
-	@Test(expected = InvalidUserOrPasswordException.class)
-		public void UnsuccessfulLoginDueToNonExistentUser() throws InvalidUserOrPasswordException{
-		long token = LoginService ("NonExistent", "1243");
-//Erro
-		}
-	
-	
-	@Test
-	public void initiateSessionPeriod(){
-	}
-	
-	@Test
-	public void reinitiateSessionPeriod(){
-	}
+	@Test(expected = InvalidUsernameOrPasswordException.class)
+		public void UnsuccessfulLoginDueToNonExistentUser() throws InvalidUsernameOrPasswordException {
+		LoginService login = new LoginService ("NonExistent", "1243");
+		login.execute();
 
+		}
+	
+	
 }	
-*/
