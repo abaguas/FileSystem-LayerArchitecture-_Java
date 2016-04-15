@@ -48,9 +48,9 @@ public class PlainFile extends PlainFile_Base {
     	return getContent().length();
     }
 
-	@Override
+    @Override
 	public void accept(Visitor v) {
-		// TODO Auto-generated method stub
+		v.execute(this);
 	}
  
     public String toString(){

@@ -3,6 +3,7 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 
+import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
@@ -54,10 +55,6 @@ public class File extends File_Base {
         deleteDomainObject();
     }
     
-    public void accept(Visitor v){
-    	//TODO
-    }
-    
     public String toString(){	
     	return print();
     }
@@ -100,4 +97,9 @@ public class File extends File_Base {
     public String ls(){
 		return null;
     }
+
+	public void accept(Visitor v) {
+		v.execute(this);
+		
+	}
 }
