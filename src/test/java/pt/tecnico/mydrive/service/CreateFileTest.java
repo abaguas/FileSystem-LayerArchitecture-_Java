@@ -274,11 +274,11 @@ public class CreateFileTest extends AbstractServiceTest {
     	service.execute();
     }
     
-    @Test (expected = InvalidFileNameException.class)
-    public void invalidFileNameCreation3() {
-    	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
-    	service.execute();
-    }
+//    @Test (expected = InvalidFileNameException.class)
+//    public void invalidFileNameCreation3() {
+//    	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
+//    	service.execute();
+//    }
 	
 	
 	@Test (expected = MaximumPathException.class)
