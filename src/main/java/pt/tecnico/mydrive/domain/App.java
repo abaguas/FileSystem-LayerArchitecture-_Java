@@ -4,13 +4,11 @@ import org.jdom2.Element;
 import org.jdom2.Document;
 
 public class App extends App_Base {
-    //o conteudo representa o nome completo de um metodo de uma classe Java
     public App(String name, int id, User owner, String content, Directory father) {
     	init(name,id,owner,content, father);
     }
     
     public App(String name, int id, String content) {
-    	//FIXME (root)
 
     }
     public App(Element app_element, User owner, Directory father){
@@ -19,7 +17,6 @@ public class App extends App_Base {
     }
     
     public void execute(){
-    	//FIXME?
     }
   
     @Override

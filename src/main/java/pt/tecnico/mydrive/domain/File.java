@@ -74,11 +74,11 @@ public class File extends File_Base {
     public String getAbsolutePath(){
         String path="";
         Directory current = getDirectory();
-        if(getName().equals("/")) { // caso em que o File é a /
+        if(getName().equals("/")) { 
         	path = "/";
         	return path;
         }
-        if(current.getName().equals("/")){ // caso em que o File está dentro da /
+        if(current.getName().equals("/")){ 
             path = "/";
         }
         else{

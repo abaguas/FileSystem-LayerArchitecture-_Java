@@ -6,21 +6,16 @@ import org.jdom2.Document;
 
 public class PlainFile extends PlainFile_Base {
 	
-    //a primeira palavra representa o caminho para uma aplicacao e as restantes palavras representam os seus argumentos.
     public PlainFile(String name, int id, User owner, String content, Directory father) {
     	init(name,id,owner,content, father);
     }
     public PlainFile(String name, int id, String content) {
-    	//FIXME (root)
     }
     public PlainFile(Element plain_element, User user, Directory father){
-        //setOwner(user);
-        //setDirectory(father);
         xmlImport(plain_element, user, father);
     }
 
     public PlainFile() {};
-    //Enables inheritance
     protected void init(String name, int id, User owner, String content, Directory father){
     	init(name,id,owner, father);
     	setContent(content);
@@ -30,7 +25,7 @@ public class PlainFile extends PlainFile_Base {
     	DateTime lt = new DateTime();
     	setLastChange(lt);
     	String t = getContent();
-    	t+="\n"+content; //Has new line? 
+    	t+="\n"+content; 
     	setContent(t);
     }
 
@@ -41,7 +36,6 @@ public class PlainFile extends PlainFile_Base {
     }
     
     public void execute(){
-    	//FIXME?
     }
     
     public int dimension(){

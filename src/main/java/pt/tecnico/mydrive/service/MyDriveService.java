@@ -17,20 +17,6 @@ public abstract class MyDriveService {
     static MyDrive getMyDrive() {
         return MyDrive.getInstance();
     }
-
-    /*
-    static User getUser(String username) throws NoSuchUserException
-    {
-    	User u = getMyDrive().getUserByUsername(username);
-    	
-    	if(u == null)
-    		throw new NoSuchUserException(username);
-    	
-    	return u;
-    }
-    */ 
-
     
-
     protected abstract void dispatch() throws MyDriveException;
 }

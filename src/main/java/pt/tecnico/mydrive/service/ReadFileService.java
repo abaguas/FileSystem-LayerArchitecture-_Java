@@ -34,7 +34,7 @@ public class ReadFileService extends MyDriveService{
         currentDir = md.getCurrentDirByToken(token);
         int linkHops=0;
         if(fileName != null){
-            File file = currentDir.get(fileName); // throws no such file exception
+            File file = currentDir.get(fileName); 
             if(file instanceof Directory){
                 throw new FileIsNotReadAbleException("Cant read a Directory");
             }

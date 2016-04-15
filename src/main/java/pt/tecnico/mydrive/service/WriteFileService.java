@@ -39,19 +39,6 @@ public class WriteFileService extends MyDriveService
     
     public final void dispatch() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
        MyDrive md = getMyDrive();
-       /*User currentUser = md.getCurrentUserByToken(token);
-       Directory currentDir = md.getCurrentDirByToken(token);
-       
-       
-       File file = currentDir.get(fileName); // throws no such file exception            
-       
-       boolean ownerPermission = file.getOwner().getUsername().equals(currentUser.getUsername()) || currentUser.getUsername().equals("root");
-       boolean writePermission = file.getOthersPermission().getWrite() && currentUser.getOthersPermission().getWrite();
-       
-       if(!(ownerPermission || writePermission)){
-       		throw new PermissionDeniedException("Writing on " + fileName);
-       }
-       */
        result=writeFile(fileName, content, token, md);
        
 
