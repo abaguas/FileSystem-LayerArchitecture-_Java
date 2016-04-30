@@ -8,7 +8,7 @@ public class MyDriveShell extends Shell {
 	}
 
 	public MyDriveShell() { // add commands here
-		    super("PhoneBook");
+		    super("MyDrive");
 //		    new Login(this);
 //		    new ChangeWorkingDirectory(this);
 //		    new List(this);

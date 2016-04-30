@@ -1,9 +1,9 @@
 package pt.tecnico.mydrive.presentation;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 
 public abstract class Command {
-  protected static final Logger log = LogManager.getRootLogger();
+//  protected static final Logger log = LogManager.getRootLogger();
   private String name, help;
   private Shell shell;
 
