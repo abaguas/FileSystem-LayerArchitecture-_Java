@@ -53,59 +53,27 @@ public class MyDrive extends MyDrive_Base {
 
     }
     
-    private Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
 
-
-        Set<Session> sessions = getSessionSet();
-        DateTime actual = new DateTime();
-        DateTime twohoursbefore = actual.minusHours(2);
-        Session s = null;
-        for(Session session : sessions){
-            int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
-            if(session.getToken() == token){
-                if(result <= 0 ){
-                    session.setTimestamp(actual);
-                    s = session;
-                }
-                else{
-                    removeSession(session);
-                    throw new ExpiredSessionException();
-
-                } 
-            }
-            else{
-                if(result > 0){
-                    removeSession(session);
-                }
-            }
-        }
-        if(s==null){
-            throw new InvalidTokenException();
-        }
-        else{
-            return s;
-        }
-    } 
-
-    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException,InvalidTokenException{
-		Session session = getSessionByToken(token);
-        return session.getCurrentDir();
-    }
-
-    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException,InvalidTokenException{
-    	Session session = getSessionByToken(token);
-        session.setCurrentDir(dir);
-    }
-
-    public User getCurrentUserByToken(long token)throws ExpiredSessionException,InvalidTokenException{
-		Session session = getSessionByToken(token);
-        return session.getCurrentUser();
-    }
-
-    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException,InvalidTokenException{
-        Session session = getSessionByToken(token);
-        session.setCurrentUser(u);
-    }
+  
+//    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException,InvalidTokenException{
+//		Session session = getSessionByToken(token);
+//        return session.getCurrentDir();
+//    }
+//
+//    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException,InvalidTokenException{
+//    	Session session = getSessionByToken(token);
+//        session.setCurrentDir(dir);
+//    }
+//
+//    public User getCurrentUserByToken(long token)throws ExpiredSessionException,InvalidTokenException{
+//		Session session = getSessionByToken(token);
+//        return session.getCurrentUser();
+//    }
+//
+//    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException,InvalidTokenException{
+//        Session session = getSessionByToken(token);
+//        session.setCurrentUser(u);
+//    }
 
     public int generateId(){
     	setCounter(getCounter()+1);
@@ -126,13 +94,13 @@ public class MyDrive extends MyDrive_Base {
         f.accept(v);
     }
     
-    public String ls(long token, String name) throws NoSuchFileException{
-    	return getCurrentDirByToken(token).get(name).ls();
-    }
-    
-    public String ls(long token){
-		return getCurrentDirByToken(token).ls();
-    }
+//    public String ls(long token, String name) throws NoSuchFileException{
+//    	return getCurrentDirByToken(token).get(name).ls();
+//    }
+//    
+//    public String ls(long token){
+//		return getCurrentDirByToken(token).ls();
+//    }
     
     public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home";

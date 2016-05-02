@@ -9,9 +9,9 @@ public class MyDriveShell extends Shell {
 
 	public MyDriveShell() { // add commands here
 		    super("MyDrive");
-//		    new Login(this);
+		    new Login(this);
 //		    new ChangeWorkingDirectory(this);
-//		    new List(this);
+		    new List(this);
 //		    new Execute(this);
 		    new Write(this);
 //		    new Environment(this);
