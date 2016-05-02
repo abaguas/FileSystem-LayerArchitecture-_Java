@@ -35,7 +35,7 @@ public class PlainFile extends PlainFile_Base {
         setContent(content);
     }
     
-    public void execute(){
+    public void execute() {
     }
     
     public int dimension(){
@@ -52,7 +52,7 @@ public class PlainFile extends PlainFile_Base {
     	t+=print();
     	return t;
     }
-    
+
 	public String ls(){
 		return getContent();
 	}

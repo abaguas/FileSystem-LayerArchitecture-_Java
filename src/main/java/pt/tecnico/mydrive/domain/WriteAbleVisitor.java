@@ -6,6 +6,10 @@ import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 public class WriteAbleVisitor implements Visitor {
 
 	@Override
+	public void execute(File f) throws FileIsNotWriteAbleException {
+	}
+	
+	@Override
 	public void execute(PlainFile f) {		
 	}
 
@@ -14,6 +18,13 @@ public class WriteAbleVisitor implements Visitor {
 		throw new FileIsNotWriteAbleException(d.getName());
 	}
 
-	public void execute(File f) throws FileIsNotWriteAbleException {
+	@Override
+	public void execute(Link l) {
 	}
+
+	@Override
+	public void execute(App a) {
+	}
+
+
 }
