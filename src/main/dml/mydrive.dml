@@ -53,7 +53,7 @@ relation MyDriveHasSessions {
   MyDrive playsRole md {
     multiplicity 1;
   }
-  Session playsRole session {
+  Session playsRole sessions {
     multiplicity 0..*;
   }
 }

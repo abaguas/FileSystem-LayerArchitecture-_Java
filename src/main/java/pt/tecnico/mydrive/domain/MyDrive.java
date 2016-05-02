@@ -57,7 +57,7 @@ public class MyDrive extends MyDrive_Base {
     private Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
 
 
-        Set<Session> sessions = getSessionSet();
+        Set<Session> sessions = getSessions();
         DateTime actual = new DateTime();
         DateTime twohoursbefore = actual.minusHours(2);
         Session s = null;
@@ -69,14 +69,14 @@ public class MyDrive extends MyDrive_Base {
                     s = session;
                 }
                 else{
-                    removeSession(session);
+                    removeSessions(session);
                     throw new ExpiredSessionException();
 
                 } 
             }
             else{
                 if(result > 0){
-                    removeSession(session);
+                    removeSessions(session);
                 }
             }
         }
