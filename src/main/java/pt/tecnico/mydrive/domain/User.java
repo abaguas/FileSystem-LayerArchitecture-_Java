@@ -33,6 +33,12 @@ public class User extends User_Base
     	else
     		throw new InvalidUsernameException(username); 
     }
+    
+    protected void init(MyDrive md,String username, String password, String name) throws InvalidUsernameException{
+    	init(username,password,name);
+    	setMyDrive(md);
+    }
+
     	
 	
     protected void init(String username, String password, String name, Directory home) throws InvalidUsernameException{

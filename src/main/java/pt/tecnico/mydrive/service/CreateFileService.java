@@ -4,6 +4,7 @@ import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
@@ -31,23 +32,25 @@ public class CreateFileService extends MyDriveService{
 	
 	@Override
 	protected void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, LinkWithoutContentException, MaximumPathException, InvalidTokenException {
-		MyDrive md = MyDrive.getInstance();
-        User currentUser = md.getCurrentUserByToken(token);
-        Directory currentDir = md.getCurrentDirByToken(token);
+		MyDrive md = getMyDrive();
+		Session session = Session.getSession(token,md);
+        User currentUser = session.getCurrentUser();
+        Directory currentDirectory = session.getCurrentDir();
         
-        md.checkPermissions(token, name, "create-delete", "create");
+        new File(name,md.generateId(),currentUser,currentDirectory); // FIXME
         
-        if(code.equals("Link")){
-        	if(content.equals("")){
-        		throw new LinkWithoutContentException(name);
-        	}
-        	else if(content.length()>1024){
-        		throw new MaximumPathException(name);
-        	}
-        }
-        
-        int id = md.generateId();
-        currentDir.createFile(name,content,id,currentUser,code);
+//        md.checkPermissions(token, name, "create-delete", "create");
+//        
+//        if(code.equals("Link")){
+//        	if(content.equals("")){
+//        		throw new LinkWithoutContentException(name);
+//        	}
+//        	else if(content.length()>1024){
+//        		throw new MaximumPathException(name);
+//        	}
+//        }
+//        int id = md.generateId();
+//        currentDir.createFile(name,content,id,currentUser,code);
     }
 	
 }

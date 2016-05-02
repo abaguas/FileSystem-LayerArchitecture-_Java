@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
+import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -53,59 +54,29 @@ public class MyDrive extends MyDrive_Base {
 
     }
     
-    private Session getSessionByToken(long token) throws ExpiredSessionException,InvalidTokenException{
 
 
-        Set<Session> sessions = getSessionSet();
-        DateTime actual = new DateTime();
-        DateTime twohoursbefore = actual.minusHours(2);
-        Session s = null;
-        for(Session session : sessions){
-            int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
-            if(session.getToken() == token){
-                if(result <= 0 ){
-                    session.setTimestamp(actual);
-                    s = session;
-                }
-                else{
-                    removeSession(session);
-                    throw new ExpiredSessionException();
+  
+//    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException,InvalidTokenException{
+//		Session session = getSessionByToken(token);
+//        return session.getCurrentDir();
+//    }
+//
+//    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException,InvalidTokenException{
+//    	Session session = getSessionByToken(token);
+//        session.setCurrentDir(dir);
+//    }
+//
+//    public User getCurrentUserByToken(long token)throws ExpiredSessionException,InvalidTokenException{
+//		Session session = getSessionByToken(token);
+//        return session.getCurrentUser();
+//    }
+//
+//    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException,InvalidTokenException{
+//        Session session = getSessionByToken(token);
+//        session.setCurrentUser(u);
+//    }
 
-                } 
-            }
-            else{
-                if(result > 0){
-                    removeSession(session);
-                }
-            }
-        }
-        if(s==null){
-            throw new InvalidTokenException();
-        }
-        else{
-            return s;
-        }
-    } 
-
-    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException,InvalidTokenException{
-		Session session = getSessionByToken(token);
-        return session.getCurrentDir();
-    }
-
-    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException,InvalidTokenException{
-    	Session session = getSessionByToken(token);
-        session.setCurrentDir(dir);
-    }
-
-    public User getCurrentUserByToken(long token)throws ExpiredSessionException,InvalidTokenException{
-		Session session = getSessionByToken(token);
-        return session.getCurrentUser();
-    }
-
-    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException,InvalidTokenException{
-        Session session = getSessionByToken(token);
-        session.setCurrentUser(u);
-    }
 
     public int generateId(){
     	setCounter(getCounter()+1);
@@ -123,6 +94,12 @@ public class MyDrive extends MyDrive_Base {
 
     public void writeable(File f) throws FileIsNotWriteAbleException{
         Visitor v = new WriteAbleVisitor();
+        f.accept(v);
+    }
+    
+
+    public void executable(File f) throws FileIsNotExecuteAbleException{
+        Visitor v = new ExecuteAbleVisitor();
         f.accept(v);
     }
     

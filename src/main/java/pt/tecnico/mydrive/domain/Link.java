@@ -1,15 +1,26 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
+
+import pt.tecnico.mydrive.exception.LinkWithoutContentException;
+import pt.tecnico.mydrive.exception.MaximumPathException;
+
 import org.jdom2.Document;
 
 public class Link extends Link_Base {
 
     public Link(String name, int id, User owner, String content, Directory father) {
+    	if(content.equals("")){
+    		throw new LinkWithoutContentException(name);
+    	}
+    	else if(content.length()>1024){
+    		throw new MaximumPathException(name);
+    	}
+
     	init(name,id,owner,content, father);
     }
-    public Link(String name, int id, String content) {
-    }
+//    public Link(String name, int id, String content) {
+//    }
     public Link(Element link_element, User owner, Directory father){
         xmlImport(link_element, owner, father);
 
