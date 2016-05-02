@@ -28,7 +28,8 @@ public class PlainFile extends PlainFile_Base {
     	t+="\n"+content; 
     	setContent(t);
     }
-
+    
+    @Override
     public void writeContent(String content){
         DateTime lt = new DateTime();
         setLastChange(lt);

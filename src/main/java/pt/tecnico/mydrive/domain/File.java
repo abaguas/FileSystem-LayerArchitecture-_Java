@@ -9,7 +9,7 @@ import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 import org.jdom2.Document;
 
-public class File extends File_Base {
+public abstract class File extends File_Base {
 	
 	public File(){}
     
@@ -54,6 +54,8 @@ public class File extends File_Base {
         setDirectory(null);
         deleteDomainObject();
     }
+    
+    public abstract void writeContent(String content);
     
     public String toString(){	
     	return print();

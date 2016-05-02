@@ -260,4 +260,9 @@ public class Directory extends Directory_Base {
             f.xmlExport(element_mydrive);
         }
     }
+
+	@Override
+	public void writeContent(String content) {
+		throw new FileIsNotWriteAbleException(getName());
+	}
 }
