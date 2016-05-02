@@ -3,7 +3,8 @@ package pt.tecnico.mydrive.service;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import pt.tecnico.mydrive.exception.InvalidUsernameOrPasswordException;
+
+import pt.tecnico.mydrive.exception.InvalidPasswordException;
 import pt.tecnico.mydrive.exception.NoSuchUserException ;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.domain.Session;
@@ -29,15 +30,15 @@ public class LoginServiceTest extends AbstractServiceTest{
 		 //Sucesso
 	}
 	
-	@Test(expected = InvalidUsernameOrPasswordException.class)
-		public void UnsuccessfulLoginDueToWrongPassword() throws InvalidUsernameOrPasswordException{
+	@Test(expected = InvalidPasswordException.class)
+		public void UnsuccessfulLoginDueToWrongPassword() throws InvalidPasswordException{
 		LoginService login= new LoginService("user1", "1235");
 		login.execute();
  
 		}
 	
-	@Test(expected = InvalidUsernameOrPasswordException.class)
-		public void UnsuccessfulLoginDueToNonExistentUser() throws InvalidUsernameOrPasswordException {
+	@Test(expected = InvalidPasswordException.class)
+		public void UnsuccessfulLoginDueToNonExistentUser() throws InvalidPasswordException {
 		LoginService login = new LoginService ("NonExistent", "1243");
 		login.execute();
 
