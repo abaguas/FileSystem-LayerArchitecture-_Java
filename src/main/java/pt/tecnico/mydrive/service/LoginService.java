@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Random;
 import org.joda.time.DateTime;
 
-import pt.tecnico.mydrive.exception.InvalidUsernameOrPasswordException;
+import pt.tecnico.mydrive.exception.InvalidPasswordException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.User;
@@ -23,7 +23,7 @@ public class LoginService extends MyDriveService{
 		_password= password;
 		_username= username;
 	}
-	public  long createSession(String username, String password, MyDrive mydrive) throws InvalidUsernameOrPasswordException{
+	public  long createSession(String username, String password, MyDrive mydrive) throws InvalidPasswordException{
         try{
         	User user= mydrive.getUserByUsername(username);
         	if(user.getPassword().equals(password)){
@@ -32,17 +32,17 @@ public class LoginService extends MyDriveService{
             	return token;
         	}
         	else{
-            	throw new InvalidUsernameOrPasswordException(username);
+            	throw new InvalidPasswordException();
         	}
         }
         catch(NoSuchUserException e){
-        	throw new InvalidUsernameOrPasswordException(username);
+        	throw new InvalidPasswordException();
         }
         
     }
 	
 	@Override
-	protected void dispatch() throws InvalidUsernameOrPasswordException{
+	protected void dispatch() throws InvalidPasswordException{
 		MyDrive md = MyDrive.getInstance();
 		_returntoken= createSession(_username,_password,md);
           

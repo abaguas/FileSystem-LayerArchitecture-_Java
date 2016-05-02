@@ -19,7 +19,7 @@ public class Session extends Session_Base {
             super.setMd(null);
         }
         else{
-            md.addSession(this);
+            md.addSessions(this);
         }
     }
 }
