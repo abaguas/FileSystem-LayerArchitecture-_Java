@@ -12,7 +12,8 @@ import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 
 
 public class WriteFileService extends MyDriveService
-{ 
+{
+	
     private String fileName;
     private String content;
     private long token;
@@ -26,8 +27,8 @@ public class WriteFileService extends MyDriveService
 
     }
 
-  public String writeFile(String filename, String content, long token, MyDrive md) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-        Directory current = md.getCurrentDirByToken(token);
+    public String writeFile(String filename, String content, long token, MyDrive md) throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
+    	Directory current = md.getCurrentDirByToken(token);
         File file = current.get(filename);
         md.writeable(file);
         PlainFile f = (PlainFile)file;

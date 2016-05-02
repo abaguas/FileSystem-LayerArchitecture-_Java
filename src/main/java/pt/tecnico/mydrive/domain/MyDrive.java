@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
+import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -123,6 +124,11 @@ public class MyDrive extends MyDrive_Base {
 
     public void writeable(File f) throws FileIsNotWriteAbleException{
         Visitor v = new WriteAbleVisitor();
+        f.accept(v);
+    }
+    
+    public void executable(File f) throws FileIsNotExecuteAbleException{
+        Visitor v = new ExecuteAbleVisitor();
         f.accept(v);
     }
     
