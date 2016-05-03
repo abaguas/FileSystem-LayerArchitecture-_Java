@@ -50,7 +50,7 @@ public class SessionManager extends SessionManager_Base {
 		}
 	}
 	
-	public Session getSession(long token, MyDrive md) throws InvalidTokenException{
+	public Session getSession(long token) throws InvalidTokenException{
 		Session session = null;
 		Set<Session> sessions = super.getSessionSet();
 		
@@ -69,7 +69,7 @@ public class SessionManager extends SessionManager_Base {
 		int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
 		
 		if (result > 0) {
-			Session newSession = new Session(session.getCurrentUser().getUsername(), session.getCurrentUser().getPassword(),md);
+			Session newSession = new Session(session.getCurrentUser().getUsername(), session.getCurrentUser().getPassword(), this);
 			removeSession(session);
 			session = newSession;
 		}

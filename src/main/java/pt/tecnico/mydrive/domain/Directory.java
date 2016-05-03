@@ -1,15 +1,11 @@
 package pt.tecnico.mydrive.domain;
 
-import pt.ist.fenixframework.FenixFramework;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import org.jdom2.Element;
-import org.jdom2.Document;
-import java.util.Set;
 import pt.tecnico.mydrive.exception.*;
 
 public class Directory extends Directory_Base {
@@ -297,70 +293,7 @@ public class Directory extends Directory_Base {
 			throw new NoSuchFileException("Invalid File name: null");
 		}
 	}
-
-	public String ls() {
-		String output="";
-		Set<File> files = getFilesSet();
-		List<File> list = new ArrayList<File>(files);
-
-		Collections.sort(list, new Comparator<File>() {
-		    public int compare(File f1, File f2) {
-		    	int compare=f1.getName().compareTo(f2.getName());
-		    	return compare;
-		    }
-		});
-
-		String name = getFatherDirectory().getName();
-		getFatherDirectory().setName("..");
-		output+=getFatherDirectory().toString()+"\n";
-		getFatherDirectory().setName(name);
-
-		name = getSelfDirectory().getName();
-		getSelfDirectory().setName(".");
-		output+=getSelfDirectory().toString();
-	 	getSelfDirectory().setName(name);
-
-	 	
-	   	 	for (File f: list){
-	   	 		if (f.getName()!="/") {
-	   	 			output+= "\n"+f.toString();
-	   	 		}
-	   	 	}
-		return output;
-	}
-
-	public List<String> lsList() {
-		String output="";
-		Set<File> files = getFilesSet();
-		List<File> list = new ArrayList<File>(files);
-		List<String> stringList = new ArrayList<String>();
-
-		Collections.sort(list, new Comparator<File>() {
-		    public int compare(File f1, File f2) {
-		    	int compare=f1.getName().compareTo(f2.getName());
-		    	return compare;
-		    }
-		});
-
-		String name = getFatherDirectory().getName();
-		getFatherDirectory().setName("..");
-		stringList.add(getFatherDirectory().toString());
-		getFatherDirectory().setName(name);
-
-		name = getSelfDirectory().getName();
-		getSelfDirectory().setName(".");
-		stringList.add(getSelfDirectory().toString());
-	 	getSelfDirectory().setName(name);
-
-	  	for (File f: list){
-	  		if (f.getName()!="/") {
-	  			stringList.add(f.toString());
-	  		}
-	  	}
-	 	
-		return stringList;
-	}
-
+	
 	public String toString(){
 		String t = "Directory";
 		t+=print();

@@ -32,7 +32,7 @@ public class Link extends Link_Base {
     @Override
     public String toString(){
     	String t = "Link";
-    	t+=print()+" -> "+getContent();
+    	t+=print()+"->"+getContent();
     	return t;
     }
     
