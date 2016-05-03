@@ -34,24 +34,6 @@ public class CreateFileService extends MyDriveService{
 		this(token,name,"",code);
 	}
 	
-	public void createFile(String name, String content, int id, User user, String code) throws FileAlreadyExistsException, MaximumPathException {
-		try {
-			search(name);
-			throw new FileAlreadyExistsException(name, id);
-		}
-		catch (NoSuchFileException e) {
-			validateFile(name);
-			File f = fileFactory(name, content, id, user, code);
-			addFiles(f);
-		}
-	}
-	
-	public void validateFile(String name){
-		if ((getAbsolutePath().length() + name.length()) > 1024){
-			throw new MaximumPathException(name);
-		}
-		
-	}
 
 	public void fileFactory(String name, String content, int id, User user, Directory directory, String code){
 	    
