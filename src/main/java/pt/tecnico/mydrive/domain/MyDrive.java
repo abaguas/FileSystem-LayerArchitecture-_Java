@@ -27,6 +27,7 @@ import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
+import pt.tecnico.mydrive.exception.InvalidOperationException;
 import pt.tecnico.mydrive.exception.ExpiredSessionException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
 
@@ -41,9 +42,10 @@ public class MyDrive extends MyDrive_Base {
 
     private MyDrive() throws MyDriveException{
         setRoot(FenixFramework.getDomainRoot());
-        RootUser r = RootUser.getInstance();;
+        RootUser r = RootUser.getInstance();
         setCounter(0); 
-        super.setRootUser(r);
+        setRootUser(r);
+        setSessionManager(SessionManager.getInstance()); 
         addUsers(r);
         Directory rootDir = Directory.newRootDir(getRootUser());
         rootDir.setOwner(getRootUser());
@@ -53,29 +55,6 @@ public class MyDrive extends MyDrive_Base {
         setRootDirectory(rootDir);
 
     }
-    
-
-
-  
-//    public Directory getCurrentDirByToken(long token) throws ExpiredSessionException,InvalidTokenException{
-//		Session session = getSessionByToken(token);
-//        return session.getCurrentDir();
-//    }
-//
-//    public void setCurrentDirByToken(long token, Directory dir) throws ExpiredSessionException,InvalidTokenException{
-//    	Session session = getSessionByToken(token);
-//        session.setCurrentDir(dir);
-//    }
-//
-//    public User getCurrentUserByToken(long token)throws ExpiredSessionException,InvalidTokenException{
-//		Session session = getSessionByToken(token);
-//        return session.getCurrentUser();
-//    }
-//
-//    public void setCurrentUserByToken(long token, User u) throws ExpiredSessionException,InvalidTokenException{
-//        Session session = getSessionByToken(token);
-//        session.setCurrentUser(u);
-//    }
 
 
     public int generateId(){

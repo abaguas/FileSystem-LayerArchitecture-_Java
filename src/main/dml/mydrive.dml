@@ -4,6 +4,9 @@ class MyDrive {
   int counter;
 }
 
+class SessionManager {
+}
+
 class Session {
   long token;
   DateTime timestamp;
@@ -49,12 +52,21 @@ relation DomainRootHasMyDriveApplication {
   }
 }
 
-relation MyDriveHasSessions {
+relation MyDriveHasSessionManager {
   MyDrive playsRole md {
     multiplicity 1;
   }
-  Session playsRole sessions {
-    multiplicity 0..*;
+  SessionManager playsRole sessionManager {
+    multiplicity 1;
+  }
+}
+
+relation SessionManagerHasSessions {
+  SessionManager playsRole sessionManager{
+  	multiplicity 1;
+  }
+  Session playsRole session{
+  	multiplicity 0..*;
   }
 }
 
