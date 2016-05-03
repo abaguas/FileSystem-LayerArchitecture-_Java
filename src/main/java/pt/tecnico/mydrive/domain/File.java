@@ -11,6 +11,7 @@ import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.InvalidPathException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -266,12 +267,33 @@ public abstract class File extends File_Base {
         }
         return output;
     }
+    
+    public File getFileByPath(User user, String path, Directory dir, MyDrive md) throws PermissionDeniedException, InvalidPathException, FileNotCdAbleException {
+        String[] parts = path.split("/");
+        File aux;
+        int i = 0;
+        int numOfParts = parts.length;
+        if (path.charAt(0)=='/') {
+            dir = md.getRootDirectory();
+        }
+        else if(numOfParts == 0){
+            throw new InvalidPathException(path);
+        }
+        while(i < numOfParts-1){
+            aux = dir.get(parts[i]);
+            cdable(aux);
+            checkPermissions(user, dir, parts[i], "cd");
+            dir = (Directory)aux;
+            i++;
+        }
+        return dir.get(parts[numOfParts-1]);        
+    }
 
     public Directory getDirectoryByPath(User user, String path, Directory dir, MyDrive md){
     	File file = getFileByPath(user, path, dir, md);
     	cdable(file);
     	checkPermissions(user, dir, file.getName(), "cd");
-    	return file;
+    	return (Directory) file;
     }
 	
 	public void cdable(File f) throws FileNotCdAbleException{

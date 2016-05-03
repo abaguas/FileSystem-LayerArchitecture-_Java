@@ -76,26 +76,6 @@ public class Link extends Link_Base {
     	return f.read(user, md, cycleDetector);
     }
 
-    public File getFileByPath(User user, String path, Directory dir, MyDrive md) throws PermissionDeniedException, InvalidPathException, FileNotCdAbleException {
-        String[] parts = path.split("/");
-        File aux;
-        int i = 0;
-        int numOfParts = parts.length;
-        if (path.charAt(0)=='/') {
-            dir = md.getRootDirectory();
-        }
-        else if(numOfParts == 0){
-            throw new InvalidPathException(path);
-        }
-        while(i < numOfParts-1){
-            aux = dir.get(parts[i]);
-            cdable(aux);
-            checkPermissions(user, dir, parts[i], "cd");
-            dir = (Directory)aux;
-            i++;
-        }
-        return dir.get(parts[numOfParts-1]);        
-    }
        
 //////////////////////////////////////////////////////////////////////////////////////
 //                                   XML                               //
