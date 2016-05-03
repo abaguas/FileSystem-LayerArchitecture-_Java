@@ -1,6 +1,10 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
+
+import pt.tecnico.mydrive.exception.FileNotDirectoryException;
+import pt.tecnico.mydrive.exception.NoSuchFileException;
+
 import org.jdom2.Document;
 
 public class Link extends Link_Base {
@@ -15,9 +19,14 @@ public class Link extends Link_Base {
 
     }
     
-    public void execute(){
+    public void execute() throws  NoSuchFileException, FileNotDirectoryException {
+    	String content = getContent();
+    	Directory d = this.getDirectory();
+    	File f = getFileByPath(content, d);
+    	f.execute(); //confirmar que aqui em f tenho objecto do tipo mais abaixo possível e não apenas um File
     }
   
+    
     @Override
     public String toString(){
     	String t = "Link";

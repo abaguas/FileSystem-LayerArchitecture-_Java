@@ -32,10 +32,15 @@ public class ExecutePlainFileService extends MyDriveService {
         Directory currentDir = md.getCurrentDirByToken(token);
         File f =  md.getFileByPath(path, currentDir);
         md.executable(f);
+        String fileName = f.getName();
+        
+        md.checkPermissions(token, fileName, "read-write-execute", "execute");        
+        f.execute();
         
         //será que em f tenho já OBJECTO do tipo que quero??
         //Se assim for, basta fazer f.execute() e ele sabe se chama o execute() do PlainFile(), Link ou App
         
+        /*
         if(f instanceof PlainFile) {
         	PlainFile pf = (PlainFile) f;
             String fileName = pf.getName();
@@ -56,7 +61,7 @@ public class ExecutePlainFileService extends MyDriveService {
             md.checkPermissions(token, fileName, "read-write-execute", "execute");
             a.execute();
         }
+        */
 	}
-
 
 }

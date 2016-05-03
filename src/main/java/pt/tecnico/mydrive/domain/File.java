@@ -4,7 +4,9 @@ import org.jdom2.Element;
 import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
+import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
+import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 import org.jdom2.Document;
@@ -91,15 +93,55 @@ public class File extends File_Base {
         return path;
     }
 
-    public void xmlExport(Element element_mydrive){}
     
 
+    public File getFileByPath(String path, Directory dir) throws  NoSuchFileException, FileNotDirectoryException {
+        String[] parts = path.split("/");
+        int i = 0;
+        int numOfParts = parts.length;
+        if(numOfParts == 0){
+            return dir.get(parts[i]);
+        }
+        else if(path.charAt(0)=='/') {
+            //ciclo para ir buscar rootDirectory
+        	//dir = getRootDirectory();
+        	while(!dir.getFatherDirectory().getName().equals("/")) {
+            	dir = dir.getFatherDirectory();
+            }
+        	dir = dir.getFatherDirectory();
+        	i = 1;
+            
+        }
+        else{
+            i = 0;
+        }
+        while(i < numOfParts-1){
+            try{
+                dir = (Directory)dir.get(parts[i]);
+            }
+            catch(Exception e){
+                throw new NoSuchFileException(parts[i]);
+            }
+            i++;
+        }
+        return dir.get(parts[numOfParts-1]);        
+    }     
+    
+    
+    
+    
+    public void xmlExport(Element element_mydrive){}
+    
     public String ls(){
 		return null;
     }
 
 	public void accept(Visitor v) {
 		v.execute(this);
+		
+	}
+
+	public  void execute() {
 		
 	}
 }

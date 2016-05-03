@@ -35,7 +35,21 @@ public class PlainFile extends PlainFile_Base {
         setContent(content);
     }
     
+    
+    //FIXME
     public void execute() {
+    	String[] lines = getContent().split("\n");
+    	int nLines = lines.length;
+    	for(int i=0; i<nLines; i++) {
+    		String[] words = lines[i].split(" ");
+    		int nWords = words.length;
+    		String pathToApplication = words[0];
+        	File f = getFileByPath(pathToApplication, this.getDirectory());
+    		for(int j=1; j<nWords; j++) {
+    			;
+    		}
+    	}
+    
     }
     
     public int dimension(){
