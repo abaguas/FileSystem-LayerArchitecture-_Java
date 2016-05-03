@@ -7,14 +7,6 @@ import org.jdom2.Document;
 import pt.tecnico.mydrive.exception.MyDriveException;
 
 import java.util.Set;
-import java.util.ArrayList;
-import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Random;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
-
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
@@ -22,14 +14,9 @@ import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidUsernameException;
-import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
-import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
-import pt.tecnico.mydrive.exception.InvalidOperationException;
-import pt.tecnico.mydrive.exception.ExpiredSessionException;
-import pt.tecnico.mydrive.exception.InvalidTokenException;
 
 public class MyDrive extends MyDrive_Base {
 
@@ -64,22 +51,6 @@ public class MyDrive extends MyDrive_Base {
 
     public void removeId(){
         setCounter(getCounter()-1);
-    }
-
-    public void cdable(File f) throws FileNotCdAbleException{
-		Visitor v = new CdableVisitor();
-   	 	f.accept(v);
-   	}
-
-    public void writeable(File f) throws FileIsNotWriteAbleException{
-        Visitor v = new WriteAbleVisitor();
-        f.accept(v);
-    }
-    
-
-    public void executable(File f) throws FileIsNotExecuteAbleException{
-        Visitor v = new ExecuteAbleVisitor();
-        f.accept(v);
     }
     
     public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
@@ -186,32 +157,6 @@ public class MyDrive extends MyDrive_Base {
             ret = new Directory(parts[numOfParts-1], generateId(), getRootUser(), dir);
         }
         return ret;        
-    }
-
-    public File getFileByPath(String path, Directory dir) throws  NoSuchFileException, FileNotDirectoryException {
-        String[] parts = path.split("/");
-        int i = 0;
-        int numOfParts = parts.length;
-        if(numOfParts == 0){
-            return dir.get(parts[i]);
-        }
-        else if(path.charAt(0)=='/'){
-            i = 1;
-            dir = getRootDirectory();
-        }
-        else{
-            i = 0;
-        }
-        while(i < numOfParts-1){
-            try{
-                dir = (Directory)dir.get(parts[i]);
-            }
-            catch(Exception e){
-                throw new NoSuchFileException(parts[i]);
-            }
-            i++;
-        }
-        return dir.get(parts[numOfParts-1]);        
     }
 
     public boolean fileIdExists(int id){

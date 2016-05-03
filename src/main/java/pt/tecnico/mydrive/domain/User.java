@@ -2,10 +2,9 @@ package pt.tecnico.mydrive.domain;
 
 import pt.tecnico.mydrive.exception.*;
 import org.jdom2.Element;
-import org.jdom2.Document;
 
-public class User extends User_Base
-{
+public class User extends User_Base {
+
 	public User(){}
 	
 	public User(String username, String password, String name) throws InvalidUsernameException{

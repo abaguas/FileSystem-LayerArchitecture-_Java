@@ -204,4 +204,9 @@ public class Directory extends Directory_Base {
 	public void writeContent(String content) {
 		throw new FileIsNotWriteAbleException(getName());
 	}
+
+	@Override
+	public String read(User user, MyDrive md) {
+		throw new FileIsNotReadAbleException(getName());
+	}
 }
