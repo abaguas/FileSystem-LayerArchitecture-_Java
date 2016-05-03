@@ -106,15 +106,6 @@ public class Directory extends Directory_Base {
 		}
 	}
 	
-//	public void removeFile(User user, Directory directory, String name) throws NoSuchFileException, NotDeleteAbleException, PermissionDeniedException{
-//		
-//		 File file = directory.getDelete(name);      
-//		    
-//	     file.remove(user, directory);
-//	}
-	
-
-	
 	public File search(String name) throws NoSuchFileException{
 		Set<File> files = getFilesSet();
 		

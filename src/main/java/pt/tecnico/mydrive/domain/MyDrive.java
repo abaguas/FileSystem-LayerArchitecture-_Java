@@ -7,14 +7,6 @@ import org.jdom2.Document;
 import pt.tecnico.mydrive.exception.MyDriveException;
 
 import java.util.Set;
-import java.util.ArrayList;
-import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Random;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
-
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
@@ -22,14 +14,9 @@ import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidUsernameException;
-import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
-import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
-import pt.tecnico.mydrive.exception.InvalidOperationException;
-import pt.tecnico.mydrive.exception.ExpiredSessionException;
-import pt.tecnico.mydrive.exception.InvalidTokenException;
 
 public class MyDrive extends MyDrive_Base {
 
