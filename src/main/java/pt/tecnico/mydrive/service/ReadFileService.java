@@ -5,21 +5,16 @@ import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.User;
-import pt.tecnico.mydrive.domain.Link;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
-import pt.tecnico.mydrive.exception.FileNotCdAbleException;
-import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
-import pt.tecnico.mydrive.exception.InvalidFileNameException;
-import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
 
 
 public class ReadFileService extends MyDriveService{
 
     private long token;
 	private String fileName;
-    private String _result;
+    private String result;
     
 
     public ReadFileService(long token, String fileName) {
@@ -29,43 +24,17 @@ public class ReadFileService extends MyDriveService{
     
     public final void dispatch() throws PermissionDeniedException, InvalidFileNameException, NoSuchFileException{
         MyDrive md = MyDrive.getInstance();
-        Session session = Session.getSession(token,md);
+        Session session = md.getSessionManager().getSession(token);
         User currentUser = session.getCurrentUser();
-        Directory currentDirectory = session.getCurrentDir();
+        Directory currentDir = session.getCurrentDir();
         
-        int linkHops=0;
-        if(fileName != null){
-            File file = currentDir.get(fileName); 
-            if(file instanceof Directory){
-                throw new FileIsNotReadAbleException("Cant read a Directory");
-            }
-            else{
-                while(file instanceof Link){
-                    md.checkPermissions(token, fileName, "read-write-execute", "read");
-                    md.checkPermissions(token, fileName, "read-write-execute", "execute");
-                    String link = file.ls();
-                    file = md.getFileByPath(link, file.getDirectory());
-                    if(file instanceof Directory){
-                        throw new FileIsNotReadAbleException(file.getName());
-                    }
-                    md.setCurrentDirByToken(token , file.getDirectory());
-                    md.checkPermissions(token, file.getName(), "read-write-execute", "read"); 
-                    md.setCurrentDirByToken(token , currentDir);
-                    linkHops++;
-                    if(linkHops > 20){
-                        throw new TooManyLevelsOfSymbolicLinksException(fileName);
-                    }         
-                }
-                md.checkPermissions(token, fileName, "read-write-execute", "read");            
-                _result = file.ls();
-                return;
-            }
-        }
-        throw new InvalidFileNameException("Invalid file name null ");
+        File file = currentDir.get(fileName);
+        
+        result = file.read(currentUser, md);
     }
 
     public final String result() {
-        return _result;
+        return result;
     }
 
     

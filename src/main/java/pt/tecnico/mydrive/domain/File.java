@@ -1,10 +1,14 @@
 package pt.tecnico.mydrive.domain;
 
+import java.util.Set;
+
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.ExpiredSessionException;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
+import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
+import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
@@ -47,7 +51,6 @@ public abstract class File extends File_Base {
 		if ((getAbsolutePath().length() + name.length()) > 1024){
 			throw new MaximumPathException(name);
 		}
-		
 	}
 
 	protected void initRoot(String name, int id, User owner) throws InvalidFileNameException {
@@ -66,7 +69,9 @@ public abstract class File extends File_Base {
 
 	public abstract void remove(User user, Directory directory) throws PermissionDeniedException;
 
+	public abstract String read(User user, MyDrive md);
 	
+	public abstract String read(User user, MyDrive md, Set<String> set);
 
 	public abstract void writeContent(User user, Directory directory, String content);
 
@@ -105,16 +110,13 @@ public abstract class File extends File_Base {
 		return path;
 	}
 
-	public void xmlExport(Element element_mydrive) {
-	}
-
+	
 	public String ls() {
 		return null;
 	}
 
 	public void accept(Visitor v) {
 		v.execute(this);
-
 	}
 	
 	public void checkPermissions(User user, Directory directory, String fileName, String code)
@@ -250,6 +252,7 @@ public abstract class File extends File_Base {
 			}
 		}
 	}
+
 ///////////////////////////////////////////////	
     public String pwd(){
         String output="";
@@ -302,4 +305,29 @@ public abstract class File extends File_Base {
 //         }
 //     } 
 //////////////////////////////////////////	
+
+	
+	public void cdable(File f) throws FileNotCdAbleException{
+		Visitor v = new CdableVisitor();
+   	 	f.accept(v);
+   	}
+
+    public void writeable(File f) throws FileIsNotWriteAbleException{
+        Visitor v = new WriteAbleVisitor();
+        f.accept(v);
+    }
+    
+
+    public void executable(File f) throws FileIsNotExecuteAbleException{
+        Visitor v = new ExecuteAbleVisitor();
+        f.accept(v);
+    }
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//                                   XML                               //
+//////////////////////////////////////////////////////////////////////////////////////
+	public void xmlExport(Element element_mydrive) {
+	}
+
 }

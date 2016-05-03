@@ -3,8 +3,15 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 
+import pt.tecnico.mydrive.exception.FileNotDirectoryException;
+import pt.tecnico.mydrive.exception.InvalidLinkContentException;
 import pt.tecnico.mydrive.exception.LinkWithoutContentException;
 import pt.tecnico.mydrive.exception.MaximumPathException;
+import pt.tecnico.mydrive.exception.NoSuchFileException;
+import pt.tecnico.mydrive.exception.PermissionDeniedException;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.jdom2.Document;
 
@@ -46,6 +53,52 @@ public class Link extends Link_Base {
     public String ls(){
 		return getContent();
 	}
+    
+    @Override
+   	public String read(User user, MyDrive md, Set<String> set) {
+    	checkPermissions(user, getDirectory(), getName(), "read");
+    	File f = getFileByPath(user, getContent(), getDirectory(), md);
+    	return f.read(user, md);
+    }
+    
+   	public String read(User user, MyDrive md) {
+    	Set<String> cycleDetector = new TreeSet<String>();
+    	checkPermissions(user, getDirectory(), getName(), "read");
+    	File f = getFileByPath(user, getContent(), getDirectory(), md);
+    	cycleDetector.add(f.pwd());
+    	return f.read(user, md, cycleDetector);
+    }
+
+    public File getFileByPath(User user, String path, Directory dir, MyDrive md) throws PermissionDeniedException, InvalidLinkContentException {
+        String[] parts = path.split("/");
+        File aux;
+        int i = 0;
+        int numOfParts = parts.length;
+        if (path.charAt(0)=='/') {
+            dir = md.getRootDirectory();
+        }
+        else if(numOfParts == 0){
+            throw new InvalidLinkContentException(path);
+        }
+        while(i < numOfParts-1){
+            try{
+            	aux = dir.get(parts[i]);
+            	cdable(aux);
+            	checkPermissions(user, dir, parts[i], "cd");
+            	dir = (Directory)aux;
+            }
+            catch(Exception e){
+                throw new InvalidLinkContentException(parts[i]);
+            }
+            i++;
+        }
+        return dir.get(parts[numOfParts-1]);        
+    }
+
+    
+//////////////////////////////////////////////////////////////////////////////////////
+//                                   XML                               //
+//////////////////////////////////////////////////////////////////////////////////////
 
     public void xmlImport(Element link_element, User owner, Directory father){
         int id= Integer.parseInt(link_element.getAttribute("id").getValue());

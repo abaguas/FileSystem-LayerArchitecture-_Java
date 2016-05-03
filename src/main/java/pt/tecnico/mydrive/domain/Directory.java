@@ -193,4 +193,15 @@ public class Directory extends Directory_Base {
 	public void writeContent(User user, Directory directory, String content) throws FileIsNotWriteAbleException{
 		throw new FileIsNotWriteAbleException(getName());
 	}
+
+	@Override
+	public String read(User user, MyDrive md) {
+		throw new FileIsNotReadAbleException(getName());
+	}
+
+	@Override
+	public String read(User user, MyDrive md, Set<String> set) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

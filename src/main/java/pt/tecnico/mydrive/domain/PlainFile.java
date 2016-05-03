@@ -5,6 +5,8 @@ import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
+import java.util.Set;
+
 public class PlainFile extends PlainFile_Base {
 	
     public PlainFile(String name, int id, User owner, String content, Directory father) {
@@ -70,6 +72,21 @@ public class PlainFile extends PlainFile_Base {
 	public String ls(){
 		return getContent();
 	}
+	
+	@Override
+	public String read(User user, MyDrive md) throws PermissionDeniedException {
+		checkPermissions(user, getDirectory(), getName(), "read");
+		return this.getContent();
+	}
+	
+	@Override
+	public String read(User user, MyDrive md, Set<String> set){
+		return read(user, md);
+	}
+
+//////////////////////////////////////////////////////////////////////////////////////
+	//                                   XML                               //
+//////////////////////////////////////////////////////////////////////////////////////
     
     public void xmlImport(Element plain_element, User user, Directory father){
         int id= Integer.parseInt(plain_element.getAttribute("id").getValue());
@@ -114,5 +131,5 @@ public class PlainFile extends PlainFile_Base {
     	element.addContent(lastChange_element);
 
     	element_mydrive.addContent(element);
-    }    
+    }   
 }
