@@ -6,8 +6,7 @@ import pt.tecnico.mydrive.exception.NoSuchUserException;
 
 public class Session extends Session_Base {
 
-	public Session(String username, String password, MyDrive myDrive) throws NoSuchUserException {
-		SessionManager sm = myDrive.getSessionManager();
+	public Session(String username, String password, SessionManager sm) throws NoSuchUserException {
 		setSessionManager(sm);
 		sm.addSession(this);
 		sm.removeExpiredSessions();

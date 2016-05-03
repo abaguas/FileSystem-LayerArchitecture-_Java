@@ -82,14 +82,6 @@ public class MyDrive extends MyDrive_Base {
         f.accept(v);
     }
     
-    public String ls(long token, String name) throws NoSuchFileException{
-    	return getCurrentDirByToken(token).get(name).ls();
-    }
-    
-    public String ls(long token){
-		return getCurrentDirByToken(token).ls();
-    }
-    
     public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home";
     	String home = user_element.getChildText("home");
