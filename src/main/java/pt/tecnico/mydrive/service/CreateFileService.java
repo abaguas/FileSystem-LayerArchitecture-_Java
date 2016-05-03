@@ -39,18 +39,7 @@ public class CreateFileService extends MyDriveService{
         
         new File(name,md.generateId(),currentUser,currentDirectory); // FIXME
         
-//        md.checkPermissions(token, name, "create-delete", "create");
-//        
-//        if(code.equals("Link")){
-//        	if(content.equals("")){
-//        		throw new LinkWithoutContentException(name);
-//        	}
-//        	else if(content.length()>1024){
-//        		throw new MaximumPathException(name);
-//        	}
-//        }
-//        int id = md.generateId();
-//        currentDir.createFile(name,content,id,currentUser,code);
+
     }
 	
 }
