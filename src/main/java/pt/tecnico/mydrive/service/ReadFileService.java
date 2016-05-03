@@ -1,6 +1,7 @@
 package pt.tecnico.mydrive.service;
 
 import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.User;
@@ -18,8 +19,6 @@ public class ReadFileService extends MyDriveService{
 
     private long token;
 	private String fileName;
-    private Directory currentDir;
-    private User currentUser;
     private String _result;
     
 
@@ -30,8 +29,10 @@ public class ReadFileService extends MyDriveService{
     
     public final void dispatch() throws PermissionDeniedException, InvalidFileNameException, NoSuchFileException{
         MyDrive md = MyDrive.getInstance();
-        currentUser = md.getCurrentUserByToken(token);
-        currentDir = md.getCurrentDirByToken(token);
+        Session session = Session.getSession(token,md);
+        User currentUser = session.getCurrentUser();
+        Directory currentDirectory = session.getCurrentDir();
+        
         int linkHops=0;
         if(fileName != null){
             File file = currentDir.get(fileName); 

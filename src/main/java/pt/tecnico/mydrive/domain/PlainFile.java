@@ -5,8 +5,6 @@ import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
-import org.jdom2.Document;
-
 public class PlainFile extends PlainFile_Base {
 	
     public PlainFile(String name, int id, User owner, String content, Directory father) {
@@ -33,10 +31,12 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    public void writeContent(String content){
+    public void writeContent(User user, Directory directory, String content){
+        checkPermissions(user, directory, getName(), "write");
         DateTime lt = new DateTime();
         setLastChange(lt);
         setContent(content);
+        
     }
     
     public void execute() {
@@ -48,7 +48,7 @@ public class PlainFile extends PlainFile_Base {
 
     @Override
 	public void remove(User user, Directory directory) throws PermissionDeniedException {
-
+    	checkPermissions(user, directory, getName(), "delete"); 
     	setOwner(null);
 		setUserPermission(null);
 		setOthersPermission(null);

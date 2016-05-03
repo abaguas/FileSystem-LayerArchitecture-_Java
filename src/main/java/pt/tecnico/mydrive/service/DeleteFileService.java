@@ -3,6 +3,7 @@ package pt.tecnico.mydrive.service;
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.Directory;
+import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -27,7 +28,8 @@ public class DeleteFileService extends MyDriveService{
         Session session = Session.getSession(token,md);
         User currentUser = session.getCurrentUser();
         Directory currentDirectory = session.getCurrentDir();
-        currentDirectory.removeFile(currentUser, currentDirectory, fileName);
-      
+        
+        File file = currentDirectory.getDelete(fileName);      
+	    file.remove(currentUser, currentDirectory);
     }
 }

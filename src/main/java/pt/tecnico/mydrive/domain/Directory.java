@@ -51,10 +51,6 @@ public class Directory extends Directory_Base {
 		Set<File> files = getFilesSet();
 		
 		for (File f: files) {
-				checkPermissions(user, directory, f.getName(),"delete"); 
-		}
-		
-		for (File f: files) {
 				f.remove(user, directory); 
 		}
 		
@@ -114,12 +110,14 @@ public class Directory extends Directory_Base {
 		}
 	}
 	
-	public void removeFile(User user, Directory directory, String name) throws NoSuchFileException, NotDeleteAbleException, PermissionDeniedException{
-		
-		 File file = directory.getDelete(name);      
-		    
-	     file.remove(user, directory);
-	}
+//	public void removeFile(User user, Directory directory, String name) throws NoSuchFileException, NotDeleteAbleException, PermissionDeniedException{
+//		
+//		 File file = directory.getDelete(name);      
+//		    
+//	     file.remove(user, directory);
+//	}
+	
+
 	
 	public File search(String name) throws NoSuchFileException{
 		Set<File> files = getFilesSet();
@@ -268,7 +266,7 @@ public class Directory extends Directory_Base {
     }
 
 	@Override
-	public void writeContent(String content) {
+	public void writeContent(User user, Directory directory, String content) throws FileIsNotWriteAbleException{
 		throw new FileIsNotWriteAbleException(getName());
 	}
 }
