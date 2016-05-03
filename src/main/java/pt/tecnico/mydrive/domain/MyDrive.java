@@ -280,7 +280,7 @@ public class MyDrive extends MyDrive_Base {
 	   for (User u: getUsersSet())
             u.xmlExport(element);
 	
-	   for (File f: getRootDirectory().getFiles()){
+	   for (File f: getRootDirectory().getFilesSet()){
             f.xmlExport(element);
         }
 	   return doc;

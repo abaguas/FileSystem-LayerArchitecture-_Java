@@ -3,14 +3,8 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 
-import pt.tecnico.mydrive.exception.ExpiredSessionException;
-import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
-import pt.tecnico.mydrive.exception.InvalidTokenException;
-import pt.tecnico.mydrive.exception.NotDeleteAbleException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
-
-import org.jdom2.Document;
 
 public abstract class File extends File_Base {
 

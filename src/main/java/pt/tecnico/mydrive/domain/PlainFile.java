@@ -48,8 +48,8 @@ public class PlainFile extends PlainFile_Base {
 
     @Override
 	public void remove(User user, Directory directory) throws PermissionDeniedException {
-		//checkPermissions(token, getName(), "create-delete", "delete");
-		setOwner(null);
+
+    	setOwner(null);
 		setUserPermission(null);
 		setOthersPermission(null);
 		setDirectory(null);

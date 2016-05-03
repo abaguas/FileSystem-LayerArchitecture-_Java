@@ -42,40 +42,6 @@ public class Directory extends Directory_Base {
     	xmlImport(directory_element, owner, father);
     }
 
-	public void createFile(String name, String content, int id, User user, String code) throws FileAlreadyExistsException, MaximumPathException {
-		try {
-			search(name);
-			throw new FileAlreadyExistsException(name, id);
-		}
-		catch (NoSuchFileException e) {
-			validateFile(name);
-			File f = fileFactory(name, content, id, user, code);
-			addFiles(f);
-		}
-	}
-	
-	public void validateFile(String name){
-		if ((getAbsolutePath().length() + name.length()) > 1024){
-			throw new MaximumPathException(name);
-		}
-		
-	}
-
-	public File fileFactory(String name, String content, int id, User user, String code){
-	    
-		if(code.equals("PlainFile")){
-            return new PlainFile(name, id, user, content, this);
-        }
-        else if(code.equals("App")){
-            return new App(name, id, user, content, this);
-        }
-        else if(code.equals("Dir")){
-        	return new Directory(name, id, user, this);
-        }
-        else{
-           		return new Link(name, id, user, content, this);
-        }
-    }
 	
 	@Override
 	public void remove(User user, Directory directory) throws PermissionDeniedException {
@@ -125,6 +91,7 @@ public class Directory extends Directory_Base {
 		User owner = directory.getOwner();
 		Permission dirOwnP = directory.getUserPermission();
 		Permission dirOthP = directory.getOthersPermission();
+		
 		if (user.getUsername().equals("root")) {
 			return;
 		}
@@ -264,7 +231,7 @@ public class Directory extends Directory_Base {
 		if (name.equals(".")){
           throw new NotDeleteAbleException("Cannot delete self directory");
 		} 
-		else if (name.equals(".")){
+		else if (name.equals("..")){
 			throw new NotDeleteAbleException("Cannot delete father directory");
 		} 
 		else if (name.equals("/")){
@@ -280,6 +247,13 @@ public class Directory extends Directory_Base {
    	 		 	return f;
 			}
 		}
+	}
+	
+	public void removeFile(User user, Directory directory, String name) throws NoSuchFileException, NotDeleteAbleException, PermissionDeniedException{
+		
+		 File file = directory.getDelete(name);      
+		    
+	     file.remove(user, directory);
 	}
 	
 	public File search(String name) throws NoSuchFileException{
