@@ -35,6 +35,7 @@ public class ChangeDirectoryService extends MyDriveService
        
        File f = null;
        Directory d = null;
+       
        if (path.equals(".")) {
        
        } 
@@ -44,7 +45,7 @@ public class ChangeDirectoryService extends MyDriveService
        } 
        else if (path.contains("/")) {
     	   String result = pwd();
-    	   result = result + "/" + name;
+    	   result = result + "/" + path;
     	   d = getDirectoryByAbsolutePath(token, result, md);
     	   md.setCurrentDirByToken(token, d);
        }

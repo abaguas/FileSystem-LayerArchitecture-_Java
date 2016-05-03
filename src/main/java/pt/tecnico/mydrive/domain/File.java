@@ -252,8 +252,7 @@ public abstract class File extends File_Base {
 			}
 		}
 	}
-
-///////////////////////////////////////////////	
+	
     public String pwd(){
         String output="";
         if(getDirectory().getName().equals("/")){
@@ -268,44 +267,12 @@ public abstract class File extends File_Base {
         return output;
     }
 
-     
-     public Directory getDirectoryByAbsolutePath(User user, Directory directory, String absolutepath) {
-		
-    	String[] parts = absolutepath.split("/");
-		md.setCurrentDirByToken(token, md.getRootDirectory());
-		
-		for(int i=1; i < parts.length; i++){		
-			cd(token, parts[i], md);
-		}	
-		
-		return md.getCurrentDirByToken(token);
-     }
-     
-    
-//     public void cd(User user, Directory directory, String name) throws NoSuchFileException, FileNotCdAbleException, PermissionDeniedException {
-//    	 File f = null;
-//    	 Directory d = null;
-//    	 if(name.equals(".")) {
-//    	 }
-//    	 else if(name.charAt(0)=='/') {
-//             d = getDirectoryByAbsolutePath(token, name, md); 
-//             md.setCurrentDirByToken(token, d);
-//         }
-//         else if(name.contains("/")) {
-//        	 String result = pwd(token, md);
-//        	 result = result + "/" + name;
-//             d = getDirectoryByAbsolutePath(token, result, md); 
-//             md.setCurrentDirByToken(token, d);
-//         }
-//         else {
-//        	 f = md.getCurrentDirByToken(token).get(name);
-//        	 md.cdable(f);
-//        	 md.checkPermissions(token, name, "cd", "");
-//        	 md.setCurrentDirByToken(token, (Directory) f);
-//         }
-//     } 
-//////////////////////////////////////////	
-
+    public Directory getDirectoryByPath(User user, String path, Directory dir, MyDrive md){
+    	File file = getFileByPath(user, path, dir, md);
+    	cdable(file);
+    	checkPermissions(user, dir, file.getName(), "cd");
+    	return file;
+    }
 	
 	public void cdable(File f) throws FileNotCdAbleException{
 		Visitor v = new CdableVisitor();
