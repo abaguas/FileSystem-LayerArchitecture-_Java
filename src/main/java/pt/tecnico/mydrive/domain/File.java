@@ -73,7 +73,7 @@ public abstract class File extends File_Base {
 	
 	public abstract String read(User user, MyDrive md, Set<String> set);
 
-	public abstract void writeContent(String content);
+	public abstract void writeContent(User user, Directory directory, String content);
 
 	public String toString() {
 		return print();

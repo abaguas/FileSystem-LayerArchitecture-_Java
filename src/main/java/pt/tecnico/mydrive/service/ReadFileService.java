@@ -30,7 +30,7 @@ public class ReadFileService extends MyDriveService{
         
         File file = currentDir.get(fileName);
         
-        result = file.read(currentUser);
+        result = file.read(currentUser, md);
     }
 
     public final String result() {

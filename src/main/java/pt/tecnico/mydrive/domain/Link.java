@@ -1,6 +1,7 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
+import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidLinkContentException;
@@ -31,6 +32,12 @@ public class Link extends Link_Base {
     public Link(Element link_element, User owner, Directory father){
         xmlImport(link_element, owner, father);
 
+    }
+    
+    @Override
+    public void writeContent(User user, Directory directory, String content){
+    	File file = directory.get(getContent());
+    	file.writeContent(user, directory, content);
     }
     
     public void execute(){

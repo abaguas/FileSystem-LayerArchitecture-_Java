@@ -1,4 +1,4 @@
-    package pt.tecnico.mydrive.domain;
+package pt.tecnico.mydrive.domain;
 
 import pt.ist.fenixframework.FenixFramework;
 
