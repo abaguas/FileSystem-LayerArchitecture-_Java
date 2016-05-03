@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidLinkContentException;
+import pt.tecnico.mydrive.exception.LinkWithCycleException;
 import pt.tecnico.mydrive.exception.LinkWithoutContentException;
 import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -55,17 +56,22 @@ public class Link extends Link_Base {
 	}
     
     @Override
-   	public String read(User user, MyDrive md, Set<String> set) {
+   	public String read(User user, MyDrive md, Set<String> cycleDetector) throws LinkWithCycleException {
     	checkPermissions(user, getDirectory(), getName(), "read");
     	File f = getFileByPath(user, getContent(), getDirectory(), md);
+    	if (!cycleDetector.add(f.pwd())){
+    		throw new LinkWithCycleException(f.getName());
+    	}
     	return f.read(user, md);
     }
     
-   	public String read(User user, MyDrive md) {
+   	public String read(User user, MyDrive md)  throws LinkWithCycleException {
     	Set<String> cycleDetector = new TreeSet<String>();
     	checkPermissions(user, getDirectory(), getName(), "read");
     	File f = getFileByPath(user, getContent(), getDirectory(), md);
-    	cycleDetector.add(f.pwd());
+    	if (!cycleDetector.add(f.pwd())){
+    		throw new LinkWithCycleException(f.getName());
+    	}
     	return f.read(user, md, cycleDetector);
     }
 
