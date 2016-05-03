@@ -198,4 +198,10 @@ public class Directory extends Directory_Base {
 	public String read(User user, MyDrive md) {
 		throw new FileIsNotReadAbleException(getName());
 	}
+
+	@Override
+	public String read(User user, MyDrive md, Set<String> set) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
