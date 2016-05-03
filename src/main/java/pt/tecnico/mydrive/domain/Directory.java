@@ -78,16 +78,20 @@ public class Directory extends Directory_Base {
     }
 	
 	@Override
-	public void remove(MyDrive md, long token) throws PermissionDeniedException {
-		boolean allDeleted = true;
-		md.checkPermissions(token, getName(), "create-delete", "delete"); 
-		Set<File> files = getFiles();
+	public void remove(User user, Directory directory) throws PermissionDeniedException {
+		
+		checkPermissions(user, directory, getName(), "delete"); 
+		
+		Set<File> files = getFilesSet();
+		
 		for (File f: files) {
-				md.checkPermissions(token, getName(), "create-delete", "delete"); 
+				checkPermissions(user, directory, f.getName(),"delete"); 
 		}
+		
 		for (File f: files) {
-				f.remove(md, token); 
+				f.remove(user, directory); 
 		}
+		
 		setOwner(null);
 	    setUserPermission(null);
 	    setOthersPermission(null);
@@ -95,6 +99,141 @@ public class Directory extends Directory_Base {
 	    setSelfDirectory(null);
 	    setFatherDirectory(null);
 	    deleteDomainObject();
+	}
+	
+	public void checkPermissions(User user, Directory directory, String fileName, String code)
+			throws PermissionDeniedException {
+		if (code.equals("create") || code.equals("delete")) {
+			checkFileCreateDeletePermissions(user, directory, fileName, code);	
+		}
+		else if (code.equals("read") || code.equals("write") || code.equals("execute")) {
+			checkFileReadWriteExecutePermissions(user, directory, fileName, code);
+		}
+		
+		else if (code.equals("cd")) {
+			checkChangeDirPermission(user, directory, fileName);
+		}
+		else if (code.equals("ls")) {
+			checkListPermission(user, directory);
+		}
+
+	}
+
+	public void checkFileCreateDeletePermissions(User user, Directory directory, String fileName, String access)
+			throws PermissionDeniedException, ExpiredSessionException, InvalidTokenException {
+	
+		User owner = directory.getOwner();
+		Permission dirOwnP = directory.getUserPermission();
+		Permission dirOthP = directory.getOthersPermission();
+		if (user.getUsername().equals("root")) {
+			return;
+		}
+
+		else if (user.getUsername().equals(owner.getUsername())) {
+			if (access.equals("delete")) {
+				File f = directory.get(fileName);
+				if (!f.getUserPermission().getEliminate()) {
+					throw new PermissionDeniedException(fileName);
+				}
+			}
+			if (!dirOwnP.getWrite()) {
+				throw new PermissionDeniedException(fileName);
+			}
+		} else {
+			if (access.equals("delete")) {
+				File f = directory.get(fileName);
+				if (!f.getOthersPermission().getEliminate()) {
+					throw new PermissionDeniedException(fileName);
+				}
+			}
+			if (!dirOthP.getWrite()) {
+				throw new PermissionDeniedException(fileName);
+			}
+		}
+	}
+
+	public void checkFileReadWriteExecutePermissions(User user, Directory directory, String fileName, String access) {
+		
+		File f = directory.get(fileName);
+		User owner = f.getOwner();
+		Permission fileUserP = f.getUserPermission();
+		Permission fileOthP = f.getOthersPermission();
+
+		if (user.getUsername().equals("root")) {
+			return;
+		}
+
+		else if (user.getUsername().equals(owner.getUsername())) {
+			if (access.equals("read")) {
+				if (!fileUserP.getRead()) {
+					throw new PermissionDeniedException(fileName);
+				}
+			} else if (access.equals("write")) {
+				if (!fileUserP.getWrite()) {
+					throw new PermissionDeniedException(fileName);
+				}
+			} else if (access.equals("execute")) {
+				if (!fileUserP.getExecute()) {
+					throw new PermissionDeniedException(fileName);
+				}
+			}
+		} else {
+			if (access.equals("read")) {
+				if (!fileOthP.getRead()) {
+					throw new PermissionDeniedException(fileName);
+				}
+			} else if (access.equals("write")) {
+				if (!fileOthP.getWrite()) {
+					throw new PermissionDeniedException(fileName);
+				}
+			} else if (access.equals("execute")) {
+				if (!fileOthP.getExecute()) {
+					throw new PermissionDeniedException(fileName);
+				}
+			}
+		}
+	}
+
+	public void checkChangeDirPermission(User user, Directory directory, String fileName) {
+
+		User owner = directory.getOwner();
+		Permission dirOwnP = directory.getUserPermission();
+		Permission dirOthP = directory.getOthersPermission();
+
+		if (user.getUsername().equals("root")) {
+			return;
+		}
+
+		else if (user.getUsername().equals(owner.getUsername())) {
+			if (!dirOwnP.getExecute()) {
+				throw new PermissionDeniedException(fileName);
+			}
+		} else {
+			if (!dirOthP.getExecute()) {
+				throw new PermissionDeniedException(fileName);
+			}
+		}
+	}
+
+	public void checkListPermission(User user, Directory directory) {
+
+		User owner = directory.getOwner();
+		Permission dirOwnP = directory.getUserPermission();
+		Permission dirOthP = directory.getOthersPermission();
+
+		if (user.getUsername().equals("root")) {
+			return;
+		}
+
+		else if (user.getUsername().equals(owner.getUsername())) {
+			if (!dirOwnP.getRead()) {
+				throw new PermissionDeniedException(directory.getName());
+			}
+		} else {
+			if (!dirOthP.getRead()) {
+				throw new PermissionDeniedException(directory.getName());
+			}
+		}
 	}
 
 	public File get(String name) throws NoSuchFileException, FileNotDirectoryException{
@@ -119,21 +258,49 @@ public class Directory extends Directory_Base {
 			return false;
 		}
 	}
-
-	public File search(String name) throws NoSuchFileException{
-		Set<File> files = getFiles();
-
-		for (File f: files) {
-   	 		if (f.getName().equals(name)) {
-   	 			return f;
-   	 		}
+	
+	
+	public File getDelete(String name) throws NoSuchFileException, NotDeleteAbleException{
+		if (name.equals(".")){
+          throw new NotDeleteAbleException("Cannot delete self directory");
+		} 
+		else if (name.equals(".")){
+			throw new NotDeleteAbleException("Cannot delete father directory");
+		} 
+		else if (name.equals("/")){
+			throw new NotDeleteAbleException("Cannot delete root directory");
 		}
-		throw new NoSuchFileException(name);
+
+		else {
+			File f = search(name);
+			if(f.getOwner().getMainDirectory().getId() == f.getId()){
+				throw new NotDeleteAbleException("Cannot delete User's home despite permissions");
+			}
+			else{
+   	 		 	return f;
+			}
+		}
+	}
+	
+	public File search(String name) throws NoSuchFileException{
+		Set<File> files = getFilesSet();
+		
+		try{
+			for (File f: files) {
+	   	 		if (f.getName().equals(name)) {
+	   	 			return f;
+	   	 		}
+			}
+			throw new NoSuchFileException(name);
+		}
+		catch(NullPointerException e){
+			throw new NoSuchFileException("Invalid File name: null");
+		}
 	}
 
 	public String ls() {
 		String output="";
-		Set<File> files = getFiles();
+		Set<File> files = getFilesSet();
 		List<File> list = new ArrayList<File>(files);
 
 		Collections.sort(list, new Comparator<File>() {
@@ -164,7 +331,7 @@ public class Directory extends Directory_Base {
 
 	public List<String> lsList() {
 		String output="";
-		Set<File> files = getFiles();
+		Set<File> files = getFilesSet();
 		List<File> list = new ArrayList<File>(files);
 		List<String> stringList = new ArrayList<String>();
 
@@ -201,7 +368,7 @@ public class Directory extends Directory_Base {
 	}
 
 	public int dimension(){
-		return 2 + getFiles().size();
+		return 2 + getFilesSet().size();
 	}
 
 	public void accept(Visitor v) throws FileNotDirectoryException{
@@ -256,7 +423,7 @@ public class Directory extends Directory_Base {
         	element_mydrive.addContent(element);
         }
 
-        for (File f: getFiles()){
+        for (File f: getFilesSet()){
             f.xmlExport(element_mydrive);
         }
     }

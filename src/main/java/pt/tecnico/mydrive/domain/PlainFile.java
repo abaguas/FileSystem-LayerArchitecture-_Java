@@ -2,6 +2,9 @@ package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
 import org.joda.time.DateTime;
+
+import pt.tecnico.mydrive.exception.PermissionDeniedException;
+
 import org.jdom2.Document;
 
 public class PlainFile extends PlainFile_Base {
@@ -43,6 +46,16 @@ public class PlainFile extends PlainFile_Base {
     	return getContent().length();
     }
 
+    @Override
+	public void remove(User user, Directory directory) throws PermissionDeniedException {
+		//checkPermissions(token, getName(), "create-delete", "delete");
+		setOwner(null);
+		setUserPermission(null);
+		setOthersPermission(null);
+		setDirectory(null);
+		deleteDomainObject();
+	}
+    
     @Override
 	public void accept(Visitor v) {
 		v.execute(this);
