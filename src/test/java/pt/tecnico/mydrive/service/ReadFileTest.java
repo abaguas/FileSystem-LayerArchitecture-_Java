@@ -10,6 +10,7 @@ import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.domain.PlainFile;
 import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -19,7 +20,7 @@ import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
 public class ReadFileTest extends AbstractServiceTest{
 	protected void populate() {
 		MyDrive md = MyDrive.getInstance();
-		
+		SessionManager sm = md.getSessionManager();
 		Directory rootdir = MyDrive.getInstance().getRootDirectory();
 
 		Directory home = (Directory)rootdir.get("home");
@@ -75,13 +76,16 @@ public class ReadFileTest extends AbstractServiceTest{
 		noYouCant.setUserPermission(new Permission("-wxd"));
 		
 		//create session and set current directory
-		Session sessionOwner = new Session(owner, 1, md);
+//		Session sessionOwner = new Session(owner, 1, md);
+		Session sessionOwner = new Session("Pizza", "password", sm);
 		sessionOwner.setCurrentDir(workingDirectory);
 		
-		Session sessionOther = new Session(other, 2, md);
+//		Session sessionOther = new Session(other, 2, md);
+		Session sessionOther = new Session("Popcorn", "password", sm);
 		sessionOther.setCurrentDir(workingDirectory);
 		
-		Session sessionRoot = new Session(root, 3, md);
+//		Session sessionRoot = new Session(root, 3, md);
+		Session sessionRoot = new Session("root", "***", sm);
 		sessionRoot.setCurrentDir(workingDirectory);	}
 
 	@Test

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 
 import pt.tecnico.mydrive.exception.NoSuchFileException;
+import pt.tecnico.mydrive.service.dto.FileDto;
 import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.domain.PlainFile;
@@ -12,6 +13,7 @@ import pt.tecnico.mydrive.domain.Link;
 import pt.tecnico.mydrive.domain.App;
 import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.MyDrive;
 
 import static org.junit.Assert.*;
@@ -28,6 +30,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		
 	protected void populate(){
 		MyDrive md = MyDrive.getInstance();
+		SessionManager sm = md.getSessionManager();
 		Directory rootdir = MyDrive.getInstance().getRootDirectory();
 		String name = rootdir.getFatherDirectory().getName();
 		rootdir.getFatherDirectory().setName("..");
@@ -52,9 +55,9 @@ public class ListDirectoryTest extends AbstractServiceTest{
 	    PlainFile p2 = new PlainFile("Exemplo", 125, u1, "conteudo3", home_user);
 	    App a1 = new App("Application", 123, u1, "conteudo1", home_user);
 	   	Link l1 = new Link("Ligacao", 126, u1, "conteudo1", home_user);
-	   	Session s1 = new Session(u1,1,md);
+	   	Session s1 = new Session("EusebioSilva","pass1",sm);
 	   	s1.setCurrentDir(home_user);
-	   	Session s2 = new Session(u1,2,md);
+	   	Session s2 = new Session("EusebioSilva","pass1",sm);
 	   	list = new ArrayList<String>();
 	   	s2.setCurrentDir(md.getRootDirectory());
 	   	list.add(a1.toString());
@@ -74,7 +77,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		final long token = 1;
         ListDirectoryService service = new ListDirectoryService(token);
         service.execute();
-        List<String> cs = service.result();
+        List<FileDto> cs = service.result();
 
 
 		assertEquals("List with 6 Contacts", 6, cs.size());
@@ -92,7 +95,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		final long token = 2;
 		ListDirectoryService service= new ListDirectoryService(token);
 		service.execute();
-		List<String> cs = service.result();
+		List<FileDto> cs = service.result();
 		assertEquals("List with 3 Contacts", 3, cs.size());
 		assertEquals("First File is FatherDir", fatherDir_root.toString(), cs.get(0));
 		assertEquals("Second File is SelfDir",selfDirectory_root.toString(), cs.get(1));

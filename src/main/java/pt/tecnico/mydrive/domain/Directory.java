@@ -204,4 +204,9 @@ public class Directory extends Directory_Base {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getContent() throws FileIsNotWriteAbleException{
+		throw new FileIsNotWriteAbleException(getName());
+	}
 }

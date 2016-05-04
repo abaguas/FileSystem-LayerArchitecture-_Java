@@ -7,6 +7,7 @@ import pt.tecnico.mydrive.domain.Link;
 import pt.tecnico.mydrive.domain.App;
 import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -20,6 +21,7 @@ import org.junit.Test;
 public class WriteFileTest extends AbstractServiceTest{
 	protected void populate() {
 		MyDrive md = MyDrive.getInstance();
+		SessionManager sm = md.getSessionManager();
 	    User u1 = new User("Catio", "pass1", "CatioBalde");
 	    Directory user_home = new Directory("Catio", md.generateId(),u1, (Directory)md.getRootDirectory().get("home"));
 	    u1.setMainDirectory(user_home);
@@ -31,8 +33,8 @@ public class WriteFileTest extends AbstractServiceTest{
 	    App a1 = new 	App("application", md.generateId(), u1, "conteudo1", user_home);
 	    Link l1 = new Link("ligacao", md.generateId(), u1, "conteudo1", user_home);
 	    
-	    Session s1 = new Session(u1, 1, md);
-	    
+//	    Session s1 = new Session(u1, 1, md);
+	    Session s1 = new Session("Catio", "pass1", sm);
 	}
 	    
 	

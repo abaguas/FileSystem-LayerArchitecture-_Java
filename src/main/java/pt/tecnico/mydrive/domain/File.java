@@ -296,6 +296,8 @@ public abstract class File extends File_Base {
     	return (Directory) file;
     }
 	
+    public abstract String getContent();
+    
 	public void cdable(File f) throws FileNotCdAbleException{
 		Visitor v = new CdableVisitor();
    	 	f.accept(v);
@@ -311,7 +313,7 @@ public abstract class File extends File_Base {
         Visitor v = new ExecuteAbleVisitor();
         f.accept(v);
     }
-
+    
 
 //////////////////////////////////////////////////////////////////////////////////////
 //                                   XML                               //
