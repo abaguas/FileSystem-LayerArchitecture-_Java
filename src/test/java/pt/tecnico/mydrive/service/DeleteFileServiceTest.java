@@ -1,9 +1,9 @@
 package pt.tecnico.mydrive.service;
 
 import pt.tecnico.mydrive.exception.NotDeleteAbleException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
-import pt.tecnico.mydrive.exception.InvalidFileNameException;
 import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.domain.PlainFile;
@@ -13,6 +13,9 @@ import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.Permission;
 
 import static org.junit.Assert.*;
+
+import java.math.BigInteger;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -161,5 +164,14 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 		DeleteFileService dfs = new DeleteFileService(token6, "CatioBalde");
 		dfs.execute();
 	}
+	@Test (expected = InvalidTokenException.class)
+    public void invalidToken() {
+		long token = new BigInteger(64, new Random()).longValue();
+		while (token == token1 || token == token2 || token == token3 || token == token4 || token == token5 || token == token6){
+			token = new BigInteger(64, new Random()).longValue();
+		}
+		DeleteFileService dfs = new DeleteFileService(token, "folder");
+		dfs.execute();
+    }
 
 }
