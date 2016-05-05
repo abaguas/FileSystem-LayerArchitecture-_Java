@@ -154,14 +154,15 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     @Test (expected = PermissionDeniedException.class)
     public void notPermittedCd2() {
         ChangeDirectoryService service = new ChangeDirectoryService(token1, "videos/videoclips/youtube"); 
-    	service.execute();       
+        service.execute();
     }
     
     
     @Test (expected = PermissionDeniedException.class)
     public void notPermittedCd3() {
         ChangeDirectoryService service = new ChangeDirectoryService(token1, "/home/neto/videos/videoclips/youtube"); 
-    	service.execute();
+    	
+        service.execute();
     }
     
     
@@ -204,18 +205,5 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         ChangeDirectoryService service = new ChangeDirectoryService(token, targetDir);    
         service.execute();
     }
-    
-    
-	@Test 
-    public void successCdWithMaxPath() { //Testing CD with 1024 character in an absolute path
-        ChangeDirectoryService service = new ChangeDirectoryService(token1, hugeDirName); 
-        service.execute();
-        
-        Directory finalDir = sm.getSession(token1).getCurrentDir();
-        String expected = "/home/neto/" + hugeDirName;
-        
-        assertEquals("error changing to directory with maximum path size",  expected, finalDir.getAbsolutePath());
-    }
-
-
+	
 }

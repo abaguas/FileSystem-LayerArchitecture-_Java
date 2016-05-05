@@ -303,7 +303,7 @@ public abstract class File extends File_Base {
     public Directory getDirectoryByPath(User user, String path, Directory dir, MyDrive md){
     	File file = getFileByPath(user, path, dir, md);
     	cdable(file);
-    	checkPermissions(user, dir, file.getName(), "cd");
+    	checkPermissions(user, file.getDirectory(), file.getName(), "cd");
     	return (Directory) file;
     }
 	
