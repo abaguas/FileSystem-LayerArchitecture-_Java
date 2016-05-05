@@ -1,5 +1,8 @@
 package pt.tecnico.mydrive.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.jdom2.Element;
@@ -272,10 +275,14 @@ public abstract class File extends File_Base {
     }
     
     public File getFileByPath(User user, String path, Directory dir, MyDrive md) throws PermissionDeniedException, InvalidPathException, FileNotCdAbleException {
-        String[] parts = path.split("/");
+        List<String> elements = new ArrayList<String> (Arrays.asList(path.split("/")));	
+        elements.remove("");
+        String[] parts = elements.toArray(new String[0]);
+
         File aux;
         int i = 0;
         int numOfParts = parts.length;
+        
         if (path.charAt(0)=='/') {
             dir = md.getRootDirectory();
         }
@@ -291,6 +298,7 @@ public abstract class File extends File_Base {
         }
         return dir.get(parts[numOfParts-1]);        
     }
+    
 
     public Directory getDirectoryByPath(User user, String path, Directory dir, MyDrive md){
     	File file = getFileByPath(user, path, dir, md);
@@ -299,7 +307,6 @@ public abstract class File extends File_Base {
     	return (Directory) file;
     }
 	
-    public abstract String getContent();
     
 	public void cdable(File f) throws FileNotCdAbleException{
 		Visitor v = new CdableVisitor();

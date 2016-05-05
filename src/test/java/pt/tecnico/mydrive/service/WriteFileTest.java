@@ -33,15 +33,15 @@ public class WriteFileTest extends AbstractServiceTest{
 	    
 	    u1.setMainDirectory(user_home);
 	    Session s1 = new Session("Catio", "pass1", sm);
-	    System.out.println(s1.getToken());
+
 	    User u2 = md.getRootUser();
 	    Directory d1 = new Directory("folder", md.generateId(), u1, user_home);    
 	    
 	    PlainFile p1 = new PlainFile("CasoBruma", md.generateId(), u1, "conteudo1", user_home);
 	    PlainFile p2 = new PlainFile("Exemplo", md.generateId(), u2, "conteudo3", user_home);
 	    App a1 = new 	App("application", md.generateId(), u1, "conteudo1", user_home);
-	    Link l1 = new Link("ligacao", md.generateId(), u1, "conteudo1", user_home);
-	    l1.setContent("CasoBruma");
+	    Link l1 = new Link("ligacao", md.generateId(), u1, "CasoBruma", user_home);
+	  
 	    
 	    token=s1.getToken();
 	}
@@ -50,7 +50,6 @@ public class WriteFileTest extends AbstractServiceTest{
 	@Test
 	public void successPermittedFile() {
 	    MyDrive md = MyDrive.getInstance();
-	    System.out.println(token);
 	    WriteFileService wfs = new WriteFileService("CasoBruma", "abc", token); 
 	    wfs.execute();
 	    String result= wfs.result();
