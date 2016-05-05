@@ -13,6 +13,7 @@ import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
+import pt.tecnico.mydrive.exception.LinkWithCycleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
@@ -246,7 +247,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		assertEquals("Content is not 'poor me'", "poor me", content);
 	}
 	
-	@Test(expected = TooManyLevelsOfSymbolicLinksException.class)
+	@Test(expected = LinkWithCycleException.class)
 	public void infiniteLoopByRoot() {
 		ReadFileService rfs = new ReadFileService(tokenRoot, "Infinite Loop");
 		rfs.execute();

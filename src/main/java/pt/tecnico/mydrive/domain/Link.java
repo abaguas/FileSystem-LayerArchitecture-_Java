@@ -59,7 +59,7 @@ public class Link extends Link_Base {
     	try {
     		f = getFileByPath(user, getContent(), getDirectory(), md);
     	} catch (Exception e) {
-    		throw new InvalidLinkContentException(f.getName());
+    		throw new InvalidLinkContentException(getName());
     	}
     	if (!cycleDetector.add(f.pwd())){
     		throw new LinkWithCycleException(f.getName());

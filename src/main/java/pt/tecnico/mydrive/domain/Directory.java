@@ -115,7 +115,10 @@ public class Directory extends Directory_Base {
 	   	 			return f;
 	   	 		}
 			}
-			throw new NoSuchFileException(name);
+			if(name.equals(""))
+				throw new NoSuchFileException("empty string");
+			else
+				throw new NoSuchFileException(name);
 		}
 		catch(NullPointerException e){
 			throw new NoSuchFileException("Invalid File name: null");
@@ -201,12 +204,8 @@ public class Directory extends Directory_Base {
 
 	@Override
 	public String read(User user, MyDrive md, Set<String> set) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new FileIsNotReadAbleException(getName());
 	}
 
-	@Override
-	public String getContent() throws FileIsNotWriteAbleException{
-		throw new FileIsNotWriteAbleException(getName());
-	}
+
 }
