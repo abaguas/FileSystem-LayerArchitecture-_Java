@@ -36,6 +36,7 @@ public class Link extends Link_Base {
     	File file = directory.get(getContent());
     	file.writeContent(user, directory, content);
     }
+   
     
     public void execute(){
     }

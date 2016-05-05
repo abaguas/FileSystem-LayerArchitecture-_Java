@@ -31,8 +31,8 @@ public class MyDrive extends MyDrive_Base {
         setRoot(FenixFramework.getDomainRoot());
         RootUser r = RootUser.getInstance();
         setCounter(0); 
-        setRootUser(r);
-        setSessionManager(SessionManager.getInstance()); 
+        super.setRootUser(r);
+        super.setSessionManager(SessionManager.getInstance()); 
         addUsers(r);
         Directory rootDir = Directory.newRootDir(getRootUser());
         rootDir.setOwner(getRootUser());
@@ -43,6 +43,21 @@ public class MyDrive extends MyDrive_Base {
 
     }
 
+
+//    private MyDrive() throws MyDriveException{
+//        setRoot(FenixFramework.getDomainRoot());
+//        RootUser r = RootUser.getInstance();;
+//        setCounter(0); 
+//        super.setRootUser(r);
+//        addUsers(r);
+//        Directory rootDir = Directory.newRootDir(getRootUser());
+//        rootDir.setOwner(getRootUser());
+//        Directory home = new Directory("home", generateId(), getRootUser(), rootDir);
+//        Directory root = new Directory("root", generateId(), getRootUser(), home);
+//        getRootUser().setMainDirectory(root);
+//        setRootDirectory(rootDir);
+//
+//    }
 
     public int generateId(){
     	setCounter(getCounter()+1);

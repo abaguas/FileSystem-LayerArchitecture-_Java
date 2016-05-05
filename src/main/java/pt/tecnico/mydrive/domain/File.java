@@ -30,7 +30,7 @@ public abstract class File extends File_Base {
 		if (name.contains("/") || name.contains("\0")) {
 			throw new InvalidFileNameException(name);
 		}
-		validateFile(name);
+		
 		try {
 			father.search(name);
 			throw new FileAlreadyExistsException(name, id);
@@ -45,6 +45,7 @@ public abstract class File extends File_Base {
 			setLastChange(dt);
 			setDirectory(father);
 		}
+		validateFile(name);
 	}
 
 	
@@ -119,6 +120,8 @@ public abstract class File extends File_Base {
 	public void accept(Visitor v) {
 		v.execute(this);
 	}
+	
+
 	
 	public void checkPermissions(User user, Directory directory, String fileName, String code)
 			throws PermissionDeniedException {

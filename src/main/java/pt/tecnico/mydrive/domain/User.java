@@ -7,8 +7,8 @@ public class User extends User_Base {
 
 	public User(){}
 	
-	public User(String username, String password, String name) throws InvalidUsernameException{
-		init(username, password, name);
+	public User(MyDrive md, String username, String password, String name) throws InvalidUsernameException{
+		init(md, username, password, name);
 	}
 	
 	public User(String username, String password, String name, Directory home) throws InvalidUsernameException{

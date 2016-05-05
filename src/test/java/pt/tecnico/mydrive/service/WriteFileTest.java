@@ -18,13 +18,22 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 
+
 public class WriteFileTest extends AbstractServiceTest{
+	private long token;
+	
 	protected void populate() {
 		MyDrive md = MyDrive.getInstance();
 		SessionManager sm = md.getSessionManager();
-	    User u1 = new User("Catio", "pass1", "CatioBalde");
+		
+		
+	    User u1 = new User(md,"Catio", "pass1", "CatioBalde");
+	    
 	    Directory user_home = new Directory("Catio", md.generateId(),u1, (Directory)md.getRootDirectory().get("home"));
+	    
 	    u1.setMainDirectory(user_home);
+	    Session s1 = new Session("Catio", "pass1", sm);
+	    System.out.println(s1.getToken());
 	    User u2 = md.getRootUser();
 	    Directory d1 = new Directory("folder", md.generateId(), u1, user_home);    
 	    
@@ -32,16 +41,17 @@ public class WriteFileTest extends AbstractServiceTest{
 	    PlainFile p2 = new PlainFile("Exemplo", md.generateId(), u2, "conteudo3", user_home);
 	    App a1 = new 	App("application", md.generateId(), u1, "conteudo1", user_home);
 	    Link l1 = new Link("ligacao", md.generateId(), u1, "conteudo1", user_home);
+	    l1.setContent("CasoBruma");
 	    
-//	    Session s1 = new Session(u1, 1, md);
-	    Session s1 = new Session("Catio", "pass1", sm);
+	    token=s1.getToken();
 	}
 	    
 	
 	@Test
 	public void successPermittedFile() {
 	    MyDrive md = MyDrive.getInstance();
-	    WriteFileService wfs = new WriteFileService("CasoBruma", "abc", 1); 
+	    System.out.println(token);
+	    WriteFileService wfs = new WriteFileService("CasoBruma", "abc", token); 
 	    wfs.execute();
 	    String result= wfs.result();
 	    assertEquals("Wrong Content", "abc", result);
@@ -51,26 +61,26 @@ public class WriteFileTest extends AbstractServiceTest{
 
 	@Test(expected = PermissionDeniedException.class)
 	public void notPermittedFile() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-	    WriteFileService wfs = new WriteFileService("Exemplo", "abc", 1); // token = 1
+	    WriteFileService wfs = new WriteFileService("Exemplo", "abc", token); // token = 1
 	    wfs.execute();
 	}
 
 	@Test(expected = NoSuchFileException.class)
 	public void noSuchFile() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-	    WriteFileService wfs = new WriteFileService("blabla", "abc", 1); // token = 1
+	    WriteFileService wfs = new WriteFileService("blabla", "abc", token); // token = 1
 	    wfs.execute();
 	}
 
 	@Test(expected = FileIsNotWriteAbleException.class)
 	public void writeOnDirectory()throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-	    WriteFileService wfs = new WriteFileService("folder", "abc", 1); // token = 1
+	    WriteFileService wfs = new WriteFileService("folder", "abc", token); // token = 1
 	    wfs.execute();
 	}
 
 
 	@Test
 		public void writeOnApp() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException{
-	    WriteFileService wfs = new WriteFileService("application", "abc", 1); // token = 1
+	    WriteFileService wfs = new WriteFileService("application", "abc", token); // token = 1
 	    wfs.execute();
 	    wfs.execute();
 	    String result= wfs.result();
@@ -79,11 +89,11 @@ public class WriteFileTest extends AbstractServiceTest{
 
 	@Test
 	public void writeOnLink() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
-	    WriteFileService wfs = new WriteFileService("ligacao", "abc", 1); // token = 1
+	    WriteFileService wfs = new WriteFileService("ligacao", "abc", token); // token = 1
 	    wfs.execute();
 	    String result= wfs.result();
 	    assertEquals("Wrong Content", "abc", result);
 
 	}
 
-}
+}	

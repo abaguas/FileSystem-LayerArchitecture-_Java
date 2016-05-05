@@ -64,25 +64,25 @@ public class SessionManager extends SessionManager_Base {
 		if(session==null){
 			throw new InvalidTokenException();
 		}
-		DateTime actual = new DateTime();
-		DateTime twohoursbefore = actual.minusHours(2);
-		int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
 		
-		if (result > 0) {
+		boolean expire = session.expiration();
+		
+		if(expire){
 			Session newSession = new Session(session.getCurrentUser().getUsername(), session.getCurrentUser().getPassword(), this);
 			removeSession(session);
 			session = newSession;
 		}
 		else{
-			session.setTimestamp(actual);
+			//Session sets its Timestamp
 		}
+		
 		return session;
 	}
 	
 	public User validateUser(String username, String password) throws NoSuchUserException {
 		User user = getMd().getUserByUsername(username);
 
-		if (user.getPassword().equals(password)) {
+		if (!user.getPassword().equals(password)) {
 			throw new InvalidPasswordException();
 		}
 		return user;

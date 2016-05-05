@@ -32,11 +32,9 @@ public class WriteFileService extends MyDriveService
        Session session = md.getSessionManager().getSession(token);
        User currentUser = session.getCurrentUser();
        Directory currentDirectory = session.getCurrentDir();
-       
-             
        File file = currentDirectory.get(fileName);
        file.writeContent(currentUser,currentDirectory, content);
-       result = file.getContent();
+       result = file.read(currentUser,md);
     }
     
     public String result(){
