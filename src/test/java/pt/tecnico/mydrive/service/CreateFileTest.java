@@ -97,22 +97,13 @@ public class CreateFileTest extends AbstractServiceTest {
 		forbidden.setOthersPermission(othersP);
 		s2.setCurrentDir(forbidden);
 		s0.setCurrentDir(dir0);
-		
-		
-		String hugeDirName = "";
-		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
-			hugeDirName += "a";
-		}
-
-		Directory hugeDir = new Directory(hugeDirName, 60, u3, dir3); // id=60
-		s3.setCurrentDir(hugeDir);
 	}
 	
 	// TESTS
 	
     @Test
     public void successPlainFile() {
-        CreateFileService service = new CreateFileService(1, "calendar", "day 1 - nothing to do", "PlainFile");
+        CreateFileService service = new CreateFileService(token1, "calendar", "day 1 - nothing to do", "PlainFile");
         service.execute();
        
         User owner = sm.getSession(token1).getCurrentUser();
@@ -291,8 +282,12 @@ public class CreateFileTest extends AbstractServiceTest {
 	
 	@Test (expected = MaximumPathException.class)
 	public void maxPathExceededFileCreation() {
-		String name = "a"; //caso limite
-		CreateFileService service = new CreateFileService(token3, name, "attempt", "PlainFile");
+		String hugeDirName = "";
+		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
+			hugeDirName += "a";
+		}
+
+		CreateFileService service = new CreateFileService(token3, hugeDirName, "attempt", "PlainFile");
 		service.execute();
 	}
 

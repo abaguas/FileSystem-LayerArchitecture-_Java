@@ -85,6 +85,9 @@ public class Directory extends Directory_Base {
 	
 	
 	public File getDelete(String name) throws NoSuchFileException, NotDeleteAbleException{
+		if (name == null){
+			throw new NoSuchFileException(name);
+		}
 		if (name.equals(".")){
           throw new NotDeleteAbleException("Cannot delete self directory");
 		} 

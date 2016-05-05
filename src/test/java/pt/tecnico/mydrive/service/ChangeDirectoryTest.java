@@ -72,9 +72,6 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 		for (int i = 0; i<1013; i++) { // "/home/neto" length=10, mais descontar /, logo 1024-11=1013
 			hugeDirName += "a"; 
 		}
-
-		Directory hugeDir = new Directory(hugeDirName, 239, u1, home1); // id=239
-
 	    
 	 	//String name = StringUtils.rightPad("/home/root", 1024, "/zezacarias");
 	    //md.getDirectoryByAbsolutePath(3, name); //Creates big directory path
