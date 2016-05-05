@@ -3,7 +3,6 @@ package pt.tecnico.mydrive.service;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.domain.App;
 import pt.tecnico.mydrive.domain.Directory;
-import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.Link;
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.PlainFile;
@@ -14,7 +13,6 @@ import pt.tecnico.mydrive.exception.InvalidFileNameException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.LinkWithoutContentException;
 import pt.tecnico.mydrive.exception.MaximumPathException;
-import pt.tecnico.mydrive.exception.NoSuchFileException;
 
 public class CreateFileService extends MyDriveService{
 	
@@ -43,7 +41,7 @@ public class CreateFileService extends MyDriveService{
         else if(code.equals("App")){
             new App(name, id, user, content, directory);
         }
-        else if(code.equals("Directory")){
+        else if(code.equals("Dir")){
         	new Directory(name, id, user, directory);
         }
         else if(code.equals("Link")){

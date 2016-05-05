@@ -16,7 +16,6 @@ import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
 import pt.tecnico.mydrive.exception.LinkWithCycleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
-import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
 
 public class ReadFileTest extends AbstractServiceTest{
 	private long tokenOwner;
@@ -38,6 +37,8 @@ public class ReadFileTest extends AbstractServiceTest{
 		User root = md.getRootUser();
 		
 		//create directory with permissions for all to insert the files
+		home.setOthersPermission(new Permission("-w--"));
+		
 		Directory workingDirectory = new Directory("pizz", 954, owner, home); 
         workingDirectory.setOthersPermission(new Permission("--x-"));
         
@@ -95,6 +96,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		tokenOwner=sessionOwner.getToken();
 		tokenOther=sessionOther.getToken();
 		tokenRoot=sessionRoot.getToken();
+		home.setOthersPermission(new Permission("----"));
 	}
 
 	@Test
@@ -261,4 +263,3 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 }
 
->>>>>>> 98b8a5f207381630b51c86717753e0d414d1d700

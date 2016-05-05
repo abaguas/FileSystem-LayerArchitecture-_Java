@@ -10,6 +10,7 @@ import pt.tecnico.mydrive.domain.PlainFile;
 import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.domain.Permission;
 
 import static org.junit.Assert.*;
 
@@ -36,6 +37,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 		rootdir = MyDrive.getInstance().getRootDirectory();
 
 		home1 = (Directory)rootdir.get("home");
+		home1.setOthersPermission(new Permission("-w--"));
 
 	    User u1 = new User(md, "CatioBalde", "pass1", "Catio");
 	    Directory home3 = new Directory("CatioBalde", 127, u1, home1);
@@ -73,6 +75,8 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	    Session s6 = new Session("CatioBalde", "pass1", sm);
 	    s6.setCurrentDir((Directory)rootdir.get("home"));
 	    token6=s6.getToken();
+	    home1.setOthersPermission(new Permission("----"));
+
 	}
 
 	@Test

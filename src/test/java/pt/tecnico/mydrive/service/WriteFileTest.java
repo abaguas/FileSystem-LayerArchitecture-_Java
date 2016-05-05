@@ -9,6 +9,7 @@ import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException; 
@@ -26,7 +27,7 @@ public class WriteFileTest extends AbstractServiceTest{
 		MyDrive md = MyDrive.getInstance();
 		SessionManager sm = md.getSessionManager();
 		
-		
+		md.getRootDirectory().get("home").setOthersPermission(new Permission("-w--"));
 	    User u1 = new User(md,"Catio", "pass1", "CatioBalde");
 	    
 	    Directory user_home = new Directory("Catio", md.generateId(),u1, (Directory)md.getRootDirectory().get("home"));
@@ -44,6 +45,7 @@ public class WriteFileTest extends AbstractServiceTest{
 	  
 	    
 	    token=s1.getToken();
+		md.getRootDirectory().get("home").setOthersPermission(new Permission("----"));
 	}
 	    
 	
