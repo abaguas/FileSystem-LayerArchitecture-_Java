@@ -54,7 +54,7 @@ public class CreateFileTest extends AbstractServiceTest {
 		Directory rootdir = md.getRootDirectory();
 		//Directory roothome = u0.getMainDirectory();
 		Directory home = (Directory)rootdir.get("home");
-		home.setOthersPermission(new Permission("-w--"));
+		home.setOthersPermission(new Permission("rwx-"));
 
 //		Directory dir0 = u0.getMainDirectory();
 //		Directory dir1 = u1.getMainDirectory();
@@ -98,7 +98,7 @@ public class CreateFileTest extends AbstractServiceTest {
 		forbidden.setOthersPermission(othersP);
 		s2.setCurrentDir(forbidden);
 		s0.setCurrentDir(dir0);
-		home.setOthersPermission(new Permission("----"));
+		home.setOthersPermission(new Permission("r-x-"));
 
 	}
 	

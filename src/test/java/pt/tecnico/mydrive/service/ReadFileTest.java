@@ -37,7 +37,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		User root = md.getRootUser();
 		
 		//create directory with permissions for all to insert the files
-		home.setOthersPermission(new Permission("-w--"));
+		home.setOthersPermission(new Permission("rwx-"));
 		
 		Directory workingDirectory = new Directory("pizz", 954, owner, home); 
         workingDirectory.setOthersPermission(new Permission("--x-"));
@@ -96,7 +96,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		tokenOwner=sessionOwner.getToken();
 		tokenOther=sessionOther.getToken();
 		tokenRoot=sessionRoot.getToken();
-		home.setOthersPermission(new Permission("----"));
+		home.setOthersPermission(new Permission("r-x-"));
 	}
 
 	@Test

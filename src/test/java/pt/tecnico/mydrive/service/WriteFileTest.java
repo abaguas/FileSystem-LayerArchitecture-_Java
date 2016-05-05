@@ -27,7 +27,7 @@ public class WriteFileTest extends AbstractServiceTest{
 		MyDrive md = MyDrive.getInstance();
 		SessionManager sm = md.getSessionManager();
 		
-		md.getRootDirectory().get("home").setOthersPermission(new Permission("-w--"));
+		md.getRootDirectory().get("home").setOthersPermission(new Permission("rwx-"));
 	    User u1 = new User(md,"Catio", "pass1", "CatioBalde");
 	    
 	    Directory user_home = new Directory("Catio", md.generateId(),u1, (Directory)md.getRootDirectory().get("home"));
@@ -45,7 +45,7 @@ public class WriteFileTest extends AbstractServiceTest{
 	  
 	    
 	    token=s1.getToken();
-		md.getRootDirectory().get("home").setOthersPermission(new Permission("----"));
+		md.getRootDirectory().get("home").setOthersPermission(new Permission("r-x-"));
 	}
 	    
 	

@@ -37,7 +37,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 		rootdir = MyDrive.getInstance().getRootDirectory();
 
 		home1 = (Directory)rootdir.get("home");
-		home1.setOthersPermission(new Permission("-w--"));
+		home1.setOthersPermission(new Permission("rwx-"));
 
 	    User u1 = new User(md, "CatioBalde", "pass1", "Catio");
 	    Directory home3 = new Directory("CatioBalde", 127, u1, home1);
@@ -75,7 +75,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	    Session s6 = new Session("CatioBalde", "pass1", sm);
 	    s6.setCurrentDir((Directory)rootdir.get("home"));
 	    token6=s6.getToken();
-	    home1.setOthersPermission(new Permission("----"));
+	    home1.setOthersPermission(new Permission("r-x-"));
 
 	}
 
