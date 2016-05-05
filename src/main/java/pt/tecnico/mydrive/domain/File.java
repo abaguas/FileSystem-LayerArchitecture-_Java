@@ -43,8 +43,8 @@ public abstract class File extends File_Base {
 			setOwner(owner);
 			setName(name);
 			setId(id);
-			setUserPermission(owner.getOwnPermission());
-			setOthersPermission(owner.getOthersPermission());
+			setUserPermission(owner.getOwnPermission().copy());
+			setOthersPermission(owner.getOthersPermission().copy());
 			setLastChange(dt);
 			setDirectory(father);
 		}
@@ -63,8 +63,8 @@ public abstract class File extends File_Base {
 		setOwner(owner);
 		setName(name);
 		setId(id);
-		setUserPermission(owner.getOwnPermission());
-		setOthersPermission(owner.getOthersPermission());
+		setUserPermission(owner.getOwnPermission().copy());
+		setOthersPermission(owner.getOthersPermission().copy());
 		setLastChange(dt);
 	}
 

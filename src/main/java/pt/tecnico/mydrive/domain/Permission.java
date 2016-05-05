@@ -65,4 +65,8 @@ public class Permission extends Permission_Base {
     	return s;
     }
     
+    public Permission copy(){
+    	return new Permission(getRead(), getWrite(), getExecute(), getEliminate());
+    }
+    
 }
