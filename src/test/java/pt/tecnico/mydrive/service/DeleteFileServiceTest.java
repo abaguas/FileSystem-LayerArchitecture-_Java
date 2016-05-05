@@ -116,6 +116,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 
  		assertFalse("Directory was not removed", sm.getSession(token1).getCurrentDir().hasFile("folder"));	
  	}
+	
 
 	@Test(expected=PermissionDeniedException.class)
 	public void deleteNotPermittedDirectory(){
