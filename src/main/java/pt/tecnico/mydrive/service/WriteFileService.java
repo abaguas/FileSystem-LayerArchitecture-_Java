@@ -11,16 +11,14 @@ import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 
 
 
-public class WriteFileService extends MyDriveService
-{
+public class WriteFileService extends MyDriveService {
 	
     private String fileName;
     private String content;
     private long token;
     private String result;
 
-    public WriteFileService(String fileName, String content, long token)
-    {        
+    public WriteFileService(String fileName, String content, long token) {        
         this.fileName=fileName;
         this.content=content;
         this.token=token;
@@ -33,7 +31,7 @@ public class WriteFileService extends MyDriveService
        User currentUser = session.getCurrentUser();
        Directory currentDirectory = session.getCurrentDir();
        File file = currentDirectory.get(fileName);
-       file.writeContent(currentUser,currentDirectory, content);
+       file.write(currentUser, content, md);
        result = file.read(currentUser,md);
     }
     

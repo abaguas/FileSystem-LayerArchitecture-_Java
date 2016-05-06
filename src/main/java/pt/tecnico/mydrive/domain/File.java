@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 import pt.tecnico.mydrive.exception.ExpiredSessionException;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
+import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
@@ -74,11 +75,13 @@ public abstract class File extends File_Base {
 
 	public abstract void remove(User user, Directory directory) throws PermissionDeniedException;
 
-	public abstract String read(User user, MyDrive md);
+	public abstract String read(User user, MyDrive md) throws FileIsNotReadAbleException;
 	
-	public abstract String read(User user, MyDrive md, Set<String> set);
-
-	public abstract void writeContent(User user, Directory directory, String content);
+	public abstract String read(User user, MyDrive md, Set<String> cycleDetector) throws FileIsNotReadAbleException;
+	
+	public abstract void write(User user, String content, MyDrive md)  throws FileIsNotWriteAbleException;
+	
+	public abstract void write(User user, String content, MyDrive md, Set<String> cycleDetector)  throws FileIsNotWriteAbleException;
 
 	public String toString() {
 		return print();

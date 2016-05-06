@@ -3,6 +3,7 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 
+import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 import java.util.Set;
@@ -30,15 +31,6 @@ public class PlainFile extends PlainFile_Base {
     	String t = getContent();
     	t+="\n"+content; 
     	setContent(t);
-    }
-    
-    @Override
-    public void writeContent(User user, Directory directory, String content){
-        checkPermissions(user, directory, getName(), "write");
-        DateTime lt = new DateTime();
-        setLastChange(lt);
-        setContent(content);
-        
     }
     
     public void execute() {
@@ -81,11 +73,25 @@ public class PlainFile extends PlainFile_Base {
 	
 	@Override
 	public String read(User user, MyDrive md, Set<String> set){
+		checkPermissions(user, getDirectory(), getName(), "read");
 		return read(user, md);
+	}
+	
+	@Override
+	public void write(User user, String content, MyDrive md) throws FileIsNotWriteAbleException {
+		checkPermissions(user, getDirectory(), getName(), "write");
+		setContent(content);
+	}
+	
+	@Override
+	public void write(User user, String content, MyDrive md, Set<String> cycleDetector)
+			throws FileIsNotWriteAbleException {
+		checkPermissions(user, getDirectory(), getName(), "write");
+		setContent(content);	
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////
-	//                                   XML                               //
+//                                   XML                               //
 //////////////////////////////////////////////////////////////////////////////////////
     
     public void xmlImport(Element plain_element, User user, Directory father){

@@ -138,9 +138,42 @@ public class Directory extends Directory_Base {
 		return 2 + getFilesSet().size();
 	}
 
+	@Override
+	public String read(User user, MyDrive md) throws FileIsNotReadAbleException{
+		throw new FileIsNotReadAbleException(getName());
+	}
+
+	@Override
+	public String read(User user, MyDrive md, Set<String> set) throws FileIsNotReadAbleException{
+		throw new FileIsNotReadAbleException(getName());
+	}
+
+	@Override
+	public void write(User user, String content, MyDrive md) throws FileIsNotWriteAbleException{
+		throw new FileIsNotWriteAbleException(getName());
+		
+	}
+
+	@Override
+	public void write(User user, String content, MyDrive md, Set<String> cycleDetector)  throws FileIsNotWriteAbleException{
+		throw new FileIsNotWriteAbleException(getName());	
+	}
+
 	public void accept(Visitor v) throws FileNotDirectoryException{
 		v.execute(this);
 	}
+	
+	public boolean isHome(){
+		if(getId() == getOwner().getMainDirectory().getId())
+			return true;
+		return false;
+	}
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////
+//                                   XML                               //
+//////////////////////////////////////////////////////////////////////////////////////
+
 
 	public void xmlImport(Element directory_element,User user, Directory father){
 		int id= Integer.parseInt(directory_element.getAttribute("id").getValue());
@@ -153,12 +186,6 @@ public class Directory extends Directory_Base {
         Permission otherspermission = new Permission(perm.substring(4));
         init(name, id, user, father);
 		init(father);
-	}
-
-	public boolean isHome(){
-		if(getId() == getOwner().getMainDirectory().getId())
-			return true;
-		return false;
 	}
 
 	public void xmlExport(Element element_mydrive){
@@ -193,22 +220,6 @@ public class Directory extends Directory_Base {
         for (File f: getFilesSet()){
             f.xmlExport(element_mydrive);
         }
-    }
-
-	@Override
-	public void writeContent(User user, Directory directory, String content) throws FileIsNotWriteAbleException{
-		throw new FileIsNotWriteAbleException(getName());
 	}
-
-	@Override
-	public String read(User user, MyDrive md) {
-		throw new FileIsNotReadAbleException(getName());
-	}
-
-	@Override
-	public String read(User user, MyDrive md, Set<String> set) {
-		throw new FileIsNotReadAbleException(getName());
-	}
-
 
 }
