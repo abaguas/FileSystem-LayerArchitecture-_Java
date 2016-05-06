@@ -48,6 +48,7 @@ public abstract class File extends File_Base {
 			setOthersPermission(owner.getOthersPermission().copy());
 			setLastChange(dt);
 			setDirectory(father);
+			checkPermissions(owner, father, name, "create");
 		}
 		validateFile(name);
 	}

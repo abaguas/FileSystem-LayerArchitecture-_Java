@@ -54,7 +54,8 @@ public class CreateFileTest extends AbstractServiceTest {
 		Directory rootdir = md.getRootDirectory();
 		//Directory roothome = u0.getMainDirectory();
 		Directory home = (Directory)rootdir.get("home");
-		
+		home.setOthersPermission(new Permission("rwx-"));
+
 //		Directory dir0 = u0.getMainDirectory();
 //		Directory dir1 = u1.getMainDirectory();
 //		Directory dir2 = u2.getMainDirectory();
@@ -97,6 +98,8 @@ public class CreateFileTest extends AbstractServiceTest {
 		forbidden.setOthersPermission(othersP);
 		s2.setCurrentDir(forbidden);
 		s0.setCurrentDir(dir0);
+		home.setOthersPermission(new Permission("r-x-"));
+
 	}
 	
 	// TESTS
@@ -132,7 +135,7 @@ public class CreateFileTest extends AbstractServiceTest {
 
     @Test
     public void successLink() {
-    	CreateFileService service = new CreateFileService(1, "agenda-Ana_link", "/home/ana/agenda-Ana", "Link"); // home/ana ou /home/ana
+    	CreateFileService service = new CreateFileService(token1, "agenda-Ana_link", "/home/ana/agenda-Ana", "Link"); // home/ana ou /home/ana
     	service.execute();
     	
     	User owner = sm.getSession(token1).getCurrentUser();
@@ -273,12 +276,6 @@ public class CreateFileTest extends AbstractServiceTest {
     }
 
 	
-//    @Test (expected = InvalidFileNameException.class)
-//    public void invalidFileNameCreation3() {
-//    	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
-//    	service.execute();
-//    }
-	
 	
 	@Test (expected = MaximumPathException.class)
 	public void maxPathExceededFileCreation() {
@@ -309,14 +306,6 @@ public class CreateFileTest extends AbstractServiceTest {
     	CreateFileService service = new CreateFileService(token, "impossible", "content1", "PlainFile");    
         service.execute();
     }
-    
-	
-// 	user exists but not associated with session	
-//	@Test (expected = UserNotRegistered.class)
-//	public void userNotRegisteredFileCreation() {
-//		CreateFileService service = new CreateFileService(4, "attempt", "attempt", "PlainFile");
-//		service.execute();
-//	}
 
 }	
 

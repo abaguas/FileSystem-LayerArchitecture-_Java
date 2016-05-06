@@ -40,7 +40,8 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     	md.addUsers(u2);
 	    
     	Directory home = (Directory) md.getRootDirectory().get("home");    	
-	    
+		home.setOthersPermission(new Permission("rwx-"));
+
     	Directory homeRoot = root.getMainDirectory();
     	Directory home1 = new Directory("neto", 425, u1, home); //id=425
 	    Directory home2 = new Directory("zecarlos", 645, u2, home); //id=645
@@ -88,6 +89,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	 	Session s2 = new Session("zecarlos", "***", sm);
 	 	s2.setCurrentDir(home2);
 	 	token2 = s2.getToken();
+		
 	    
 	}
 	

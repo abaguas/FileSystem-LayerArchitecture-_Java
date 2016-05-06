@@ -2,6 +2,9 @@ package pt.tecnico.mydrive.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 import org.junit.Test;
 
 import pt.tecnico.mydrive.domain.Directory;
@@ -13,10 +16,10 @@ import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.LinkWithCycleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
-import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
 
 public class ReadFileTest extends AbstractServiceTest{
 	private long tokenOwner;
@@ -38,6 +41,8 @@ public class ReadFileTest extends AbstractServiceTest{
 		User root = md.getRootUser();
 		
 		//create directory with permissions for all to insert the files
+		home.setOthersPermission(new Permission("rwx-"));
+		
 		Directory workingDirectory = new Directory("pizz", 954, owner, home); 
         workingDirectory.setOthersPermission(new Permission("--x-"));
         
@@ -95,6 +100,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		tokenOwner=sessionOwner.getToken();
 		tokenOther=sessionOther.getToken();
 		tokenRoot=sessionRoot.getToken();
+		home.setOthersPermission(new Permission("r-x-"));
 	}
 
 	@Test
@@ -259,6 +265,15 @@ public class ReadFileTest extends AbstractServiceTest{
 		rfs.execute();
 	}
 	
+	@Test (expected = InvalidTokenException.class)
+    public void invalidToken() {
+		long token = new BigInteger(64, new Random()).longValue();
+		while (token == tokenOwner || token == tokenOther || token == tokenRoot){
+			token = new BigInteger(64, new Random()).longValue();
+		}
+		ReadFileService rfs = new ReadFileService(token, "Hop One1");
+		rfs.execute();
+    }
+	
 }
 
->>>>>>> 98b8a5f207381630b51c86717753e0d414d1d700
