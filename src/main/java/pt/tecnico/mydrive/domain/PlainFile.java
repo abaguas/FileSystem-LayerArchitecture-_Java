@@ -2,6 +2,9 @@ package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
 import org.joda.time.DateTime;
+
+import pt.tecnico.mydrive.exception.FileNotAppException;
+
 import org.jdom2.Document;
 
 public class PlainFile extends PlainFile_Base {
@@ -37,7 +40,7 @@ public class PlainFile extends PlainFile_Base {
     
     
     //FIXME
-    public void execute() {
+    public void execute() throws FileNotAppException  {
     	String[] lines = getContent().split("\n");
     	int nLines = lines.length;
     	for(int i=0; i<nLines; i++) {
@@ -45,11 +48,25 @@ public class PlainFile extends PlainFile_Base {
     		int nWords = words.length;
     		String pathToApplication = words[0];
         	File f = getFileByPath(pathToApplication, this.getDirectory());
+        	if(!(f instanceof App)) {
+        		throw new FileNotAppException(f.getName());
+        	}
+        	App a = (App) f;
+        	String fullMethod = a.getContent();
+        	String[] methodParts=fullMethod.split(".");
+        	if(methodParts.length==3) {
+        		
+        	}
+        	else if(methodParts.length==2) {
+        		
+        	}
+        	else {
+        		//FIXME tem de dar erro
+        	}
     		for(int j=1; j<nWords; j++) {
     			;
     		}
     	}
-    
     }
     
     public int dimension(){

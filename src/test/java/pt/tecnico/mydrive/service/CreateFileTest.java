@@ -41,8 +41,8 @@ public class CreateFileTest extends AbstractServiceTest {
 		md.addUsers(u3);
 		
 		Directory rootdir = md.getRootDirectory();
-		//Directory roothome = u0.getMainDirectory();
 		Directory home = (Directory)rootdir.get("home");
+		//Directory roothome = u0.getMainDirectory();
 		
 //		Directory dir0 = u0.getMainDirectory();
 //		Directory dir1 = u1.getMainDirectory();

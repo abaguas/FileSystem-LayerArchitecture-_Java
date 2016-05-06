@@ -23,7 +23,13 @@ public class Link extends Link_Base {
     	String content = getContent();
     	Directory d = this.getDirectory();
     	File f = getFileByPath(content, d);
-    	f.execute(); //confirmar que aqui em f tenho objecto do tipo mais abaixo possível e não apenas um File
+    	
+    	//nao devia ver se f e executable??
+    	
+    	//confirmar que aqui em f tenho objecto do tipo mais abaixo possível e não apenas um File
+    	//c.c. tenho de fazer um serie de instanceof seguido de cast
+    	//
+    	f.execute(); 
     }
   
     

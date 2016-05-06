@@ -103,12 +103,11 @@ public class File extends File_Base {
             return dir.get(parts[i]);
         }
         else if(path.charAt(0)=='/') {
-            //ciclo para ir buscar rootDirectory
         	//dir = getRootDirectory();
-        	while(!dir.getFatherDirectory().getName().equals("/")) {
+        	//ciclo para ir buscar rootDirectory
+        	while(!dir.getName().equals("/")) {
             	dir = dir.getFatherDirectory();
             }
-        	dir = dir.getFatherDirectory();
         	i = 1;
             
         }
