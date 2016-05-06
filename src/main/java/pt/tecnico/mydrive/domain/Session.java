@@ -11,12 +11,12 @@ public class Session extends Session_Base {
 	public Session(String username, String password, SessionManager sm) throws NoSuchUserException {
 		super.setSessionManager(sm);
 		//sm.addSession(this);
-		sm.removeExpiredSessions();
 		User user = sm.validateUser(username, password);
 		setPrivateCurrentUser(user);
 		setCurrentDir(user.getMainDirectory());
 		setPrivateToken();
 		setPrivateTimestamp();
+		sm.removeExpiredSessions();
 	}
 
 	@Override

@@ -75,8 +75,13 @@ public class MyDrive extends MyDrive_Base {
     }
 
     @Override
-    public void setRootUser(RootUser r){
-        //FIXME: perguntar porquê
+    public void setRootUser(RootUser r) {
+        throw new InvalidOperationException("set rootUser");
+    }
+    
+    @Override
+    public void setGuestUser(GuestUser guestUser) {
+    	throw new InvalidOperationException("set guestUser");
     }
     
     public File fileFactory(Element element, User owner, Directory father, String code){
