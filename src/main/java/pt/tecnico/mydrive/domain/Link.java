@@ -30,8 +30,10 @@ public class Link extends Link_Base {
     public Link(Element link_element, User owner, Directory father){
         xmlImport(link_element, owner, father);
     }
-   
-    public void execute(){
+    
+    @Override
+    public void execute(User u) {
+    	//TODO
     }
   
     @Override

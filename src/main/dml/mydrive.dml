@@ -31,6 +31,13 @@ class File{
   DateTime lastChange;
 }
 
+class Application{
+	String name;
+}
+
+class FileExtension{
+}
+
 class PlainFile extends File {
   String content;
 }
@@ -179,4 +186,27 @@ relation SessionhasCurrentUser{
   User playsRole currentUser{
    multiplicity 1;
   }
+}
+
+relation UserhasFileExtension {
+	User playsRole extensionOwner{
+		multiplicity 1;
+	}
+	FileExtension playsRole fileExtension{
+		multiplicity 0..*;
+	}
+}
+
+relation FileExtensionHasApplication{
+	FileExtension playsRole;
+	Application playsRole application {
+		multiplicity 1;
+	}
+}
+
+relation FileExtensionHasFile{
+	FileExtension playsRole;
+	File playsRole file {
+		multiplicity 1;
+	}
 }

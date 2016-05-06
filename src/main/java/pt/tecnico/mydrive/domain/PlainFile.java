@@ -33,7 +33,15 @@ public class PlainFile extends PlainFile_Base {
     	setContent(t);
     }
     
-    public void execute() {
+    @Override
+    public void execute(User u) {
+    	//A função deve ser mocked up
+        //faria algo como
+    	//user.getFileExtensionSet();
+    	//for (FileExtension fe; extensionset
+    	//if fe.getFile().equas(this)
+    	//f.execute
+    	//else throw new NoExtensionFoundException
     }
     
     public int dimension(){

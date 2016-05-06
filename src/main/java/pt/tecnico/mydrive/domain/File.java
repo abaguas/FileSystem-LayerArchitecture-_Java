@@ -84,6 +84,8 @@ public abstract class File extends File_Base {
 	
 	public abstract void write(User user, String content, MyDrive md, Set<String> cycleDetector)  throws FileIsNotWriteAbleException;
 
+	public abstract void execute(User user);
+	
 	public String toString() {
 		return print();
 	}

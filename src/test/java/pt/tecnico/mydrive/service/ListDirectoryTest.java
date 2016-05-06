@@ -32,52 +32,52 @@ public class ListDirectoryTest extends AbstractServiceTest{
 	private long token2;
 		
 	protected void populate(){
-		MyDrive md = MyDrive.getInstance();
-		SessionManager sm = md.getSessionManager();
-		Directory rootdir = MyDrive.getInstance().getRootDirectory();
-		String name = rootdir.getFatherDirectory().getName();
-		rootdir.getFatherDirectory().setName("..");
-		fatherDir_root=rootdir.getFatherDirectory().toString();
-		rootdir.getFatherDirectory().setName(name);
-		name = rootdir.getSelfDirectory().getName();
-		rootdir.getSelfDirectory().setName(".");
-		selfDirectory_root=rootdir.getFatherDirectory().toString();
-		rootdir.getSelfDirectory().setName(name);
-
-
-		Directory home = (Directory)rootdir.get("home");
-		home.setOthersPermission(new Permission("rwx-"));
-
-		User u1 = new User(md,"EusebioSilva","pass1", "Eusebio");
-		Directory home_user= new Directory("EusebioSilva", md.generateId(), u1, home);
-		name = home_user.getFatherDirectory().getName();
-		home_user.getFatherDirectory().setName("..");
-		home_father=home_user.getFatherDirectory();
-		home_user.getFatherDirectory().setName(name);
-
-		u1.setMainDirectory(home_user);
-		PlainFile p1 = new PlainFile("CasoBruma", 124, u1, "conteudo1", home_user);
-	    PlainFile p2 = new PlainFile("Exemplo", 125, u1, "conteudo3", home_user);
-	    App a1 = new App("Application", 123, u1, "conteudo1", home_user);
-	   	Link l1 = new Link("Ligacao", 126, u1, "conteudo1", home_user);
-	   	Session s1 = new Session("EusebioSilva","pass1",sm);
-	   	s1.setCurrentDir(home_user);
-	   	token1 = s1.getToken();
-	   	Session s2 = new Session("EusebioSilva","pass1",sm);
-	   	token2=s2.getToken();
-	   	list = new ArrayList<String>();
-	   	s2.setCurrentDir(md.getRootDirectory());
-	   	list.add(a1.toString());
-	   	list.add(p1.toString());
-	   	list.add(p2.toString());
-	   	list.add(l1.toString());
-	   	u1.getMainDirectory().getSelfDirectory().setName(".");
-	   	list.add(u1.getMainDirectory().toString());
-
-	   	home_string = md.getRootDirectory().get("home").toString();
-
-	   	home.setOthersPermission(new Permission("r-x-"));
-
+//		MyDrive md = MyDrive.getInstance();
+//		SessionManager sm = md.getSessionManager();
+//		Directory rootdir = MyDrive.getInstance().getRootDirectory();
+//		String name = rootdir.getFatherDirectory().getName();
+//		rootdir.getFatherDirectory().setName("..");
+//		fatherDir_root=rootdir.getFatherDirectory().toString();
+//		rootdir.getFatherDirectory().setName(name);
+//		name = rootdir.getSelfDirectory().getName();
+//		rootdir.getSelfDirectory().setName(".");
+//		selfDirectory_root=rootdir.getFatherDirectory().toString();
+//		rootdir.getSelfDirectory().setName(name);
+//
+//
+//		Directory home = (Directory)rootdir.get("home");
+//		home.setOthersPermission(new Permission("rwx-"));
+//
+//		User u1 = new User(md,"EusebioSilva","pass1", "Eusebio");
+//		Directory home_user= new Directory("EusebioSilva", md.generateId(), u1, home);
+//		name = home_user.getFatherDirectory().getName();
+//		home_user.getFatherDirectory().setName("..");
+//		home_father=home_user.getFatherDirectory();
+//		home_user.getFatherDirectory().setName(name);
+//
+//		u1.setMainDirectory(home_user);
+//		PlainFile p1 = new PlainFile("CasoBruma", 124, u1, "conteudo1", home_user);
+//	    PlainFile p2 = new PlainFile("Exemplo", 125, u1, "conteudo3", home_user);
+//	    App a1 = new App("Application", 123, u1, "conteudo1", home_user);
+//	   	Link l1 = new Link("Ligacao", 126, u1, "conteudo1", home_user);
+//	   	Session s1 = new Session("EusebioSilva","pass1",sm);
+//	   	s1.setCurrentDir(home_user);
+//	   	token1 = s1.getToken();
+//	   	Session s2 = new Session("EusebioSilva","pass1",sm);
+//	   	token2=s2.getToken();
+//	   	list = new ArrayList<String>();
+//	   	s2.setCurrentDir(md.getRootDirectory());
+//	   	list.add(a1.toString());
+//	   	list.add(p1.toString());
+//	   	list.add(p2.toString());
+//	   	list.add(l1.toString());
+//	   	u1.getMainDirectory().getSelfDirectory().setName(".");
+//	   	list.add(u1.getMainDirectory().toString());
+//
+//	   	home_string = md.getRootDirectory().get("home").toString();
+//
+//	   	home.setOthersPermission(new Permission("r-x-"));
+//
 	}
 
 //	@Test

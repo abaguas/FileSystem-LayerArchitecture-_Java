@@ -16,7 +16,9 @@ public class App extends App_Base {
 
     }
     
-    public void execute(){
+    @Override
+    public void execute(User u) {
+    	//TODO
     }
   
     @Override

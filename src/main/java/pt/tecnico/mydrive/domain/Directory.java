@@ -158,6 +158,11 @@ public class Directory extends Directory_Base {
 	public void write(User user, String content, MyDrive md, Set<String> cycleDetector)  throws FileIsNotWriteAbleException{
 		throw new FileIsNotWriteAbleException(getName());	
 	}
+	
+	@Override
+	public void execute(User user) {
+		throw new FileIsNotExecuteAbleException(getName());
+	}
 
 	public void accept(Visitor v) throws FileNotDirectoryException{
 		v.execute(this);
