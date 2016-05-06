@@ -14,7 +14,7 @@ public class Environment extends MyDriveCommand {
 		    throw new RuntimeException("USAGE: " + name() +" [<name> [<value>]]");
 		}
 		else {
-			long token = new LoginService(username, password).execute();
+			long token = getToken();
 			AddVariableService avs = null;
 			if (args == 0) {
 				new AddVariableService(token, null, null);
