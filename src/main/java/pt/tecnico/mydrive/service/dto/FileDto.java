@@ -2,25 +2,25 @@ package pt.tecnico.mydrive.service.dto;
 
 public class FileDto implements Comparable<FileDto> {
 
-    private String type;
-    private String userPermission;
+    private String type;  //CHECK
+    private String userPermission;  
     private String othersPermission;
     private String dimension;
     private String usernameOwner;
-    private String id;
-    private String lastChange;
-    private String name;
+    private String id;  //CHECK
+    private String lastChange;  //CHECK
+    private String name;  //CHECK
 
     public FileDto(String descriptionString) {
     	String[] parts = descriptionString.split(" ");
     	type = parts[0];
-    	userPermission = parts[1];
-    	othersPermission = parts[2];
-    	dimension = parts[3];
-    	usernameOwner = parts[4];
-    	id = parts[5];
-    	lastChange = parts[6];
-    	name = parts[7];
+    	userPermission = parts[1].substring(0, 4);
+    	othersPermission = parts[1].substring(4, 8);
+    	dimension = parts[2];
+    	usernameOwner = parts[3];
+    	id = parts[4];
+    	lastChange = parts[5];
+    	name = parts[6];
     }
 
     public final String getType() {
@@ -47,7 +47,7 @@ public class FileDto implements Comparable<FileDto> {
         return this.id;
     }
     
-    public final String lastChange() {
+    public final String getLastChange() {
         return this.lastChange;
     }
     
