@@ -108,7 +108,7 @@ public class CreateFileTest extends AbstractServiceTest {
         CreateFileService service = new CreateFileService(token1, "calendar", "day 1 - nothing to do", "PlainFile");
         service.execute();
        
-        User owner = sm.getSession(token1).getCurrentUser();
+        User owner = sm.getSession(token1).getUser();
         Directory currentDirectory = sm.getSession(token1).getCurrentDir();
         Permission userPermission = new Permission(true, true, true, true);
         Permission othersPermission = new Permission(false, false, false, false);
@@ -137,7 +137,7 @@ public class CreateFileTest extends AbstractServiceTest {
     	CreateFileService service = new CreateFileService(token1, "agenda-Ana_link", "/home/ana/agenda-Ana", "Link"); // home/ana ou /home/ana
     	service.execute();
     	
-    	User owner = sm.getSession(token1).getCurrentUser();
+    	User owner = sm.getSession(token1).getUser();
     	Directory currentDirectory = sm.getSession(token1).getCurrentDir();
         Permission userPermission = new Permission(true, true, true, true);
         Permission othersPermission = new Permission(false, false, false, false);
@@ -168,7 +168,7 @@ public class CreateFileTest extends AbstractServiceTest {
     	CreateFileService service = new CreateFileService(token1, "MyDrive Application", "pt.tecnico.mydrive.MyDriveApplication.main", "App"); // content = "pt.tecnico.mydrive.domain.MyDrive.pwd 1", onde 1 é o argumento (token, neste caso)
     	service.execute();
     	
-    	User owner = sm.getSession(token1).getCurrentUser();
+    	User owner = sm.getSession(token1).getUser();
     	Directory currentDirectory = sm.getSession(token1).getCurrentDir();
         Permission userPermission = new Permission(true, true, true, true);
         Permission othersPermission = new Permission(false, false, false, false);
@@ -199,7 +199,7 @@ public class CreateFileTest extends AbstractServiceTest {
     	CreateFileService service = new CreateFileService(token1, "picsFolder", "Dir");
     	service.execute();
     	
-    	User owner = sm.getSession(token1).getCurrentUser();
+    	User owner = sm.getSession(token1).getUser();
     	Directory currentDirectory = sm.getSession(token1).getCurrentDir();
         Permission userPermission = new Permission(true, true, true, true);
         Permission othersPermission = new Permission(false, false, false, false);

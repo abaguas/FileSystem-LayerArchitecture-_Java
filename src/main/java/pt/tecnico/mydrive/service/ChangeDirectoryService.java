@@ -26,7 +26,7 @@ public class ChangeDirectoryService extends MyDriveService
     public final void dispatch() throws FileNotCdAbleException, NoSuchFileException, PermissionDeniedException, InvalidTokenException { 
        MyDrive md = getMyDrive();
        Session session = md.getSessionManager().getSession(token);
-       User currentUser = session.getCurrentUser();
+       User currentUser = session.getUser();
        Directory currentDirectory = session.getCurrentDir();
        
        if (path.equals(".")) {

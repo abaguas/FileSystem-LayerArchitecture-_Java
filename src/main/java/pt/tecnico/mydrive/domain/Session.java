@@ -53,7 +53,7 @@ public class Session extends Session_Base {
 	}
 	
 	@Override
-	public void setCurrentUser(User u) {
+	public void setUser(User u) {
 		throw new InvalidOperationException("setCurrentUser");
 	}
 	
@@ -63,7 +63,7 @@ public class Session extends Session_Base {
 	}
 	
 	private void setPrivateCurrentUser(User user){
-		super.setCurrentUser(user);
+		super.setUser(user);
 	}
 	
 }

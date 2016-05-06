@@ -17,6 +17,7 @@ import pt.tecnico.mydrive.exception.InvalidUsernameException;
 import pt.tecnico.mydrive.exception.UserAlreadyExistsException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.InvalidIdException;
+import pt.tecnico.mydrive.exception.InvalidOperationException;
 
 public class MyDrive extends MyDrive_Base {
 
@@ -30,17 +31,19 @@ public class MyDrive extends MyDrive_Base {
     private MyDrive() throws MyDriveException{
         setRoot(FenixFramework.getDomainRoot());
         RootUser r = RootUser.getInstance();
-        setCounter(0); 
+        GuestUser guestUser = GuestUser.getInstance();
+        setCounter(0);
         super.setRootUser(r);
+        super.setGuestUser(guestUser);
         super.setSessionManager(SessionManager.getInstance()); 
         addUsers(r);
+        addUsers(guestUser);
         Directory rootDir = Directory.newRootDir(getRootUser());
         rootDir.setOwner(getRootUser());
         Directory home = new Directory("home", generateId(), getRootUser(), rootDir);
         Directory root = new Directory("root", generateId(), getRootUser(), home);
         getRootUser().setMainDirectory(root);
         setRootDirectory(rootDir);
-
     }
 
 
@@ -53,21 +56,6 @@ public class MyDrive extends MyDrive_Base {
         setCounter(getCounter()-1);
     }
     
-    public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
-    	String default_home="/home";
-    	String home = user_element.getChildText("home");
-        String username = user_element.getAttribute("username").getValue();
-    	if(home==null){
-            home=default_home.concat("/" + username);
-        }
-		Directory home_user = (Directory)getFileByPathXml(home, getRootDirectory());
-		User user = new User(user_element,home_user);
-		home_user.setOwner(user);
-        user.setMainDirectory(home_user);
-		addUsers(user);
-    }
-
-    
     public boolean userExists(String username){
 		Set<User> users = getUsersSet();
 		for (User u : users)
@@ -78,14 +66,17 @@ public class MyDrive extends MyDrive_Base {
 
     @Override 
     public void removeUsers(User u){
-        if(!u.getUsername().equals("root")){
+        if(!u.equals(getRootUser()) || (!u.equals(getGuestUser()))){
             u.remove();
+        }
+        else {
+        	throw new InvalidOperationException("Remove user: " + u.getName());
         }
     }
 
     @Override
     public void setRootUser(RootUser r){
-        
+        //FIXME: perguntar porquê
     }
     
     public File fileFactory(Element element, User owner, Directory father, String code){
@@ -103,6 +94,44 @@ public class MyDrive extends MyDrive_Base {
         }
     }
 
+    public User getUserByUsername(String username) throws NoSuchUserException {
+        Set<User> users = getUsersSet();
+        for(User u : users){
+            if(u.getUsername().equals(username))
+                return u;
+        }
+        throw new NoSuchUserException(username);
+    }
+    
+    public boolean fileIdExists(int id){
+        if(id > getCounter()){
+            return false;
+        }
+        else{
+            throw new InvalidIdException(id);
+        }
+    }
+    
+//////////////////////////////////////////////////////////////////////////////////////
+//                                       XML                               //
+//////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
+    	String default_home="/home";
+    	String home = user_element.getChildText("home");
+        String username = user_element.getAttribute("username").getValue();
+    	if(home==null){
+            home=default_home.concat("/" + username);
+        }
+		Directory home_user = (Directory)getFileByPathXml(home, getRootDirectory());
+		User user = new User(user_element,home_user);
+		home_user.setOwner(user);
+        user.setMainDirectory(home_user);
+		addUsers(user);
+    }
+    
+    
     public void createFile_xml(Element file_element, String code) throws NoSuchUserException {
     	String owner = file_element.getChildText("owner");
         User user = null;
@@ -117,14 +146,6 @@ public class MyDrive extends MyDrive_Base {
     	d.addFiles(file);
     }
 
-    public User getUserByUsername(String username) throws NoSuchUserException {
-        Set<User> users = getUsersSet();
-        for(User u : users){
-            if(u.getUsername().equals(username))
-                return u;
-        }
-        throw new NoSuchUserException(username);
-    }
 
     public File getFileByPathXml(String path, Directory dir) throws  NoSuchFileException, FileNotDirectoryException {
         String[] parts = path.split("/");
@@ -157,15 +178,6 @@ public class MyDrive extends MyDrive_Base {
             ret = new Directory(parts[numOfParts-1], generateId(), getRootUser(), dir);
         }
         return ret;        
-    }
-
-    public boolean fileIdExists(int id){
-        if(id > getCounter()){
-            return false;
-        }
-        else{
-            throw new InvalidIdException(id);
-        }
     }
     
     public void xmlImport(Element element){
@@ -201,8 +213,4 @@ public class MyDrive extends MyDrive_Base {
         }
 	   return doc;
     }
-
-
-    
-    
 }

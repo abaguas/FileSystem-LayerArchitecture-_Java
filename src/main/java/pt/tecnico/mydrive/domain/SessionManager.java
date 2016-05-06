@@ -22,9 +22,6 @@ public class SessionManager extends SessionManager_Base {
         }
         return new SessionManager();
     }
-	
-	private SessionManager(){
-    }
     
 	@Override
 	public Set<Session> getSessionSet()  throws InvalidOperationException {
@@ -43,9 +40,11 @@ public class SessionManager extends SessionManager_Base {
 
 		for (Session session : sessions) {
 			int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
-
-			if (result > 0) {
-				super.removeSession(session);
+			
+			if (!(session.getUser().equals( getMd().getGuestUser() ))) {
+				if (result > 0) {
+					super.removeSession(session);
+				}
 			}
 		}
 	}
@@ -68,7 +67,7 @@ public class SessionManager extends SessionManager_Base {
 		boolean expire = session.expiration();
 		
 		if(expire){
-			Session newSession = new Session(session.getCurrentUser().getUsername(), session.getCurrentUser().getPassword(), this);
+			Session newSession = new Session(session.getUser().getUsername(), session.getUser().getPassword(), this);
 			removeSession(session);
 			session = newSession;
 		}

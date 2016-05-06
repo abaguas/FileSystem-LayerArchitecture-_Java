@@ -25,7 +25,7 @@ public class ReadFileService extends MyDriveService{
     public final void dispatch() throws PermissionDeniedException, InvalidFileNameException, NoSuchFileException{
         MyDrive md = MyDrive.getInstance();
         Session session = md.getSessionManager().getSession(token);
-        User currentUser = session.getCurrentUser();
+        User currentUser = session.getUser();
         Directory currentDir = session.getCurrentDir();
         
         File file = currentDir.get(fileName);

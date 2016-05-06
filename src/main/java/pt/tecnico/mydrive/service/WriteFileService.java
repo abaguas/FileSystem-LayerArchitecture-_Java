@@ -27,7 +27,7 @@ public class WriteFileService extends MyDriveService {
     public final void dispatch() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
        MyDrive md = getMyDrive();
        Session session = md.getSessionManager().getSession(token);
-       User currentUser = session.getCurrentUser();
+       User currentUser = session.getUser();
        Directory currentDirectory = session.getCurrentDir();
        File file = currentDirectory.get(fileName);
        file.write(currentUser, content, md);

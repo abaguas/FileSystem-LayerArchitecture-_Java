@@ -26,7 +26,7 @@ public class DeleteFileService extends MyDriveService{
 
         MyDrive md = getMyDrive();
         Session session = md.getSessionManager().getSession(token);
-        User currentUser = session.getCurrentUser();
+        User currentUser = session.getUser();
         Directory currentDirectory = session.getCurrentDir();
         
         File file = currentDirectory.getDelete(fileName);      

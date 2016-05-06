@@ -50,6 +50,8 @@ class App extends PlainFile;
 
 class RootUser extends User;
 
+class GuestUser extends User;
+
 relation DomainRootHasMyDriveApplication {
   .pt.ist.fenixframework.DomainRoot playsRole root {
     multiplicity 0..1;
@@ -77,6 +79,29 @@ relation SessionManagerHasSessions {
   }
 }
 
+relation MyDrivehasRootUser{
+  MyDrive playsRole;
+  RootUser playsRole rootUser{
+   multiplicity 1;
+  }
+}
+
+relation MyDrivehasGuestUser{
+  MyDrive playsRole;
+  GuestUser playsRole guestUser{
+   multiplicity 1;
+  }
+}
+
+relation MyDriveContainsUsers{
+  MyDrive playsRole myDrive {
+    multiplicity 1;
+  }
+  User playsRole users {
+    multiplicity 1..*;
+  }
+}
+
 relation MyDriveContainsRootDirectory{
   MyDrive playsRole mydrive {
     multiplicity 1;
@@ -90,15 +115,6 @@ relation FileHasOwner{
   File playsRole;
   User playsRole owner {
     multiplicity 1;  
-  }
-}
-
-relation MyDriveContainsUsers{
-  MyDrive playsRole myDrive {
-    multiplicity 1;
-  }
-  User playsRole users {
-    multiplicity 1..*;
   }
 }
 
@@ -164,14 +180,6 @@ relation FilehasOthersPermission{
   }
 }
 
-
-relation MyDrivehasRootUser{
-  MyDrive playsRole;
-  RootUser playsRole rootUser{
-   multiplicity 1;
-  }
-}
-
 relation SessionhasCurrentDirectory{
   Session playsRole;
   Directory playsRole currentDir{
@@ -179,11 +187,11 @@ relation SessionhasCurrentDirectory{
   }
 }
 
-relation SessionhasCurrentUser{
+relation SessionhasUser{
   Session playsRole session{
     multiplicity 0..*;
   }
-  User playsRole currentUser{
+  User playsRole user{
    multiplicity 1;
   }
 }
