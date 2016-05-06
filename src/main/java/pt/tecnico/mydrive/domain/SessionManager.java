@@ -33,6 +33,12 @@ public class SessionManager extends SessionManager_Base {
 		throw new InvalidOperationException("getSessionSet");
 	}
 	
+	public void removeSessionByToken(long token) {
+		Session session = getSession(token);
+		super.removeSession(session);
+	}
+	
+	
 	public void removeExpiredSessions() {
 		Set<Session> sessions = super.getSessionSet();
 		DateTime actual = new DateTime();
