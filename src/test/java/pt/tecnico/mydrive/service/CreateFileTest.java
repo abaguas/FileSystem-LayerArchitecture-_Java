@@ -1,4 +1,3 @@
-
 package pt.tecnico.mydrive.service;
 
 import static org.junit.Assert.assertEquals;
@@ -306,6 +305,4 @@ public class CreateFileTest extends AbstractServiceTest {
     	CreateFileService service = new CreateFileService(token, "impossible", "content1", "PlainFile");    
         service.execute();
     }
-
 }	
-
