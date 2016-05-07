@@ -22,7 +22,6 @@ public class WriteFileService extends MyDriveService {
         this.fileName=fileName;
         this.content=content;
         this.token=token;
-
     }
     
     public final void dispatch() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException {
@@ -32,7 +31,7 @@ public class WriteFileService extends MyDriveService {
        Directory currentDirectory = session.getCurrentDir();
        File file = currentDirectory.get(fileName);
        file.write(currentUser, content, md);
-       result = file.read(currentUser,md);
+       result = file.read(currentUser, md);
     }
     
     public String result(){

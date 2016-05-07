@@ -267,14 +267,15 @@ public abstract class File extends File_Base {
 	}
 	
     public String pwd(){
+    	Directory d= getDirectory();
         String output="";
-        if(getDirectory().getName().equals("/")){
+        if(d.getName().equals("/")){
             output="/";
         }
         else{
-            while(!this.getDirectory().getName().equals("/")){
-                output = "/" + getDirectory().getName() + output;
-                setDirectory(getDirectory().getFatherDirectory());
+            while(!d.getName().equals("/")){
+                output = "/" + d.getName() + output;
+                d = d.getFatherDirectory();
             }
         }
         return output;

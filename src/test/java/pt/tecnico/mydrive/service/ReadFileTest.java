@@ -16,6 +16,7 @@ import pt.tecnico.mydrive.domain.Session;
 import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
+import pt.tecnico.mydrive.exception.InvalidLinkContentException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.LinkWithCycleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
@@ -169,7 +170,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		rfs.execute();
 	}
 	
-	@Test(expected = NoSuchFileException.class)
+	@Test(expected = InvalidLinkContentException.class)
 	public void readLinkWithInvalidPath() {
 		ReadFileService rfs = new ReadFileService(tokenOwner, "Broken");
 		rfs.execute();
