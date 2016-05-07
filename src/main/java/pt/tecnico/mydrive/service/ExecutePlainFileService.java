@@ -37,12 +37,12 @@ public class ExecutePlainFileService extends MyDriveService {
         md.checkPermissions(token, fileName, "read-write-execute", "execute");        
         f.execute();
         
-        //será que em f tenho já OBJECTO do tipo que quero??
+        //será que em f tenho já OBJECTO do tipo que quero?? ou terei de fazer instanceof seguido de cast??
         //Se assim for, basta fazer f.execute() e ele sabe se chama o execute() do PlainFile(), Link ou App
         
         /*
         if(f instanceof PlainFile) {
-        	PlainFile pf = (PlainFile) f;
+        	PlainFile pf = (PlainFile) f;z
             String fileName = pf.getName();
             md.checkPermissions(token, fileName, "read-write-execute", "execute");
             pf.execute();

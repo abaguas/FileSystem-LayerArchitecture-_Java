@@ -3,6 +3,8 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 
+import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
+import pt.tecnico.mydrive.exception.FileNotAppException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
@@ -140,7 +142,7 @@ public class File extends File_Base {
 		
 	}
 
-	public  void execute() {
-		
+	public  void execute() throws FileIsNotExecuteAbleException {
+		throw new FileIsNotExecuteAbleException(getName());
 	}
 }

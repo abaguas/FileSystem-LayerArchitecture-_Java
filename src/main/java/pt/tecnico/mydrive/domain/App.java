@@ -1,6 +1,9 @@
 package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
+
+import pt.tecnico.mydrive.exception.InvalidAppContentException;
+
 import org.jdom2.Document;
 
 public class App extends App_Base {
@@ -17,7 +20,23 @@ public class App extends App_Base {
     }
     
     public void execute() {
-    	//FIXME
+    	String fullMethod = getContent();
+    	String[] methodParts=fullMethod.split(".");
+    	
+    	if(methodParts.length==3) {
+    		String className = methodParts[0] + "." + methodParts[1];
+    		//Class<?> c = Class.forName(className);
+    		
+    		
+    	}
+    	else if(methodParts.length==2) {
+    		String className = methodParts[0] + "." + methodParts[1];
+    		
+    		
+    	}
+    	else {
+    		throw new InvalidAppContentException(fullMethod);
+    	}
     }
   
     @Override

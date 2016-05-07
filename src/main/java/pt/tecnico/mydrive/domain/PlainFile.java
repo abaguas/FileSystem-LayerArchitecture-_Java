@@ -4,6 +4,7 @@ import org.jdom2.Element;
 import org.joda.time.DateTime;
 
 import pt.tecnico.mydrive.exception.FileNotAppException;
+import pt.tecnico.mydrive.exception.InvalidAppContentException;
 
 import org.jdom2.Document;
 
@@ -55,13 +56,15 @@ public class PlainFile extends PlainFile_Base {
         	String fullMethod = a.getContent();
         	String[] methodParts=fullMethod.split(".");
         	if(methodParts.length==3) {
+        		String className = methodParts[0] + "." + methodParts[1];
+        		//Class<?> c = Class.forName(className);
         		
         	}
         	else if(methodParts.length==2) {
         		
         	}
         	else {
-        		//FIXME tem de dar erro
+        		throw new InvalidAppContentException(fullMethod);
         	}
     		for(int j=1; j<nWords; j++) {
     			;

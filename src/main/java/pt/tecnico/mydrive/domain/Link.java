@@ -24,11 +24,12 @@ public class Link extends Link_Base {
     	Directory d = this.getDirectory();
     	File f = getFileByPath(content, d);
     	
-    	//nao devia ver se f e executable??
+    	//nao devia ver se f e executable?? -> isto está a ser verificado no ExecutePlainFileService
     	
     	//confirmar que aqui em f tenho objecto do tipo mais abaixo possível e não apenas um File
     	//c.c. tenho de fazer um serie de instanceof seguido de cast
-    	//
+    	
+
     	f.execute(); 
     }
   

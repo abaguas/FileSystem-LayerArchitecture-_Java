@@ -6,6 +6,7 @@ public class ExecuteAbleVisitor implements Visitor {
 
 	@Override
 	public void execute(File f) throws FileIsNotExecuteAbleException {
+		//Será que aqui lanço excepção ??
 	}
 	
 	@Override
