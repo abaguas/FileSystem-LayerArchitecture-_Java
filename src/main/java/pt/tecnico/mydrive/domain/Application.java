@@ -6,8 +6,8 @@ public class Application extends Application_Base {
     	setName(name);
     }
     
-    public void execute(File file) {
-    	//Nothing to do, this will be mocked
+    public void execute(String fileName) {
+    	//Nothing to do, this will be mocked up
     }
     
 }

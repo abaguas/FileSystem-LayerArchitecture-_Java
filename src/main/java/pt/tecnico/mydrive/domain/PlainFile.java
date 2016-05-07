@@ -3,6 +3,7 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 
+import pt.tecnico.mydrive.exception.ExtensionNotFoundException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
@@ -34,14 +35,15 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    public void execute(User u) {
-    	//A função deve ser mocked up
-        //faria algo como
-    	//user.getFileExtensionSet();
-    	//for (FileExtension fe; extensionset
-    	//if fe.getFile().equas(this)
-    	//f.execute
-    	//else throw new NoExtensionFoundException
+    public void execute(User user) throws ExtensionNotFoundException {
+    	Set<FileExtension> extensionSet = user.getFileExtensionSet();
+    	for (FileExtension fe: extensionSet) {
+    		if (fe.getFile().equals(this)){
+    			fe.getApplication().execute(getName());
+    			return;
+    		}
+    	}
+    	throw new ExtensionNotFoundException(getName());
     }
     
     public int dimension(){

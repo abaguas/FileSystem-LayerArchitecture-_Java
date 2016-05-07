@@ -2,11 +2,10 @@ package pt.tecnico.mydrive.domain;
 
 public class FileExtension extends FileExtension_Base {
     
-    public FileExtension() {
+    public FileExtension(User user, File file, Application application) {
+    	setExtensionOwner(user);
+    	setFile(file);
+    	setApplication(application);
     }
-    
-    public void execute() {
-    	getApplication().execute(getFile());
-    } 
     
 }
