@@ -29,14 +29,15 @@ public class ListDirectoryService extends MyDriveService{
 		Directory father = directory.getFatherDirectory();
 		String fatherName = father.getName();
 		father.setName("..");
+		listedFiles.add(new FileDto(father.toString()));
+		father.setName(fatherName);
 		
 		String ownName = directory.getName();
 		directory.setName(".");
+		listedFiles.add(new FileDto(directory.toString()));
+		directory.setName(ownName);
 		
 		Set<File> files = directory.getFilesSet();
-
-		listedFiles.add(new FileDto(directory.toString()));
-		listedFiles.add(new FileDto(father.toString()));
 
 	  	for (File f: files){
 	  		if (f.getName()!="/") {
@@ -45,8 +46,6 @@ public class ListDirectoryService extends MyDriveService{
 	  	}
 	  	
 	  	Collections.sort(listedFiles);
-	  	father.setName(fatherName);
-	 	directory.setName(ownName);
 	}
 
 	public final List<FileDto> result(){
