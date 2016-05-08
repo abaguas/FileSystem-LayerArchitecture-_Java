@@ -6,7 +6,7 @@ import pt.tecnico.mydrive.service.ListDirectoryService;
 
 public class List extends MyDriveCommand {
 
-	public List(Shell sh) {
+	public List(MyDriveShell sh) {
 //VERSAO DO RUI
 		super(sh, "ls", "list entries of given directory (default: current directory)");
 	}

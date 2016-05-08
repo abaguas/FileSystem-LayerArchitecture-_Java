@@ -20,9 +20,9 @@ public class MyDriveShell extends Shell {
 		    new Write(this);
 //		    new Environment(this);
 //		    new Key(this);
-		    String[] str = {"nobody"};
-		    Command login = get("login");
-		    login.execute(str);
+//		    String[] str = {"nobody"};
+//		    Command login = get("login");
+//		    login.execute(str);
 		    //O comando de login alterará a variável token
 	}
 

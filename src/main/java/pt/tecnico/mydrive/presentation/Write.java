@@ -14,7 +14,7 @@ public class Write extends MyDriveCommand {
 		if (args.length < 2 || args.length > 2)
 		    throw new RuntimeException("USAGE: "+name()+" <path> <text>");
 		else
-		    new WriteFileService(args[0], args[1], 1).execute(); //FIXME token is third parameter
+		    new WriteFileService(args[0], args[1], token).execute();
 	}
 
 }
