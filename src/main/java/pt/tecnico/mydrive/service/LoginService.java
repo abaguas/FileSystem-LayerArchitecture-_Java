@@ -1,59 +1,30 @@
 package pt.tecnico.mydrive.service;
-import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Random;
-import org.joda.time.DateTime;
-
 import pt.tecnico.mydrive.exception.InvalidPasswordException;
-import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.domain.MyDrive;
-import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.domain.Session;
 
 
 public class LoginService extends MyDriveService{
 	
-	
 	private String _username;
 	private String _password;
 	private long _returntoken;
 
+	
 	public LoginService(String username, String password) {
 		_password= password;
 		_username= username;
 	}
-	public  long createSession(String username, String password, MyDrive mydrive) throws InvalidPasswordException{
-        try{
-        	User user= mydrive.getUserByUsername(username);
-        	if(user.getPassword().equals(password)){
-            	long token= new BigInteger(64, new Random()).longValue();
-            	Session s = new Session(user,token,mydrive);
-            	return token;
-        	}
-        	else{
-            	throw new InvalidPasswordException();
-        	}
-        }
-        catch(NoSuchUserException e){
-        	throw new InvalidPasswordException();
-        }
-        
-    }
 	
 	@Override
 	protected void dispatch() throws InvalidPasswordException{
 		MyDrive md = MyDrive.getInstance();
-		_returntoken= createSession(_username,_password,md);
-          
+		
+		Session s = new Session(_username, _password, md.getSessionManager());
+		_returntoken=s.getToken();
     }
 
     public long result(){
     	return _returntoken;
-
     }
-	
-	
 }
-
-

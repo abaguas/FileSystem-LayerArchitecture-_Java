@@ -1,16 +1,21 @@
 package pt.tecnico.mydrive.service;
 
 import pt.tecnico.mydrive.exception.NotDeleteAbleException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
-import pt.tecnico.mydrive.exception.InvalidFileNameException;
 import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.domain.PlainFile;
 import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.domain.Permission;
 
 import static org.junit.Assert.*;
+
+import java.math.BigInteger;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -19,16 +24,25 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	private Directory home1;
 	private Directory home2;
 	private Directory rootdir;
-
+	private long token1;
+	private long token2;
+	private long token3;
+	private long token4;
+	private long token5;
+	private long token6;
+	private SessionManager sm;
+	
 	protected void populate() {
 
 		MyDrive md = MyDrive.getInstance();
-
+		sm = md.getSessionManager();
+		
 		rootdir = MyDrive.getInstance().getRootDirectory();
 
 		home1 = (Directory)rootdir.get("home");
+		home1.setOthersPermission(new Permission("rwx-"));
 
-	    User u1 = new User("CatioBalde", "pass1", "Catio");
+	    User u1 = new User(md, "CatioBalde", "pass1", "Catio");
 	    Directory home3 = new Directory("CatioBalde", 127, u1, home1);
 	    u1.setMainDirectory(home3);
 
@@ -41,39 +55,46 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	    PlainFile p1 = new PlainFile("CasoBruma", 123, u1, "conteudo1", home3);
 		PlainFile p2 = new PlainFile("Exemplo", 124, u2, "conteudo3", home2);
 	    
-	    Session s1 = new Session(u1, 1, md);
+		Session s1 = new Session("CatioBalde", "pass1", sm);
 	    s1.setCurrentDir(home3);
-
-	    Session s2 = new Session(u1, 2, md);
-	    s2.setCurrentDir(home2);
-
-	    Session s3 = new Session(u1, 3, md);
-	    s3.setCurrentDir(rootdir);
-
-	    Session s4 = new Session(u2, 4, md);
-	    s3.setCurrentDir(home2);
-
-	    Session s5 = new Session(u1, 5, md);
-	    s5.setCurrentDir((Directory)rootdir.get("home"));
-
-	    Session s6 = new Session(u1, 6, md);
-	    s6.setCurrentDir((Directory)rootdir.get("home"));
+	    token1=s1.getToken();
 	    
+	    Session s2 = new Session("CatioBalde", "pass1", sm);
+	    s2.setCurrentDir(home2);
+	    token2=s2.getToken();
+
+	    Session s3 = new Session("CatioBalde", "pass1", sm);
+	    s3.setCurrentDir(rootdir);
+	    token3=s3.getToken();
+	    
+	    Session s4 = new Session("root", "***", sm);
+	    s4.setCurrentDir(home2);
+	    token4=s4.getToken();
+	    
+	    Session s5 = new Session("CatioBalde", "pass1", sm);
+	    s5.setCurrentDir((Directory)rootdir.get("home"));
+	    token5=s5.getToken();
+	    
+	    Session s6 = new Session("CatioBalde", "pass1", sm);
+	    s6.setCurrentDir((Directory)rootdir.get("home"));
+	    token6=s6.getToken();
+	    home1.setOthersPermission(new Permission("r-x-"));
+
 	}
 
 	@Test
 	public void deletePermittedFile(){
 
-		DeleteFileService dfs = new DeleteFileService(1, "CasoBruma");
+		DeleteFileService dfs = new DeleteFileService(token1, "CasoBruma");
 		dfs.execute();
 
- 		assertFalse("file was not removed", MyDrive.getInstance().getCurrentDirByToken(1).hasFile("CasoBruma"));	
+ 		assertFalse("file was not removed", sm.getSession(token1).getCurrentDir().hasFile("CasoBruma"));	
  	}
 
 	@Test(expected=PermissionDeniedException.class)
 	public void deleteNotPermittedFile(){
 
-		DeleteFileService dfs = new DeleteFileService(2, "Exemplo");
+		DeleteFileService dfs = new DeleteFileService(token2, "Exemplo");
 		dfs.execute();
 
 	}
@@ -81,7 +102,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	@Test(expected=NoSuchFileException.class)
 	public void deleteNonExistingFile(){
 
-		DeleteFileService dfs = new DeleteFileService(1, "naoexisto");
+		DeleteFileService dfs = new DeleteFileService(token1, "naoexisto");
 		dfs.execute();
 
 	}
@@ -89,7 +110,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	@Test(expected=NoSuchFileException.class)
 	public void deleteWithNullName(){
 
-		DeleteFileService dfs = new DeleteFileService(1, null);
+		DeleteFileService dfs = new DeleteFileService(token1, null);
 		dfs.execute();
 
 	}
@@ -97,16 +118,17 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	@Test
 	public void deletePermittedDirectory(){
 
-		DeleteFileService dfs = new DeleteFileService(1, "folder");
+		DeleteFileService dfs = new DeleteFileService(token1, "folder");
 		dfs.execute();
 
- 		assertFalse("Directory was not removed", MyDrive.getInstance().getCurrentDirByToken(1).hasFile("folder"));	
+ 		assertFalse("Directory was not removed", sm.getSession(token1).getCurrentDir().hasFile("folder"));	
  	}
+	
 
 	@Test(expected=PermissionDeniedException.class)
 	public void deleteNotPermittedDirectory(){
 
-		DeleteFileService dfs = new DeleteFileService(2, "folder2");
+		DeleteFileService dfs = new DeleteFileService(token2, "folder2");
 		dfs.execute();
 
 	}
@@ -114,33 +136,42 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	@Test(expected=NotDeleteAbleException.class)
 	public void deleteFileSystemRoot(){
 
-		DeleteFileService dfs = new DeleteFileService(3, "/");
+		DeleteFileService dfs = new DeleteFileService(token3, "/");
 		dfs.execute();
 
 	}
 
 	@Test(expected=NotDeleteAbleException.class)
 	public void deleteSpecialDotDirectory(){
-		DeleteFileService dfs = new DeleteFileService(3, ".");
+		DeleteFileService dfs = new DeleteFileService(token3, ".");
 		dfs.execute();
 	}
 
 	@Test(expected=NotDeleteAbleException.class)
 	public void deleteSpecialDoubleDotDirectory(){
-		DeleteFileService dfs = new DeleteFileService(3, "..");
+		DeleteFileService dfs = new DeleteFileService(token3, "..");
 		dfs.execute();
 	}
 
 	@Test(expected=NotDeleteAbleException.class)
 	public void deleteUserHomeDirectory(){
-		DeleteFileService dfs = new DeleteFileService(5, "CatioBalde");
+		DeleteFileService dfs = new DeleteFileService(token5, "CatioBalde");
 		dfs.execute();
 	}
 
 	@Test(expected=NotDeleteAbleException.class)
 	public void deleteUserHomeDirectoryByRoot(){
-		DeleteFileService dfs = new DeleteFileService(6, "CatioBalde");
+		DeleteFileService dfs = new DeleteFileService(token6, "CatioBalde");
 		dfs.execute();
 	}
+	@Test (expected = InvalidTokenException.class)
+    public void invalidToken() {
+		long token = new BigInteger(64, new Random()).longValue();
+		while (token == token1 || token == token2 || token == token3 || token == token4 || token == token5 || token == token6){
+			token = new BigInteger(64, new Random()).longValue();
+		}
+		DeleteFileService dfs = new DeleteFileService(token, "folder");
+		dfs.execute();
+    }
 
 }

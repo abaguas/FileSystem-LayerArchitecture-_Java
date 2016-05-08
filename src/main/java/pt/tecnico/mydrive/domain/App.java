@@ -19,6 +19,7 @@ public class App extends App_Base {
 
     }
     
+
     public void execute() {
     	String fullMethod = getContent();
     	String[] methodParts=fullMethod.split(".");
@@ -38,6 +39,11 @@ public class App extends App_Base {
     		throw new InvalidAppContentException(fullMethod);
     	}
     }
+
+    @Override
+    public void execute(User u) {
+    	//TODO
+    }
   
     @Override
     public String toString(){
@@ -45,6 +51,11 @@ public class App extends App_Base {
     	t+=print();
     	return t;
     }
+    
+//////////////////////////////////////////////////////////////////////////////////////
+//                                          XML                               //
+//////////////////////////////////////////////////////////////////////////////////////
+
 
     public void xmlImport(Element app_element, User owner, Directory father){
         int id= Integer.parseInt(app_element.getAttribute("id").getValue());

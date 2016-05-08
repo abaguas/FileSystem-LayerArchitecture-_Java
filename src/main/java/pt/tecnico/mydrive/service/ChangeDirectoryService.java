@@ -1,14 +1,12 @@
 package pt.tecnico.mydrive.service;
 
 import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.domain.Directory;
-import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.FileNotCdAbleException;
-import pt.tecnico.mydrive.exception.FileNotDirectoryException;
-import pt.tecnico.mydrive.exception.InvalidFileNameException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
-import pt.tecnico.mydrive.exception.MyDriveException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 
 
@@ -25,64 +23,20 @@ public class ChangeDirectoryService extends MyDriveService
     }
 
     
-    
-     public String pwd(long token, MyDrive md){
-        Directory current = md.getCurrentDirByToken(token);
-        String output="";
-        if(current.getName().equals("/")){
-            output="/";
-        }
-        else{
-            while(!current.getName().equals("/")){
-                output = "/" + current.getName() + output;
-                current= current.getFatherDirectory();
-            }
-        }
-        return output;
-    }
-
-     
-     public Directory getDirectoryByAbsolutePath(long token, String absolutepath, MyDrive md) {
-		
-    	String[] parts = absolutepath.split("/");
-		md.setCurrentDirByToken(token, md.getRootDirectory());
-		
-		for(int i=1; i < parts.length; i++){		
-			cd(token, parts[i], md);
-		}	
-		
-		return md.getCurrentDirByToken(token);
-     }
-     
-    
-     public void cd(long token, String name, MyDrive md) throws NoSuchFileException, FileNotCdAbleException, PermissionDeniedException {
-    	 File f = null;
-    	 Directory d = null;
-    	 if(name.equals(".")) {
-    	 }
-    	 else if(name.charAt(0)=='/') {
-             d = getDirectoryByAbsolutePath(token, name, md); 
-             md.setCurrentDirByToken(token, d);
-         }
-         else if(name.contains("/")) {
-        	 String result = pwd(token, md);
-        	 result = result + "/" + name;
-             d = getDirectoryByAbsolutePath(token, result, md); 
-             md.setCurrentDirByToken(token, d);
-         }
-         else {
-        	 f = md.getCurrentDirByToken(token).get(name);
-        	 md.cdable(f);
-        	 md.checkPermissions(token, name, "cd", "");
-        	 md.setCurrentDirByToken(token, (Directory) f);
-         }
-     }     
-     
-
-    
     public final void dispatch() throws FileNotCdAbleException, NoSuchFileException, PermissionDeniedException, InvalidTokenException { 
-       MyDrive md = getMyDrive();     
-       cd(token, path, md);
+       MyDrive md = getMyDrive();
+       Session session = md.getSessionManager().getSession(token);
+       User currentUser = session.getUser();
+       Directory currentDirectory = session.getCurrentDir();
+       
+       if (path.equals(".")) {
+    	   result = currentDirectory.getName();
+       } 
+       else{
+    	   Directory directory = currentDirectory.getDirectoryByPath(currentUser, path, currentDirectory, md);
+    	   session.setCurrentDir(directory);
+    	   result = currentDirectory.pwd();
+       }
        
     }
     

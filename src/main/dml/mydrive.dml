@@ -4,6 +4,9 @@ class MyDrive {
   int counter;
 }
 
+class SessionManager {
+}
+
 class Session {
   long token;
   DateTime timestamp;
@@ -28,6 +31,13 @@ class File{
   DateTime lastChange;
 }
 
+class Application{
+	String name;
+}
+
+class FileExtension{
+}
+
 class PlainFile extends File {
   String content;
 }
@@ -40,6 +50,8 @@ class App extends PlainFile;
 
 class RootUser extends User;
 
+class GuestUser extends User;
+
 relation DomainRootHasMyDriveApplication {
   .pt.ist.fenixframework.DomainRoot playsRole root {
     multiplicity 0..1;
@@ -49,12 +61,44 @@ relation DomainRootHasMyDriveApplication {
   }
 }
 
-relation MyDriveHasSessions {
+relation MyDriveHasSessionManager {
   MyDrive playsRole md {
     multiplicity 1;
   }
-  Session playsRole sessions {
-    multiplicity 0..*;
+  SessionManager playsRole sessionManager {
+    multiplicity 1;
+  }
+}
+
+relation SessionManagerHasSessions {
+  SessionManager playsRole sessionManager{
+  	multiplicity 1;
+  }
+  Session playsRole session{
+  	multiplicity 0..*;
+  }
+}
+
+relation MyDrivehasRootUser{
+  MyDrive playsRole;
+  RootUser playsRole rootUser{
+   multiplicity 1;
+  }
+}
+
+relation MyDrivehasGuestUser{
+  MyDrive playsRole;
+  GuestUser playsRole guestUser{
+   multiplicity 1;
+  }
+}
+
+relation MyDriveContainsUsers{
+  MyDrive playsRole myDrive {
+    multiplicity 1;
+  }
+  User playsRole users {
+    multiplicity 1..*;
   }
 }
 
@@ -71,15 +115,6 @@ relation FileHasOwner{
   File playsRole;
   User playsRole owner {
     multiplicity 1;  
-  }
-}
-
-relation MyDriveContainsUsers{
-  MyDrive playsRole myDrive {
-    multiplicity 1;
-  }
-  User playsRole users {
-    multiplicity 1..*;
   }
 }
 
@@ -145,14 +180,6 @@ relation FilehasOthersPermission{
   }
 }
 
-
-relation MyDrivehasRootUser{
-  MyDrive playsRole;
-  RootUser playsRole rootUser{
-   multiplicity 1;
-  }
-}
-
 relation SessionhasCurrentDirectory{
   Session playsRole;
   Directory playsRole currentDir{
@@ -160,11 +187,34 @@ relation SessionhasCurrentDirectory{
   }
 }
 
-relation SessionhasCurrentUser{
+relation SessionhasUser{
   Session playsRole session{
     multiplicity 0..*;
   }
-  User playsRole currentUser{
+  User playsRole user{
    multiplicity 1;
   }
+}
+
+relation UserhasFileExtension {
+	User playsRole extensionOwner{
+		multiplicity 1;
+	}
+	FileExtension playsRole fileExtension{
+		multiplicity 0..*;
+	}
+}
+
+relation FileExtensionHasApplication{
+	FileExtension playsRole;
+	Application playsRole application {
+		multiplicity 1;
+	}
+}
+
+relation FileExtensionHasFile{
+	FileExtension playsRole;
+	File playsRole file {
+		multiplicity 1;
+	}
 }

@@ -1,10 +1,13 @@
 package pt.tecnico.mydrive.service;
 
 import java.util.List;
+import java.util.Random;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
-
+import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
+import pt.tecnico.mydrive.service.dto.FileDto;
 import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.domain.PlainFile;
@@ -12,96 +15,171 @@ import pt.tecnico.mydrive.domain.Link;
 import pt.tecnico.mydrive.domain.App;
 import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.MyDrive;
+import pt.tecnico.mydrive.domain.Permission;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+//FIXME faltam testes para a permissao de leitura
+//FIXME falta teste invalid token
 
 public class ListDirectoryTest extends AbstractServiceTest{
-		ArrayList<String> list;
-		String home_string;
-		String fatherDir_root;
-		String selfDirectory_root;
-		String home_father;
+	private	long token1;
+	private long token2;
 		
 	protected void populate(){
 		MyDrive md = MyDrive.getInstance();
+		SessionManager sm = md.getSessionManager();
 		Directory rootdir = MyDrive.getInstance().getRootDirectory();
-		String name = rootdir.getFatherDirectory().getName();
-		rootdir.getFatherDirectory().setName("..");
-		fatherDir_root=rootdir.getFatherDirectory().toString();
-		rootdir.getFatherDirectory().setName(name);
-		name = rootdir.getSelfDirectory().getName();
-		rootdir.getSelfDirectory().setName(".");
-		selfDirectory_root=rootdir.getFatherDirectory().toString();
-		rootdir.getSelfDirectory().setName(name);
-
 
 		Directory home = (Directory)rootdir.get("home");
-		User u1 = new User("EusebioSilva","pass1", "Eusebio");
+		home.setOthersPermission(new Permission("rwx-"));
+
+		User u1 = new User(md,"EusebioSilva","pass1", "Eusebio");
 		Directory home_user= new Directory("EusebioSilva", md.generateId(), u1, home);
-		name = home_user.getFatherDirectory().getName();
-		home_user.getFatherDirectory().setName("..");
-		home_father=home_user.getFatherDirectory().toString();
-		home_user.getFatherDirectory().setName(name);
-
 		u1.setMainDirectory(home_user);
-		PlainFile p1 = new PlainFile("CasoBruma", 124, u1, "conteudo1", home_user);
-	    PlainFile p2 = new PlainFile("Exemplo", 125, u1, "conteudo3", home_user);
-	    App a1 = new App("Application", 123, u1, "conteudo1", home_user);
-	   	Link l1 = new Link("Ligacao", 126, u1, "conteudo1", home_user);
-	   	Session s1 = new Session(u1,1,md);
+
+		new PlainFile("CasoBruma", 124, u1, "conteudo1", home_user);
+	    new PlainFile("Exemplo", 125, u1, "conteudo3", home_user);
+	    new App("Application", 123, u1, "conteudo1", home_user);
+	   	new Link("Ligacao", 126, u1, "conteudo1", home_user);
+	   	
+	   	Session s1 = new Session("EusebioSilva", "pass1", sm);
 	   	s1.setCurrentDir(home_user);
-	   	Session s2 = new Session(u1,2,md);
-	   	list = new ArrayList<String>();
+	   	token1 = s1.getToken();
+	   	
+	   	Session s2 = new Session("EusebioSilva", "pass1", sm);
+	   	token2=s2.getToken();
 	   	s2.setCurrentDir(md.getRootDirectory());
-	   	list.add(a1.toString());
-	   	list.add(p1.toString());
-	   	list.add(p2.toString());
-	   	list.add(l1.toString());
-	   	u1.getMainDirectory().getSelfDirectory().setName(".");
-	   	list.add(u1.getMainDirectory().toString());
-
-	   	home_string= md.getRootDirectory().get("home").toString();
-
-
+	   	
+	   	home.setOthersPermission(new Permission("r-xd"));
 	}
 
 	@Test
 	public void PermitedListDirectory() throws NoSuchFileException{
-		final long token = 1;
-        ListDirectoryService service = new ListDirectoryService(token);
+        ListDirectoryService service = new ListDirectoryService(token1);
         service.execute();
-        List<String> cs = service.result();
+        List<FileDto> cs = service.result();
 
-
-		assertEquals("List with 6 Contacts", 6, cs.size());
-		assertEquals("First File is FatherDir", home_father, cs.get(0));
-		assertEquals("Second File is SelfDir",list.get(4) , cs.get(1));
-		assertEquals("Third File is application", list.get(0), cs.get(2));
-		assertEquals("Fourth File is Caso Bruma", list.get(1), cs.get(3));
-		assertEquals("Fifth File is Exemplo", list.get(2), cs.get(4));
-		assertEquals("Sixth File is ligacao ligacao", list.get(3), cs.get(5));
+		assertEquals("List has not 6 Contacts", 6, cs.size());
+		
+		assertTrue("Own File has not dimension = 6", cs.get(0).getDimension().equals("6"));
+		assertTrue("Own File has not Id = 3", cs.get(0).getId().equals("3"));
+		assertTrue("Own File has not name .", cs.get(0).getName().equals("."));
+		assertTrue("Own File has not owner permission: rwxd", cs.get(0).getUserPermission().equals("rwxd"));
+		assertTrue("Own File has not other permission: ----", cs.get(0).getOthersPermission().equals("----"));
+		assertTrue("Own File has not type: Directory", cs.get(0).getType().equals("Directory"));
+		assertTrue("Own File has not owner: EusebioSilva", cs.get(0).getUsernameOwner().equals("EusebioSilva"));
+		assertNotNull("Own File has not Date", cs.get(0).getLastChange());
+		
+		assertTrue("Father File has not dimension: 4", cs.get(1).getDimension().equals("4"));
+		assertTrue("Father File has not Id: 1", cs.get(1).getId().equals("1"));
+		assertTrue("Father File has not name: ..", cs.get(1).getName().equals(".."));
+		assertTrue("Father File has not owner permission: rwxd", cs.get(1).getUserPermission().equals("rwxd"));
+		assertTrue("Father File has not other permission: r-xd", cs.get(1).getOthersPermission().equals("r-xd"));
+		assertTrue("Father File has not type: Directory", cs.get(1).getType().equals("Directory"));
+		assertTrue("Father File has not owner: root", cs.get(1).getUsernameOwner().equals("root"));
+		assertNotNull("Father File has not Date", cs.get(1).getLastChange());
+		
+		assertTrue("Application has not dimension: 9", cs.get(2).getDimension().equals("9"));
+		assertTrue("Application has not Id: 123", cs.get(2).getId().equals("123"));
+		assertTrue("Application has not name: Application", cs.get(2).getName().equals("Application"));
+		assertTrue("Application has not owner permission: rwxd", cs.get(2).getUserPermission().equals("rwxd"));
+		assertTrue("Application has not other permission: ----", cs.get(2).getOthersPermission().equals("----"));
+		assertTrue("Application has not type: App", cs.get(2).getType().equals("App"));
+		assertTrue("Application has not owner: EusebioSilva", cs.get(2).getUsernameOwner().equals("EusebioSilva"));
+		assertNotNull("Application has not Date", cs.get(2).getLastChange());
+		
+		assertTrue("CasoBruma has not dimension: 9", cs.get(3).getDimension().equals("9"));
+		assertTrue("CasoBruma has not Id: 124", cs.get(3).getId().equals("124"));
+		assertTrue("CasoBruma has not name: CasoBruma", cs.get(3).getName().equals("CasoBruma"));
+		assertTrue("CasoBruma has not owner permission: rwxd", cs.get(3).getUserPermission().equals("rwxd"));
+		assertTrue("CasoBruma has not other permission: ----", cs.get(3).getOthersPermission().equals("----"));
+		assertTrue("CasoBruma has not type: PlainFile", cs.get(3).getType().equals("PlainFile"));
+		assertTrue("CasoBruma has not owner: EusebioSilva", cs.get(3).getUsernameOwner().equals("EusebioSilva"));
+		assertNotNull("CasoBruma has not Date", cs.get(3).getLastChange());
+		
+		assertTrue("Exemplo File has not dimension: 9", cs.get(4).getDimension().equals("9"));
+		assertTrue("Exemplo File has not Id: 125", cs.get(4).getId().equals("125"));
+		assertTrue("Exemplo File has not name: Exemplo", cs.get(4).getName().equals("Exemplo"));
+		assertTrue("Exemplo File has not owner permission: rwxd", cs.get(4).getUserPermission().equals("rwxd"));
+		assertTrue("Exemplo File has not other permission: ----", cs.get(4).getOthersPermission().equals("----"));
+		assertTrue("Exemplo File has not type: PlainFile", cs.get(4).getType().equals("PlainFile"));
+		assertTrue("Exemplo File has not owner: EusebioSilva", cs.get(4).getUsernameOwner().equals("EusebioSilva"));
+		assertNotNull("Exemplo File has not Date", cs.get(4).getLastChange());
+		
+		assertTrue("Ligacao has not dimension: 9", cs.get(5).getDimension().equals("9"));
+		assertTrue("Ligacao has not Id: 126", cs.get(5).getId().equals("126"));
+		assertTrue("Ligacao has not name: Ligacao->conteudo1", cs.get(5).getName().equals("Ligacao->conteudo1"));
+		assertTrue("Ligacao has not owner permission: rwxd", cs.get(5).getUserPermission().equals("rwxd"));
+		assertTrue("Ligacao has not other permission: ----", cs.get(5).getOthersPermission().equals("----"));
+		assertTrue("Ligacao has not type: Link", cs.get(5).getType().equals("Link"));
+		assertTrue("Ligacao has not owner: EusebioSilva", cs.get(5).getUsernameOwner().equals("EusebioSilva"));
+		assertNotNull("Ligacao has not Date", cs.get(5).getLastChange());
 
 
 	}
 	@Test
 	public void ListRootDirectory() throws NoSuchFileException{
-		final long token = 2;
-		ListDirectoryService service= new ListDirectoryService(token);
+		ListDirectoryService service= new ListDirectoryService(token2);
 		service.execute();
-		List<String> cs = service.result();
-		assertEquals("List with 3 Contacts", 3, cs.size());
-		assertEquals("First File is FatherDir", fatherDir_root.toString(), cs.get(0));
-		assertEquals("Second File is SelfDir",selfDirectory_root.toString(), cs.get(1));
-		assertEquals("Third File is Home", home_string, cs.get(2));
-
+		List<FileDto> cs = service.result();
+		
+		for(FileDto f: cs){
+        	System.out.println(f.getDimension());
+        	System.out.println(f.getId());  
+        	System.out.println(f.getName());
+        	System.out.println(f.getOthersPermission()); 
+        	System.out.println(f.getUserPermission());
+        	System.out.println(f.getType());
+        	System.out.println(f.getUsernameOwner()); 
+        	System.out.println(f.getLastChange());
+        	System.out.println("-------------------------------");
+        }
+		
+		assertEquals("List has not 3 Contacts", 3, cs.size());
+		
+		assertTrue("Own File has not dimension = 3", cs.get(0).getDimension().equals("3"));
+		assertTrue("Own File has not Id = 0", cs.get(0).getId().equals("0"));
+		assertTrue("Own File has not name .", cs.get(0).getName().equals("."));
+		assertTrue("Own File has not owner permission: rwxd", cs.get(0).getUserPermission().equals("rwxd"));
+		assertTrue("Own File has not other permission: r-x-", cs.get(0).getOthersPermission().equals("r-x-"));
+		assertTrue("Own File has not type: Directory", cs.get(0).getType().equals("Directory"));
+		assertTrue("Own File has not owner: root", cs.get(0).getUsernameOwner().equals("root"));
+		assertNotNull("Own File has not Date", cs.get(0).getLastChange());
+		
+		assertTrue("Father File has not dimension: 3", cs.get(1).getDimension().equals("3"));
+		assertTrue("Father File has not Id: 0", cs.get(1).getId().equals("0"));
+		assertTrue("Father File has not name: ..", cs.get(1).getName().equals(".."));
+		assertTrue("Father File has not owner permission: rwxd", cs.get(1).getUserPermission().equals("rwxd"));
+		assertTrue("Father File has not other permission: r-x-", cs.get(1).getOthersPermission().equals("r-x-"));
+		assertTrue("Father File has not type: Directory", cs.get(1).getType().equals("Directory"));
+		assertTrue("Father File has not owner: root", cs.get(1).getUsernameOwner().equals("root"));
+		assertNotNull("Father File has not Date", cs.get(1).getLastChange());
+		
+		assertTrue("home has not dimension: 4", cs.get(2).getDimension().equals("4"));
+		assertTrue("home has not Id: 1", cs.get(2).getId().equals("1"));
+		assertTrue("home has not name: home", cs.get(2).getName().equals("home"));
+		assertTrue("home has not owner permission: rwxd", cs.get(2).getUserPermission().equals("rwxd"));
+		assertTrue("home has not other permission: r-xd", cs.get(2).getOthersPermission().equals("r-xd"));
+		assertTrue("home has not type: Directory", cs.get(2).getType().equals("Directory"));
+		assertTrue("home has not owner: root", cs.get(2).getUsernameOwner().equals("root"));
+		assertNotNull("home has not Date", cs.get(2).getLastChange());
+		
 	}
-
-
-
 	
+	@Test (expected = InvalidTokenException.class)
+    public void invalidToken() { //Testing CD with an invalid token
+		long token = new BigInteger(64, new Random()).longValue();
+		while (token == token1 || token == token2){
+			token = new BigInteger(64, new Random()).longValue();
+		}
+    	    	
+    	ListDirectoryService service = new ListDirectoryService(token);    
+        service.execute();
+    }
 
 }

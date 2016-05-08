@@ -1,25 +1,69 @@
 package pt.tecnico.mydrive.domain;
-import org.joda.time.DateTime;
-import pt.tecnico.mydrive.exception.ExpiredSessionException;
-public class Session extends Session_Base {
-    
-    public Session(User u, long token, MyDrive mydrive) {   
-        super();
-        setCurrentUser(u);
-        setToken(token);
-        setMd(mydrive);
-        setCurrentDir(u.getMainDirectory());
-        DateTime actual = new DateTime();
-        setTimestamp(actual);
-    } 
 
-    @Override
-    public void setMd(MyDrive md){
-        if(md == null){
-            super.setMd(null);
-        }
-        else{
-            md.addSessions(this);
-        }
-    }
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
+
+import pt.tecnico.mydrive.exception.InvalidOperationException;
+import pt.tecnico.mydrive.exception.NoSuchUserException;
+
+public class Session extends Session_Base {
+
+	public Session(String username, String password, SessionManager sm) throws NoSuchUserException {
+		super.setSessionManager(sm);
+		//sm.addSession(this);
+		User user = sm.validateUser(username, password);
+		setPrivateCurrentUser(user);
+		setCurrentDir(user.getMainDirectory());
+		setPrivateToken();
+		setPrivateTimestamp();
+		sm.removeExpiredSessions();
+	}
+
+	@Override
+	public void setToken(long token) throws InvalidOperationException {
+		throw new InvalidOperationException("setToken()");
+	}
+	
+	private void setPrivateToken() {
+		long token = getSessionManager().generateToken();
+		super.setToken(token);
+	}
+	
+	@Override
+	public void setTimestamp(DateTime timestamp) throws InvalidOperationException {
+		throw new InvalidOperationException("setTimestamp");
+	}
+	
+	private void setPrivateTimestamp(){
+		super.setTimestamp(new DateTime());
+	}
+	
+	public boolean expiration(){
+		DateTime actual = new DateTime();
+		DateTime twohoursbefore = actual.minusHours(2);
+		int result = DateTimeComparator.getInstance().compare(twohoursbefore, getTimestamp());
+		
+		if (result > 0) {
+			return true;
+		}
+		else{
+			setPrivateTimestamp();
+			return false;
+		}
+	}
+	
+	@Override
+	public void setUser(User u) {
+		throw new InvalidOperationException("setCurrentUser");
+	}
+	
+	@Override
+	public void setCurrentDir(Directory dir) {
+		super.setCurrentDir(dir);
+	}
+	
+	private void setPrivateCurrentUser(User user){
+		super.setUser(user);
+	}
+	
 }
