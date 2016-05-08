@@ -1,8 +1,10 @@
-
 package pt.tecnico.mydrive.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import java.math.BigInteger;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -14,6 +16,7 @@ import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.domain.PlainFile;
 import pt.tecnico.mydrive.domain.RootUser;
 import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileAlreadyExistsException;
 import pt.tecnico.mydrive.exception.InvalidFileNameException;
@@ -26,24 +29,34 @@ import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 public class CreateFileTest extends AbstractServiceTest {
 
+	private long token0;
+	private long token1;
+	private long token2;
+	private long token3;
+	private SessionManager sm;
+	
 	protected void populate() {
 		
 		MyDrive md = MyDrive.getInstance();
+		sm = md.getSessionManager();
 				
 		//User u0 = md.getUserByUsername("root");
 		//RootUser u0 = RootUser.getInstance();
 		User u0 = md.getRootUser();
-		User u1 = new User("ana", "pass1", "Ana");
+		User u1 = new User(md, "ana", "pass1", "Ana");
 		md.addUsers(u1);
-		User u2 = new User("maria", "pass2", "Maria");
+		User u2 = new User(md, "maria", "pass2", "Maria");
 		md.addUsers(u2);
-		User u3 = new User("filipa", "pass3", "Filipa");
+		User u3 = new User(md, "filipa", "pass3", "Filipa");
 		md.addUsers(u3);
 		
 		Directory rootdir = md.getRootDirectory();
 		Directory home = (Directory)rootdir.get("home");
+
 		//Directory roothome = u0.getMainDirectory();
-		
+		home.setOthersPermission(new Permission("rwx-"));
+
+
 //		Directory dir0 = u0.getMainDirectory();
 //		Directory dir1 = u1.getMainDirectory();
 //		Directory dir2 = u2.getMainDirectory();
@@ -59,19 +72,21 @@ public class CreateFileTest extends AbstractServiceTest {
 //		u3.setMainDirectory(dir3);
 		
 		
-		//Session s0 = md.getRootUser().getSession();
-		Session s0 = new Session(u0, 0, md); //acho que a sessão do User é sempre criada
+		Session s0 = new Session("root", "***", sm);
 		s0.setCurrentDir(dir0);
-	    
-		Session s1 = new Session(u1, 1, md); // ana - token=1
+	    token0 = s0.getToken();
+		
+		Session s1 = new Session("ana", "pass1", sm); // ana - token=1
 	    s1.setCurrentDir(dir1);
+	    token1 = s1.getToken();
 	    
-	    Session s2 = new Session(u2, 2, md); // maria - token=2
+	    Session s2 = new Session("maria", "pass2", sm); // maria - token=2
 	    s2.setCurrentDir(dir2);
+	    token2 = s2.getToken();
 	    
-	    Session s3 = new Session(u3, 3, md); // filipa - token=3
+	    Session s3 = new Session("filipa", "pass3", sm); // filipa - token=3
 	    s3.setCurrentDir(dir3);
-
+	    token3 = s3.getToken();
 	    
 	    PlainFile pf1 = new PlainFile("agenda-Ana", 31, u1, "cozinhar para o Rui", dir1); // id=31
 		
@@ -84,43 +99,19 @@ public class CreateFileTest extends AbstractServiceTest {
 		forbidden.setOthersPermission(othersP);
 		s2.setCurrentDir(forbidden);
 		s0.setCurrentDir(dir0);
-		
-		
-		String hugeDirName = "";
-		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
-			hugeDirName += "a";
-		}
+		home.setOthersPermission(new Permission("r-x-"));
 
-		Directory hugeDir = new Directory(hugeDirName, 60, u3, dir3); // id=60
-		s3.setCurrentDir(hugeDir);
-			
-		
-	}
-
-
-	// SHORTCUTS
-	
-	private User getUser(long token) {
-		User u = MyDriveService.getMyDrive().getCurrentUserByToken(token);
-		return u;
 	}
 	
-	private Directory getDirectory(long token) {
-		Directory d = MyDriveService.getMyDrive().getCurrentDirByToken(token);
-		return d;
-	}
-	
-
-		
 	// TESTS
 	
     @Test
     public void successPlainFile() {
-        CreateFileService service = new CreateFileService(1, "calendar", "day 1 - nothing to do", "PlainFile");
+        CreateFileService service = new CreateFileService(token1, "calendar", "day 1 - nothing to do", "PlainFile");
         service.execute();
        
-        User owner = getUser(1);
-        Directory currentDirectory = getDirectory(1);
+        User owner = sm.getSession(token1).getUser();
+        Directory currentDirectory = sm.getSession(token1).getCurrentDir();
         Permission userPermission = new Permission(true, true, true, true);
         Permission othersPermission = new Permission(false, false, false, false);
 
@@ -145,11 +136,11 @@ public class CreateFileTest extends AbstractServiceTest {
 
     @Test
     public void successLink() {
-    	CreateFileService service = new CreateFileService(1, "agenda-Ana_link", "/home/ana/agenda-Ana", "Link"); // home/ana ou /home/ana
+    	CreateFileService service = new CreateFileService(token1, "agenda-Ana_link", "/home/ana/agenda-Ana", "Link"); // home/ana ou /home/ana
     	service.execute();
     	
-    	User owner = getUser(1);
-    	Directory currentDirectory = getDirectory(1);
+    	User owner = sm.getSession(token1).getUser();
+    	Directory currentDirectory = sm.getSession(token1).getCurrentDir();
         Permission userPermission = new Permission(true, true, true, true);
         Permission othersPermission = new Permission(false, false, false, false);
     	
@@ -176,11 +167,11 @@ public class CreateFileTest extends AbstractServiceTest {
     
     @Test
     public void successApp() {
-    	CreateFileService service = new CreateFileService(1, "MyDrive Application", "pt.tecnico.mydrive.MyDriveApplication.main", "App"); // content = "pt.tecnico.mydrive.domain.MyDrive.pwd 1", onde 1 é o argumento (token, neste caso)
+    	CreateFileService service = new CreateFileService(token1, "MyDrive Application", "pt.tecnico.mydrive.MyDriveApplication.main", "App"); // content = "pt.tecnico.mydrive.domain.MyDrive.pwd 1", onde 1 é o argumento (token, neste caso)
     	service.execute();
     	
-    	User owner = getUser(1);
-    	Directory currentDirectory = getDirectory(1);
+    	User owner = sm.getSession(token1).getUser();
+    	Directory currentDirectory = sm.getSession(token1).getCurrentDir();
         Permission userPermission = new Permission(true, true, true, true);
         Permission othersPermission = new Permission(false, false, false, false);
     	
@@ -207,11 +198,11 @@ public class CreateFileTest extends AbstractServiceTest {
     
     @Test
     public void successDirectory() {
-    	CreateFileService service = new CreateFileService(1, "picsFolder", "Dir");
+    	CreateFileService service = new CreateFileService(token1, "picsFolder", "Dir");
     	service.execute();
     	
-    	User owner = getUser(1);
-    	Directory currentDirectory = getDirectory(1);
+    	User owner = sm.getSession(token1).getUser();
+    	Directory currentDirectory = sm.getSession(token1).getCurrentDir();
         Permission userPermission = new Permission(true, true, true, true);
         Permission othersPermission = new Permission(false, false, false, false);
     	
@@ -236,14 +227,14 @@ public class CreateFileTest extends AbstractServiceTest {
     
     @Test(expected = PermissionDeniedException.class)
     public void notPermittedFileCreation() {
-    	 CreateFileService service = new CreateFileService(2, "attemptFile", "attempt", "PlainFile");
+    	 CreateFileService service = new CreateFileService(token2, "attemptFile", "attempt", "PlainFile");
     	 service.execute();
     }
     
     
 	@Test (expected = FileAlreadyExistsException.class)
     public void duplicatedFileCreation1() {
-    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "receitas", "PlainFile"); //nome agenda-Ana é único, apesar do conteúdo do ficehiro que se queria criar ser diferente
+    	 CreateFileService service = new CreateFileService(token1, "agenda-Ana", "receitas", "PlainFile"); //nome agenda-Ana é único, apesar do conteúdo do ficehiro que se queria criar ser diferente
     	 service.execute();
     }
 
@@ -251,7 +242,7 @@ public class CreateFileTest extends AbstractServiceTest {
 	// independentemente do tipo do ficheiro, o nome tem de ser único
 	@Test (expected = FileAlreadyExistsException.class)
     public void duplicatedFileCreation2() {
-    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "/home/ana/agenda-Ana", "Link");
+    	 CreateFileService service = new CreateFileService(token1, "agenda-Ana", "/home/ana/agenda-Ana", "Link");
     	 service.execute();
     }
 
@@ -259,7 +250,7 @@ public class CreateFileTest extends AbstractServiceTest {
 	// independentemente do tipo do ficheiro, o nome tem de ser único
 	@Test (expected = FileAlreadyExistsException.class)
     public void duplicatedFileCreation3() {
-    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "App");
+    	 CreateFileService service = new CreateFileService(token1, "agenda-Ana", "App");
     	 service.execute();
     }
 	
@@ -267,62 +258,53 @@ public class CreateFileTest extends AbstractServiceTest {
 	// independentemente do tipo do ficheiro, o nome tem de ser único
 	@Test (expected = FileAlreadyExistsException.class)
     public void duplicatedFileCreation4() {
-    	 CreateFileService service = new CreateFileService(1, "agenda-Ana", "Dir");
+    	 CreateFileService service = new CreateFileService(token1, "agenda-Ana", "Dir");
     	 service.execute();
     }
     
 	
 	@Test (expected = InvalidFileNameException.class)
     public void invalidFileNameCreation1() {
-    	CreateFileService service = new CreateFileService(1, "ab/cd", "attempt", "PlainFile"); 
+    	CreateFileService service = new CreateFileService(token1, "ab/cd", "attempt", "PlainFile"); 
     	service.execute();
     }
 
 	
 	@Test (expected = InvalidFileNameException.class)
     public void invalidFileNameCreation2() {
-    	CreateFileService service = new CreateFileService(1, "ab\0cd", "attempt", "PlainFile"); 
+    	CreateFileService service = new CreateFileService(token1, "ab\0cd", "attempt", "PlainFile"); 
     	service.execute();
     }
 
 	
-//    @Test (expected = InvalidFileNameException.class)
-//    public void invalidFileNameCreation3() {
-//    	CreateFileService service = new CreateFileService(1, null, "attempt", "PlainFile"); 
-//    	service.execute();
-//    }
-	
 	
 	@Test (expected = MaximumPathException.class)
 	public void maxPathExceededFileCreation() {
-		String name = "a"; //caso limite
-		CreateFileService service = new CreateFileService(3, name, "attempt", "PlainFile");
+		String hugeDirName = "";
+		for (int i = 0; i<1011; i++) { // "/home/filipa" length=12, mais descontar /, logo 1024-13=1011
+			hugeDirName += "a";
+		}
+
+		CreateFileService service = new CreateFileService(token3, hugeDirName, "attempt", "PlainFile");
 		service.execute();
 	}
 
 
     @Test (expected = LinkWithoutContentException.class)
 	public void linkWithouthContentFileCreation() {
-		CreateFileService service = new CreateFileService(1, "invalidLink", "", "Link");
+		CreateFileService service = new CreateFileService(token1, "invalidLink", "", "Link");
 		service.execute();
 	}
     
 	
 	@Test (expected = InvalidTokenException.class)
     public void invalidToken() { //Testing CD with an invalid token
-		final long token = 1234567890;
+		long token = new BigInteger(64, new Random()).longValue();
+		while (token == token0 || token == token1 || token == token2 || token == token3){
+			token = new BigInteger(64, new Random()).longValue();
+		}
     	    	
     	CreateFileService service = new CreateFileService(token, "impossible", "content1", "PlainFile");    
         service.execute();
     }
-    
-	
-// 	user exists but not associated with session	
-//	@Test (expected = UserNotRegistered.class)
-//	public void userNotRegisteredFileCreation() {
-//		CreateFileService service = new CreateFileService(4, "attempt", "attempt", "PlainFile");
-//		service.execute();
-//	}
-
 }	
-

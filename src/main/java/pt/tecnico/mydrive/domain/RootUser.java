@@ -1,7 +1,6 @@
 package pt.tecnico.mydrive.domain;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.tecnico.mydrive.exception.InvalidUsernameException;
 
 public class RootUser extends RootUser_Base{
     
@@ -12,12 +11,9 @@ public class RootUser extends RootUser_Base{
         return new RootUser();
     }
     
-    private RootUser() throws InvalidUsernameException{
-    	init("root","***","Super User");
-    	Permission ownP = new Permission(true, true, true, true);
-    	Permission othP = new Permission(true, false, true, false);
-    	setOwnPermission(ownP);
-        setOthersPermission(othP);
+    private RootUser() {
+    	initSpecial("root","***","Super User");
+    	//FIXME: os inits do user estão mal. Então e as permissões de other do root, vão para onde?
     }
     
 }

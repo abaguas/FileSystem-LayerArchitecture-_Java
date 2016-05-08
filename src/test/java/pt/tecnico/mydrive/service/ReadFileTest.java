@@ -2,6 +2,9 @@ package pt.tecnico.mydrive.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 import org.junit.Test;
 
 import pt.tecnico.mydrive.domain.Directory;
@@ -10,28 +13,37 @@ import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.domain.PlainFile;
 import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotReadAbleException;
+import pt.tecnico.mydrive.exception.InvalidLinkContentException;
+import pt.tecnico.mydrive.exception.InvalidTokenException;
+import pt.tecnico.mydrive.exception.LinkWithCycleException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
-import pt.tecnico.mydrive.exception.TooManyLevelsOfSymbolicLinksException;
 
 public class ReadFileTest extends AbstractServiceTest{
+	private long tokenOwner;
+	private long tokenOther;
+	private long tokenRoot;
+	
 	protected void populate() {
 		MyDrive md = MyDrive.getInstance();
-		
+		SessionManager sm = md.getSessionManager();
 		Directory rootdir = MyDrive.getInstance().getRootDirectory();
 
 		Directory home = (Directory)rootdir.get("home");
 
 		//create users
-		User owner = new User("Pizza", "password", "pizz");
+		User owner = new User(md,"Pizza", "password", "pizz");
 		md.addUsers(owner);
-		User other = new User("Popcorn", "password", "corn");
+		User other = new User(md,"Popcorn", "password", "corn");
 		md.addUsers(other);
 		User root = md.getRootUser();
 		
 		//create directory with permissions for all to insert the files
+		home.setOthersPermission(new Permission("rwx-"));
+		
 		Directory workingDirectory = new Directory("pizz", 954, owner, home); 
         workingDirectory.setOthersPermission(new Permission("--x-"));
         
@@ -75,18 +87,26 @@ public class ReadFileTest extends AbstractServiceTest{
 		noYouCant.setUserPermission(new Permission("-wxd"));
 		
 		//create session and set current directory
-		Session sessionOwner = new Session(owner, 1, md);
+//		Session sessionOwner = new Session(owner, 1, md);
+		Session sessionOwner = new Session("Pizza", "password", sm);
 		sessionOwner.setCurrentDir(workingDirectory);
 		
-		Session sessionOther = new Session(other, 2, md);
+//		Session sessionOther = new Session(other, 2, md);
+		Session sessionOther = new Session("Popcorn", "password", sm);
 		sessionOther.setCurrentDir(workingDirectory);
 		
-		Session sessionRoot = new Session(root, 3, md);
-		sessionRoot.setCurrentDir(workingDirectory);	}
+//		Session sessionRoot = new Session(root, 3, md);
+		Session sessionRoot = new Session("root", "***", sm);
+		sessionRoot.setCurrentDir(workingDirectory);
+		tokenOwner=sessionOwner.getToken();
+		tokenOther=sessionOther.getToken();
+		tokenRoot=sessionRoot.getToken();
+		home.setOthersPermission(new Permission("r-x-"));
+	}
 
 	@Test
 	public void readFileWithOwnPermissions() {
-		ReadFileService rfs = new ReadFileService(1, "Granted to owner");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "Granted to owner");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -95,13 +115,13 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test(expected = PermissionDeniedException.class)
 	public void readFileWithoutOwnPermissions() {
-		ReadFileService rfs = new ReadFileService(2, "Denied");
+		ReadFileService rfs = new ReadFileService(tokenOther, "Denied");
 		rfs.execute();
 	}
 	
 	@Test
 	public void readFileWithOthersPermissions() {
-		ReadFileService rfs = new ReadFileService(3, "To Visit");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "To Visit");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -110,13 +130,13 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test(expected = PermissionDeniedException.class)
 	public void readFileWithoutOthersPermissions() {
-		ReadFileService rfs = new ReadFileService(2, "Denied");
+		ReadFileService rfs = new ReadFileService(tokenOther, "Denied");
 		rfs.execute();
 	}
 	
 	@Test
 	public void readFileWithoutOthersPermissionsByRoot() {
-		ReadFileService rfs = new ReadFileService(3, "Granted to owner");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "Granted to owner");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -125,7 +145,7 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test
 	public void readFileWithoutUsersPermissionsByRoot() {
-		ReadFileService rfs = new ReadFileService(3, "Denied");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "Denied");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -134,31 +154,31 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test(expected = NoSuchFileException.class)
 	public void readNonExistingFile() {
-		ReadFileService rfs = new ReadFileService(3, "Broccoli");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "Broccoli");
 		rfs.execute();
 	}
 
 	@Test(expected = FileIsNotReadAbleException.class)
 	public void readDirectoryWithPermissions() {
-		ReadFileService rfs = new ReadFileService(1, "Dir");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "Dir");
 		rfs.execute();
 	}
 	
 	@Test(expected = FileIsNotReadAbleException.class)
 	public void readDirectoryWithoutPermissions() {
-		ReadFileService rfs = new ReadFileService(1, "Cannot Execute");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "Cannot Execute");
 		rfs.execute();
 	}
 	
-	@Test(expected = NoSuchFileException.class)
+	@Test(expected = InvalidLinkContentException.class)
 	public void readLinkWithInvalidPath() {
-		ReadFileService rfs = new ReadFileService(1, "Broken");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "Broken");
 		rfs.execute();
 	}
 	
 	@Test
 	public void readLinkWithRelativePathWithAllPermissionsByOwner() {
-		ReadFileService rfs = new ReadFileService(1, "Relative");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "Relative");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -167,7 +187,7 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test
 	public void readLinkWithAbsolutePathWithAllPermissionsByOwner() {
-		ReadFileService rfs = new ReadFileService(1, "AbsoluteWithPermissions");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "AbsoluteWithPermissions");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -176,7 +196,7 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test
 	public void readLinkWithAbsolutePathWithAllPermissionsByOther() { ///////////////
-		ReadFileService rfs = new ReadFileService(3, "AbsoluteWithPermissions");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "AbsoluteWithPermissions");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -185,7 +205,7 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test
 	public void readLinkWithAbsolutePathWithAllPermissionsByRoot() {
-		ReadFileService rfs = new ReadFileService(3, "AbsoluteWithPermissions");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "AbsoluteWithPermissions");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -194,19 +214,19 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test(expected = PermissionDeniedException.class)
 	public void readLinkWithoutExecutePermissionsByOwner() {
-		ReadFileService rfs = new ReadFileService(1, "Hop One");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "Hop One");
 		rfs.execute();
 	}
 	
 	@Test(expected = PermissionDeniedException.class)
 	public void readLinkWithoutExecutePermissionsByOther() {
-		ReadFileService rfs = new ReadFileService(2, "Hop One");
+		ReadFileService rfs = new ReadFileService(tokenOther, "Hop One");
 		rfs.execute();
 	}
 	
 	@Test
 	public void readLinkWithoutExecutePermissionsByRoot() {
-		ReadFileService rfs = new ReadFileService(3, "Hop One");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "Hop One");
 		rfs.execute();
 		String content = rfs.result();
 		
@@ -215,36 +235,44 @@ public class ReadFileTest extends AbstractServiceTest{
 	
 	@Test(expected = PermissionDeniedException.class)
 	public void readLinkWithoutReadPermissionsByOwner() {
-		ReadFileService rfs = new ReadFileService(1, "Hop One1");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "Hop One1");
 		rfs.execute();
 	}
 	
 	@Test(expected = PermissionDeniedException.class)
 	public void readLinkWithoutReadPermissionsByOther() {
-		ReadFileService rfs = new ReadFileService(2, "Hop One1");
+		ReadFileService rfs = new ReadFileService(tokenOther, "Hop One1");
 		rfs.execute();
 	}
 	
 	@Test
 	public void readLinkWithoutreadPermissionsByRoot() {
-		ReadFileService rfs = new ReadFileService(3, "Hop One1");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "Hop One1");
 		rfs.execute();
 		String content = rfs.result();
 		
 		assertEquals("Content is not 'poor me'", "poor me", content);
 	}
 	
-	@Test(expected = TooManyLevelsOfSymbolicLinksException.class)
+	@Test(expected = LinkWithCycleException.class)
 	public void infiniteLoopByRoot() {
-		ReadFileService rfs = new ReadFileService(3, "Infinite Loop");
+		ReadFileService rfs = new ReadFileService(tokenRoot, "Infinite Loop");
 		rfs.execute();
 	}
 	
 	@Test(expected = FileIsNotReadAbleException.class)
 	public void readDirectoryWithPermissionsByLink() {
-		ReadFileService rfs = new ReadFileService(1, "I point to Dir");
+		ReadFileService rfs = new ReadFileService(tokenOwner, "I point to Dir");
 		rfs.execute();
 	}
 	
+	@Test (expected = InvalidTokenException.class)
+    public void invalidToken() {
+		long token = new BigInteger(64, new Random()).longValue();
+		while (token == tokenOwner || token == tokenOther || token == tokenRoot){
+			token = new BigInteger(64, new Random()).longValue();
+		}
+		ReadFileService rfs = new ReadFileService(token, "Hop One1");
+		rfs.execute();
+	}
 }
-

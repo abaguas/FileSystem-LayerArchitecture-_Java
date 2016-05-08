@@ -1,15 +1,11 @@
 package pt.tecnico.mydrive.domain;
 
-import pt.ist.fenixframework.FenixFramework;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import org.jdom2.Element;
-import org.jdom2.Document;
-import java.util.Set;
 import pt.tecnico.mydrive.exception.*;
 
 public class Directory extends Directory_Base {
@@ -42,52 +38,18 @@ public class Directory extends Directory_Base {
     	xmlImport(directory_element, owner, father);
     }
 
-	public void createFile(String name, String content, int id, User user, String code) throws FileAlreadyExistsException, MaximumPathException {
-		try {
-			search(name);
-			throw new FileAlreadyExistsException(name, id);
-		}
-		catch (NoSuchFileException e) {
-			validateFile(name);
-			File f = fileFactory(name, content, id, user, code);
-			addFiles(f);
-		}
-	}
-	
-	public void validateFile(String name){
-		if ((getAbsolutePath().length() + name.length()) > 1024){
-			throw new MaximumPathException(name);
-		}
-		
-	}
-
-	public File fileFactory(String name, String content, int id, User user, String code){
-	    
-		if(code.equals("PlainFile")){
-            return new PlainFile(name, id, user, content, this);
-        }
-        else if(code.equals("App")){
-            return new App(name, id, user, content, this);
-        }
-        else if(code.equals("Dir")){
-        	return new Directory(name, id, user, this);
-        }
-        else{
-           		return new Link(name, id, user, content, this);
-        }
-    }
 	
 	@Override
-	public void remove(MyDrive md, long token) throws PermissionDeniedException {
-		boolean allDeleted = true;
-		md.checkPermissions(token, getName(), "create-delete", "delete"); 
-		Set<File> files = getFiles();
+	public void remove(User user, Directory directory) throws PermissionDeniedException {
+		
+		checkPermissions(user, directory, getName(), "delete"); 
+		
+		Set<File> files = getFilesSet();
+		
 		for (File f: files) {
-				md.checkPermissions(token, getName(), "create-delete", "delete"); 
+				f.remove(user, directory); 
 		}
-		for (File f: files) {
-				f.remove(md, token); 
-		}
+		
 		setOwner(null);
 	    setUserPermission(null);
 	    setOthersPermission(null);
@@ -96,6 +58,7 @@ public class Directory extends Directory_Base {
 	    setFatherDirectory(null);
 	    deleteDomainObject();
 	}
+	
 
 	public File get(String name) throws NoSuchFileException, FileNotDirectoryException{
 		if (name.equals("..")) {
@@ -119,81 +82,52 @@ public class Directory extends Directory_Base {
 			return false;
 		}
 	}
-
-	public File search(String name) throws NoSuchFileException{
-		Set<File> files = getFiles();
-
-		for (File f: files) {
-   	 		if (f.getName().equals(name)) {
-   	 			return f;
-   	 		}
+	
+	
+	public File getDelete(String name) throws NoSuchFileException, NotDeleteAbleException{
+		if (name == null){
+			throw new NoSuchFileException(name);
 		}
-		throw new NoSuchFileException(name);
+		if (name.equals(".")){
+          throw new NotDeleteAbleException("Cannot delete self directory");
+		} 
+		else if (name.equals("..")){
+			throw new NotDeleteAbleException("Cannot delete father directory");
+		} 
+		else if (name.equals("/")){
+			throw new NotDeleteAbleException("Cannot delete root directory");
+		}
+
+		else {
+			File f = search(name);
+			if(f.getOwner().getMainDirectory().getId() == f.getId()){
+				throw new NotDeleteAbleException("Cannot delete User's home despite permissions");
+			}
+			else{
+   	 		 	return f;
+			}
+		}
 	}
-
-	public String ls() {
-		String output="";
-		Set<File> files = getFiles();
-		List<File> list = new ArrayList<File>(files);
-
-		Collections.sort(list, new Comparator<File>() {
-		    public int compare(File f1, File f2) {
-		    	int compare=f1.getName().compareTo(f2.getName());
-		    	return compare;
-		    }
-		});
-
-		String name = getFatherDirectory().getName();
-		getFatherDirectory().setName("..");
-		output+=getFatherDirectory().toString()+"\n";
-		getFatherDirectory().setName(name);
-
-		name = getSelfDirectory().getName();
-		getSelfDirectory().setName(".");
-		output+=getSelfDirectory().toString();
-	 	getSelfDirectory().setName(name);
-
-	 	
-	   	 	for (File f: list){
-	   	 		if (f.getName()!="/") {
-	   	 			output+= "\n"+f.toString();
+	
+	public File search(String name) throws NoSuchFileException{
+		Set<File> files = getFilesSet();
+		
+		try{
+			for (File f: files) {
+	   	 		if (f.getName().equals(name)) {
+	   	 			return f;
 	   	 		}
-	   	 	}
-		return output;
+			}
+			if(name.equals(""))
+				throw new NoSuchFileException("empty string");
+			else
+				throw new NoSuchFileException(name);
+		}
+		catch(NullPointerException e){
+			throw new NoSuchFileException("Invalid File name: null");
+		}
 	}
-
-	public List<String> lsList() {
-		String output="";
-		Set<File> files = getFiles();
-		List<File> list = new ArrayList<File>(files);
-		List<String> stringList = new ArrayList<String>();
-
-		Collections.sort(list, new Comparator<File>() {
-		    public int compare(File f1, File f2) {
-		    	int compare=f1.getName().compareTo(f2.getName());
-		    	return compare;
-		    }
-		});
-
-		String name = getFatherDirectory().getName();
-		getFatherDirectory().setName("..");
-		stringList.add(getFatherDirectory().toString());
-		getFatherDirectory().setName(name);
-
-		name = getSelfDirectory().getName();
-		getSelfDirectory().setName(".");
-		stringList.add(getSelfDirectory().toString());
-	 	getSelfDirectory().setName(name);
-
-	  	for (File f: list){
-	  		if (f.getName()!="/") {
-	  			stringList.add(f.toString());
-	  		}
-	  	}
-	 	
-		return stringList;
-	}
-
+	
 	public String toString(){
 		String t = "Directory";
 		t+=print();
@@ -201,12 +135,50 @@ public class Directory extends Directory_Base {
 	}
 
 	public int dimension(){
-		return 2 + getFiles().size();
+		return 2 + getFilesSet().size();
+	}
+
+	@Override
+	public String read(User user, MyDrive md) throws FileIsNotReadAbleException{
+		throw new FileIsNotReadAbleException(getName());
+	}
+
+	@Override
+	public String read(User user, MyDrive md, Set<String> set) throws FileIsNotReadAbleException{
+		throw new FileIsNotReadAbleException(getName());
+	}
+
+	@Override
+	public void write(User user, String content, MyDrive md) throws FileIsNotWriteAbleException{
+		throw new FileIsNotWriteAbleException(getName());
+		
+	}
+
+	@Override
+	public void write(User user, String content, MyDrive md, Set<String> cycleDetector)  throws FileIsNotWriteAbleException{
+		throw new FileIsNotWriteAbleException(getName());	
+	}
+	
+	@Override
+	public void execute(User user) {
+		throw new FileIsNotExecuteAbleException(getName());
 	}
 
 	public void accept(Visitor v) throws FileNotDirectoryException{
 		v.execute(this);
 	}
+	
+	public boolean isHome(){
+		if(getId() == getOwner().getMainDirectory().getId())
+			return true;
+		return false;
+	}
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////
+//                                   XML                               //
+//////////////////////////////////////////////////////////////////////////////////////
+
 
 	public void xmlImport(Element directory_element,User user, Directory father){
 		int id= Integer.parseInt(directory_element.getAttribute("id").getValue());
@@ -219,12 +191,6 @@ public class Directory extends Directory_Base {
         Permission otherspermission = new Permission(perm.substring(4));
         init(name, id, user, father);
 		init(father);
-	}
-
-	public boolean isHome(){
-		if(getId() == getOwner().getMainDirectory().getId())
-			return true;
-		return false;
 	}
 
 	public void xmlExport(Element element_mydrive){
@@ -256,8 +222,9 @@ public class Directory extends Directory_Base {
         	element_mydrive.addContent(element);
         }
 
-        for (File f: getFiles()){
+        for (File f: getFilesSet()){
             f.xmlExport(element_mydrive);
         }
-    }
+	}
+
 }

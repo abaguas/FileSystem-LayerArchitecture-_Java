@@ -2,48 +2,124 @@ package pt.tecnico.mydrive.domain;
 
 import org.jdom2.Element;
 
+import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
+import pt.tecnico.mydrive.exception.FileNotCdAbleException;
 import pt.tecnico.mydrive.exception.FileNotDirectoryException;
+import pt.tecnico.mydrive.exception.InvalidLinkContentException;
+import pt.tecnico.mydrive.exception.InvalidPathException;
+import pt.tecnico.mydrive.exception.LinkWithCycleException;
+import pt.tecnico.mydrive.exception.LinkWithoutContentException;
+import pt.tecnico.mydrive.exception.MaximumPathException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
+import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
-import org.jdom2.Document;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Link extends Link_Base {
 
     public Link(String name, int id, User owner, String content, Directory father) {
+    	if(content.equals("")){
+    		throw new LinkWithoutContentException(name);
+    	}
+    	else if(content.length()>1024){
+    		throw new MaximumPathException(name);
+    	}
+
     	init(name,id,owner,content, father);
     }
-    public Link(String name, int id, String content) {
-    }
+    
     public Link(Element link_element, User owner, Directory father){
         xmlImport(link_element, owner, father);
-
     }
     
-    public void execute() throws  NoSuchFileException, FileNotDirectoryException {
-    	String content = getContent();
-    	Directory d = this.getDirectory();
-    	File f = getFileByPath(content, d);
-    	
-    	//nao devia ver se f e executable?? -> isto está a ser verificado no ExecutePlainFileService
-    	
-    	//confirmar que aqui em f tenho objecto do tipo mais abaixo possível e não apenas um File
-    	//c.c. tenho de fazer um serie de instanceof seguido de cast
-    	
 
-    	f.execute(); 
+//    public void execute() throws  NoSuchFileException, FileNotDirectoryException {
+//    	String content = getContent();
+//    	Directory d = this.getDirectory();
+//    	File f = getFileByPath(content, d);
+//    	
+//    	//nao devia ver se f e executable?? -> isto está a ser verificado no ExecutePlainFileService
+//    	
+//    	//confirmar que aqui em f tenho objecto do tipo mais abaixo possível e não apenas um File
+//    	//c.c. tenho de fazer um serie de instanceof seguido de cast
+//    	
+//
+//    	f.execute(); 
+//    }
+
+    @Override
+    public void execute(User u) {
+    	//TODO
     }
   
     
     @Override
     public String toString(){
     	String t = "Link";
-    	t+=print()+" -> "+getContent();
+    	t+=print()+"->"+getContent();
     	return t;
     }
     
     public String ls(){
 		return getContent();
 	}
+    
+ 	public String read(User user, MyDrive md)  throws LinkWithCycleException {
+    	Set<String> cycleDetector = new TreeSet<String>();
+    	checkPermissions(user, getDirectory(), getName(), "read");
+    	File f = getFileByPathWithLinkException(user, md);
+    	if (!cycleDetector.add(f.pwd())){
+    		throw new LinkWithCycleException(f.getName());
+    	}
+    	return f.read(user, md, cycleDetector);
+    }
+   	
+    @Override
+   	public String read(User user, MyDrive md, Set<String> cycleDetector) throws LinkWithCycleException {
+    	checkPermissions(user, getDirectory(), getName(), "read");
+    	File f = getFileByPathWithLinkException(user, md);
+    	if (!cycleDetector.add(f.pwd())){
+    		throw new LinkWithCycleException(f.getName());
+    	}
+    	return f.read(user, md);
+    }
+   	
+   	@Override
+	public void write(User user, String content, MyDrive md) throws InvalidLinkContentException, FileIsNotWriteAbleException, LinkWithCycleException {
+   		Set<String> cycleDetector = new TreeSet<String>();
+    	checkPermissions(user, getDirectory(), getName(), "write");
+    	File f = getFileByPathWithLinkException(user, md);
+    	if (!cycleDetector.add(f.pwd())){
+    		throw new LinkWithCycleException(f.getName());
+    	}
+    	f.write(user, content, md, cycleDetector);
+	}
+	
+	@Override
+	public void write(User user, String content, MyDrive md, Set<String> cycleDetector) throws FileIsNotWriteAbleException, LinkWithCycleException {
+		checkPermissions(user, getDirectory(), getName(), "write");
+		File f = getFileByPathWithLinkException(user, md);
+    	if (!cycleDetector.add(f.pwd())){
+    		throw new LinkWithCycleException(f.getName());
+    	}
+    	f.write(user, content, md, cycleDetector);
+	}
+	
+	public File getFileByPathWithLinkException (User user, MyDrive md) throws InvalidLinkContentException{
+		File f = null;
+		try {
+    		f = getFileByPath(user, getContent(), getDirectory(), md);
+    	} catch (Exception e) {
+    		throw new InvalidLinkContentException(getName());
+    	}
+		return f;
+	}
+
+       
+//////////////////////////////////////////////////////////////////////////////////////
+//                                   XML                               //
+//////////////////////////////////////////////////////////////////////////////////////
 
     public void xmlImport(Element link_element, User owner, Directory father){
         int id= Integer.parseInt(link_element.getAttribute("id").getValue());
