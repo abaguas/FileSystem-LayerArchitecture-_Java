@@ -29,7 +29,7 @@ public class DeleteFileService extends MyDriveService{
         User currentUser = session.getUser();
         Directory currentDirectory = session.getCurrentDir();
         
-        File file = currentDirectory.getDelete(fileName);      
-	    file.remove(currentUser, currentDirectory);
+        File file = currentDirectory.getDeletable(fileName);      
+	    file.remove(currentUser);
     }
 }

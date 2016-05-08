@@ -213,7 +213,7 @@ public class MyDrive extends MyDrive_Base {
 	   for (User u: getUsersSet())
             u.xmlExport(element);
 	
-	   for (File f: getRootDirectory().getFilesSet()){
+	   for (File f: getRootDirectory().getFilesSet()){  //REVIEW THIS. NOW DOESNT WORK. Contact abaguas
             f.xmlExport(element);
         }
 	   return doc;

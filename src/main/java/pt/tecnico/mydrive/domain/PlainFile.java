@@ -81,8 +81,8 @@ public class PlainFile extends PlainFile_Base {
     }
 
     @Override
-	public void remove(User user, Directory directory) throws PermissionDeniedException {
-    	checkPermissions(user, directory, getName(), "delete"); 
+	public void remove(User user) throws PermissionDeniedException {
+    	checkPermissionsRemove(user, getDirectory(), this);
     	setOwner(null);
 		setUserPermission(null);
 		setOthersPermission(null);
@@ -107,26 +107,26 @@ public class PlainFile extends PlainFile_Base {
 	
 	@Override
 	public String read(User user, MyDrive md) throws PermissionDeniedException {
-		checkPermissions(user, getDirectory(), getName(), "read");
+		checkPermissions(user, this, "read");
 		return this.getContent();
 	}
 	
 	@Override
 	public String read(User user, MyDrive md, Set<String> set){
-		checkPermissions(user, getDirectory(), getName(), "read");
+		checkPermissions(user, this, "read");
 		return read(user, md);
 	}
 	
 	@Override
 	public void write(User user, String content, MyDrive md) throws FileIsNotWriteAbleException {
-		checkPermissions(user, getDirectory(), getName(), "write");
+		checkPermissions(user, this, "write");
 		setContent(content);
 	}
 	
 	@Override
 	public void write(User user, String content, MyDrive md, Set<String> cycleDetector)
 			throws FileIsNotWriteAbleException {
-		checkPermissions(user, getDirectory(), getName(), "write");
+		checkPermissions(user, this, "write");
 		setContent(content);	
 	}
 

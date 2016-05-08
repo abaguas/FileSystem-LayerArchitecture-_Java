@@ -58,6 +58,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		new Link("Hop Two", 6, owner, "/home/pizz/Cannot Execute/Inside Cannot Execute", workingDirectory);
 		new Link("Hop Two", 6, owner, "/home/pizz/Cannot Execute/Inside Cannot Execute", dir);
 
+		PlainFile blind = new PlainFile("blind", 50, owner, "blind", dir);
 		new Link("Relative", 7, owner, "../Granted to owner", workingDirectory);
 		new Link("AbsoluteWithPermissions", 8, owner, "/home/pizz/To Visit", workingDirectory);
 		new Link("Broken", 9, owner, "/home/piz/Granted to owner", workingDirectory);
@@ -66,7 +67,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		Directory canExecute = new Directory("Can Execute", 12, owner, workingDirectory);
 		PlainFile noYouCant = new PlainFile("No You Cant", 13, owner, "poor you", workingDirectory);
 		new Link("Hop One1", 14, owner, "Hop Two", dir);
-		new Link("Hop One1", 20, owner, "Dir/Hop Two", workingDirectory);
+		new Link("Hop One1", 20, owner, "Dir/blind", workingDirectory);
 		new Link("Hop Two2", 15, owner, "/home/pizz/Can Execute/No You Cant", canExecute);
 		new Link("Infinite Loop", 16, owner, "/home/pizz/loop", workingDirectory);
 		new Link("loop", 17, owner, "/home/pizz/Infinite Loop", workingDirectory);
@@ -85,6 +86,8 @@ public class ReadFileTest extends AbstractServiceTest{
 		canExecute.setOthersPermission(new Permission("--x-"));
 		noYouCant.setOthersPermission(new Permission("-wxd"));
 		noYouCant.setUserPermission(new Permission("-wxd"));
+		blind.setUserPermission(new Permission("----"));
+		blind.setOthersPermission(new Permission("----"));
 		
 		//create session and set current directory
 //		Session sessionOwner = new Session(owner, 1, md);
@@ -195,7 +198,7 @@ public class ReadFileTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void readLinkWithAbsolutePathWithAllPermissionsByOther() { ///////////////
+	public void readLinkWithAbsolutePathWithAllPermissionsByOther() { 
 		ReadFileService rfs = new ReadFileService(tokenRoot, "AbsoluteWithPermissions");
 		rfs.execute();
 		String content = rfs.result();
@@ -251,7 +254,7 @@ public class ReadFileTest extends AbstractServiceTest{
 		rfs.execute();
 		String content = rfs.result();
 		
-		assertEquals("Content is not 'poor me'", "poor me", content);
+		assertEquals("Content is not 'blind'", "blind", content);
 	}
 	
 	@Test(expected = LinkWithCycleException.class)

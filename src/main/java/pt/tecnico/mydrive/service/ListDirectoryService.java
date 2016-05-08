@@ -3,6 +3,7 @@ import pt.tecnico.mydrive.domain.Directory;
 import pt.tecnico.mydrive.domain.File;
 import pt.tecnico.mydrive.domain.MyDrive;
 import pt.tecnico.mydrive.domain.Session;
+import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.service.dto.FileDto;
 
@@ -23,6 +24,7 @@ public class ListDirectoryService extends MyDriveService{
 	public final void dispatch() {
 		MyDrive md = MyDrive.getInstance();
 		Session session = md.getSessionManager().getSession(token);
+		User user = session.getUser();
 		Directory directory = session.getCurrentDir();
 		listedFiles = new ArrayList<FileDto>();
 		
@@ -37,7 +39,7 @@ public class ListDirectoryService extends MyDriveService{
 		listedFiles.add(new FileDto(directory.toString()));
 		directory.setName(ownName);
 		
-		Set<File> files = directory.getFilesSet();
+		Set<File> files = directory.getFilesSet(user);
 
 	  	for (File f: files){
 	  		if (f.getName()!="/") {
@@ -53,4 +55,3 @@ public class ListDirectoryService extends MyDriveService{
 	}
 
 }
-

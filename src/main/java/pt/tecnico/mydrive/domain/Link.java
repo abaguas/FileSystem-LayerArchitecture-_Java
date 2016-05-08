@@ -67,7 +67,7 @@ public class Link extends Link_Base {
     
  	public String read(User user, MyDrive md)  throws LinkWithCycleException {
     	Set<String> cycleDetector = new TreeSet<String>();
-    	checkPermissions(user, getDirectory(), getName(), "read");
+    	checkPermissions(user, this, "read");
     	File f = getFileByPathWithLinkException(user, md);
     	if (!cycleDetector.add(f.pwd())){
     		throw new LinkWithCycleException(f.getName());
@@ -77,7 +77,7 @@ public class Link extends Link_Base {
    	
     @Override
    	public String read(User user, MyDrive md, Set<String> cycleDetector) throws LinkWithCycleException {
-    	checkPermissions(user, getDirectory(), getName(), "read");
+    	checkPermissions(user, this, "read");
     	File f = getFileByPathWithLinkException(user, md);
     	if (!cycleDetector.add(f.pwd())){
     		throw new LinkWithCycleException(f.getName());
@@ -88,7 +88,7 @@ public class Link extends Link_Base {
    	@Override
 	public void write(User user, String content, MyDrive md) throws InvalidLinkContentException, FileIsNotWriteAbleException, LinkWithCycleException {
    		Set<String> cycleDetector = new TreeSet<String>();
-    	checkPermissions(user, getDirectory(), getName(), "write");
+    	checkPermissions(user, this, "write");
     	File f = getFileByPathWithLinkException(user, md);
     	if (!cycleDetector.add(f.pwd())){
     		throw new LinkWithCycleException(f.getName());
@@ -98,7 +98,7 @@ public class Link extends Link_Base {
 	
 	@Override
 	public void write(User user, String content, MyDrive md, Set<String> cycleDetector) throws FileIsNotWriteAbleException, LinkWithCycleException {
-		checkPermissions(user, getDirectory(), getName(), "write");
+		checkPermissions(user, this, "write");
 		File f = getFileByPathWithLinkException(user, md);
     	if (!cycleDetector.add(f.pwd())){
     		throw new LinkWithCycleException(f.getName());
@@ -106,10 +106,12 @@ public class Link extends Link_Base {
     	f.write(user, content, md, cycleDetector);
 	}
 	
-	public File getFileByPathWithLinkException (User user, MyDrive md) throws InvalidLinkContentException{
+	public File getFileByPathWithLinkException (User user, MyDrive md) throws PermissionDeniedException, InvalidLinkContentException{
 		File f = null;
 		try {
     		f = getFileByPath(user, getContent(), getDirectory(), md);
+    	} catch (PermissionDeniedException pde) {
+    		throw pde;
     	} catch (Exception e) {
     		throw new InvalidLinkContentException(getName());
     	}

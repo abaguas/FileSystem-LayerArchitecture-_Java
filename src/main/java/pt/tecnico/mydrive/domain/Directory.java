@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+
+import javax.naming.OperationNotSupportedException;
+
 import org.jdom2.Element;
 import pt.tecnico.mydrive.exception.*;
 
@@ -37,17 +40,29 @@ public class Directory extends Directory_Base {
     public Directory(Element directory_element, User owner, Directory father){
     	xmlImport(directory_element, owner, father);
     }
+    
+    @Override
+    public Set<File> getFilesSet() throws InvalidOperationException {
+    	throw new InvalidOperationException("getFilesSet");
+    }
+    
+    public Set<File> getFilesSet(User user) throws PermissionDeniedException {
+    	checkPermissions(user, this, "read");
+    	return super.getFilesSet();
+    }
 
 	
 	@Override
-	public void remove(User user, Directory directory) throws PermissionDeniedException {
+	public void remove(User user) throws PermissionDeniedException {
 		
-		checkPermissions(user, directory, getName(), "delete"); 
+		checkPermissionsRemove(user, getDirectory(), this); 
 		
-		Set<File> files = getFilesSet();
+		Set<File> files = super.getFilesSet();
 		
 		for (File f: files) {
-				f.remove(user, directory); 
+			try {
+				f.remove(user);
+			} catch (PermissionDeniedException pde) {}
 		}
 		
 		setOwner(null);
@@ -84,7 +99,7 @@ public class Directory extends Directory_Base {
 	}
 	
 	
-	public File getDelete(String name) throws NoSuchFileException, NotDeleteAbleException{
+	public File getDeletable(String name) throws NoSuchFileException, NotDeleteAbleException{
 		if (name == null){
 			throw new NoSuchFileException(name);
 		}
@@ -110,7 +125,7 @@ public class Directory extends Directory_Base {
 	}
 	
 	public File search(String name) throws NoSuchFileException{
-		Set<File> files = getFilesSet();
+		Set<File> files = super.getFilesSet();
 		
 		try{
 			for (File f: files) {
@@ -135,7 +150,7 @@ public class Directory extends Directory_Base {
 	}
 
 	public int dimension(){
-		return 2 + getFilesSet().size();
+		return 2 + super.getFilesSet().size();
 	}
 
 	@Override
@@ -222,7 +237,7 @@ public class Directory extends Directory_Base {
         	element_mydrive.addContent(element);
         }
 
-        for (File f: getFilesSet()){
+        for (File f: super.getFilesSet()){
             f.xmlExport(element_mydrive);
         }
 	}
