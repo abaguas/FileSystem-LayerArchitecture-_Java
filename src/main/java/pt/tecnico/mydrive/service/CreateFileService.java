@@ -52,16 +52,11 @@ public class CreateFileService extends MyDriveService{
 	@Override
 	protected void dispatch() throws PermissionDeniedException, FileAlreadyExistsException, InvalidFileNameException, LinkWithoutContentException, MaximumPathException, InvalidTokenException {
 		MyDrive md = getMyDrive();
-<<<<<<< HEAD
-        User currentUser = md.getCurrentUserByToken(token);
-        Directory currentDir = md.getCurrentDirByToken(token);
-        
-        md.checkPermissions(token, name, "create-delete", "create");
-=======
+
 		Session session = md.getSessionManager().getSession(token);
         User currentUser = session.getUser();
         Directory currentDirectory = session.getCurrentDir();
->>>>>>> refs/remotes/origin/master
+
         
         fileFactory(name, content, md.generateId(), currentUser, currentDirectory, code);
        
