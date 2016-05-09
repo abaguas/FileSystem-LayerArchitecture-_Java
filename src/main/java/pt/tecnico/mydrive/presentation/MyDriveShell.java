@@ -5,6 +5,7 @@ import java.io.ObjectInputStream.GetField;
 public class MyDriveShell extends Shell {
 
 	private long token;
+	private long guestToken;
 	
 	public static void main(String[] args) throws Exception {
 		MyDriveShell sh = new MyDriveShell();
@@ -24,6 +25,7 @@ public class MyDriveShell extends Shell {
 //		    Command login = get("login");
 //		    login.execute(str);
 		    //O comando de login alterará a variável token
+		    new Quit(this);
 	}
 
 	public long getToken() {
@@ -32,5 +34,13 @@ public class MyDriveShell extends Shell {
 
 	public void setToken(long token) {
 		this.token = token;
+	}
+	
+	public long getGuestToken() {
+		return guestToken;
+	}
+	
+	public void setGuestToken(long guestToken) {
+		this.guestToken = guestToken;
 	}
 }

@@ -4,7 +4,7 @@
 //
 //public class Environment extends MyDriveCommand {
 //	
-//	public Environment(Shell sh) {
+//	public Environment(MyDriveShell sh) {
 //		super(sh, "env", "create or change environment variable");
 //	}
 //
