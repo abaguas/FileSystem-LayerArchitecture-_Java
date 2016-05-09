@@ -213,7 +213,6 @@ public abstract class File extends File_Base {
     }
     
     public File getFileByPath(User user, String path, Directory dir, MyDrive md) throws PermissionDeniedException, InvalidPathException, FileNotCdAbleException {
-    	System.out.println("Estou à procura de: "+ path);
     	List<String> elements = new ArrayList<String> (Arrays.asList(path.split("/")));	
         elements.remove("");
         String[] parts = elements.toArray(new String[0]);
@@ -229,12 +228,9 @@ public abstract class File extends File_Base {
             throw new InvalidPathException(path);
         }
         while(i < numOfParts-1){
-        	System.out.println("A avaliar "+ parts[i]);
             aux = dir.get(parts[i]);
             cdable(aux);
-            System.out.println("passei cdable");
             checkPermissions(user, aux, "execute");
-            System.out.println("passei permissoes");
             dir = (Directory)aux;
             i++;
         }

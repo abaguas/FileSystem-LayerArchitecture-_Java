@@ -68,6 +68,9 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    Directory images = new Directory("images", 765, u2, home2); //id=765
 	    home2.setUserPermission(userPerm);
 	    home2.setOthersPermission(othersPerm);
+	    images.setUserPermission(new Permission("rw-d"));
+	    
+	    
 	     
 		hugeDirName = "";
 		for (int i = 0; i<1013; i++) { // "/home/neto" length=10, mais descontar /, logo 1024-11=1013

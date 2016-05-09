@@ -128,18 +128,6 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		service.execute();
 		List<FileDto> cs = service.result();
 		
-		for(FileDto f: cs){
-        	System.out.println(f.getDimension());
-        	System.out.println(f.getId());  
-        	System.out.println(f.getName());
-        	System.out.println(f.getOthersPermission()); 
-        	System.out.println(f.getUserPermission());
-        	System.out.println(f.getType());
-        	System.out.println(f.getUsernameOwner()); 
-        	System.out.println(f.getLastChange());
-        	System.out.println("-------------------------------");
-        }
-		
 		assertEquals("List has not 3 Contacts", 3, cs.size());
 		
 		assertTrue("Own File has not dimension = 3", cs.get(0).getDimension().equals("3"));
