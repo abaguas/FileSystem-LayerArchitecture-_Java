@@ -31,10 +31,6 @@ class File{
   DateTime lastChange;
 }
 
-class Application{
-	String name;
-}
-
 class FileExtension{
 }
 
@@ -205,9 +201,9 @@ relation UserhasFileExtension {
 	}
 }
 
-relation FileExtensionHasApplication{
+relation FileExtensionHasApp {
 	FileExtension playsRole;
-	Application playsRole application {
+	App playsRole app {
 		multiplicity 1;
 	}
 }
