@@ -135,7 +135,7 @@ public abstract class File extends File_Base {
 		v.execute(this);
 	}
 	
-	//code: read, write, execute, delete
+	//code: read, write, execute
 	public void checkPermissions(User user, File file, String code) throws InvalidExceptionCodeException, PermissionDeniedException {
 		//o root faz tudo
 		if (user.getUsername().equals("root")){ }
