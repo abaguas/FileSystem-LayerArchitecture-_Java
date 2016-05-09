@@ -65,6 +65,10 @@ public class User extends User_Base {
 		super.setUsername(username);
 	}
     
+    public App getFileByExtension(String fileName){
+    	return null;
+    }
+    
 //////////////////////////////////////////////////////////////////////////////////////
       //                                   XML                               //
 //////////////////////////////////////////////////////////////////////////////////////    
