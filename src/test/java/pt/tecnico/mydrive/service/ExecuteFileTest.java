@@ -33,69 +33,69 @@ public class ExecuteFileTest extends AbstractServiceTest{
 		home.setOthersPermission(new Permission("r-x-"));
 	}
 	    
-	
-	@Test (expected=InvalidTokenException.class)
-	public void plainFileWithInvalidToken() {
-	  
-	}
-	
-	@Test (expected=NoSuchFileException.class)
-	public void nonExistentPlainFile() {
-	    
-	}
-	
-	@Test (expected=InvalidPathException.class)
-	public void invalidPath() {
-	    
-	}
-	
-	@Test (expected=PermissionDeniedException.class)
-	public void nonPermittedPlainFile() {
-	    
-	}
-	
-	@Test (expected=PermissionDeniedException.class)
-	public void nonPermittedDirectory() {
-	    
-	}
-	
-	@Test (expected=FileIsNotExecuteAbleException.class)
-	public void notExecutableFile() {
-	    
-	}
-	
-	@Test 
-	public void noArguments() {
-	    
-	}
-	
-	@Test
-	public void severalArguments() {
-	    
-	}
-	
-	@Test
-	public void oneArgument() {
-	    
-	}
-	
-	@Test (expected=InvalidLinkContentException.class)
-	public void invalidLink() {
-	    
-	}
-	
-	@Test (expected=InvalidLinkContentException.class)
-	public void invalidPlainFile() {
-	    
-	}
-	
-	@Test
-	public void validLink() {
-	    
-	}
-	
-	@Test
-	public void validPlainFile() {
-	    
-	}
+//	
+//	@Test (expected=InvalidTokenException.class)
+//	public void plainFileWithInvalidToken() {
+//	  
+//	}
+//	
+//	@Test (expected=NoSuchFileException.class)
+//	public void nonExistentPlainFile() {
+//	    
+//	}
+//	
+//	@Test (expected=InvalidPathException.class)
+//	public void invalidPath() {
+//	    
+//	}
+//	
+//	@Test (expected=PermissionDeniedException.class)
+//	public void nonPermittedPlainFile() {
+//	    
+//	}
+//	
+//	@Test (expected=PermissionDeniedException.class)
+//	public void nonPermittedDirectory() {
+//	    
+//	}
+//	
+//	@Test (expected=FileIsNotExecuteAbleException.class)
+//	public void notExecutableFile() {
+//	    
+//	}
+//	
+//	@Test 
+//	public void noArguments() {
+//	    
+//	}
+//	
+//	@Test
+//	public void severalArguments() {
+//	    
+//	}
+//	
+//	@Test
+//	public void oneArgument() {
+//	    
+//	}
+//	
+//	@Test (expected=InvalidLinkContentException.class)
+//	public void invalidLink() {
+//	    
+//	}
+//	
+//	@Test (expected=InvalidLinkContentException.class)
+//	public void invalidPlainFile() {
+//	    
+//	}
+//	
+//	@Test
+//	public void validLink() {
+//	    
+//	}
+//	
+//	@Test
+//	public void validPlainFile() {
+//	    
+//	}
 }
