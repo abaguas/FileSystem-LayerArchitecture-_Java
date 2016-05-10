@@ -10,6 +10,10 @@ public abstract class Shell {
   private Map<String,Command> coms = new TreeMap<String,Command>();
   private PrintWriter out;
   private String name;
+  private String activeUser;
+  private long activeToken;
+
+  private TreeMap<String, Long> loggedUsers = new TreeMap<String, Long>();
 
   public Shell(String n) { this(n, new PrintWriter(System.out, true), true); }
   public Shell(String n, Writer w) { this(n, w, true); }
@@ -129,4 +133,24 @@ public abstract class Shell {
     }
     return true;
   }
+
+  public void addUser(String username, Long token){
+    loggedUsers.put(username, token);
+  }
+
+  public Long getToken(String username){return loggedUsers.get(username);}
+
+  public void removeUser(String username){
+    loggedUsers.remove(loggedUsers.get(username));
+  }
+
+  public void removeUser(Long token){
+    loggedUsers.remove(token);
+  }
+
+  public void setActiveToken(Long token){activeToken=token;}
+  public void setActiveUser(String username){activeUser=username;}
+
+  public String getActiveUser(){return activeUser;}
+  public long getActiveToken(){return activeToken;}
 }
