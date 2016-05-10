@@ -83,7 +83,7 @@ public class Session extends Session_Base {
 
 	@Override
 	public void setSessionManager(SessionManager s){
-		throw new InvalidOperation("setSessionManager");
+		throw new InvalidOperationException("setSessionManager");
 	}
 
 	@Override
