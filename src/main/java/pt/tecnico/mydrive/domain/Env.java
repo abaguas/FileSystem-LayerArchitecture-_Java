@@ -4,7 +4,7 @@ public class Env extends Env_Base {
     
     public Env(String name, String value) {
         super.setName(name);
-        super.setValue(values);
+        super.setValue(value);
     }
 
     @Override
