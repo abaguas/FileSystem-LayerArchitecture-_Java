@@ -82,6 +82,11 @@ public class Session extends Session_Base {
 	}
 
 	@Override
+	public void setSessionManager(SessionManager s){
+		throw new InvalidOperation("setSessionManager");
+	}
+
+	@Override
 	public void addEnv(Env e) {
 		for(Env env : getEnvSet())
 			if(env.getName().equals(e.getName())) {
