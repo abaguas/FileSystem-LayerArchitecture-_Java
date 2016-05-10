@@ -100,6 +100,7 @@ public class AddVariableTest extends AbstractServiceTest {
 	
 		
 	//TESTS
+
 /*	
 	public void successAddFirstVariable() {
 		AddVariableService service = new AddVariableService(3, "newVar", "newValue");
@@ -152,7 +153,7 @@ public class AddVariableTest extends AbstractServiceTest {
 		List<EnvironmentVariable> varList = service.result();
 		//FIXME criar esta chave no populate() varUpdate e verifica
     }
-*/	
-
+	
+*/
 	
 }
