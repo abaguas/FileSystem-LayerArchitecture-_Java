@@ -14,7 +14,7 @@ public class LoginServiceTest extends AbstractServiceTest{
 	protected void populate(){
 
 		MyDrive md = MyDriveService.getMyDrive();
-		User u1= new User(md,"user1", "1234", "Utilizador1");
+		User u1= new User(md,"user1", "grande1234", "Utilizador1");
 		md.addUsers(u1);
 
 
