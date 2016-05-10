@@ -37,43 +37,139 @@ public class PlainFile extends PlainFile_Base {
     	setContent(t);
     }
     
+    /*
     @Override
+	public void execute(User caller) {
+    	String fileName = this.getName();
+    	if(fileName.contains(".")) {
+    		String[] fileNameParts = fileName.split(".");
+    		String extension = fileNameParts[fileNameParts.length - 1];
+    		App a = caller.getFileByExtension(extension);
+    		a.execute(caller, fileName);
+    	}		
+	}
+    */
+    
+	@Override
 	public void execute(User user) {
 		// TODO Auto-generated method stub
 		
 	}
     
-//    //FIXME
-//    public void execute() throws FileNotAppException  {
-//    	String[] lines = getContent().split("\n");
-//    	int nLines = lines.length;
-//    	for(int i=0; i<nLines; i++) {
-//    		String[] words = lines[i].split(" ");
-//    		int nWords = words.length;
-//    		String pathToApplication = words[0];
-//        	File f = getFileByPath(pathToApplication, this.getDirectory());
-//        	if(!(f instanceof App)) {
-//        		throw new FileNotAppException(f.getName());
-//        	}
-//        	App a = (App) f;
-//        	String fullMethod = a.getContent();
-//        	String[] methodParts=fullMethod.split(".");
-//        	if(methodParts.length==3) {
-//        		String className = methodParts[0] + "." + methodParts[1];
-//        		//Class<?> c = Class.forName(className);
-//        		
-//        	}
-//        	else if(methodParts.length==2) {
-//        		
-//        	}
-//        	else {
-//        		throw new InvalidAppContentException(fullMethod);
-//        	}
-//    		for(int j=1; j<nWords; j++) {
-//    			;
-//    		}
-//    	}
+    //FIXME
+    public void execute() throws FileNotAppException  {
+    	/*
+    	String fileName = this.getName();
+    	if(fileName.contains(".")) {
+    		String[] fileNameParts = fileName.split(".");
+    		String extension = fileNameParts[fileNameParts.length - 1];
+    		
+    	}
+    	
+    	else {
+    		
+    	}
+    	
+    	String[] lines = getContent().split("\n");
+    	int nLines = lines.length;
+    	for(int i=0; i<nLines; i++) {
+    		String[] words = lines[i].split(" ");
+    		int nWords = words.length;
+    		String pathToApplication = words[0];
+        	File f = getFileByPath(pathToApplication, this.getDirectory());
+        	if(!(f instanceof App)) {
+        		throw new FileNotAppException(f.getName());
+        	}
+        	App a = (App) f;
+        	String fullMethod = a.getContent();
+        	String[] methodParts=fullMethod.split(".");
+        	if(methodParts.length==3) {
+        		String className = methodParts[0] + "." + methodParts[1];
+        		//Class<?> c = Class.forName(className);
+        		
+        	}
+        	else if(methodParts.length==2) {
+        		
+        	}
+        	else {
+        		throw new InvalidAppContentException(fullMethod);
+        	}
+    		for(int j=1; j<nWords; j++) {
+    			;
+    		}
+    	*/
+    	}
+		
+    
+    
+    
+//    String input;
+//    Thread master = Thread.currentThread();
+//    Scanner scan = new Scanner(System.in);
 //
+//    ProcessBuilder builder;
+//    if (args.length == 0) builder = new ProcessBuilder("/bin/bash");
+//    else {
+//      java.util.List<String> l = new ArrayList<String>();
+//      for (String s: args) l.add(s);
+//      builder = new ProcessBuilder(l);
+//    }
+//    builder.redirectErrorStream(true);
+//    Process proc = builder.start();
+//    OutputStream stdin = proc.getOutputStream ();
+//    InputStream stdout = proc.getInputStream ();
+//
+//    BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
+//    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
+//
+//    Thread throut = new Thread(new Runnable() {
+//      @Override
+//      public void run() {
+//	String line;
+//	try {
+//	  while ((line = reader.readLine ()) != null) {
+//	    out.println ("Stdout: " + line);
+//	  }
+//	} catch (IOException e) { e.printStackTrace(); }
+//	System.err.println ("Stdout is now closed!!!");
+//      }
+//    } );
+//    throut.start();
+//
+//    /* java 1.7 begin (must add an addition \n at the end)
+//    if ((input = scan.nextLine()) != null) {
+//      writer.write(input);
+//      writer.newLine();
+//      writer.flush();
+//    }
+//    java 1.7 end */
+//    /* java 1.8 begin */
+//    for (;;) {
+//      do
+//	try { Thread.sleep(100);
+//	} catch (InterruptedException e) { }
+//      while(proc.isAlive() && !scan.hasNext());
+//      if (proc.isAlive()) {
+//	if ((input = scan.nextLine()) != null) {
+//	  writer.write(input);
+//	  writer.newLine();
+//	  writer.flush();
+//	}
+//      } else break;
+//    }
+//    /* java 1.8 end */
+//    try { proc.waitFor();
+//    } catch (InterruptedException e) { }
+//
+//    System.err.println ("exit: " + proc.exitValue());
+//    proc.destroy();
+//  }
+    
+    
+    
+    
+    
+    
 //    }
     
     public int dimension(){
@@ -178,5 +274,7 @@ public class PlainFile extends PlainFile_Base {
 
     	element_mydrive.addContent(element);
     }
+
+
  
 }

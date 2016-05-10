@@ -31,8 +31,9 @@
 //		MyDrive md = getMyDrive();
 //        Directory currentDir = md.getCurrentDirByToken(token);
 //        File f =  md.getFileByPath(path, currentDir);
-//        md.executable(f);
-//        
+//        //md.executable(f);
+//		  f.execute();    
+//
 //        //será que em f tenho já OBJECTO do tipo que quero??
 //        //Se assim for, basta fazer f.execute() e ele sabe se chama o execute() do PlainFile(), Link ou App
 //        
