@@ -65,5 +65,15 @@ public class Session extends Session_Base {
 	private void setPrivateCurrentUser(User user){
 		super.setUser(user);
 	}
+
+	@Override
+	public void addEnv(Env e) {
+		for(Env env : getEnvSet())
+			if(env.getName().equals(e.getName())) {
+				env.setValue(e.getValue());
+				return;
+			}
+		super.addEnv(e);
+	}
 	
 }
