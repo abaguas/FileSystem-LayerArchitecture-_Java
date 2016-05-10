@@ -34,9 +34,9 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     	sm = md.getSessionManager();
     	
 		User root = md.getRootUser();
-    	User u1 = new User(md, "neto", "***", "netjinho");
+    	User u1 = new User(md, "neto", "grande***", "netjinho");
     	md.addUsers(u1);
-	    User u2 = new User(md, "zecarlos", "***", "zecarlos");
+	    User u2 = new User(md, "zecarlos", "grande***", "zecarlos");
     	md.addUsers(u2);
 	    
     	Directory home = (Directory) md.getRootDirectory().get("home");    	
@@ -85,11 +85,11 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 	    s0.setCurrentDir(homeRoot);
 	    token0 = s0.getToken();
 	    
-	    Session s1 = new Session("neto", "***", sm);
+	    Session s1 = new Session("neto", "grande***", sm);
 	 	s1.setCurrentDir(home1);
 	 	token1 = s1.getToken();
 	 
-	 	Session s2 = new Session("zecarlos", "***", sm);
+	 	Session s2 = new Session("zecarlos", "grande***", sm);
 	 	s2.setCurrentDir(home2);
 	 	token2 = s2.getToken();
 		

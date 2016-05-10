@@ -42,7 +42,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 		home1 = (Directory)rootdir.get("home");
 		home1.setOthersPermission(new Permission("rwx-"));
 
-	    User u1 = new User(md, "CatioBalde", "pass1", "Catio");
+	    User u1 = new User(md, "CatioBalde", "grandepass1", "Catio");
 	    Directory home3 = new Directory("CatioBalde", 127, u1, home1);
 	    u1.setMainDirectory(home3);
 
@@ -55,15 +55,15 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	    PlainFile p1 = new PlainFile("CasoBruma", 123, u1, "conteudo1", home3);
 		PlainFile p2 = new PlainFile("Exemplo", 124, u2, "conteudo3", home2);
 	    
-		Session s1 = new Session("CatioBalde", "pass1", sm);
+		Session s1 = new Session("CatioBalde", "grandepass1", sm);
 	    s1.setCurrentDir(home3);
 	    token1=s1.getToken();
 	    
-	    Session s2 = new Session("CatioBalde", "pass1", sm);
+	    Session s2 = new Session("CatioBalde", "grandepass1", sm);
 	    s2.setCurrentDir(home2);
 	    token2=s2.getToken();
 
-	    Session s3 = new Session("CatioBalde", "pass1", sm);
+	    Session s3 = new Session("CatioBalde", "grandepass1", sm);
 	    s3.setCurrentDir(rootdir);
 	    token3=s3.getToken();
 	    
@@ -71,11 +71,11 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	    s4.setCurrentDir(home2);
 	    token4=s4.getToken();
 	    
-	    Session s5 = new Session("CatioBalde", "pass1", sm);
+	    Session s5 = new Session("CatioBalde", "grandepass1", sm);
 	    s5.setCurrentDir((Directory)rootdir.get("home"));
 	    token5=s5.getToken();
 	    
-	    Session s6 = new Session("CatioBalde", "pass1", sm);
+	    Session s6 = new Session("CatioBalde", "grandepass1", sm);
 	    s6.setCurrentDir((Directory)rootdir.get("home"));
 	    token6=s6.getToken();
 	    home1.setOthersPermission(new Permission("r-x-"));

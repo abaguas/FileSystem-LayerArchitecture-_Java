@@ -38,7 +38,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		Directory home = (Directory)rootdir.get("home");
 		home.setOthersPermission(new Permission("rwx-"));
 
-		User u1 = new User(md,"EusebioSilva","pass1", "Eusebio");
+		User u1 = new User(md,"EusebioSilva","grandepass1", "Eusebio");
 		Directory home_user= new Directory("EusebioSilva", md.generateId(), u1, home);
 		u1.setMainDirectory(home_user);
 
@@ -47,11 +47,11 @@ public class ListDirectoryTest extends AbstractServiceTest{
 	    new App("Application", 123, u1, "conteudo1", home_user);
 	   	new Link("Ligacao", 126, u1, "conteudo1", home_user);
 	   	
-	   	Session s1 = new Session("EusebioSilva", "pass1", sm);
+	   	Session s1 = new Session("EusebioSilva", "grandepass1", sm);
 	   	s1.setCurrentDir(home_user);
 	   	token1 = s1.getToken();
 	   	
-	   	Session s2 = new Session("EusebioSilva", "pass1", sm);
+	   	Session s2 = new Session("EusebioSilva", "grandepass1", sm);
 	   	token2=s2.getToken();
 	   	s2.setCurrentDir(md.getRootDirectory());
 	   	

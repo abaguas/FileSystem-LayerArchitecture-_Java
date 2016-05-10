@@ -26,7 +26,12 @@ public class User extends User_Base {
 //	}
 	
 	protected void initSpecial(String username, String password, String name) {
-		initBasic(username, password, name);
+	   try{
+            initBasic(username, password, name);
+        }
+       catch(InvalidPasswordSizeException e){
+            super.setPassword(password);
+        }
 		setOwnPermission( new Permission(true, true, true, true) );
 		setOthersPermission( new Permission(true, false, true, false) );
 	}
@@ -70,6 +75,14 @@ public class User extends User_Base {
         }
 		super.setUsername(username);
 	}
+    @Override
+    public void setPassword(String password) throws InvalidPasswordSizeException{
+        if(password.length()<8){
+            throw new InvalidPasswordSizeException();
+        }
+        super.setPassword(password);
+
+    }
     
     public App getFileByExtension(String extension) throws ExtensionNotFoundException {
     	return null;
