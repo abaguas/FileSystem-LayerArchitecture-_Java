@@ -38,10 +38,24 @@ public class Session extends Session_Base {
 	private void setPrivateTimestamp(){
 		super.setTimestamp(new DateTime());
 	}
+
+	public void refreshTimestamp(){
+		super.setTimestamp(new DateTime());
+	}
+	public String getUsername(){
+		return getUser().getUsername();
+	}
 	
-	public boolean expiration(){
+	public boolean expiration(String username){
 		DateTime actual = new DateTime();
 		DateTime twohoursbefore = actual.minusHours(2);
+		if(username.equals("root")){
+			twohoursbefore=actual.minusMinutes(10);
+		}
+		else if (username.equals("nobody")){
+			return false;
+		}
+
 		int result = DateTimeComparator.getInstance().compare(twohoursbefore, getTimestamp());
 		
 		if (result > 0) {
