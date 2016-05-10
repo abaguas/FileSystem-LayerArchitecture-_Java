@@ -5,10 +5,11 @@ import org.joda.time.DateTimeComparator;
 
 import pt.tecnico.mydrive.exception.InvalidOperationException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
+import pt.tecnico.mydrive.exception.OutDatedUserException;
 
 public class Session extends Session_Base {
 
-	public Session(String username, String password, SessionManager sm) throws NoSuchUserException {
+	public Session(String username, String password, SessionManager sm) throws NoSuchUserException,OutDatedUserException {
 		super.setSessionManager(sm);
 		//sm.addSession(this);
 		User user = sm.validateUser(username, password);

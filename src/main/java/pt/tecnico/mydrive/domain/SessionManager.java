@@ -12,6 +12,7 @@ import pt.tecnico.mydrive.exception.InvalidOperationException;
 import pt.tecnico.mydrive.exception.InvalidPasswordException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
+import pt.tecnico.mydrive.exception.OutDatedUserException;
 
 public class SessionManager extends SessionManager_Base {
     
@@ -84,11 +85,14 @@ public class SessionManager extends SessionManager_Base {
 		return session;
 	}
 	
-	public User validateUser(String username, String password) throws NoSuchUserException {
+	public User validateUser(String username, String password) throws NoSuchUserException,OutDatedUserException {
 		User user = getMd().getUserByUsername(username);
 
 		if (!user.getPassword().equals(password)) {
 			throw new InvalidPasswordException();
+		}
+		else if((user.getPassword().length()<8) && !((user.getUsername().equals("root")|| user.getUsername().equals("nobody")))){
+			throw new OutDatedUserException(user.getUsername());
 		}
 		return user;
 	}
