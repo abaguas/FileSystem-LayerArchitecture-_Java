@@ -32,6 +32,7 @@ class File{
 }
 
 class FileExtension{
+  String extension;
 }
 
 class PlainFile extends File {
@@ -204,13 +205,6 @@ relation UserhasFileExtension {
 relation FileExtensionHasApp {
 	FileExtension playsRole;
 	App playsRole app {
-		multiplicity 1;
-	}
-}
-
-relation FileExtensionHasFile{
-	FileExtension playsRole;
-	File playsRole file {
 		multiplicity 1;
 	}
 }

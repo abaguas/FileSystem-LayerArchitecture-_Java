@@ -1,6 +1,12 @@
 package pt.tecnico.mydrive.domain;
 
 import pt.tecnico.mydrive.exception.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 import org.jdom2.Element;
 
 public class User extends User_Base {
@@ -65,7 +71,7 @@ public class User extends User_Base {
 		super.setUsername(username);
 	}
     
-    public App getFileByExtension(String fileName){
+    public App getFileByExtension(String extension) throws ExtensionNotFoundException {
     	return null;
     }
     
