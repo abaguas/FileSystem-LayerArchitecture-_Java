@@ -13,6 +13,8 @@ import pt.tecnico.mydrive.exception.InvalidPasswordException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.OutDatedUserException;
+import pt.tecnico.mydrive.exception.SessionExpiredException;
+
 
 public class SessionManager extends SessionManager_Base {
     
@@ -42,21 +44,15 @@ public class SessionManager extends SessionManager_Base {
 	
 	public void removeExpiredSessions() {
 		Set<Session> sessions = super.getSessionSet();
-		DateTime actual = new DateTime();
-		DateTime twohoursbefore = actual.minusHours(2);
-
 		for (Session session : sessions) {
-			int result = DateTimeComparator.getInstance().compare(twohoursbefore, session.getTimestamp());
-			
-			if (!(session.getUser().equals( getMd().getGuestUser() ))) {
-				if (result > 0) {
-					super.removeSession(session);
-				}
+			boolean expired= session.expiration(session.getUsername());
+			if(expired){
+				super.removeSession(session);
 			}
 		}
 	}
 	
-	public Session getSession(long token) throws InvalidTokenException{
+	public Session getSession(long token) throws InvalidTokenException, SessionExpiredException{
 		Session session = null;
 		Set<Session> sessions = super.getSessionSet();
 		
@@ -71,15 +67,13 @@ public class SessionManager extends SessionManager_Base {
 			throw new InvalidTokenException();
 		}
 		
-		boolean expire = session.expiration();
+		boolean expire = session.expiration(session.getUsername());
 		
 		if(expire){
-			Session newSession = new Session(session.getUser().getUsername(), session.getUser().getPassword(), this);
-			removeSession(session);
-			session = newSession;
+			throw new SessionExpiredException();
 		}
 		else{
-			//Session sets its Timestamp
+			session.refreshTimestamp();
 		}
 		
 		return session;
