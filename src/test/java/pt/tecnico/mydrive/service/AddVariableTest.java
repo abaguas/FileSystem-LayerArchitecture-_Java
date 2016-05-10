@@ -25,11 +25,11 @@ public class AddVariableTest extends AbstractServiceTest {
 		SessionManager sm = md.getSessionManager();
 		
 		User u0 = md.getRootUser();
-		User u1 = new User(md, "ana", "pass1", "Ana");
+		User u1 = new User(md, "ana", "grandepass1", "Ana");
 		md.addUsers(u1);
-		User u2 = new User(md, "maria", "pass2", "Maria");
+		User u2 = new User(md, "maria", "grandepass2", "Maria");
 		md.addUsers(u2);
-		User u3 = new User(md, "filipa", "pass3", "Filipa");
+		User u3 = new User(md, "filipa", "grandepass3", "Filipa");
 		md.addUsers(u3);
 	
 		Directory rootdir = md.getRootDirectory();
@@ -48,13 +48,13 @@ public class AddVariableTest extends AbstractServiceTest {
 		Session s0 = new Session("root", "***", sm); // root - token = 0
 		s0.setCurrentDir(dir0);
 	    
-		Session s1 = new Session("ana", "pass1", sm); // ana - token=1
+		Session s1 = new Session("ana", "grandepass1", sm); // ana - token=1
 		s1.setCurrentDir(dir1);
      
- 	    Session s2 = new Session("maria", "pass2", sm); // maria - token=2
+ 	    Session s2 = new Session("maria", "grandepass2", sm); // maria - token=2
  	    s2.setCurrentDir(dir2);
     
-	    Session s3 = new Session("filipa", "pass3", sm); // filipa - token=3
+	    Session s3 = new Session("filipa", "grandepass3", sm); // filipa - token=3
 	    s3.setCurrentDir(dir3);
 			
 	    //FIXME - CRIAR AQUI VARIAVEIS DE AMBIENTE
