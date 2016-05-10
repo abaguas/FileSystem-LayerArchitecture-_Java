@@ -34,7 +34,7 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 	
 	protected void populate() {
 
-		MyDrive md = MyDrive.getInstance();
+		MyDrive md = MyDriveService.getMyDrive();
 		sm = md.getSessionManager();
 		
 		rootdir = MyDrive.getInstance().getRootDirectory();

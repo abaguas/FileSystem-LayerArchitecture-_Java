@@ -13,7 +13,7 @@ import pt.tecnico.mydrive.domain.MyDrive;
 public class LoginServiceTest extends AbstractServiceTest{
 	protected void populate(){
 
-		MyDrive md = MyDrive.getInstance();
+		MyDrive md = MyDriveService.getMyDrive();
 		User u1= new User(md,"user1", "1234", "Utilizador1");
 		md.addUsers(u1);
 

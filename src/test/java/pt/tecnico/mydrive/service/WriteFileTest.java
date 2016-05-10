@@ -28,7 +28,7 @@ public class WriteFileTest extends AbstractServiceTest{
 	private long token;
 	
 	protected void populate() {
-		MyDrive md = MyDrive.getInstance();
+		MyDrive md = MyDriveService.getMyDrive();
 		SessionManager sm = md.getSessionManager();
 		
 		md.getRootDirectory().get("home").setOthersPermission(new Permission("rwx-"));
