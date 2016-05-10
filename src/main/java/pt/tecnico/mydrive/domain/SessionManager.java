@@ -70,9 +70,6 @@ public class SessionManager extends SessionManager_Base {
 		boolean expire = session.expiration(session.getUsername());
 		
 		if(expire){
-			/*Session newSession = new Session(session.getUser().getUsername(), session.getUser().getPassword(), this);
-			removeSession(session);
-			session = newSession;*/
 			throw new SessionExpiredException();
 		}
 		else{
