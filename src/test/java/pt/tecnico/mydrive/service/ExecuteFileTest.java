@@ -24,7 +24,7 @@ public class ExecuteFileTest extends AbstractServiceTest{
 	private long token;
 	
 	protected void populate() {
-		MyDrive md = MyDrive.getInstance();
+		MyDrive md = MyDriveService.getMyDrive();
 		SessionManager sm = md.getSessionManager();
 		
 		Directory home = (Directory) md.getRootDirectory().get("home");

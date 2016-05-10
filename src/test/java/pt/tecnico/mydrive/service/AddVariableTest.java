@@ -17,12 +17,18 @@ import java.util.List;
 
 
 public class AddVariableTest extends AbstractServiceTest {
-
+	
+	private long token0;
+	private long token1;
+	private long token2;
+	private long token3;
+	private SessionManager sm;
+	
 	@Override
 	protected void populate() {
 		
-		MyDrive md = MyDrive.getInstance();
-		SessionManager sm = md.getSessionManager();
+		MyDrive md = MyDriveService.getMyDrive();
+		sm = md.getSessionManager();
 		
 		User u0 = md.getRootUser();
 		User u1 = new User(md, "ana", "grandepass1", "Ana");
@@ -47,102 +53,107 @@ public class AddVariableTest extends AbstractServiceTest {
 		//Session s0 = u0.getSession();//acho que a sessão do User é sempre criada (??)
 		Session s0 = new Session("root", "***", sm); // root - token = 0
 		s0.setCurrentDir(dir0);
+		token0=s0.getToken();
 	    
 		Session s1 = new Session("ana", "grandepass1", sm); // ana - token=1
 		s1.setCurrentDir(dir1);
+		token1=s1.getToken();
      
  	    Session s2 = new Session("maria", "grandepass2", sm); // maria - token=2
  	    s2.setCurrentDir(dir2);
+		token2=s2.getToken();
     
 	    Session s3 = new Session("filipa", "grandepass3", sm); // filipa - token=3
 	    s3.setCurrentDir(dir3);
+		token3=s3.getToken();
 			
 	    //FIXME - CRIAR AQUI VARIAVEIS DE AMBIENTE
+/*	    
+	    EnvironmentVariable v1 = new EnvironmentVariable("v1", "value1");
+	    s1.addEnvironmentVariable(v1);
+	    s2.addEnvironmentVariable(v1);
 	    
-//	    EnvironmentVariable v1 = new EnvironmentVariable("v1", "value1");
-//	    s1.addEnvironmentVariable(v1);
-//	    s2.addEnvironmentVariable(v1);
-//	    
-//	    EnvironmentVariable v2 = new EnvironmentVariable("v2", "value2");
-//	    s2.addEnvironmentVariable(v2);
-	    
+	    EnvironmentVariable v2 = new EnvironmentVariable("v2", "value2");
+	    s2.addEnvironmentVariable(v2);
+*/	    
 	    
 	}
 
 	
 	// SHORTCUTS
 	
-//	private User getUser(long token) {
-//		User u = MyDriveService.getMyDrive().getCurrentUserByToken(token);
-//		return u;
-//	}
-//	
-//	private Directory getDirectory(long token) {
-//		Directory d = MyDriveService.getMyDrive().getCurrentDirByToken(token);
-//		return d;
-//	}
+	private User getUser(long token) {
+		User u = sm.getSession(token).getUser();
+		return u;
+	}
+	
+	private Directory getDirectory(long token) {
+		Directory d = sm.getSession(token).getCurrentDir();
+		return d;
+	}
 
 	
-//	private Session getSession(long token) {
-//		Session s = MyDriveService.getMyDrive().getSessionByToken(token);
-//		return s;
-//	}
+	private Session getSession(long token) {
+		Session s = sm.getSession(token);
+		return s;
+	}
 	
 		
 	//TESTS
-	
-//	public void successAddFirstVariable() {
-//		AddVariableService service = new AddVariableService(3, "newVar", "newValue");
-//		service.execute();
-//		List<EnvironmentVariable> varList = service.result();
-//		//FIXME criar esta chave no populate() varUpdate e verificar
-//		
-//        assertNotNull("list of environment variables was not created", varList);
-//        assertEquals("incorrect number of environment variables", 1, varList.size());
-//        assertEquals("incorrect variable name", "newVar", varList.get(0).getName());
-//        assertEquals("incorrect variable value", "newValue", varList.get(0).getValue());
-//	}
-//	
-//	
-//	public void successAddNewVariable() {
-//		AddVariableService service = new AddVariableService(1, "home", "/home/ana");
-//		service.execute();
-//		List<EnvironmentVariable> varList = service.result();
-//		//FIXME criar esta chave no populate() varUpdate e verificar
-//		
-//        assertNotNull("list of environment variables was not created", varList);
-//        assertEquals("incorrect number of environment variables", 2, varList.size());
-//        assertEquals("incorrect variable name", "home", varList.get(0).getName());
-//        assertEquals("incorrect variable value", "/home/ana", varList.get(0).getValue());
-//        assertEquals("incorrect variable name", "v1", varList.get(1).getName());
-//        assertEquals("incorrect variable value", "value1", varList.get(1).getValue());
-//	}
-//
-//	
-//	public void successUpdateVariable() {
-//		AddVariableService service = new AddVariableService(2, "v2", "value2-new");
-//		service.execute();
-//		List<EnvironmentVariable> varList = service.result();
-//		//FIXME criar esta chave no populate() varUpdate e verificar
-//		
-//        assertNotNull("list of environment variables was not created", varList);
-//        assertEquals("incorrect number of environment variables", 2, varList.size());
-//        assertEquals("incorrect variable name", "v1", varList.get(0).getName());
-//        assertEquals("incorrect variable value", "value1", varList.get(0).getValue());
-//        assertEquals("incorrect variable name", "v2", varList.get(1).getName());
-//        assertEquals("incorrect variable value", "value2-new", varList.get(1).getValue());
-//	}
-//	
-//	
-//	@Test (expected = InvalidTokenException.class)
-//    public void invalidToken() { 
-//		final long token = 1234567890;
-//		AddVariableService service = new AddVariableService(token, "impossibleName", "impossibleValue");
-//		service.execute();
-//		List<EnvironmentVariable> varList = service.result();
-//		//FIXME criar esta chave no populate() varUpdate e verifica
-//    }
-	
 
+/*	
+	public void successAddFirstVariable() {
+		AddVariableService service = new AddVariableService(3, "newVar", "newValue");
+		service.execute();
+		List<EnvironmentVariable> varList = service.result();
+		//FIXME criar esta chave no populate() varUpdate e verificar
+		
+        assertNotNull("list of environment variables was not created", varList);
+        assertEquals("incorrect number of environment variables", 1, varList.size());
+        assertEquals("incorrect variable name", "newVar", varList.get(0).getName());
+        assertEquals("incorrect variable value", "newValue", varList.get(0).getValue());
+	}
+	
+	
+	public void successAddNewVariable() {
+		AddVariableService service = new AddVariableService(1, "home", "/home/ana");
+		service.execute();
+		List<EnvironmentVariable> varList = service.result();
+		//FIXME criar esta chave no populate() varUpdate e verificar
+		
+        assertNotNull("list of environment variables was not created", varList);
+        assertEquals("incorrect number of environment variables", 2, varList.size());
+        assertEquals("incorrect variable name", "home", varList.get(0).getName());
+        assertEquals("incorrect variable value", "/home/ana", varList.get(0).getValue());
+        assertEquals("incorrect variable name", "v1", varList.get(1).getName());
+        assertEquals("incorrect variable value", "value1", varList.get(1).getValue());
+	}
+
+	
+	public void successUpdateVariable() {
+		AddVariableService service = new AddVariableService(2, "v2", "value2-new");
+		service.execute();
+		List<EnvironmentVariable> varList = service.result();
+		//FIXME criar esta chave no populate() varUpdate e verificar
+		
+        assertNotNull("list of environment variables was not created", varList);
+        assertEquals("incorrect number of environment variables", 2, varList.size());
+        assertEquals("incorrect variable name", "v1", varList.get(0).getName());
+        assertEquals("incorrect variable value", "value1", varList.get(0).getValue());
+        assertEquals("incorrect variable name", "v2", varList.get(1).getName());
+        assertEquals("incorrect variable value", "value2-new", varList.get(1).getValue());
+	}
+	
+	
+	@Test (expected = InvalidTokenException.class)
+    public void invalidToken() { 
+		final long token = 1234567890;
+		AddVariableService service = new AddVariableService(token, "impossibleName", "impossibleValue");
+		service.execute();
+		List<EnvironmentVariable> varList = service.result();
+		//FIXME criar esta chave no populate() varUpdate e verifica
+    }
+	
+*/
 	
 }

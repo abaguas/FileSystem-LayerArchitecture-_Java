@@ -28,7 +28,7 @@ public class ReadFileTest extends AbstractServiceTest{
 	private long tokenRoot;
 	
 	protected void populate() {
-		MyDrive md = MyDrive.getInstance();
+		MyDrive md = MyDriveService.getMyDrive();
 		SessionManager sm = md.getSessionManager();
 		Directory rootdir = MyDrive.getInstance().getRootDirectory();
 
