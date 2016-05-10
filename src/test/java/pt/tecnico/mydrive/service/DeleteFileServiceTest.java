@@ -43,8 +43,8 @@ public class DeleteFileServiceTest extends AbstractServiceTest{
 		home1.setOthersPermission(new Permission("rwx-"));
 
 	    User u1 = new User(md, "CatioBalde", "grandepass1", "Catio");
-	    Directory home3 = new Directory("CatioBalde", 127, u1, home1);
-	    u1.setMainDirectory(home3);
+	    Directory home3 = u1.getMainDirectory();
+	    
 
 	    User u2 = md.getUserByUsername("root");
 		home2 = u2.getMainDirectory();

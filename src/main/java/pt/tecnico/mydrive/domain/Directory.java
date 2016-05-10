@@ -21,12 +21,19 @@ public class Directory extends Directory_Base {
         initRoot("/", 0, user);
         setSelfDirectory(this);
         setFatherDirectory(this);
+        setOthersPermission(new Permission(true,false,true,false));
     }
 
 	public Directory(String name, int id, User user, Directory father) {
         init(name, id, user, father);
 		init(father);
     }
+
+    public Directory(String name, User user, Directory father) {
+        init(name, MyDrive.getInstance().generateId(), user, father);
+		init(father);
+    }
+
 	public void init(Directory father){
 		setFatherDirectory(father);
         setSelfDirectory(this);

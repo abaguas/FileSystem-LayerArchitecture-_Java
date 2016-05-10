@@ -53,24 +53,13 @@ public class CreateFileTest extends AbstractServiceTest {
 		Directory rootdir = md.getRootDirectory();
 		Directory home = (Directory)rootdir.get("home");
 
-		//Directory roothome = u0.getMainDirectory();
 		home.setOthersPermission(new Permission("rwx-"));
 
 
-//		Directory dir0 = u0.getMainDirectory();
-//		Directory dir1 = u1.getMainDirectory();
-//		Directory dir2 = u2.getMainDirectory();
-//		Directory dir3 = u3.getMainDirectory();
-		
 		Directory dir0 = u0.getMainDirectory();
-		Directory dir1 = new Directory("ana", 10, u1, home); //id=10
-		Directory dir2 = new Directory("maria", 20, u2, home); //id=20
-		Directory dir3 = new Directory("filipa", 30, u3, home); //id=30
-		
-//		u1.setMainDirectory(dir1);
-//		u2.setMainDirectory(dir2);
-//		u3.setMainDirectory(dir3);
-		
+		Directory dir1 = u1.getMainDirectory();
+		Directory dir2 = u2.getMainDirectory();
+		Directory dir3 = u3.getMainDirectory();
 		
 		Session s0 = new Session("root", "***", sm);
 		s0.setCurrentDir(dir0);

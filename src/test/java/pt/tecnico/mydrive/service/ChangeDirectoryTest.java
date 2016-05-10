@@ -43,8 +43,8 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 		home.setOthersPermission(new Permission("rwx-"));
 
     	Directory homeRoot = root.getMainDirectory();
-    	Directory home1 = new Directory("neto", 425, u1, home); //id=425
-	    Directory home2 = new Directory("zecarlos", 645, u2, home); //id=645
+    	Directory home1 = u1.getMainDirectory();
+	    Directory home2 = u2.getMainDirectory();
 	    
 	    
 	    PlainFile p1 = new PlainFile("example.txt", 144, u1, "", home1); //id=144

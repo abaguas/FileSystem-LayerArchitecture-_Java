@@ -33,23 +33,19 @@ public class WriteFileTest extends AbstractServiceTest{
 		
 		md.getRootDirectory().get("home").setOthersPermission(new Permission("rwx-"));
 	    User u1 = new User(md,"Catio", "grandepass1", "CatioBalde");
-	    
-	    Directory user_home = new Directory("Catio", md.generateId(),u1, (Directory)md.getRootDirectory().get("home"));
-	    
-	    u1.setMainDirectory(user_home);
-
+	    	    
 	    User u2 = md.getRootUser();
-	    Directory d1 = new Directory("folder", md.generateId(), u1, user_home);
+	    Directory d1 = new Directory("folder", md.generateId(), u1, u1.getMainDirectory());
 	    PlainFile p3 = new PlainFile("rel", md.generateId(), u1, "content", d1);
 	    
-	    PlainFile p1 = new PlainFile("CasoBruma", md.generateId(), u1, "conteudo1", user_home);
-	    PlainFile p2 = new PlainFile("Exemplo", md.generateId(), u2, "conteudo3", user_home);
-	    App a1 = new 	App("application", md.generateId(), u1, "conteudo1", user_home);
-	    Link l1 = new Link("ligacao", md.generateId(), u1, "CasoBruma", user_home);
-	    Link l2 = new Link("relative", md.generateId(), u1, "folder/rel", user_home);
+	    PlainFile p1 = new PlainFile("CasoBruma", md.generateId(), u1, "conteudo1", u1.getMainDirectory());
+	    PlainFile p2 = new PlainFile("Exemplo", md.generateId(), u2, "conteudo3", u1.getMainDirectory());
+	    App a1 = new 	App("application", md.generateId(), u1, "conteudo1", u1.getMainDirectory());
+	    Link l1 = new Link("ligacao", md.generateId(), u1, "CasoBruma", u1.getMainDirectory());
+	    Link l2 = new Link("relative", md.generateId(), u1, "folder/rel", u1.getMainDirectory());
 
 	    Session s1 = new Session("Catio", "grandepass1", sm);
-		s1.setCurrentDir(user_home);
+		s1.setCurrentDir(u1.getMainDirectory());
 
 	    
 	    token=s1.getToken();

@@ -14,17 +14,29 @@ public class User extends User_Base {
 	public User(){}
 	
 	public User(MyDrive md, String username, String password, String name) throws InvalidUsernameException{
-		init(md, username, password, name);
+        init(md, username, password, name, new Permission(true, true, true, true), new Permission(true, false, true, false));
 	}
-	
-//	public User(String username, String password, String name, Directory home) throws InvalidUsernameException{
-//		init(username, password, name, home);
-//	}
-//
-//	public User(String username, String password, String name, Directory home, Permission mask) throws InvalidUsernameException{
-//		init(username, password, name, home, mask);
-//	}
-	
+
+    public User(MyDrive md, String username, String password, String name, Permission maskOwn, Permission maskOther) throws InvalidUsernameException{
+        init(md,username,password,name,maskOwn,maskOther);
+    }
+
+	public void init(MyDrive md, String username, String password, String name, Permission maskOwn, Permission maskOther) throws InvalidUsernameException{
+		if(validUsername(username)){
+            if(!md.userExists(username)){
+                setUsername(username);
+                super.setMyDrive(md);
+                setPassword(password);
+                setName(name);
+                setOwnPermission(maskOwn);
+                setOthersPermission(maskOther);
+                Directory d = new Directory(username, md.getRootUser(), (Directory)md.getRootDirectory().get("home"));
+                d.setOwner(this);
+                setMainDirectory(d);
+            }
+        }
+	}
+
 	protected void initSpecial(String username, String password, String name) {
 	   try{
             initBasic(username, password, name);
@@ -41,13 +53,6 @@ public class User extends User_Base {
     	super.setPassword(password);
     	setName(name);
     }
-    
-    protected void init(MyDrive md,String username, String password, String name) throws InvalidUsernameException{
-    	initBasic(username, password, name);
-    	setOwnPermission( new Permission(true, true, true, true) );
-    	setOthersPermission( new Permission(false, false, false, false) );
-    	setMyDrive(md);
-    }
 
     
 	public User(Element user_element, Directory home){
@@ -57,6 +62,11 @@ public class User extends User_Base {
     
     public String toString(){
     	return "Username: " + getUsername() + "Name: "  + getName();
+    }
+
+    @Override
+    public void setMyDrive(MyDrive mydrive) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
     }
 
     public void remove(){
@@ -82,6 +92,33 @@ public class User extends User_Base {
         }
         super.setPassword(password);
 
+    }
+
+    @Override
+    public void setOwnPermission(Permission mask){
+        if(mask != null)
+            super.setOwnPermission(mask);
+            //super.setOwnPermission(new Permission(mask.substring(0,4)));
+        super.setOwnPermission(new Permission("rwxd"));
+    }
+
+    @Override
+    public void setOthersPermission(Permission mask){
+        if(mask != null)
+            super.setOthersPermission(mask);
+        super.setOthersPermission(new Permission("----"));
+        /*  super.setOthersPermission(new Permission(mask.substring(4)));
+        super.setOthersPermission(new Permission("----"));*/
+    }
+
+    private boolean validUsername(String username){
+        String pattern = "^[a-zA-Z0-9]*$"; // String pattern = "[A-Za-z0-9]+";
+        if(username != null){ 
+            if(username.matches(pattern) && (username.length()>2) ) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public App getFileByExtension(String extension) throws ExtensionNotFoundException {

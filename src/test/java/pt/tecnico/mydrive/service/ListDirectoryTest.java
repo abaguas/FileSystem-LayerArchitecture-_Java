@@ -39,8 +39,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		home.setOthersPermission(new Permission("rwx-"));
 
 		User u1 = new User(md,"EusebioSilva","grandepass1", "Eusebio");
-		Directory home_user= new Directory("EusebioSilva", md.generateId(), u1, home);
-		u1.setMainDirectory(home_user);
+		Directory home_user= u1.getMainDirectory();
 
 		new PlainFile("CasoBruma", 124, u1, "conteudo1", home_user);
 	    new PlainFile("Exemplo", 125, u1, "conteudo3", home_user);
