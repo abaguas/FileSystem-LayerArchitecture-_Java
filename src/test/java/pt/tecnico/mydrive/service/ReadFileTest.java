@@ -35,9 +35,9 @@ public class ReadFileTest extends AbstractServiceTest{
 		Directory home = (Directory)rootdir.get("home");
 
 		//create users
-		User owner = new User(md,"Pizza", "password", "pizz");
+		User owner = new User(md,"Pizza", "grandepassword", "pizz");
 		md.addUsers(owner);
-		User other = new User(md,"Popcorn", "password", "corn");
+		User other = new User(md,"Popcorn", "grandepassword", "corn");
 		md.addUsers(other);
 		User root = md.getRootUser();
 		
@@ -91,11 +91,11 @@ public class ReadFileTest extends AbstractServiceTest{
 		
 		//create session and set current directory
 //		Session sessionOwner = new Session(owner, 1, md);
-		Session sessionOwner = new Session("Pizza", "password", sm);
+		Session sessionOwner = new Session("Pizza", "grandepassword", sm);
 		sessionOwner.setCurrentDir(workingDirectory);
 		
 //		Session sessionOther = new Session(other, 2, md);
-		Session sessionOther = new Session("Popcorn", "password", sm);
+		Session sessionOther = new Session("Popcorn", "grandepassword", sm);
 		sessionOther.setCurrentDir(workingDirectory);
 		
 //		Session sessionRoot = new Session(root, 3, md);

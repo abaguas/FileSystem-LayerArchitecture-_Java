@@ -32,7 +32,7 @@ public class WriteFileTest extends AbstractServiceTest{
 		SessionManager sm = md.getSessionManager();
 		
 		md.getRootDirectory().get("home").setOthersPermission(new Permission("rwx-"));
-	    User u1 = new User(md,"Catio", "pass1", "CatioBalde");
+	    User u1 = new User(md,"Catio", "grandepass1", "CatioBalde");
 	    
 	    Directory user_home = new Directory("Catio", md.generateId(),u1, (Directory)md.getRootDirectory().get("home"));
 	    
@@ -48,7 +48,7 @@ public class WriteFileTest extends AbstractServiceTest{
 	    Link l1 = new Link("ligacao", md.generateId(), u1, "CasoBruma", user_home);
 	    Link l2 = new Link("relative", md.generateId(), u1, "folder/rel", user_home);
 
-	    Session s1 = new Session("Catio", "pass1", sm);
+	    Session s1 = new Session("Catio", "grandepass1", sm);
 		s1.setCurrentDir(user_home);
 
 	    
