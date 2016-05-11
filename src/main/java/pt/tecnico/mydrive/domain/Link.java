@@ -131,19 +131,11 @@ public class Link extends Link_Base {
 //                                   XML                               //
 //////////////////////////////////////////////////////////////////////////////////////
 
-    public void xmlImport(Element link_element, User owner, Directory father){
-        int id= Integer.parseInt(link_element.getAttribute("id").getValue());
-        String name = link_element.getChildText("name");
-        String perm= link_element.getChildText("perm");
-        String contents= link_element.getChildText("value");
-        if(perm == null){
-            perm = "rwxd--x-";
-        }
-        Permission ownpermission = new Permission(perm.substring(0,4));
-        Permission otherspermission = new Permission(perm.substring(4));
-        setUserPermission(ownpermission);
-        setOthersPermission(otherspermission);
-        init(name, id, owner, contents, father);
+    @Override
+    public void xmlImport(Element element, User owner, Directory father){
+        super.xmlImport(element,owner,father);
+        String contents= element.getChildText("value");
+        setContent(contents);
     }
     
     @Override

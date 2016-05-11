@@ -202,19 +202,6 @@ public class Directory extends Directory_Base {
 //////////////////////////////////////////////////////////////////////////////////////
 
 
-	public void xmlImport(Element directory_element,User user, Directory father){
-		int id= Integer.parseInt(directory_element.getAttribute("id").getValue());
-        String name = directory_element.getChildText("name");
-        String perm= directory_element.getChildText("perm");
-        if(perm == null){
-            perm = "rwxd--x-";
-        }
-        Permission ownpermission = new Permission(perm.substring(0,4));
-        Permission otherspermission = new Permission(perm.substring(4));
-        init(name, id, user, father);
-		init(father);
-	}
-
 	public void xmlExport(Element element_mydrive){
         if(getId() > 2 && !isHome()){
 

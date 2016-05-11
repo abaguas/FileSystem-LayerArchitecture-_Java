@@ -230,17 +230,11 @@ public class PlainFile extends PlainFile_Base {
 //                                   XML                               //
 //////////////////////////////////////////////////////////////////////////////////////
     
-    public void xmlImport(Element plain_element, User user, Directory father){
-        int id= Integer.parseInt(plain_element.getAttribute("id").getValue());
-        String name = plain_element.getChildText("name");
-        String perm= plain_element.getChildText("perm");
-        String contents= plain_element.getChildText("contents");
-        if(perm == null){
-            perm = "rwxd--x-";
-        }
-        Permission ownpermission = new Permission(perm.substring(0,4));
-        Permission otherspermission = new Permission(perm.substring(4));
-        init(name,id,user,contents,father);
+    @Override
+    public void xmlImport(Element element, User owner, Directory father){
+        super.xmlImport(element,owner,father);
+        String contents= element.getChildText("contents");
+        setContent(contents);
     }
     
     @Override

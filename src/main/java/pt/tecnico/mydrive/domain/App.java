@@ -87,21 +87,11 @@ public class App extends App_Base {
 //////////////////////////////////////////////////////////////////////////////////////
 //                                          XML                               //
 //////////////////////////////////////////////////////////////////////////////////////
-
-
-    public void xmlImport(Element app_element, User owner, Directory father){
-        int id= Integer.parseInt(app_element.getAttribute("id").getValue());
-        String name = app_element.getChildText("name");
-        String perm= app_element.getChildText("perm");
-        if(perm == null){
-            perm = "rwxd--x-";
-        }
-        String contents= app_element.getChildText("method");
-        Permission ownpermission = new Permission(perm.substring(0,4));
-        Permission otherspermission = new Permission(perm.substring(4));
-        init(name, id, owner, contents, father);
-        setUserPermission(ownpermission);
-        setOthersPermission(otherspermission);
+    @Override
+    public void xmlImport(Element element, User owner, Directory father){
+        super.xmlImport(element,owner,father);
+        String contents= element.getChildText("method");
+        setContent(contents);
     }
 
     public void xmlExport(Element element_mydrive){

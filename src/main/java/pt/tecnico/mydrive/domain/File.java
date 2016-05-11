@@ -271,4 +271,16 @@ public abstract class File extends File_Base {
 
     public void xmlExport(Element element_mydrive){}
 
+    public void xmlImport(Element element, User user, Directory father){
+		int id= Integer.parseInt(element.getAttribute("id").getValue());
+        String name = element.getChildText("name");
+        String perm= element.getChildText("perm");
+        if(perm == null){
+            perm = "rwxd--x-";
+        }
+        Permission ownpermission = new Permission(perm.substring(0,4));
+        Permission otherspermission = new Permission(perm.substring(4));
+        init(name, MyDrive.getInstance().generateId(), user, father);
+	}
+
 }

@@ -55,9 +55,8 @@ public class User extends User_Base {
     }
 
     
-	public User(Element user_element, Directory home){
-        setMainDirectory(home);
-        xmlImport(user_element);
+	public User(Element user_element, MyDrive md){
+        xmlImport(user_element, md);
     }
     
     public String toString(){
@@ -129,7 +128,7 @@ public class User extends User_Base {
       //                                   XML                               //
 //////////////////////////////////////////////////////////////////////////////////////    
 
-    public void xmlImport(Element user_element){
+    public void xmlImport(Element user_element, MyDrive md){
         String username= user_element.getAttribute("username").getValue();
         String password= user_element.getChildText("password");
         String name= user_element.getChildText("name");
@@ -141,13 +140,9 @@ public class User extends User_Base {
         if(mask_xml==null){
             mask_xml="rwxd----";       
         }
-        setUsername(username);
-        setPassword(password);
-        setName(name);
         Permission ownpermission = new Permission(mask_xml.substring(0,4));
         Permission otherspermission = new Permission(mask_xml.substring(4));
-        setOwnPermission(ownpermission);
-        setOthersPermission(otherspermission);
+        init(md, username, password, name, ownpermission, otherspermission);
     }
     
     public void xmlExport(Element element_mydrive){

@@ -24,28 +24,36 @@ import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 
 public class MyDriveApplication {
 
-    public static String f(String s){
-        String S[] = s.split("/");
-        return S[0];
-    }
-
     public static void main(String[] args) {
         System.out.println("*** Welcome to the MyDrive application! ***");
         try {
-            /*setup();
-            for (String s: args) xmlScan(new File(s));
-            xmlPrint();*/
-            String b = "home";
-            String c = "home/root";
-            String d = "home/root/cenas";
-            System.out.println(f(b));
-            System.out.println(f(c));
-            System.out.println(f(d));
+            if(args.length == 0){
+                setup();
+            }
+            else{
+                for (String s: args) xmlScan(new File(s));
+            }
+            xmlPrint();
         } finally { FenixFramework.shutdown(); }
     }
 
     @Atomic
-    public static void setup() {}
+    public static void setup() {
+        /*MyDrive md = MyDrive.getInstance();
+        Person person;
+
+        person = new Person(pb, "Manel");
+        new Contact(person, "SOS", 112);
+        new Contact(person, "IST", 214315112);
+        new Contact(person, "Xico", 911919191);
+        new Contact(person, "Zé", 966669999);
+
+        person = new Person(pb, "Maria");
+        new Contact(person, "SOS", 112);
+        new Contact(person, "IST", 214315112);
+        new Contact(person, "Manel", 333333333);
+        new Contact(person, "Xana", 963456789);*/
+    }
 
     @Atomic
     public static void xmlPrint() {
@@ -57,7 +65,6 @@ public class MyDriveApplication {
 
     @Atomic
     public static void xmlScan(File file) {
-        //log.trace("xmlScan: " + FenixFramework.getDomainRoot());
         MyDrive md = MyDrive.getInstance();
         SAXBuilder builder = new SAXBuilder();
         try {

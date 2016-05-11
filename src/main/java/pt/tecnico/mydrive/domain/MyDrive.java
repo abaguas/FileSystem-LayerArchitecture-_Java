@@ -83,21 +83,6 @@ public class MyDrive extends MyDrive_Base {
     public void setGuestUser(GuestUser guestUser) {
     	throw new InvalidOperationException("set guestUser");
     }
-    
-    public File fileFactory(Element element, User owner, Directory father, String code){
-        if(code.equals("PlainFile")){
-            return new PlainFile(element, owner, father);
-        }
-        else if(code.equals("App")){
-            return new App(element, owner, father);
-        }
-        else if(code.equals("Link")){
-            return new Link(element, owner, father);
-        }
-        else{
-            return new Directory(element, owner, father);
-        }
-    }
 
     public User getUserByUsername(String username) throws NoSuchUserException {
         Set<User> users = getUsersSet();
@@ -121,7 +106,21 @@ public class MyDrive extends MyDrive_Base {
 //                                       XML                               //
 //////////////////////////////////////////////////////////////////////////////////////
     
-    
+    public File fileFactory(Element element, User owner, Directory father, String code){
+        if(code.equals("PlainFile")){
+            return new PlainFile(element, owner, father);
+        }
+        else if(code.equals("App")){
+            return new App(element, owner, father);
+        }
+        else if(code.equals("Link")){
+            return new Link(element, owner, father);
+        }
+        else{
+            return new Directory(element, owner, father);
+        }
+    }
+
     public void createUser_xml(Element user_element) throws InvalidUsernameException, UserAlreadyExistsException, FileAlreadyExistsException{
     	String default_home="/home";
     	String home = user_element.getChildText("home");
@@ -129,11 +128,7 @@ public class MyDrive extends MyDrive_Base {
     	if(home==null){
             home=default_home.concat("/" + username);
         }
-		Directory home_user = (Directory)getFileByPathXml(home, getRootDirectory());
-		User user = new User(user_element,home_user);
-		home_user.setOwner(user);
-        user.setMainDirectory(home_user);
-		addUsers(user);
+		User user = new User(user_element, this);
     }
     
     
@@ -148,7 +143,6 @@ public class MyDrive extends MyDrive_Base {
     	}
     	Directory d =  (Directory)getFileByPathXml(file_element.getChildText("path"), getRootDirectory());
         File file = fileFactory(file_element,user, d, code);
-    	d.addFiles(file);
     }
 
 
