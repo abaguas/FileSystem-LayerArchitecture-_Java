@@ -13,7 +13,7 @@ import pt.tecnico.mydrive.exception.InvalidPasswordException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.OutDatedUserException;
-import pt.tecnico.mydrive.exception.SessionExpiredException;
+import pt.tecnico.mydrive.exception.ExpiredSessionException;
 
 
 public class SessionManager extends SessionManager_Base {
@@ -52,7 +52,7 @@ public class SessionManager extends SessionManager_Base {
 		}
 	}
 	
-	public Session getSession(long token) throws InvalidTokenException, SessionExpiredException{
+	public Session getSession(long token) throws InvalidTokenException, ExpiredSessionException{
 		Session session = null;
 		Set<Session> sessions = super.getSessionSet();
 		
@@ -70,7 +70,7 @@ public class SessionManager extends SessionManager_Base {
 		boolean expire = session.expiration(session.getUsername());
 		
 		if(expire){
-			throw new SessionExpiredException();
+			throw new ExpiredSessionException();
 		}
 		else{
 			session.refreshTimestamp();
