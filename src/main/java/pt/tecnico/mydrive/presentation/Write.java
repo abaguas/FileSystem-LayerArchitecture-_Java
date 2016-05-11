@@ -9,7 +9,7 @@ public class Write extends MyDriveCommand {
 	}
 
 	@Override
-	void execute(String[] args) {
+	public void execute(String[] args) {
 		long token = getShell().getToken();
 		if (args.length < 2 || args.length > 2)
 		    throw new RuntimeException("USAGE: "+name()+" <path> <text>");

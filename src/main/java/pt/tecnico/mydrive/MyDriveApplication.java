@@ -24,12 +24,23 @@ import pt.tecnico.mydrive.exception.FileNotDirectoryException;
 
 public class MyDriveApplication {
 
+    public static String f(String s){
+        String S[] = s.split("/");
+        return S[0];
+    }
+
     public static void main(String[] args) {
         System.out.println("*** Welcome to the MyDrive application! ***");
         try {
-            setup();
+            /*setup();
             for (String s: args) xmlScan(new File(s));
-            xmlPrint();
+            xmlPrint();*/
+            String b = "home";
+            String c = "home/root";
+            String d = "home/root/cenas";
+            System.out.println(f(b));
+            System.out.println(f(c));
+            System.out.println(f(d));
         } finally { FenixFramework.shutdown(); }
     }
 

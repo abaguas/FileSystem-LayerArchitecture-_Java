@@ -14,7 +14,7 @@ public class List extends MyDriveCommand {
 	
 	//FIXME
 	@Override
-	void execute(String[] args) {
+	public void execute(String[] args) {
 		
 		if (args.length > 1 || args.length < 0) {
 			throw new RuntimeException("USAGE: " + name() + " [<path>]");

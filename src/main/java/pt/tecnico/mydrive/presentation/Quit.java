@@ -9,7 +9,7 @@ public class Quit extends MyDriveCommand {
 	}
 	
 	@Override
-	void execute(String[] args) {
+	public void execute(String[] args) {
 		if (getShell().getToken() == getShell().getGuestToken()) {
 			new LogoutService(getShell().getGuestToken());
 		}

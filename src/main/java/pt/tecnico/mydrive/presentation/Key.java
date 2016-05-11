@@ -2,7 +2,7 @@ package pt.tecnico.mydrive.presentation;
 
 public class Key extends MyDriveCommand {
 	public Key(Shell sh){
-		super(sh, "key", "Exchange Session");
+		super(sh, "token", "Exchange Session");
 	}
 
 	public void execute(String[] args){
