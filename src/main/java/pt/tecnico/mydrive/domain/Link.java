@@ -19,20 +19,28 @@ import java.util.TreeSet;
 public class Link extends Link_Base {
 
     public Link(String name, int id, User owner, String content, Directory father) {
-    	if(content.equals("")){
-    		throw new LinkWithoutContentException(name);
-    	}
-    	else if(content.length()>1024){
-    		throw new MaximumPathException(name);
-    	}
-
+    	initLink(name, content);
     	init(name,id,owner,content, father);
+    }
+
+    public Link(String name, User owner, String content, Directory father) {
+        initLink(name,content);
+        init(name,MyDrive.getInstance().generateId(),owner,content, father);
     }
     
     public Link(Element link_element, User owner, Directory father){
         xmlImport(link_element, owner, father);
     }
     
+
+    public void initLink(String name, String content){
+        if(content.equals("")){
+            throw new LinkWithoutContentException(name);
+        }
+        else if(content.length()>1024){
+            throw new MaximumPathException(name);
+        }
+    }
 
 //    public void execute() throws  NoSuchFileException, FileNotDirectoryException {
 //    	String content = getContent();

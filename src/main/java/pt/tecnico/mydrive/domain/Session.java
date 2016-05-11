@@ -95,5 +95,16 @@ public class Session extends Session_Base {
 			}
 		super.addEnv(e);
 	}
+
+	public void addEnv(String name, String value) {
+		addEnv(new Env(name, value));
+	}
+
+	public String getEnv(String name){
+		for(Env e : getEnvSet())
+			if(e.getName().equals(name))
+				return e.getValue();
+		return null;
+	}
 	
 }
