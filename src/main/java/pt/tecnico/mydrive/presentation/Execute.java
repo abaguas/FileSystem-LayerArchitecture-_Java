@@ -11,7 +11,7 @@ public class Execute extends MyDriveCommand {
 		if(args.length > 1){
 		  long token = shell().getActiveToken();
 		  String path = args[0];
-		  String[] arguments;
+		  String[] arguments = null;
 		  for(int i=1; i < args.length ; i++){
 		    arguments[i-1] = args[i];
 		  }
