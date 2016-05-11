@@ -10,6 +10,8 @@ import pt.tecnico.mydrive.domain.Env;
 import pt.tecnico.mydrive.domain.Permission;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
+import pt.tecnico.mydrive.service.dto.VariableDto;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -99,7 +101,7 @@ public class AddVariableTest extends AbstractServiceTest {
 	public void successAddFirstVariable() {
 		AddVariableService service = new AddVariableService(3, "newVar", "newValue");
 		service.execute();
-		List<Env> varList = service.result();
+		List<VariableDto> varList = service.result();
 		//FIXME criar esta chave no populate() varUpdate e verificar
 		
         assertNotNull("list of environment variables was not created", varList);
@@ -112,7 +114,7 @@ public class AddVariableTest extends AbstractServiceTest {
 	public void successAddNewVariable() {
 		AddVariableService service = new AddVariableService(1, "home", "/home/ana");
 		service.execute();
-		List<Env> varList = service.result();
+		List<VariableDto> varList = service.result();
 		//FIXME criar esta chave no populate() varUpdate e verificar
 		
         assertNotNull("list of environment variables was not created", varList);
@@ -127,7 +129,7 @@ public class AddVariableTest extends AbstractServiceTest {
 	public void successUpdateVariable() {
 		AddVariableService service = new AddVariableService(2, "v2", "value2-new");
 		service.execute();
-		List<Env> varList = service.result();
+		List<VariableDto> varList = service.result();
 		//FIXME criar esta chave no populate() varUpdate e verificar
 		
         assertNotNull("list of environment variables was not created", varList);
@@ -144,7 +146,7 @@ public class AddVariableTest extends AbstractServiceTest {
 		final long token = 1234567890;
 		AddVariableService service = new AddVariableService(token, "impossibleName", "impossibleValue");
 		service.execute();
-		List<Env> varList = service.result();
+		List<VariableDto> varList = service.result();
 		//FIXME criar esta chave no populate() varUpdate e verifica
     }
 	

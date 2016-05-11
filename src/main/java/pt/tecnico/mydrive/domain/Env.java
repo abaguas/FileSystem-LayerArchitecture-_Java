@@ -11,5 +11,10 @@ public class Env extends Env_Base {
     public void setSession(Session s){
     	s.addEnv(this);
     }
+
+    @Override
+    public String toString(){
+    	return getName() + " " + getValue() + " ";
+    }
     
 }

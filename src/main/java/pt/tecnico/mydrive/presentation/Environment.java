@@ -2,6 +2,7 @@ package pt.tecnico.mydrive.presentation;
 
 import pt.tecnico.mydrive.service.AddVariableService;
 import pt.tecnico.mydrive.service.LoginService;
+import pt.tecnico.mydrive.service.dto.VariableDto;
 
 public class Environment extends MyDriveCommand {
 	
@@ -11,13 +12,13 @@ public class Environment extends MyDriveCommand {
 
 	@Override
 	void execute(String[] args) {
+		AddVariableService avs = null;
 		int numArgs = args.length;
 		if (numArgs < 0 || numArgs > 2) {
 		    throw new RuntimeException("USAGE: " + name() +" [<name> [<value>]]");
 		}
 		else {
-			long token = getShell().getToken();
-			AddVariableService avs = null;
+			long token = shell().getActiveToken();
 			if (numArgs == 0) {
 				new AddVariableService(token, null, null);
 				avs.execute();
@@ -31,9 +32,9 @@ public class Environment extends MyDriveCommand {
 				avs.execute();
 			}
 		}
-/*		for (VariableDto v: avs.result()) {
-			System.out.println(avs.getName()+" = "+avs.getValue());
-		}*/
+		for (VariableDto v: avs.result()) {
+			System.out.println(v.getName()+" = "+v.getValue());
+		}
 	}
 
 }
