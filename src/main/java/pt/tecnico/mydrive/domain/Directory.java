@@ -195,6 +195,12 @@ public class Directory extends Directory_Base {
 			return true;
 		return false;
 	}
+
+	public boolean isRoot(){
+		if(getName().equals("/"))
+			return true;
+		return false;
+	}
 	
 	
 //////////////////////////////////////////////////////////////////////////////////////
@@ -203,30 +209,12 @@ public class Directory extends Directory_Base {
 
 
 	public void xmlExport(Element element_mydrive){
-        if(getId() > 2 && !isHome()){
+        if(getId() > 2 && !isHome() && !isRoot()){
 
         	Element element = new Element ("dir");
         	element.setAttribute("id", Integer.toString(getId()));
 
-        	Element path_element = new Element ("path");
-        	path_element.setText(getAbsolutePath());
-        	element.addContent(path_element);
-
-        	Element name_element = new Element ("name");
-        	name_element.setText(getName());
-        	element.addContent(name_element);
-
-        	Element owner_element = new Element ("owner");
-        	owner_element.setText(getOwner().getUsername());
-        	element.addContent(owner_element);
-
-        	Element perm_element = new Element ("perm");
-        	perm_element.setText(getUserPermission().toString() + getOthersPermission().toString());
-        	element.addContent(perm_element);
-
-        	Element lastChange_element = new Element ("lastChange");
-        	lastChange_element.setText(getLastChange().toString());
-        	element.addContent(lastChange_element);
+        	super.xmlExport(element);
 
         	element_mydrive.addContent(element);
         }

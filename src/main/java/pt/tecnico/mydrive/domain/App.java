@@ -98,29 +98,12 @@ public class App extends App_Base {
         Element element = new Element ("app");
         element.setAttribute("id", Integer.toString(getId()));
         
-        Element path_element = new Element ("path");
-        path_element.setText(getAbsolutePath());
-        element.addContent(path_element);
-
-        Element name_element = new Element ("name");
-        name_element.setText(getName());
-        element.addContent(name_element);
-
-        Element owner_element = new Element ("owner");
-        owner_element.setText(getOwner().getUsername());
-        element.addContent(owner_element);
-
-        Element perm_element = new Element ("perm");
-        perm_element.setText(getUserPermission().toString() + getOthersPermission().toString());
-        element.addContent(perm_element);
+        super.xmlExport(element);
 
         Element method_element = new Element ("method");
         method_element.setText(getContent());
         element.addContent(method_element);
         
-        Element lastChange_element = new Element ("lastChange");
-    	lastChange_element.setText(getLastChange().toString());
-    	element.addContent(lastChange_element);
 
         element_mydrive.addContent(element);
     }

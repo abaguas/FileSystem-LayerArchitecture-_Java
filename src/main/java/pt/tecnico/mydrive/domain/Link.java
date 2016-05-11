@@ -143,29 +143,11 @@ public class Link extends Link_Base {
         Element element = new Element ("link");
         element.setAttribute("id",Integer.toString(getId()));
         
-        Element path_element = new Element ("path");
-        path_element.setText(getAbsolutePath());
-        element.addContent(path_element);
-
-        Element name_element = new Element ("name");
-        name_element.setText(getName());
-        element.addContent(name_element);
-
-        Element owner_element = new Element ("owner");
-        owner_element.setText(getOwner().getUsername());
-        element.addContent(owner_element);
-
-        Element permission_element = new Element ("perm");
-        permission_element.setText(getUserPermission().toString() + getOthersPermission().toString());
-        element.addContent(permission_element);
+        super.xmlExport(element);
 
         Element value_element = new Element ("value");
         value_element.setText(getContent());
         element.addContent(value_element);
-        
-        Element lastChange_element = new Element ("lastChange");
-    	lastChange_element.setText(getLastChange().toString());
-    	element.addContent(lastChange_element);
 
         element_mydrive.addContent(element);
     }

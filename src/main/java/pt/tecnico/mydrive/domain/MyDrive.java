@@ -31,9 +31,9 @@ public class MyDrive extends MyDrive_Base {
     private MyDrive() throws MyDriveException{
         setRoot(FenixFramework.getDomainRoot());
         RootUser r = RootUser.getInstance();
-        GuestUser guestUser = GuestUser.getInstance();
         setCounter(0);
         super.setRootUser(r);
+        GuestUser guestUser = GuestUser.getInstance();
         super.setGuestUser(guestUser);
         super.setSessionManager(SessionManager.getInstance()); 
         addUsers(r);
@@ -125,10 +125,12 @@ public class MyDrive extends MyDrive_Base {
     	String default_home="/home";
     	String home = user_element.getChildText("home");
         String username = user_element.getAttribute("username").getValue();
+        System.out.println("creating " + username);
     	if(home==null){
             home=default_home.concat("/" + username);
         }
 		User user = new User(user_element, this);
+        addUsers(user);
     }
     
     
@@ -207,9 +209,7 @@ public class MyDrive extends MyDrive_Base {
 	   for (User u: getUsersSet())
             u.xmlExport(element);
 	
-	   for (File f: getRootDirectory().getFilesSet()){  //REVIEW THIS. NOW DOESNT WORK. Contact abaguas
-            f.xmlExport(element);
-        }
+	   getRootDirectory().xmlExport(element);
 	   return doc;
     }
 }

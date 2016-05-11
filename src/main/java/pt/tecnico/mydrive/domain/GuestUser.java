@@ -11,12 +11,12 @@ public class GuestUser extends GuestUser_Base {
         GuestUser guestUser = FenixFramework.getDomainRoot().getMyDrive().getGuestUser();
         if (guestUser != null)
             return guestUser;
-        return new GuestUser();
+        return new GuestUser(FenixFramework.getDomainRoot().getMyDrive());
     }
     
-	 private GuestUser() {
-		 initSpecial("nobody","","Guest");
-	 }
+	private GuestUser(MyDrive md) {
+		initBasic(md, "nobody","","Guest", new Permission(true, true, true, true), new Permission(true, false, true, false));	 
+	}
 	 
 	@Override
 	public void setPassword(String password) throws InvalidOperationException{

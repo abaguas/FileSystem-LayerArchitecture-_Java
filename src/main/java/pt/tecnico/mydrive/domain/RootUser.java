@@ -10,12 +10,11 @@ public class RootUser extends RootUser_Base{
         RootUser rootUser = FenixFramework.getDomainRoot().getMyDrive().getRootUser();
         if (rootUser != null)
             return rootUser;
-        return new RootUser();
+        return new RootUser(FenixFramework.getDomainRoot().getMyDrive());
     }
     
-    private RootUser() {
-    	initSpecial("root","***","Super User");
-    	//FIXME: os inits do user estão mal. Então e as permissões de other do root, vão para onde?
+    private RootUser(MyDrive md) {
+        initBasic(md, "root","***","Super User", new Permission(true, true, true, true), new Permission(true, false, true, false));  
     }
 
     @Override

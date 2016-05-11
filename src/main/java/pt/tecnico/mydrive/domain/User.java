@@ -33,27 +33,27 @@ public class User extends User_Base {
                 Directory d = new Directory(username, md.getRootUser(), (Directory)md.getRootDirectory().get("home"));
                 d.setOwner(this);
                 setMainDirectory(d);
+                return;
             }
         }
+        throw new InvalidUsernameException(username);
 	}
 
-	protected void initSpecial(String username, String password, String name) {
-	   try{
-            initBasic(username, password, name);
-        }
-       catch(InvalidPasswordSizeException e){
-            super.setPassword(password);
-        }
-		setOwnPermission( new Permission(true, true, true, true) );
-		setOthersPermission( new Permission(true, false, true, false) );
+	protected void initBasic(MyDrive md, String username, String password, String name, Permission maskOwn, Permission maskOther) {
+	    setUsername(username);
+        super.setMyDrive(md);
+        super.setPassword(password);
+        setName(name);
+        setOwnPermission(maskOwn);
+        setOthersPermission(maskOther);
 	}
-    
-    private void initBasic(String username, String password, String name) {
-    	setUsername(username);
-    	super.setPassword(password);
-    	setName(name);
-    }
 
+    /*protected void initSpecial(MyDrive md, String username, String password, String name, Permission maskOwn, Permission maskOther) {
+        initBasic(md,username,password,name,maskOwn,maskOther);
+        Directory d = new Directory(username, md.getRootUser(), (Directory)md.getRootDirectory().get("home"));
+        d.setOwner(this);
+        setMainDirectory(d);
+    }*/
     
 	public User(Element user_element, MyDrive md){
         xmlImport(user_element, md);
@@ -147,7 +147,7 @@ public class User extends User_Base {
     
     public void xmlExport(Element element_mydrive){
         
-        if(!getUsername().equals("root")){
+        if(!getUsername().equals("root") && !getUsername().equals("nobody")){
 
             Element user_element = new Element ("user");
             user_element.setAttribute("username", getUsername());

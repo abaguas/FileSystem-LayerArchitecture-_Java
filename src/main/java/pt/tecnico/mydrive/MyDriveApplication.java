@@ -61,6 +61,14 @@ public class MyDriveApplication {
         XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
         try { xmlOutput.output(doc, new PrintStream(System.out));
         } catch (IOException e) { System.out.println(e); }
+                    System.out.println("size: " + MyDrive.getInstance().getUsersSet().size());
+    }
+
+    @Atomic
+    public static void xmlPrint2(Document doc) {
+        XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
+        try { xmlOutput.output(doc, new PrintStream(System.out));
+        } catch (IOException e) { System.out.println(e); }
     }
 
     @Atomic
@@ -69,6 +77,7 @@ public class MyDriveApplication {
         SAXBuilder builder = new SAXBuilder();
         try {
             Document document = (Document)builder.build(file);
+            //xmlPrint2(document);
             md.xmlImport(document.getRootElement());
         } catch (JDOMException | IOException e) {
         e.printStackTrace();
