@@ -7,7 +7,7 @@ import org.jdom2.output.XMLOutputter;
 
 public class Import extends MyDriveCommand {
 
-    public Import(Shell sh) { super(sh, "import", "import mydrive files and users. (use ./locaFile or resourceFile)"); }
+    public Import(MyDriveShell sh) { super(sh, "import", "import mydrive files and users. (use ./locaFile or resourceFile)"); }
     public void execute(String[] args) {
 	if (args.length < 1)
 	    throw new RuntimeException("USAGE: "+name()+" filename");

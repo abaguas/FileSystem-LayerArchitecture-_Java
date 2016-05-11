@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Export extends MyDriveCommand {
 
-    public Export(Shell sh) { super(sh, "export", "xml export the content of MyDrive.\n\tUSAGE: export [filename [name1 name2 ...]]"); }
+    public Export(MyDriveShell sh) { super(sh, "export", "xml export the content of MyDrive.\n\tUSAGE: export [filename [name1 name2 ...]]"); }
     public void execute(String[] args) {
 	XMLExportService e = new XMLExportService();
 	if (args.length != 0) {

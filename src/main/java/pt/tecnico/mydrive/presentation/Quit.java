@@ -10,8 +10,8 @@ public class Quit extends MyDriveCommand {
 	
 	@Override
 	public void execute(String[] args) {
-		if (getShell().getToken() == getShell().getGuestToken()) {
-			new LogoutService(getShell().getGuestToken());
+		if (shell().getActiveToken() == shell().getGuestToken()) {
+			new LogoutService(shell().getGuestToken());
 		}
 		System.out.println("MyDrive quit");
         System.exit(0);

@@ -9,7 +9,7 @@ public abstract class MyDriveCommand extends Command {
 		super(sh, n, h);
 	}
 	
-	public MyDriveShell getShell(){
+	public MyDriveShell shell(){
 		return (MyDriveShell) shell();
 	}
 
