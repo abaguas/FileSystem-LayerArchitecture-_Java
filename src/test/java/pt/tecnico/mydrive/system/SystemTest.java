@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import pt.tecnico.mydrive.service.AbstractServiceTest ;
 import pt.tecnico.mydrive.presentation.*;
+import pt.tecnico.mydrive.service.AbstractServiceTest;
 
 public class SystemTest extends AbstractServiceTest {
 

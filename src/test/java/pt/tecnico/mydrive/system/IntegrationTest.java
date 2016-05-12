@@ -12,7 +12,16 @@ import org.junit.runner.RunWith;
 import mockit.Mock;
 import mockit.MockUp;
 import mockit.integration.junit4.JMockit;
-import pt.tecnico.mydrive.service.*;
+import pt.tecnico.mydrive.service.AbstractServiceTest;
+import pt.tecnico.mydrive.service.AddVariableService;
+import pt.tecnico.mydrive.service.ChangeDirectoryService;
+import pt.tecnico.mydrive.service.CreateFileService;
+import pt.tecnico.mydrive.service.DeleteFileService;
+import pt.tecnico.mydrive.service.ListDirectoryService;
+import pt.tecnico.mydrive.service.LoginService;
+import pt.tecnico.mydrive.service.ReadFileService;
+import pt.tecnico.mydrive.service.WriteFileService;
+import pt.tecnico.mydrive.service.XMLImportService;
 
 import static org.junit.Assert.assertEquals;
 
