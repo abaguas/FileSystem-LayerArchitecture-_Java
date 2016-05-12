@@ -1,4 +1,4 @@
-package pt.tecnico.mydrive.service.system;
+package pt.tecnico.mydrive.system;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,13 +17,13 @@ import pt.tecnico.mydrive.service.AddVariableService;
 import pt.tecnico.mydrive.service.ChangeDirectoryService;
 import pt.tecnico.mydrive.service.CreateFileService;
 import pt.tecnico.mydrive.service.DeleteFileService;
-import pt.tecnico.mydrive.service.ExecutePlainFileService;
 import pt.tecnico.mydrive.service.ListDirectoryService;
 import pt.tecnico.mydrive.service.LoginService;
 import pt.tecnico.mydrive.service.ReadFileService;
 import pt.tecnico.mydrive.service.WriteFileService;
-import static org.junit.Assert.assertEquals;
 import pt.tecnico.mydrive.service.XMLImportService;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(JMockit.class)
 public class IntegrationTest extends AbstractServiceTest {
