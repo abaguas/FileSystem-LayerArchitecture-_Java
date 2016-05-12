@@ -42,25 +42,19 @@ public class Link extends Link_Base {
         }
     }
 
-//    public void execute() throws  NoSuchFileException, FileNotDirectoryException {
-//    	String content = getContent();
-//    	Directory d = this.getDirectory();
-//    	File f = getFileByPath(content, d);
-//    	
-//    	//nao devia ver se f e executable?? -> isto está a ser verificado no ExecutePlainFileService
-//    	
-//    	//confirmar que aqui em f tenho objecto do tipo mais abaixo possível e não apenas um File
-//    	//c.c. tenho de fazer um serie de instanceof seguido de cast
-//    	
-//
-//    	f.execute(); 
-//    }
-
     @Override
-    public void execute(User u) {
-    	//TODO
+    public void execute(User caller, String[] args, MyDrive md) throws  NoSuchFileException, FileNotDirectoryException, PermissionDeniedException {
+    	
+    	checkPermissions(caller, this, "execute");
+    	
+    	String content = getContent();
+    	Directory d = this.getDirectory();
+    	File f = d.getFileByPath(caller, content, d, md);
+    	
+    	f.execute(caller, args, md); 
     }
-  
+
+
     
     @Override
     public String toString(){
