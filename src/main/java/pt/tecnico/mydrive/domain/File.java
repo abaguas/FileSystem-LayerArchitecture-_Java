@@ -92,6 +92,7 @@ public abstract class File extends File_Base {
 
 	
 	public abstract void execute(User caller, String[] args, MyDrive md);
+	public abstract void execute(User caller, String[] args, MyDrive md, Set<String> cycleDetector);
 
 	
 	public String toString() {
@@ -184,6 +185,9 @@ public abstract class File extends File_Base {
 	}
 		
     public String pwd(){
+    	if (getName().equals("/"))
+    		return "/";
+    	
     	Directory d= getDirectory();
         String output="";
         if(d.getName().equals("/")){
@@ -199,18 +203,22 @@ public abstract class File extends File_Base {
     }
     
     public File getFileByPath(User user, String path, Directory dir, MyDrive md) throws PermissionDeniedException, InvalidPathException, FileNotCdAbleException {
+    	if(path.equals("/"))
+    		return md.getRootDirectory();
+    	
     	List<String> elements = new ArrayList<String> (Arrays.asList(path.split("/")));	
         elements.remove("");
+        elements.remove(null);
         String[] parts = elements.toArray(new String[0]);
 
         File aux;
         int i = 0;
+
         int numOfParts = parts.length;
-        
         if (path.charAt(0)=='/') {
             dir = md.getRootDirectory();
         }
-        else if(numOfParts == 0){
+        else if(numOfParts <= 0){
             throw new InvalidPathException(path);
         }
         while(i < numOfParts-1){
@@ -220,6 +228,7 @@ public abstract class File extends File_Base {
             dir = (Directory)aux;
             i++;
         }
+
         return dir.get(parts[numOfParts-1]);        
     }
     

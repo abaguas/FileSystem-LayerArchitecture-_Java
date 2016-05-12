@@ -59,7 +59,7 @@ public class MyDrive extends MyDrive_Base {
     public boolean userExists(String username){
 		Set<User> users = getUsersSet();
 		for (User u : users)
-	 		if (u.getName().equals(u.getUsername()))
+	 		if (username.equals(u.getUsername()))
 	 			return true;
 		return false;
     }

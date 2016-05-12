@@ -185,6 +185,11 @@ public class Directory extends Directory_Base {
 	public void execute(User user, String[] args, MyDrive md) throws FileIsNotExecuteAbleException {
 		throw new FileIsNotExecuteAbleException(getName());
 	}
+	
+	@Override
+	public void execute(User caller, String[] args, MyDrive md, Set<String> cycleDetector) {
+		throw new FileIsNotExecuteAbleException(getName());
+	}
 
 	public void accept(Visitor v) throws FileNotDirectoryException{
 		v.execute(this);
@@ -223,5 +228,7 @@ public class Directory extends Directory_Base {
             f.xmlExport(element_mydrive);
         }
 	}
+
+
 
 }

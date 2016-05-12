@@ -42,17 +42,7 @@ public class Link extends Link_Base {
         }
     }
 
-    @Override
-    public void execute(User caller, String[] args, MyDrive md) throws  NoSuchFileException, FileNotDirectoryException, PermissionDeniedException {
-    	
-    	checkPermissions(caller, this, "execute");
-    	
-    	String content = getContent();
-    	Directory d = this.getDirectory();
-    	File f = d.getFileByPath(caller, content, d, md);
-    	
-    	f.execute(caller, args, md); 
-    }
+
 
 
     
@@ -107,6 +97,28 @@ public class Link extends Link_Base {
     	}
     	f.write(user, content, md, cycleDetector);
 	}
+	
+    @Override
+    public void execute(User caller, String[] args, MyDrive md) throws  NoSuchFileException, FileNotDirectoryException, PermissionDeniedException {
+    	Set<String> cycleDetector = new TreeSet<String>();
+    	checkPermissions(caller, this, "execute");
+    	File f = getFileByPathWithLinkException(caller, md);
+    	if (!cycleDetector.add(f.pwd())){
+    		throw new LinkWithCycleException(f.getName());
+    	}
+    	f.execute(caller, args, md, cycleDetector); 
+    }
+    
+	@Override
+	public void execute(User caller, String[] args, MyDrive md, Set<String> cycleDetector) throws  NoSuchFileException, FileNotDirectoryException, PermissionDeniedException, LinkWithCycleException {
+		checkPermissions(caller, this, "execute");
+    	File f = getFileByPathWithLinkException(caller, md);
+    	if (!cycleDetector.add(f.pwd())){
+    		throw new LinkWithCycleException(f.getName());
+    	}
+    	f.execute(caller, args, md, cycleDetector); 
+	}
+    
 	
 	public File getFileByPathWithLinkException (User user, MyDrive md) throws PermissionDeniedException, InvalidLinkContentException{
 		File f = null;
