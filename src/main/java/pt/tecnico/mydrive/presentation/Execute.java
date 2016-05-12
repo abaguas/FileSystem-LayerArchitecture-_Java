@@ -1,6 +1,6 @@
 package pt.tecnico.mydrive.presentation;
 
-import pt.tecnico.mydrive.service.ExecutePlainFileService;
+import pt.tecnico.mydrive.service.ExecuteFileService;
 
 public class Execute extends MyDriveCommand {
 	public Execute(MyDriveShell sh){
@@ -15,7 +15,7 @@ public class Execute extends MyDriveCommand {
 		  for(int i=1; i < args.length ; i++){
 		    arguments[i-1] = args[i];
 		  }
-		  ExecutePlainFileService eps = new ExecutePlainFileService(token, path, arguments);
+		  ExecuteFileService eps = new ExecuteFileService(token, path, arguments);
 			eps.execute();
 		}
 		else{

@@ -15,13 +15,13 @@ import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 
 
-public class ExecutePlainFileService extends MyDriveService {
+public class ExecuteFileService extends MyDriveService {
 	private long token;
 	private String path;
 	private String[] argList;
 	
 	
-	public ExecutePlainFileService(long token, String path, String[] argList) {
+	public ExecuteFileService(long token, String path, String[] argList) {
 		this.token = token;
 		this.path = path;
 		this.argList = argList;
