@@ -182,7 +182,7 @@ public class Directory extends Directory_Base {
 	}
 	
 	@Override
-	public void execute(User user, String[] args) throws FileIsNotExecuteAbleException {
+	public void execute(User user, String[] args, MyDrive md) throws FileIsNotExecuteAbleException {
 		throw new FileIsNotExecuteAbleException(getName());
 	}
 
