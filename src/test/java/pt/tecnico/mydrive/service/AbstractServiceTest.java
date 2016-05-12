@@ -1,8 +1,11 @@
 package pt.tecnico.mydrive.service;
 
+import java.io.IOException;
+
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
+import org.jdom2.JDOMException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

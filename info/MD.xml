@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<myDrive>
+  <user username="abaguas">
+    <password>ins3cur3</password>
+    <name>Andre</name>
+    <home>/home/abaguas</home>
+    <mask>rwxd----</mask>
+  </user>
+  <user username="elGorila">
+    <password>s3cur3</password>
+    <name>King</name>
+    <home>/home/elGorila</home>
+    <mask>rwxdrwxd</mask>
+  </user>
+</myDrive>
