@@ -21,6 +21,10 @@ public class ListDirectoryService extends MyDriveService{
     		this.token = token;
    	}
 
+	public ListDirectoryService(long activeToken, String path) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public final void dispatch() {
 		MyDrive md = MyDrive.getInstance();
 		Session session = md.getSessionManager().getSession(token);

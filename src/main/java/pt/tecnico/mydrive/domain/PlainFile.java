@@ -37,18 +37,30 @@ public class PlainFile extends PlainFile_Base {
     	setContent(t);
     }
     
-    /*
-    @Override
-	public void execute(User caller) {
+    
+    public void execute(User caller, String[] args) throws ExtensionNotFoundException {
     	String fileName = this.getName();
-    	if(fileName.contains(".")) {
-    		String[] fileNameParts = fileName.split(".");
-    		String extension = fileNameParts[fileNameParts.length - 1];
-    		App a = caller.getFileByExtension(extension);
-    		a.execute(caller, fileName);
-    	}		
+    	try {    	
+	    	if(fileName.contains(".")) {
+	    		String[] fileNameParts = fileName.split(".");
+	    		String extension = fileNameParts[fileNameParts.length - 1];
+	    		App a = caller.getFileByExtension(extension);
+	    		
+	    		String[] lines = getContent().split("\n");
+	        	int nLines = lines.length;
+	        	
+	        	for(int i=0; i<nLines; i++) {
+	        		//a.execute(caller, args);
+	        	}
+	    		
+	    		
+	    	}
+    	}
+    	catch(ExtensionNotFoundException e) {
+    		
+    	}
 	}
-    */
+    
     
 	@Override
 	public void execute(User user) {
@@ -56,9 +68,11 @@ public class PlainFile extends PlainFile_Base {
 		
 	}
     
+	
+	/*
     //FIXME
-    public void execute() throws FileNotAppException  {
-    	/*
+    public void execute(User caller, String[] args) throws FileNotAppException  {
+    	
     	String fileName = this.getName();
     	if(fileName.contains(".")) {
     		String[] fileNameParts = fileName.split(".");
@@ -97,9 +111,9 @@ public class PlainFile extends PlainFile_Base {
     		for(int j=1; j<nWords; j++) {
     			;
     		}
-    	*/
+    	
     	}
-		
+		*/
     
     
     

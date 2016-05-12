@@ -22,7 +22,7 @@ public class App extends App_Base {
     }
     
 
-    public void execute() {
+    public void execute(User caller, String[] args) {
     	String fullMethod = getContent();
     	String[] methodParts=fullMethod.split(".");
     	
