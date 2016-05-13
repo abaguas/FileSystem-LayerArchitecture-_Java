@@ -11,7 +11,7 @@ public class Environment extends MyDriveCommand {
 	}
 
 	@Override
-	void execute(String[] args) {
+	public void execute(String[] args) {
 		AddVariableService avs = null;
 		int numArgs = args.length;
 		if (numArgs < 0 || numArgs > 2) {
