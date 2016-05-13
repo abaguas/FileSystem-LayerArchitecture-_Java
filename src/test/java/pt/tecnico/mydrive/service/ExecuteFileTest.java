@@ -49,7 +49,7 @@ public class ExecuteFileTest extends AbstractServiceTest{
 	    PlainFile p2 = new PlainFile("private", md.generateId(), root, "this is private", homeRoot); //id=144
 	    p2.setOthersPermission(new Permission("r---"));
 	    App a1 = new App("appGreet", md.generateId(), root, "pt.tecnico.mydrive.presentation.greet", homeRoot);
-	    App a2 = new App("badApp", md.generateId(), root, "should be a method", homeRoot);
+	    App a2 = new App("badApp", md.generateId(), root, "should.be.a.method", homeRoot);
 
 	    Link l1 = new Link("invalid", md.generateId(), root, "//", homeRoot);
 	    

@@ -40,7 +40,7 @@ public class WriteFileTest extends AbstractServiceTest{
 	    
 	    PlainFile p1 = new PlainFile("CasoBruma", md.generateId(), u1, "conteudo1", u1.getMainDirectory());
 	    PlainFile p2 = new PlainFile("Exemplo", md.generateId(), u2, "conteudo3", u1.getMainDirectory());
-	    App a1 = new 	App("application", md.generateId(), u1, "conteudo1", u1.getMainDirectory());
+	    App a1 = new 	App("application", md.generateId(), u1, "conte.udo1", u1.getMainDirectory());
 	    Link l1 = new Link("ligacao", md.generateId(), u1, "CasoBruma", u1.getMainDirectory());
 	    Link l2 = new Link("relative", md.generateId(), u1, "folder/rel", u1.getMainDirectory());
 
@@ -85,11 +85,11 @@ public class WriteFileTest extends AbstractServiceTest{
 
 	@Test
 		public void writeOnApp() throws PermissionDeniedException, NoSuchFileException, FileIsNotWriteAbleException{
-	    WriteFileService wfs = new WriteFileService("application", "abc", token); // token = 1
+	    WriteFileService wfs = new WriteFileService("application", "a.b.c", token); // token = 1
 	    wfs.execute();
 	    wfs.execute();
 	    String result= wfs.result();
-	    assertEquals("Wrong Content", "abc", result);
+	    assertEquals("Wrong Content", "a.b.c", result);
 	}
 
 	@Test

@@ -83,19 +83,48 @@ public class App extends App_Base {
 
     private void verifyContent(String content) throws InvalidAppContentException{
         String[] parts = null;
-        if(content != null)
+        if(content != null && !content.equals("")){
+            if(content.contains(".")) {
+                parts = content.split("\\.");
+                if(parts.length  > 1){
+                    for(String s : parts){
+                        if(s.contains(" ")){
+                            throw new InvalidAppContentException(content);
+                        }
+                    }
+                    return;
+                }
+            }
+            throw new InvalidAppContentException(content);
+        }
+    }
+
+    /*private void verifyContent(String content) throws InvalidAppContentException {
+        String[] parts = null;
+        if(content != null){
             if(content.contains(".")){
                 parts = content.split(".");
-                if(parts.length == 2)
-                    if(!parts[0].contains(" ") && !parts[1].contains(" "))
-                        return;
-                else if(parts.length == 3)
-                    if(!parts[0].contains(" ") && !parts[1].contains(" ") && !parts[2].contains(" "))
-                        return;
+                if(parts.length > 1){
+                    for(int i = 1 ; i < parts.length ; i++){
+                        if(parts[i].contains(" ")){
+                            throw new InvalidAppContentException(content);
+                        }
+                    }
+                    return;
+                }
+                else{
+                    throw new InvalidAppContentException(content);
+                }
             }
-        throw new InvalidAppContentException(content);
+            else{
+                throw new InvalidAppContentException(content);
+            }
+        }
+        else{
+            throw new InvalidAppContentException(content);
+        }
     }
-    
+    */
     
     
 //////////////////////////////////////////////////////////////////////////////////////
