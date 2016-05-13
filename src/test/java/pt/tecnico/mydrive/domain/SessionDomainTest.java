@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.joda.time.DateTime;
+
 
 import pt.tecnico.mydrive.service.AbstractServiceTest;
 import pt.tecnico.mydrive.domain.App;
@@ -32,6 +34,7 @@ import java.io.*;
 public class SessionDomainTest extends AbstractServiceTest {
 	MyDrive md;
 	User u1;
+	User h1;
 	SessionManager sm;
 	GuestUser guest;
 	RootUser root;
@@ -41,6 +44,7 @@ public class SessionDomainTest extends AbstractServiceTest {
 		MyDrive md = MyDrive.getInstance();
 		sm = md.getSessionManager();
 		User u1 = new User(md, "oscar", "grandepass1", "Cardozo", new Permission(true, true, true, true), new Permission(true, true, true, true));
+		User h1= new User(md, "Hacker", "grandepass1", "Pequeno", new Permission(true, true, true, true), new Permission(true, true, true, true));
 		guest = GuestUser.getInstance();
 		root=RootUser.getInstance();
 
@@ -85,5 +89,23 @@ public class SessionDomainTest extends AbstractServiceTest {
 		Session s = new Session("oscar", "grandepass2", sm);
 	}
 
+	@Test(expected = InvalidOperationException.class)
+	public void fail3(){
+		Session s = new Session("oscar", "grandepass1", sm);
+		s.setToken(21312);
+	}
+
+	@Test(expected = InvalidOperationException.class)
+	public void fail4(){
+		Session s = new Session("oscar", "grandepass1", sm);
+		s.setTimestamp(new DateTime());
+	}
+
+
+	@Test(expected = InvalidOperationException.class)
+	public void fail5(){
+		Session s = new Session("oscar", "grandepass1", sm);
+		s.setUser(h1);
+	}
 
 }
