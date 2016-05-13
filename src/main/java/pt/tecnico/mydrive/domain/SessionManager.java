@@ -10,6 +10,7 @@ import org.joda.time.DateTimeComparator;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.mydrive.exception.InvalidOperationException;
 import pt.tecnico.mydrive.exception.InvalidPasswordException;
+import pt.tecnico.mydrive.exception.InvalidPasswordSizeException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
 import pt.tecnico.mydrive.exception.NoSuchUserException;
 import pt.tecnico.mydrive.exception.OutDatedUserException;
@@ -84,6 +85,9 @@ public class SessionManager extends SessionManager_Base {
 
 		if (!user.getPassword().equals(password)) {
 			throw new InvalidPasswordException();
+		}
+		else if (!user.getUsername().equals("nobody") && !user.getUsername().equals("root") && user.getPassword().length() < 8) {
+			throw new InvalidPasswordSizeException();
 		}
 		else if((user.getPassword().length()<8) && !((user.getUsername().equals("root")|| user.getUsername().equals("nobody")))){
 			throw new OutDatedUserException(user.getUsername());

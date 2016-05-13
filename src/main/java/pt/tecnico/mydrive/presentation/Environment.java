@@ -20,11 +20,11 @@ public class Environment extends MyDriveCommand {
 		else {
 			long token = getShell().getActiveToken();
 			if (numArgs == 0) {
-				new AddVariableService(token, null, null);
+				avs = new AddVariableService(token, null, null);
 				avs.execute();
 			}
 			else if (numArgs == 1){
-				new AddVariableService(token, args[0], null);
+				avs = new AddVariableService(token, args[0], null);
 				avs.execute();
 			}
 			else {
@@ -32,6 +32,8 @@ public class Environment extends MyDriveCommand {
 				avs.execute();
 			}
 		}
+		avs.result();
+		
 		for (VariableDto v: avs.result()) {
 			System.out.println(v.getName()+" = "+v.getValue());
 		}

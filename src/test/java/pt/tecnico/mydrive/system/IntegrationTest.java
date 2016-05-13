@@ -222,7 +222,7 @@ public class IntegrationTest extends AbstractServiceTest {
 			void execute() { System.out.println("Execute "+plainFileAbaguasGor+"?"); }
 		};
 		new ExecuteFileService(tokenAbaguas, plainFileAbaguasGor, s).execute();
-		assertNotNull("A execucao do plainFile com extensao nao imprimiu nada", testOut.toString());	
+		assertEquals("A execucao da app não é Execute " + plainFileAbaguasGor + "?" , "Execute "+plainFileAbaguasGor+"?", testOut.toString());	
 	
 		System.setOut(standard);
 		

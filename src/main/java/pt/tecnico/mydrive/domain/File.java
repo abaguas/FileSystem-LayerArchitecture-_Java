@@ -46,6 +46,7 @@ public abstract class File extends File_Base {
 			throw new FileAlreadyExistsException(name, id);
 		}
 		catch (NoSuchFileException e) {
+			checkPermissions(owner, father, "write");
 			DateTime dt = new DateTime();
 			setOwner(owner);
 			setName(name);
@@ -54,7 +55,6 @@ public abstract class File extends File_Base {
 			setOthersPermission(owner.getOthersPermission().copy());
 			setLastChange(dt);
 			setDirectory(father);
-			checkPermissions(owner, father, "write");
 		}
 		validateFile(name);
 	}
@@ -142,7 +142,7 @@ public abstract class File extends File_Base {
 				}
 			}
 			else if (code.equals("write")) {
-				if (!permission.getWrite()) {
+				if (!permission.getWrite() || user.getUsername().equals("nobody")) {
 					throw new PermissionDeniedException(file.getName());
 				}
 			}
@@ -158,6 +158,9 @@ public abstract class File extends File_Base {
 	public void checkPermissionsRemove(User user, Directory directory, File file) throws PermissionDeniedException {
 		if (user.getUsername().equals("root")){
 			return;
+		}
+		else if (user.getUsername().equals("nobody")){
+			throw new PermissionDeniedException(file.getName());
 		}
 		else {
 			Permission permissionDir = null;
@@ -297,9 +300,9 @@ public abstract class File extends File_Base {
         if(perm == null){
             perm = "rwxd--x-";
         }
-        Permission ownpermission = new Permission(perm.substring(0,4));
-        Permission otherspermission = new Permission(perm.substring(4));
         init(name, MyDrive.getInstance().generateId(), user, father);
+        setUserPermission(new Permission(perm.substring(0,4)));
+        setOthersPermission(new Permission(perm.substring(4)));
 	}
 
 }
