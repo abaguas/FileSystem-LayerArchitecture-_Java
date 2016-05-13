@@ -30,12 +30,13 @@ public class WriteFileService extends MyDriveService {
        User currentUser = session.getUser();
        Directory currentDirectory = session.getCurrentDir();
        String path = "";
-       String[] parts = fileName.split("/");
+       String[] parts = null;
        File file = null;
        Directory dir = null;
       if(fileName.contains("/")  && path.startsWith("/")) {
+        parts = fileName.split("/");
         int i = 0;
-        for(i= 0; i < parts.length - 2; i++){
+        for(i= 1; i < parts.length - 2; i++){
           path = path + parts[i] + "/";
         }
         path = path + parts[i];
@@ -44,8 +45,9 @@ public class WriteFileService extends MyDriveService {
         file = dir.get(fileName);
       } 
       else if(fileName.contains("/")) {
+        parts = fileName.split("/");
         int i = 1;
-        for(i= 1; i < parts.length - 2; i++){
+        for(i= 0; i < parts.length - 2; i++){
           path = path + parts[i] + "/";
         }
         path = path + parts[i];
