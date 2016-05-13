@@ -17,7 +17,7 @@ public class SystemTest extends AbstractServiceTest {
 
     @Test
     public void success() {
-        /*new Import(sh).execute(new String[] { "UsersAndFiles.xml" } );
+        new Import(sh).execute(new String[] { "UsersAndFiles.xml" } );
         new Login(sh).execute(new String[] { "Sofia" } );
         new Key(sh).execute(new String[] { } );
         new Login(sh).execute(new String[] { "Carlos" } );
@@ -33,11 +33,11 @@ public class SystemTest extends AbstractServiceTest {
         new Write(sh).execute(new String[] { "WriteMe" , "newContent2" } );
         new Execute(sh).execute(new String[] { "ExecuteMeWithArgs" , "arg1" } );
         new Execute(sh).execute(new String[] { "ExecuteMeWithOutArgs"  } );
-        new Environment(sh).execute(new String[] { "$USER1", "content1" } );
+        /*new Environment(sh).execute(new String[] { "$USER1", "content1" } );
         new Environment(sh).execute(new String[] { "$USER2", "content2" } );
         new Environment(sh).execute(new String[] { "$USER1" } );
-        new Environment(sh).execute(new String[] {  } );
+        new Environment(sh).execute(new String[] {  } );*/
         new Export(sh).execute(new String[] { } );
-        new Quit(sh).execute(new String[] { } );*/
+        new Quit(sh).execute(new String[] { } );
     }
 }
