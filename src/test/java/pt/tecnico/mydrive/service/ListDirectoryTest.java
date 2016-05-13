@@ -43,7 +43,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 
 		new PlainFile("CasoBruma", 124, u1, "conteudo1", home_user);
 	    new PlainFile("Exemplo", 125, u1, "conteudo3", home_user);
-	    new App("Application", 123, u1, "conteudo1", home_user);
+	    new App("Application", 123, u1, "con.teu.do1", home_user);
 	   	new Link("Ligacao", 126, u1, "conteudo1", home_user);
 	   	
 	   	Session s1 = new Session("EusebioSilva", "grandepass1", sm);
@@ -83,7 +83,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		assertTrue("Father File has not owner: root", cs.get(1).getUsernameOwner().equals("root"));
 		assertNotNull("Father File has not Date", cs.get(1).getLastChange());
 		
-		assertTrue("Application has not dimension: 9", cs.get(2).getDimension().equals("9"));
+		assertTrue("Application has not dimension: 9", cs.get(2).getDimension().equals("11"));
 		assertTrue("Application has not Id: 123", cs.get(2).getId().equals("123"));
 		assertTrue("Application has not name: Application", cs.get(2).getName().equals("Application"));
 		assertTrue("Application has not owner permission: rwxd", cs.get(2).getUserPermission().equals("rwxd"));

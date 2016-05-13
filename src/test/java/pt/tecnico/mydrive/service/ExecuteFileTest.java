@@ -1,8 +1,9 @@
 package pt.tecnico.mydrive.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.math.BigInteger;
 import java.util.Random;
 
@@ -19,15 +20,15 @@ import pt.tecnico.mydrive.domain.SessionManager;
 import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
 import pt.tecnico.mydrive.exception.InvalidLinkContentException;
-import pt.tecnico.mydrive.exception.InvalidPathException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
+import pt.tecnico.mydrive.exception.NoArgumentsForAppExecutionException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 public class ExecuteFileTest extends AbstractServiceTest{
 	private long token0;
 	private long token1;
-	private long token2;
+	private final PrintStream standard = System.out;
 	
 	protected void populate() {
 		MyDrive md = MyDriveService.getMyDrive();
@@ -38,20 +39,24 @@ public class ExecuteFileTest extends AbstractServiceTest{
 		
 		User root = md.getRootUser();
 	    User u1 = new User(md, "netjinho", "netodoavo", "netjinho");
-	    User u2 = new User(md, "carlitos", "zecarlitos", "carlos");
 
     	Directory homeRoot = root.getMainDirectory();
     	Directory home1 = u1.getMainDirectory();
-	    Directory home2 = u2.getMainDirectory();
 	    
 	    
-	    PlainFile p1 = new PlainFile("example", md.generateId(), u1, "hello", home1); //id=144
-	    PlainFile p2 = new PlainFile("private", md.generateId(), root, "this is private", homeRoot); //id=144
+	    PlainFile p1 = new PlainFile("example", md.generateId(), u1, "hello", home1); 
+	    PlainFile p2 = new PlainFile("private", md.generateId(), root, "this is private", homeRoot);
 	    p2.setOthersPermission(new Permission("r---"));
-	    App a1 = new App("appGreet", md.generateId(), root, "pt.tecnico.mydrive.presentation.greet", homeRoot);
-	    App a2 = new App("badApp", md.generateId(), root, "should be a method", homeRoot);
 
+	    PlainFile p3 = new PlainFile("writeExample", md.generateId(), u1, "ls", home1); 
+	    App a1 = new App("appGreet", md.generateId(), root, "pt.tecnico.mydrive.presentation.Hello.greet", homeRoot);
+	    App a2 = new App("badApp", md.generateId(), root, "should.be.a.method", homeRoot);
+	    App a3 = new App("appSum", md.generateId(), root, "pt.tecnico.mydrive.presentation.Hello.sum", homeRoot);
+	    
 	    Link l1 = new Link("invalid", md.generateId(), root, "//", homeRoot);
+	    Link l2 = new Link("linkAppGreet", md.generateId(), u1, "/home/root/appGreet", home1);
+	    Link l3 = new Link("linkAppSum", md.generateId(), root, "appSum", homeRoot);
+//	    Link l4 = new Link("invalid", md.generateId(), root, "//", homeRoot);
 	    
 	    Directory d1 = new Directory("cannotEnter", md.generateId(), root, homeRoot);
 	    d1.setOthersPermission(new Permission("----"));
@@ -63,10 +68,6 @@ public class ExecuteFileTest extends AbstractServiceTest{
 	    Session s1 = new Session("netjinho", "netodoavo", sm);
 	 	s1.setCurrentDir(home1);
 	 	token1 = s1.getToken();
-	 
-	 	Session s2 = new Session("carlitos", "zecarlitos", sm);
-	 	s2.setCurrentDir(home2);
-	 	token2 = s2.getToken();
 	
 		
 		
@@ -77,7 +78,7 @@ public class ExecuteFileTest extends AbstractServiceTest{
 	@Test (expected=InvalidTokenException.class)
 	public void plainFileWithInvalidToken() {
 		long token = new BigInteger(64, new Random()).longValue();
-		while (token == token0 || token == token1 || token == token2){
+		while (token == token0 || token == token1){
 			token = new BigInteger(64, new Random()).longValue();
 		}
     	    	
@@ -119,39 +120,40 @@ public class ExecuteFileTest extends AbstractServiceTest{
         service.execute();
 	}
 	
-//	@Test 
-//	public void successNoArgumentsApp() {
-//		String [] s = new String[0]; 
-//		
-//		ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
-//        service.execute();
-//        
-////        assertNotNull("null final directory", finalDir);
-////        assertEquals("error changing directory", result, "Hello ");
-//	}
+	@Test (expected = NoArgumentsForAppExecutionException.class)
+	public void failNoArgumentsApp() {
+
+		String [] s = new String[0];
+		
+		ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
+        service.execute();
+
+	}
+	
+	@Test (expected = NoArgumentsForAppExecutionException.class)
+	public void failNoArgumentsAppOnLink() {
+
+		String [] s = new String[0];
+		
+		ExecuteFileService service = new ExecuteFileService(token1, "linkAppGreet", s);    
+        service.execute();
+
+	}
 	
 //	@Test 
-//	public void successNoArgumentsAppOnLink() {
-//		String [] s = new String[0]; 
-//		
-//        ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
-//        service.execute();
-//        
-////        assertNotNull("null final directory", finalDir);
-////        assertEquals("error changing directory", result, "Hello ");
-//	}
-//	
-//	@Test 
 //	public void successNoArgumentsPlainFile() {
-//		String [] s = new String[0]; 
+//		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+//		System.setOut(new PrintStream(testOut));
+//		String [] s = new String[0];
 //		
-//        ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
+//		ExecuteFileService service = new ExecuteFileService(token1, "writeExample", s);    
 //        service.execute();
 //        
-////        assertNotNull("null final directory", finalDir);
-////        assertEquals("error changing directory", result, "Hello ");
+//		String [] t = testOut.toString().split("\n");
+//        assertEquals("There should receive the file Name", "sum=9",t[1]);
+//		System.setOut(standard);
 //	}
-//	
+	
 //	@Test 
 //	public void successNoArgumentsPlainFileOnLink() {
 //		String [] s = new String[0]; 
@@ -163,28 +165,36 @@ public class ExecuteFileTest extends AbstractServiceTest{
 ////        assertEquals("error changing directory", result, "Hello ");
 //	}
 //	
-//	@Test 
-//	public void successSeveralArgumentsApp() {
-//		String [] s = new String[0]; 
-//		
-//        ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
-//        service.execute();
-//        
-////        assertNotNull("null final directory", finalDir);
-////        assertEquals("error changing directory", result, "Hello ");
-//	}
-//	
-//	@Test 
-//	public void successSeveralArgumentsAppOnLink() {
-//		String [] s = new String[0]; 
-//		
-//        ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
-//        service.execute();
-//        
-////        assertNotNull("null final directory", finalDir);
-////        assertEquals("error changing directory", result, "Hello ");
-//	}
-//	
+	@Test 
+	public void successSeveralArgumentsApp() {
+		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testOut));
+		String [] s = {"2", "3", "4"};
+		
+		ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appSum", s);    
+        service.execute();
+        
+		String [] t = testOut.toString().split("\n");
+		
+        assertEquals("There should receive the file Name", "sum=9",t[1]);
+		System.setOut(standard);
+	}
+	
+	@Test 
+	public void successSeveralArgumentsAppOnLink() {
+		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testOut));
+		String [] s = {"2", "3", "4"};
+		
+		ExecuteFileService service = new ExecuteFileService(token0, "/home/root/linkAppSum", s);    
+        service.execute();
+        
+		String [] t = testOut.toString().split("\n");
+		
+        assertEquals("There should receive the file Name", "sum=9",t[1]);
+		System.setOut(standard);
+	}
+	
 //	@Test 
 //	public void successSeveralArgumentsPlainFile() {
 //		String [] s = new String[0]; 
@@ -207,37 +217,49 @@ public class ExecuteFileTest extends AbstractServiceTest{
 ////        assertEquals("error changing directory", result, "Hello ");
 //	}
 //	
-//	@Test 
-//	public void successOneArgumentApp() {
-//		String [] s = new String[0]; 
-//		
-//        ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
-//        service.execute();
-//        
-////        assertNotNull("null final directory", finalDir);
-////        assertEquals("error changing directory", result, "Hello ");
-//	}
-//	
-//	@Test 
-//	public void successOneArgumentAppOnLink() {
-//		String [] s = new String[0]; 
-//		
-//        ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
-//        service.execute();
-//        
-////        assertNotNull("null final directory", finalDir);
-////        assertEquals("error changing directory", result, "Hello ");
-//	}
-//	
+	@Test 
+	public void successOneArgumentApp() {
+		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testOut));
+		String [] s = {"a"}; 
+		
+		ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
+        service.execute();
+        
+		String [] t = testOut.toString().split("\n");
+		
+        assertEquals("There should receive the file Name", "Hello a",t[1]);
+		System.setOut(standard);
+	}
+	
+	@Test 
+	public void successOneArgumentAppOnLink() {
+		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testOut));
+		String [] s = {"a"}; 
+		
+		ExecuteFileService service = new ExecuteFileService(token1, "linkAppGreet", s);    
+        service.execute();
+        
+		String [] t = testOut.toString().split("\n");
+		
+        assertEquals("There should receive the file Name", "Hello a",t[1]);
+		System.setOut(standard);
+	}
+	
 //	@Test 
 //	public void successOneArgumentPlainFile() {
-//		String [] s = new String[0]; 
+//		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+//		System.setOut(new PrintStream(testOut));
+//		String [] s = {"a"}; 
 //		
-//        ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
+//		ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
 //        service.execute();
 //        
-////        assertNotNull("null final directory", finalDir);
-////        assertEquals("error changing directory", result, "Hello ");
+//		String [] t = testOut.toString().split("\n");
+//		
+//        assertEquals("There should receive the file Name", "Hello a",t[1]);
+//		System.setOut(standard);
 //	}
 //	
 //	@Test 

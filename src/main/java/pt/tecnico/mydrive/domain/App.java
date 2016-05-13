@@ -3,8 +3,10 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 
 import pt.tecnico.mydrive.exception.InvalidAppContentException;
+import pt.tecnico.mydrive.exception.NoArgumentsForAppExecutionException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
+import org.joda.time.DateTime;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -51,11 +53,13 @@ public class App extends App_Base {
     	
     	String name = this.getContent();
     	
+    	if (args.length < 0)
+    		throw new NoArgumentsForAppExecutionException(getName());
+	    		
     	try {
-    		  if (args.length >= 0)
+
     		    run(name, args);
-    		  else throw new Exception("Nothing to run!");
-    	}
+    	}	 
     	catch (Exception e) { throw new RuntimeException("" + e); }
     }
 
@@ -64,6 +68,8 @@ public class App extends App_Base {
         verifyContent(content);
         checkPermissions(user, this, "write");
         setContent(content);
+        DateTime lt = new DateTime();
+        setLastChange(lt);
     }
 
     @Override
@@ -71,6 +77,8 @@ public class App extends App_Base {
         verifyContent(content);
         checkPermissions(user, this, "write");
         setContent(content);
+        DateTime lt = new DateTime();
+        setLastChange(lt);
     }
     	
     	
@@ -83,19 +91,48 @@ public class App extends App_Base {
 
     private void verifyContent(String content) throws InvalidAppContentException{
         String[] parts = null;
-        if(content != null)
+        if(content != null && !content.equals("")){
+            if(content.contains(".")) {
+                parts = content.split("\\.");
+                if(parts.length  > 1){
+                    for(String s : parts){
+                        if(s.contains(" ")){
+                            throw new InvalidAppContentException(content);
+                        }
+                    }
+                    return;
+                }
+            }
+            throw new InvalidAppContentException(content);
+        }
+    }
+
+    /*private void verifyContent(String content) throws InvalidAppContentException {
+        String[] parts = null;
+        if(content != null){
             if(content.contains(".")){
                 parts = content.split(".");
-                if(parts.length == 2)
-                    if(!parts[0].contains(" ") && !parts[1].contains(" "))
-                        return;
-                else if(parts.length == 3)
-                    if(!parts[0].contains(" ") && !parts[1].contains(" ") && !parts[2].contains(" "))
-                        return;
+                if(parts.length > 1){
+                    for(int i = 1 ; i < parts.length ; i++){
+                        if(parts[i].contains(" ")){
+                            throw new InvalidAppContentException(content);
+                        }
+                    }
+                    return;
+                }
+                else{
+                    throw new InvalidAppContentException(content);
+                }
             }
-        throw new InvalidAppContentException(content);
+            else{
+                throw new InvalidAppContentException(content);
+            }
+        }
+        else{
+            throw new InvalidAppContentException(content);
+        }
     }
-    
+    */
     
     
 //////////////////////////////////////////////////////////////////////////////////////

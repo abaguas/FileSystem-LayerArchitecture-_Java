@@ -77,7 +77,7 @@ public class PlainFile extends PlainFile_Base {
 	    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
 	
 	    Thread throut = new Thread(new Runnable() {
-	      @Override
+	    @Override
 	      public void run() {
 	    	  String line;
 	    	  try {
@@ -186,13 +186,17 @@ public class PlainFile extends PlainFile_Base {
 	public void write(User user, String content, MyDrive md) throws FileIsNotWriteAbleException {
 		checkPermissions(user, this, "write");
 		setContent(content);
+		DateTime lt = new DateTime();
+    	setLastChange(lt);
 	}
 	
 	@Override
 	public void write(User user, String content, MyDrive md, Set<String> cycleDetector)
 			throws FileIsNotWriteAbleException {
 		checkPermissions(user, this, "write");
-		setContent(content);	
+		setContent(content);
+		DateTime lt = new DateTime();
+    	setLastChange(lt);	
 	}
 	
 	
