@@ -17,7 +17,7 @@ public class SystemTest extends AbstractServiceTest {
 
     @Test
     public void success() {
-        new Import(sh).execute(new String[] { "UsersAndFiles.xml" } );
+        new Import(sh).execute(new String[] { "info/UsersAndFiles.xml" } );
         new Login(sh).execute(new String[] { "Sofia" } );
         new Key(sh).execute(new String[] { } );
         new Login(sh).execute(new String[] { "Carlos" } );

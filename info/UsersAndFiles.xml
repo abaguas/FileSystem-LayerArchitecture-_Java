@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<myDrive>
+  <user username="Sofia">
+    <password>9876543121</password>
+    <name>Sofia Fernandes</name>
+    <home>/home/Sofia</home>
+    <mask>rwxdr-x-</mask>
+  </user>
+  <user username="Carlos">
+    <password>123456789</password>
+    <name>Carlos Miguel</name>
+    <home>/home/Carlos</home>
+    <mask>rwxdr-x-</mask>
+  </user>
+  <plain id="3">
+    <path>/home/Sofia</path>
+    <owner>Sofia</owner>
+    <name>WriteMe</name>
+    <contents>OldContent</contents>
+  </plain>
+  <plain id="4">
+    <path>/home/Sofia</path>
+    <owner>Sofia</owner>
+    <name>ExecuteMeWithOutArgs</name>
+    <contents>OldContent</contents>
+  </plain>
+  <plain id="5">
+    <path>/home/Sofia</path>
+    <owner>Sofia</owner>
+    <name>ExecuteMeWithArgs</name>
+    <contents></contents>
+  </plain>
+</myDrive>
