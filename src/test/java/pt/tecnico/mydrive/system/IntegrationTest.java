@@ -1,4 +1,4 @@
-package pt.tecnico.mydrive.system;
+/*package pt.tecnico.mydrive.system;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -299,5 +299,5 @@ public class IntegrationTest extends AbstractServiceTest {
 		
 	}
 
-}
+}*/
 
