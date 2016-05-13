@@ -21,7 +21,7 @@ public class App extends App_Base {
     }
     
     public App(String name, int id, String content) {
-
+    	
     }
     public App(Element app_element, User owner, Directory father){
         xmlImport(app_element, owner, father);
@@ -110,7 +110,7 @@ public class App extends App_Base {
     @Override
     public void xmlImport(Element element, User owner, Directory father){
         super.xmlImport(element,owner,father);
-        String contents= element.getChildText("method");
+        String contents= element.getChildText("contents");
         setContent(contents);
     }
 
@@ -120,7 +120,7 @@ public class App extends App_Base {
         
         super.xmlExport(element);
 
-        Element method_element = new Element ("method");
+        Element method_element = new Element ("contents");
         method_element.setText(getContent());
         element.addContent(method_element);
         
