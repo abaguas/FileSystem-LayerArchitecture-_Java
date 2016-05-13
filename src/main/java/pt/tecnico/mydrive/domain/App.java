@@ -6,6 +6,7 @@ import pt.tecnico.mydrive.exception.InvalidAppContentException;
 import pt.tecnico.mydrive.exception.NoArgumentsForAppExecutionException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
+import org.joda.time.DateTime;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -67,6 +68,8 @@ public class App extends App_Base {
         verifyContent(content);
         checkPermissions(user, this, "write");
         setContent(content);
+        DateTime lt = new DateTime();
+        setLastChange(lt);
     }
 
     @Override
@@ -74,6 +77,8 @@ public class App extends App_Base {
         verifyContent(content);
         checkPermissions(user, this, "write");
         setContent(content);
+        DateTime lt = new DateTime();
+        setLastChange(lt);
     }
     	
     	
