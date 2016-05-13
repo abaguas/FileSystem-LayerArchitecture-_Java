@@ -100,7 +100,7 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
         new MockUp<ExecuteAssociationService>() {
         	@Mock
 		  	void execute() {
-		  		String[] args = {};
+		  		String[] args = { };
         		gedit.execute(u1, args, md);
 		  	}
 		};
