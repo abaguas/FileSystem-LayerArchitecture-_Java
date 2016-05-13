@@ -96,7 +96,7 @@ public class Directory extends Directory_Base {
 	}
 
 	public Directory getDirectory(String path) throws NoSuchFileException, FileNotDirectoryException{
-		if (isAbsolute(path)) {
+		if (isRelativeAbsolute(path)) {
 			String[] parts = path.split("/");
 			String rest = "";
 			int i = 0;
