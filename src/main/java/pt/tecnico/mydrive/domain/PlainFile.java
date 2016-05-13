@@ -70,8 +70,8 @@ public class PlainFile extends PlainFile_Base {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	    OutputStream stdin = proc.getOutputStream ();
-	    InputStream stdout = proc.getInputStream ();
+	    OutputStream stdin = proc.getOutputStream();
+	    InputStream stdout = proc.getInputStream();
 	
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
 	    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));

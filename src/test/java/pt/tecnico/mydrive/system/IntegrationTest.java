@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
@@ -26,6 +27,7 @@ import pt.tecnico.mydrive.service.LoginService;
 import pt.tecnico.mydrive.service.ReadFileService;
 import pt.tecnico.mydrive.service.WriteFileService;
 import pt.tecnico.mydrive.service.XMLImportService;
+import pt.tecnico.mydrive.service.dto.FileDto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -33,17 +35,17 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(JMockit.class)
 public class IntegrationTest extends AbstractServiceTest {
 
-	private ByteArrayOutputStream testOut;
+	private ByteArrayOutputStream testOut = new ByteArrayOutputStream();;
 	private final PrintStream standard = System.out;
 	private long tokenAbaguas;
 	private long tokenElGorila;
-	private static final String importFile = "MD.xml";
+	private static final String importFile = "info/MD.xml";
 	private final String usernameAbaguas = "abaguas";
 	private final String nameAbaguas = "Andre";
 	private final String passwordAbaguas = "ins3cur3";
 	private final String usernameElGorila = "elGorila";
 	private final String nameElGorila = "King";
-	private final String passwordElGorila = "s3cur3";
+	private final String passwordElGorila = "ultras3cur3";
 	
 	
 	private final String dirCarne = "carne";
@@ -75,17 +77,14 @@ public class IntegrationTest extends AbstractServiceTest {
 	@Test
 	public void success() throws JDOMException, IOException {
 		
-		ClassLoader loader = getClass().getClassLoader();
-		File file = new File(loader.getResource(importFile).getFile());
-		Document doc = (Document)new SAXBuilder().build(file);
-		new XMLImportService(doc).execute();
-		
-		//servicos de listagem de diretoria
-		ListDirectoryService listAbaguas = new ListDirectoryService(tokenAbaguas);
-		ListDirectoryService listElGorila = new ListDirectoryService(tokenElGorila);
+		File file = new File(importFile);
+		SAXBuilder builder = new SAXBuilder();
+		Document document = (Document)builder.build(file);
+
+		new XMLImportService(document).execute();
 		
 		//servicos de mudanca de diretoria
-		ChangeDirectoryService change;
+		ChangeDirectoryService change = null;
 		
 		//servicos de login para iniciar os tokens
 		LoginService loginService = new LoginService(usernameAbaguas, passwordAbaguas);
@@ -96,21 +95,26 @@ public class IntegrationTest extends AbstractServiceTest {
 		loginService.execute();
 		tokenElGorila = loginService.result();
 		
+		//servicos de listagem de diretoria
+		ListDirectoryService listAbaguas = new ListDirectoryService(tokenAbaguas);
+		ListDirectoryService listElGorila = new ListDirectoryService(tokenElGorila);
+		
 		//Construções no lado do abaguas
 		listAbaguas.execute();
 		assertEquals("A diretoria /home/abaguas não tem tamanho 2", listAbaguas.result().size(), 2);
 		
-		new CreateFileService(tokenAbaguas, dirCarne, "Dir");
-		new CreateFileService(tokenAbaguas, plainFileAbaguas, plainFileAbaguasContent, "PlainFile");
+		new CreateFileService(tokenAbaguas, dirCarne, "Dir").execute();
+		new CreateFileService(tokenAbaguas, plainFileAbaguas, plainFileAbaguasContent, "PlainFile").execute();
 		listAbaguas.execute();
 		assertEquals("A diretoria carne ou(inclusivo) o plainFileAbaguas não foi corretamente criado", listAbaguas.result().size(), 4);
 		
 		change = new ChangeDirectoryService(tokenAbaguas, dirCarne);
 		change.execute();
+		
 		listAbaguas.execute();
 		assertEquals("A diretoria nao foi corretamente alterada para carne", listAbaguas.result().size(), 2);
 		
-		new CreateFileService(tokenAbaguas, appAbaguas, appAbaguasContent, "App");
+		new CreateFileService(tokenAbaguas, appAbaguas, appAbaguasContent, "App").execute();;
 		listAbaguas.execute();
 		assertEquals("A appAbaguas não foi corretamente criado", listAbaguas.result().size(), 3);
 		
@@ -120,11 +124,11 @@ public class IntegrationTest extends AbstractServiceTest {
 		listElGorila.execute();
 		assertEquals("A diretoria /home/ElGorila não tem tamanho 2", listElGorila.result().size(), 2);
 		
-		new CreateFileService(tokenElGorila, dirBananas, "Dir");
+		new CreateFileService(tokenElGorila, dirBananas, "Dir").execute();
 		listElGorila.execute();
 		assertEquals("A diretoria não foi corretamente criada para bananas", listElGorila.result().size(), 3);
 		
-		new CreateFileService(tokenElGorila, appElGorila, appElGorilaContent, "App"); 
+		new CreateFileService(tokenElGorila, appElGorila, appElGorilaContent, "App").execute(); 
 		listElGorila.execute();
 		assertEquals("A appElGorila não foi corretamente criada", listElGorila.result().size(), 4);
 		
@@ -133,7 +137,7 @@ public class IntegrationTest extends AbstractServiceTest {
 		listElGorila.execute();
 		assertEquals("A diretoria nao foi corretamente alterada para bananas", listElGorila.result().size(), 2);
 		
-		new CreateFileService(tokenElGorila, linkElGorila, linkElGorilaContent, "Link"); 
+		new CreateFileService(tokenElGorila, linkElGorila, linkElGorilaContent, "Link").execute(); 
 		listElGorila.execute();
 		assertEquals("O linkElGorila não foi corretamente criado", listElGorila.result().size(), 3);
 		
@@ -141,15 +145,15 @@ public class IntegrationTest extends AbstractServiceTest {
 		   //pelo Abaguas
 		change = new ChangeDirectoryService(tokenAbaguas, "../../elGorila/bananas");
 		change.execute();
-		listElGorila.execute();
-		assertEquals("A diretoria nao foi corretamente alterada para bananas", listElGorila.result().size(), 3);
+		listAbaguas.execute();
+		assertEquals("A diretoria nao foi corretamente alterada para bananas", listAbaguas.result().size(), 3);
 		
-		new CreateFileService(tokenAbaguas, plainFileAbaguasGor, plainFileAbaguasGorContent, "PlainFile"); 
-		listElGorila.execute();
+		new CreateFileService(tokenAbaguas, plainFileAbaguasGor, plainFileAbaguasGorContent, "PlainFile").execute(); 
+		listAbaguas.execute();
 		assertEquals("O plainFileAbaguasGor não foi corretamente criado", listAbaguas.result().size(), 4);
 		
-		new CreateFileService(tokenAbaguas, linkAbaguas, linkAbaguasContent, "Link"); 
-		listElGorila.execute();
+		new CreateFileService(tokenAbaguas, linkAbaguas, linkAbaguasContent, "Link").execute(); 
+		listAbaguas.execute();
 		assertEquals("O plainFileAbaguasGor não foi corretamente criado", listAbaguas.result().size(), 5);
 		
 		
@@ -182,6 +186,10 @@ public class IntegrationTest extends AbstractServiceTest {
 		
 		
 		//leitura de ficheiros com env links
+		new MockUp<ReadFileService>() {
+			@Mock
+			void execute() { }
+		};
 		new MockUp<ReadFileService>() {
 			@Mock
 			String result() { return appElGorilaContent; }

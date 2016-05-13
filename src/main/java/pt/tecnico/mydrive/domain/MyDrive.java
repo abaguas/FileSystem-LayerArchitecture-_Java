@@ -35,7 +35,7 @@ public class MyDrive extends MyDrive_Base {
         super.setRootUser(r);
         GuestUser guestUser = GuestUser.getInstance();
         super.setGuestUser(guestUser);
-        super.setSessionManager(SessionManager.getInstance()); 
+        super.setSessionManager(SessionManager.getInstance());
         addUsers(r);
         addUsers(guestUser);
         Directory rootDir = Directory.newRootDir(getRootUser());

@@ -14,7 +14,7 @@ public class User extends User_Base {
 	public User(){}
 	
 	public User(MyDrive md, String username, String password, String name) throws InvalidUsernameException{
-        init(md, username, password, name, new Permission(true, true, true, true), new Permission(true, false, true, false));
+        init(md, username, password, name, new Permission(true, true, true, true), new Permission(false, false, false, false));
 	}
 
     public User(MyDrive md, String username, String password, String name, Permission maskOwn, Permission maskOther) throws InvalidUsernameException{
@@ -31,6 +31,8 @@ public class User extends User_Base {
                 setOwnPermission(maskOwn);
                 setOthersPermission(maskOther);
                 Directory d = new Directory(username, md.getRootUser(), (Directory)md.getRootDirectory().get("home"));
+                d.setUserPermission(maskOwn.copy());
+                d.setOthersPermission(maskOther.copy());
                 d.setOwner(this);
                 setMainDirectory(d);
                 return;
@@ -95,19 +97,16 @@ public class User extends User_Base {
 
     @Override
     public void setOwnPermission(Permission mask){
-        if(mask != null)
+        if(mask != null) {
             super.setOwnPermission(mask);
-            //super.setOwnPermission(new Permission(mask.substring(0,4)));
-        super.setOwnPermission(new Permission("rwxd"));
+        } else super.setOwnPermission(new Permission("rwxd"));
     }
 
     @Override
     public void setOthersPermission(Permission mask){
-        if(mask != null)
+        if(mask != null) {
             super.setOthersPermission(mask);
-        super.setOthersPermission(new Permission("----"));
-        /*  super.setOthersPermission(new Permission(mask.substring(4)));
-        super.setOthersPermission(new Permission("----"));*/
+        } else super.setOthersPermission(new Permission("----"));
     }
 
     private boolean validUsername(String username){
