@@ -1,0 +1,878 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building myDrive 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mydrive ---
+[INFO] Deleting /Users/abaguas/Documents/ES/es16al_17-project/target
+[INFO] 
+[INFO] --- ff-maven-plugin:2.6.2:ff-generate-domain (default) @ mydrive ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ mydrive ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 6 resources
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ mydrive ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 122 source files to /Users/abaguas/Documents/ES/es16al_17-project/target/classes
+[INFO] 
+[INFO] --- ff-maven-plugin:2.6.2:ff-process-atomic-annotations (default) @ mydrive ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ mydrive ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/abaguas/Documents/ES/es16al_17-project/src/test/resources
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ mydrive ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 16 source files to /Users/abaguas/Documents/ES/es16al_17-project/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ mydrive ---
+[INFO] Surefire report directory: /Users/abaguas/Documents/ES/es16al_17-project/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running pt.tecnico.mydrive.service.AddVariableTest
+18:10:27.536 [main] DEBUG pt.ist.fenixframework.FenixFramework - Trying auto-initialization with configuration by convention
+18:10:27.538 [main] DEBUG pt.ist.fenixframework.FenixFramework - Resource 'fenix-framework.properties' not found
+18:10:27.538 [main] DEBUG pt.ist.fenixframework.FenixFramework - Fenix Framework properties after reading default config file:{}
+18:10:27.539 [main] DEBUG pt.ist.fenixframework.FenixFramework - CurrentBackEndName = jvstm-ojb
+18:10:27.539 [main] INFO  pt.ist.fenixframework.FenixFramework - Found configuration by convention in resource 'fenix-framework-jvstm-ojb.properties'.
+18:10:27.540 [main] DEBUG pt.ist.fenixframework.FenixFramework - Fenix Framework properties after reading backend config file:{appName=INFER_APP_NAME, dbUsername=mydrive, updateRepositoryStructureIfNeeded=true, dbPassword=mydriv3, dbAlias=//localhost:3306/drivedb?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull}
+18:10:27.540 [main] DEBUG pt.ist.fenixframework.FenixFramework - Fenix Framework properties after enforcing system properties:{appName=INFER_APP_NAME, dbUsername=mydrive, dbPassword=mydriv3, updateRepositoryStructureIfNeeded=true, dbAlias=//localhost:3306/drivedb?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull}
+18:10:27.540 [main] DEBUG pt.ist.fenixframework.FenixFramework - appName property automatically discovered: mydrive
+18:10:27.564 [main] INFO  pt.ist.fenixframework.FenixFramework - Initializing Fenix Framework with backend config: JvstmOJBConfig
+18:10:28.072 [main] INFO  p.i.f.b.j.r.RepositoryBootstrap - Updating Repository Structure
+18:10:28.092 [main] INFO  p.i.f.b.j.r.RepositoryBootstrap - Repository Structure update completed
+18:10:28.103 [main] INFO  p.i.f.b.jvstmojb.repository.ServerId - Obtained server id: 5
+18:10:28.140 [main] DEBUG p.i.f.b.jvstmojb.repository.ServerId - Server ID Lease is now valid until 2016-05-13T18:29:28.109+01:00
+18:10:28.215 [main] INFO  p.i.f.b.j.pstm.TransactionSupport - Setting the last committed TX number to 5
+18:10:28.215 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.ist.fenixframework.DomainFenixFrameworkRoot.bootstrap(DomainFenixFrameworkRoot.java)
+18:10:28.287 [main] INFO  pt.ist.fenixframework.FenixFramework - Initialization of Fenix Framework is now complete.
+18:10:28.305 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.876 sec
+Running pt.tecnico.mydrive.service.ChangeDirectoryTest
+18:10:28.316 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.324 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.359 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.365 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.372 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.377 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.382 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.387 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.391 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.395 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.399 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.404 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.087 sec
+Running pt.tecnico.mydrive.service.CreateFileTest
+18:10:28.410 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.413 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.416 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.419 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.425 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.428 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.430 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.433 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.436 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.438 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.442 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.445 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.450 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.452 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 14, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.047 sec <<< FAILURE!
+duplicatedFileCreation3(pt.tecnico.mydrive.service.CreateFileTest)  Time elapsed: 0.007 sec  <<< ERROR!
+java.lang.Exception: Unexpected exception, expected<pt.tecnico.mydrive.exception.FileAlreadyExistsException> but was<pt.tecnico.mydrive.exception.InvalidAppContentException>
+	at org.junit.internal.runners.statements.ExpectException.evaluate(ExpectException.java:28)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+Caused by: pt.tecnico.mydrive.exception.InvalidAppContentException:  : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.CreateFileService.fileFactory(CreateFileService.java:42)
+	at pt.tecnico.mydrive.service.CreateFileService.dispatch(CreateFileService.java:61)
+	at pt.tecnico.mydrive.service.MyDriveService.advised$execute(MyDriveService.java:14)
+	at pt.tecnico.mydrive.service.MyDriveService$callable$execute.call(Advice Library Automatically Generated Class)
+	at pt.ist.fenixframework.backend.jvstmojb.JvstmOJBTransactionManager.handleWriteCommand(JvstmOJBTransactionManager.java:179)
+	at pt.ist.fenixframework.backend.jvstmojb.JvstmOJBTransactionManager.withTransaction(JvstmOJBTransactionManager.java:146)
+	at pt.ist.fenixframework.atomic.AtomicContext.perform(AtomicContext.java:30)
+	at pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+	at pt.tecnico.mydrive.service.CreateFileTest.duplicatedFileCreation3(CreateFileTest.java:242)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.ExpectException.evaluate(ExpectException.java:19)
+	... 24 more
+
+successApp(pt.tecnico.mydrive.service.CreateFileTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.MyDriveApplication.main : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.CreateFileService.fileFactory(CreateFileService.java:42)
+	at pt.tecnico.mydrive.service.CreateFileService.dispatch(CreateFileService.java:61)
+	at pt.tecnico.mydrive.service.MyDriveService.advised$execute(MyDriveService.java:14)
+	at pt.tecnico.mydrive.service.MyDriveService$callable$execute.call(Advice Library Automatically Generated Class)
+	at pt.ist.fenixframework.backend.jvstmojb.JvstmOJBTransactionManager.handleWriteCommand(JvstmOJBTransactionManager.java:179)
+	at pt.ist.fenixframework.backend.jvstmojb.JvstmOJBTransactionManager.withTransaction(JvstmOJBTransactionManager.java:146)
+	at pt.ist.fenixframework.atomic.AtomicContext.perform(AtomicContext.java:30)
+	at pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+	at pt.tecnico.mydrive.service.CreateFileTest.successApp(CreateFileTest.java:159)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+Running pt.tecnico.mydrive.service.DeleteFileServiceTest
+18:10:28.458 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.460 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.462 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.466 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.468 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.470 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.472 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.474 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.476 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.478 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.480 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.482 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 sec
+Running pt.tecnico.mydrive.service.EnvironmentLinksTest
+objc[5025]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/jre/bin/java and /Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/jre/lib/libinstrument.dylib. One of the two will be used. Which one is undefined.
+18:10:28.867 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.893 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.912 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.927 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.939 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.952 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.965 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.977 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:28.991 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.003 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.016 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.029 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.045 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.066 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.080 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.096 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.112 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.129 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.145 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.165 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.182 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.706 sec
+Running pt.tecnico.mydrive.service.ExecuteAssociationTest
+Tests run: 9, Failures: 0, Errors: 9, Skipped: 0, Time elapsed: 0.027 sec <<< FAILURE!
+failAppNotExists(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.005 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+successEXT(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+successPDF(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+successTXT(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+executeWithoutPermission(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+failFileNotExists(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+failSharingExtensionTablesBeetweenUsers(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+failInvalidToken(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+successSharingExtensionTablesBeetweenSessions(pt.tecnico.mydrive.service.ExecuteAssociationTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteAssociationTest.populate(ExecuteAssociationTest.java:82)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+Running pt.tecnico.mydrive.service.ExecuteFileTest
+Tests run: 6, Failures: 0, Errors: 6, Skipped: 0, Time elapsed: 0.017 sec <<< FAILURE!
+notExecutableFile(pt.tecnico.mydrive.service.ExecuteFileTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.greet : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteFileTest.populate(ExecuteFileTest.java:51)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+nonExistentPlainFile(pt.tecnico.mydrive.service.ExecuteFileTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.greet : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteFileTest.populate(ExecuteFileTest.java:51)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+invalidLink(pt.tecnico.mydrive.service.ExecuteFileTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.greet : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteFileTest.populate(ExecuteFileTest.java:51)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+nonPermittedDirectory(pt.tecnico.mydrive.service.ExecuteFileTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.greet : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteFileTest.populate(ExecuteFileTest.java:51)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+plainFileWithInvalidToken(pt.tecnico.mydrive.service.ExecuteFileTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.greet : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteFileTest.populate(ExecuteFileTest.java:51)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+nonPermittedPlainFile(pt.tecnico.mydrive.service.ExecuteFileTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.greet : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ExecuteFileTest.populate(ExecuteFileTest.java:51)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+Running pt.tecnico.mydrive.service.ListDirectoryTest
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.009 sec <<< FAILURE!
+invalidToken(pt.tecnico.mydrive.service.ListDirectoryTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ListDirectoryTest.populate(ListDirectoryTest.java:46)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+PermitedListDirectory(pt.tecnico.mydrive.service.ListDirectoryTest)  Time elapsed: 0.003 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ListDirectoryTest.populate(ListDirectoryTest.java:46)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+ListRootDirectory(pt.tecnico.mydrive.service.ListDirectoryTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.ListDirectoryTest.populate(ListDirectoryTest.java:46)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+Running pt.tecnico.mydrive.service.LoginServiceTest
+18:10:29.253 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.256 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.259 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 sec
+Running pt.tecnico.mydrive.service.ReadFileTest
+18:10:29.270 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.274 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.278 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.281 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.285 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.288 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.293 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.296 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.299 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.302 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.305 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.308 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.310 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.312 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.315 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.317 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.320 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.322 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.324 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.327 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.330 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.333 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.336 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 sec
+Running pt.tecnico.mydrive.service.WriteFileTest
+Tests run: 8, Failures: 0, Errors: 8, Skipped: 0, Time elapsed: 0.066 sec <<< FAILURE!
+successPermittedFile(pt.tecnico.mydrive.service.WriteFileTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.WriteFileTest.populate(WriteFileTest.java:43)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+writeOnLinkRelativePath(pt.tecnico.mydrive.service.WriteFileTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.WriteFileTest.populate(WriteFileTest.java:43)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+notPermittedFile(pt.tecnico.mydrive.service.WriteFileTest)  Time elapsed: 0.001 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.WriteFileTest.populate(WriteFileTest.java:43)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+writeOnDirectory(pt.tecnico.mydrive.service.WriteFileTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.WriteFileTest.populate(WriteFileTest.java:43)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+noSuchFile(pt.tecnico.mydrive.service.WriteFileTest)  Time elapsed: 0.002 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.WriteFileTest.populate(WriteFileTest.java:43)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+writeOnApp(pt.tecnico.mydrive.service.WriteFileTest)  Time elapsed: 0.001 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.WriteFileTest.populate(WriteFileTest.java:43)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+invalidToken(pt.tecnico.mydrive.service.WriteFileTest)  Time elapsed: 0.053 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.WriteFileTest.populate(WriteFileTest.java:43)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+writeOnLink(pt.tecnico.mydrive.service.WriteFileTest)  Time elapsed: 0 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: conteudo1 : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.WriteFileTest.populate(WriteFileTest.java:43)
+	at pt.tecnico.mydrive.service.AbstractServiceTest.setUp(AbstractServiceTest.java:38)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+Running pt.tecnico.mydrive.service.XMLImportServiceTest
+18:10:29.412 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.421 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.428 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.438 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 sec
+Running pt.tecnico.mydrive.system.IntegrationTest
+18:10:29.443 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.444 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.444 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.445 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.445 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.446 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.446 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.446 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.446 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+18:10:29.446 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.007 sec <<< FAILURE!
+success(pt.tecnico.mydrive.system.IntegrationTest)  Time elapsed: 0.006 sec  <<< ERROR!
+pt.tecnico.mydrive.exception.InvalidAppContentException: pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+	at pt.tecnico.mydrive.domain.App.verifyContent(App.java:96)
+	at pt.tecnico.mydrive.domain.App.<init>(App.java:18)
+	at pt.tecnico.mydrive.service.CreateFileService.fileFactory(CreateFileService.java:42)
+	at pt.tecnico.mydrive.service.CreateFileService.dispatch(CreateFileService.java:61)
+	at pt.tecnico.mydrive.service.MyDriveService.advised$execute(MyDriveService.java:14)
+	at pt.tecnico.mydrive.service.MyDriveService$callable$execute.call(Advice Library Automatically Generated Class)
+	at pt.ist.fenixframework.backend.jvstmojb.JvstmOJBTransactionManager.handleWriteCommand(JvstmOJBTransactionManager.java:179)
+	at pt.ist.fenixframework.backend.jvstmojb.JvstmOJBTransactionManager.withTransaction(JvstmOJBTransactionManager.java:146)
+	at pt.ist.fenixframework.atomic.AtomicContext.perform(AtomicContext.java:30)
+	at pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+	at pt.tecnico.mydrive.system.IntegrationTest.success(IntegrationTest.java:117)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+Running pt.tecnico.mydrive.system.SystemTest
+18:10:29.791 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.346 sec <<< FAILURE!
+success(pt.tecnico.mydrive.system.SystemTest)  Time elapsed: 0.346 sec  <<< ERROR!
+java.lang.RuntimeException: java.lang.NullPointerException
+	at pt.tecnico.mydrive.presentation.Import.execute(Import.java:21)
+	at pt.tecnico.mydrive.system.SystemTest.success(SystemTest.java:20)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+Caused by: java.lang.NullPointerException
+	at org.jdom2.input.sax.SAXBuilderEngine.fileToURL(SAXBuilderEngine.java:344)
+	at org.jdom2.input.sax.SAXBuilderEngine.build(SAXBuilderEngine.java:264)
+	at org.jdom2.input.SAXBuilder.build(SAXBuilder.java:1116)
+	at pt.tecnico.mydrive.presentation.Import.execute(Import.java:19)
+	... 14 more
+
+
+Results :
+
+Tests in error: 
+  duplicatedFileCreation3(pt.tecnico.mydrive.service.CreateFileTest): Unexpected exception, expected<pt.tecnico.mydrive.exception.FileAlreadyExistsException> but was<pt.tecnico.mydrive.exception.InvalidAppContentException>
+  successApp(pt.tecnico.mydrive.service.CreateFileTest): pt.tecnico.mydrive.MyDriveApplication.main : Invalid App content.
+  failAppNotExists(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  successEXT(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  successPDF(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  successTXT(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  executeWithoutPermission(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  failFileNotExists(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  failSharingExtensionTablesBeetweenUsers(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  failInvalidToken(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  successSharingExtensionTablesBeetweenSessions(pt.tecnico.mydrive.service.ExecuteAssociationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  notExecutableFile(pt.tecnico.mydrive.service.ExecuteFileTest): pt.tecnico.mydrive.presentation.greet : Invalid App content.
+  nonExistentPlainFile(pt.tecnico.mydrive.service.ExecuteFileTest): pt.tecnico.mydrive.presentation.greet : Invalid App content.
+  invalidLink(pt.tecnico.mydrive.service.ExecuteFileTest): pt.tecnico.mydrive.presentation.greet : Invalid App content.
+  nonPermittedDirectory(pt.tecnico.mydrive.service.ExecuteFileTest): pt.tecnico.mydrive.presentation.greet : Invalid App content.
+  plainFileWithInvalidToken(pt.tecnico.mydrive.service.ExecuteFileTest): pt.tecnico.mydrive.presentation.greet : Invalid App content.
+  nonPermittedPlainFile(pt.tecnico.mydrive.service.ExecuteFileTest): pt.tecnico.mydrive.presentation.greet : Invalid App content.
+  invalidToken(pt.tecnico.mydrive.service.ListDirectoryTest): conteudo1 : Invalid App content.
+  PermitedListDirectory(pt.tecnico.mydrive.service.ListDirectoryTest): conteudo1 : Invalid App content.
+  ListRootDirectory(pt.tecnico.mydrive.service.ListDirectoryTest): conteudo1 : Invalid App content.
+  successPermittedFile(pt.tecnico.mydrive.service.WriteFileTest): conteudo1 : Invalid App content.
+  writeOnLinkRelativePath(pt.tecnico.mydrive.service.WriteFileTest): conteudo1 : Invalid App content.
+  notPermittedFile(pt.tecnico.mydrive.service.WriteFileTest): conteudo1 : Invalid App content.
+  writeOnDirectory(pt.tecnico.mydrive.service.WriteFileTest): conteudo1 : Invalid App content.
+  noSuchFile(pt.tecnico.mydrive.service.WriteFileTest): conteudo1 : Invalid App content.
+  writeOnApp(pt.tecnico.mydrive.service.WriteFileTest): conteudo1 : Invalid App content.
+  invalidToken(pt.tecnico.mydrive.service.WriteFileTest): conteudo1 : Invalid App content.
+  writeOnLink(pt.tecnico.mydrive.service.WriteFileTest): conteudo1 : Invalid App content.
+  success(pt.tecnico.mydrive.system.IntegrationTest): pt.tecnico.mydrive.presentation.Hello : Invalid App content.
+  success(pt.tecnico.mydrive.system.SystemTest): java.lang.NullPointerException
+
+Tests run: 119, Failures: 0, Errors: 30, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 7.346 s
+[INFO] Finished at: 2016-05-13T18:10:29+01:00
+[INFO] Final Memory: 12M/240M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test (default-test) on project mydrive: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/abaguas/Documents/ES/es16al_17-project/target/surefire-reports for the individual test results.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
