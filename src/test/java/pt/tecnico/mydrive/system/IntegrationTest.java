@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.Document;
@@ -28,6 +29,7 @@ import pt.tecnico.mydrive.service.ReadFileService;
 import pt.tecnico.mydrive.service.WriteFileService;
 import pt.tecnico.mydrive.service.XMLImportService;
 import pt.tecnico.mydrive.service.dto.FileDto;
+import pt.tecnico.mydrive.service.dto.VariableDto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -179,10 +181,9 @@ public class IntegrationTest extends AbstractServiceTest {
 		assertEquals("O conteudo lido de linkAbaguas é incorreto", readFileService.result(), plainFileAbaguasNewContent);
 		
 		//criacao de variáveis
-		new AddVariableService(tokenAbaguas, "VAR", "cataratas").execute();
-		AddVariableService addVariableService = new AddVariableService(tokenAbaguas, "EL", "elGorila");
+		AddVariableService addVariableService = new AddVariableService(tokenAbaguas, "VAR", "cataratas");
 		addVariableService.execute();
-		assertEquals("Variáveis de ambiente criadas incorretamente", addVariableService.result().size(), 2);
+		assertEquals("Variáveis de ambiente criadas incorretamente", addVariableService.result().size(), 1);
 		
 		
 		//leitura de ficheiros com env links
