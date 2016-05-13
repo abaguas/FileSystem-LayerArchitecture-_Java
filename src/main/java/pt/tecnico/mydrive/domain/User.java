@@ -120,7 +120,12 @@ public class User extends User_Base {
     }
     
     public App getFileByExtension(String extension) throws ExtensionNotFoundException {
-    	return null;
+    	for (FileExtension fe: getFileExtensionSet()){
+    		if (fe.getExtension().equals(extension)) {
+    			return fe.getApp();
+    		}
+    	}
+    	throw new ExtensionNotFoundException(extension);
     }
     
 //////////////////////////////////////////////////////////////////////////////////////

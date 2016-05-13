@@ -12,15 +12,14 @@
     <organization>
       <name>Engenharia de Software, IST 2016</name>
       <url>https://fenix.tecnico.ulisboa.pt/disciplinas/ESof96451113/2015-2016/2-semestre</url> <!-- Alameda -->
-      <!-- ESof141113 Tagus -->
     </organization>
 
     <developers>
-      <developer> <!-- FIXME: one developer for each team member -->
-        <id>ist178859</id> <!-- FIXME -->
-	<name>filipencosta</name> <!-- FIXME -->
-	<email>ist178859@tecnico.ulisboa.pt</email> <!-- FIXME -->
-	<organization>es16 g17al</organization> <!-- FIXME -->
+      <developer> 
+        <id>ist178859</id>
+	<name>filipencosta</name>
+	<email>ist178859@tecnico.ulisboa.pt</email>
+	<organization>es16 g17al</organization> 
 	<roles>
 	  <role>Developer</role>
 	  <role>Architect</role>
@@ -28,7 +27,7 @@
 	  <role>Integrator</role>
 	</roles>
 	<properties>
-          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178859</picUrl> <!-- FIXME -->
+          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist178859</picUrl>
         </properties>
       </developer>
       <developer>

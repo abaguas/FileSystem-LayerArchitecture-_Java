@@ -18,7 +18,7 @@ public class Environment extends MyDriveCommand {
 		    throw new RuntimeException("USAGE: " + name() +" [<name> [<value>]]");
 		}
 		else {
-			long token = shell().getActiveToken();
+			long token = getShell().getActiveToken();
 			if (numArgs == 0) {
 				new AddVariableService(token, null, null);
 				avs.execute();

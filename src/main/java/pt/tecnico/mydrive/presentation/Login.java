@@ -24,8 +24,8 @@ public class Login extends MyDriveCommand {
 
 		LoginService ls = new LoginService(username, password);
 		ls.execute();
-		shell().addUser(username, ls.result());
-		shell().setActiveToken(ls.result());
-		shell().setActiveUser(username);
+		getShell().addUser(username, ls.result());
+		getShell().setActiveToken(ls.result());
+		getShell().setActiveUser(username);
 	}
 }

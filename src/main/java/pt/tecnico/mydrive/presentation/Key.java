@@ -7,15 +7,15 @@ public class Key extends MyDriveCommand {
 
 	public void execute(String[] args){
 		if(args.length == 0){
-			System.out.println("Current token: " + shell().getActiveUser());
-			System.out.println("Current user: " + shell().getActiveToken());
+			System.out.println("Current token: " + getShell().getActiveUser());
+			System.out.println("Current user: " + getShell().getActiveToken());
 		}
 		else if(args.length == 1){
 			String user = args[0];
-			shell().setActiveUser(user);
-			shell().setActiveToken(shell().getToken(user));
-			System.out.println("Current token: " + shell().getActiveUser());
-			System.out.println("Current user: " + shell().getActiveToken());
+			getShell().setActiveUser(user);
+			getShell().setActiveToken(getShell().getToken(user));
+			System.out.println("Current token: " + getShell().getActiveUser());
+			System.out.println("Current user: " + getShell().getActiveToken());
 
 		}
 		else{

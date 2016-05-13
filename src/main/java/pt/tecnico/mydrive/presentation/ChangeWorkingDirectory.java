@@ -11,7 +11,7 @@ public class ChangeWorkingDirectory extends MyDriveCommand {
 	public void execute(String[] args){
 		if(args.length == 1){
 			String path = args[0];
-			ChangeDirectoryService cds = new ChangeDirectoryService(shell().getActiveToken(), path);
+			ChangeDirectoryService cds = new ChangeDirectoryService(getShell().getActiveToken(), path);
 			cds.execute();
 			System.out.println("Current directory: " + cds.getResult());
 		}

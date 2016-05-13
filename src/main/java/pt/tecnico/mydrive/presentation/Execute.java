@@ -9,7 +9,7 @@ public class Execute extends MyDriveCommand {
 
 	public void execute(String[] args){
 		if(args.length > 1){
-		  long token = shell().getActiveToken();
+		  long token = getShell().getActiveToken();
 		  String path = args[0];
 		  String[] arguments = null;
 		  for(int i=1; i < args.length ; i++){

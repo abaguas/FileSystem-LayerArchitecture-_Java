@@ -16,7 +16,7 @@ public class List extends MyDriveCommand {
 
 		if(args.length == 0) {
 		    
-			ListDirectoryService lds = new ListDirectoryService(shell().getActiveToken());
+			ListDirectoryService lds = new ListDirectoryService(getShell().getActiveToken());
 			lds.execute();
 			
 		    for(FileDto file:lds.result()) {
@@ -27,7 +27,7 @@ public class List extends MyDriveCommand {
 		
 		else if(args.length == 1) {
 
-			ListDirectoryService lds = new ListDirectoryService(shell().getActiveToken(), args[0]);
+			ListDirectoryService lds = new ListDirectoryService(getShell().getActiveToken(), args[0]);
 		    lds.execute();
 		    for(FileDto file:lds.result()) {
 		    	String s = file.getType() + " " + file.getUserPermission() + " " + file.getOthersPermission() + " " + file.getDimension() + " " + file.getUsernameOwner() + " " + file.getId() + " " + file.getLastChange() + " " + file.getName();
