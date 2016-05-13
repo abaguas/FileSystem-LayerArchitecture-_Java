@@ -1,4 +1,4 @@
-package pt.tecnico.mydrive.system;
+/*package pt.tecnico.mydrive.system;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -204,11 +204,57 @@ public class IntegrationTest extends AbstractServiceTest {
 		String[] s = {"aquele", "b"};
 		
 		
-		
+
 //		System.setOut(new PrintStream(testOut));
 //		new ExecuteFileService(tokenAbaguas, "/home/abaguas/"+ plainFileAbaguas, s).execute();
 //		assertNotNull("A execução do plainFileAbaguas não imprimiu nada", testOut.toString());
 //		
+
+//		
+//		testOut.reset();
+//		new ExecuteFileService(tokenAbaguas, "/home/abaguas/carne"+ appAbaguas, s).execute();
+//		assertEquals("A execução da AppAbaguas não é Hello phonebook!", testOut.toString(), "Hello phonebook!");
+//		
+//		testOut.reset();
+//		new ExecuteFileService(tokenAbaguas, "../"+ appElGorila, s);
+//		assertEquals("A execução da AppElGorila não é Hello aquele!", testOut.toString(), "Hello aquele!");
+//		
+//		//execucao com extensao
+//		testOut.reset();
+//		new MockUp<ExecuteAssociationService>(){
+//			@Mock
+//			void execute() { System.out.println("Execute "+plainFileAbaguasGor+"?"); }
+//		};
+//		new ExecuteFileService(tokenAbaguas, plainFileAbaguasGor, s).execute();
+//		assertEquals("A execucao da app não é Execute " + plainFileAbaguasGor + "?" , "Execute "+plainFileAbaguasGor+"?", testOut.toString());	
+//	
+//		System.setOut(standard);
+//		
+//		//eliminaçao de ficheiros
+//		
+//		DeleteFileService deleteFileService = new DeleteFileService(tokenAbaguas, plainFileAbaguas);
+//		deleteFileService.execute();
+//		
+//		deleteFileService = new DeleteFileService(tokenAbaguas, linkAbaguas);
+//		deleteFileService.execute();
+//		
+//		listElGorila.execute();
+//		assertEquals("Link ou(inclusivo) plain file do abaguas incorretamente eliminados", listElGorila.result().size(), 3);
+//		
+//		change = new ChangeDirectoryService(tokenElGorila, "..");
+//		listElGorila.execute();
+//		assertEquals("Link ou(inclusivo) plain file do abaguas incorretamente eliminados", listElGorila.result().size(), 5);
+//		
+//		deleteFileService = new DeleteFileService(tokenElGorila, dirBananas);
+//		deleteFileService.execute();
+//		
+//		listElGorila.execute();
+//		assertEquals("Diretoria bananas incorretamente eliminada", listElGorila.result().size(), 3);
+//		
+//	}
+//
+//}
+
 		
 		//testOut.reset();
 		System.setOut(new PrintStream(testOut));
@@ -258,4 +304,5 @@ public class IntegrationTest extends AbstractServiceTest {
 		
 	}
 
-}
+}*/
+

@@ -1,0 +1,300 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building myDrive 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ mydrive ---
+[INFO] Deleting /Users/abaguas/Documents/ES/es16al_17-project/target
+[INFO] 
+[INFO] --- ff-maven-plugin:2.6.2:ff-generate-domain (default) @ mydrive ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ mydrive ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 6 resources
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ mydrive ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 122 source files to /Users/abaguas/Documents/ES/es16al_17-project/target/classes
+[INFO] 
+[INFO] --- ff-maven-plugin:2.6.2:ff-process-atomic-annotations (default) @ mydrive ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ mydrive ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/abaguas/Documents/ES/es16al_17-project/src/test/resources
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ mydrive ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 17 source files to /Users/abaguas/Documents/ES/es16al_17-project/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ mydrive ---
+[INFO] Surefire report directory: /Users/abaguas/Documents/ES/es16al_17-project/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running pt.tecnico.mydrive.domain.SessionDomainTest
+19:52:48.738 [main] DEBUG pt.ist.fenixframework.FenixFramework - Trying auto-initialization with configuration by convention
+19:52:48.740 [main] DEBUG pt.ist.fenixframework.FenixFramework - Resource 'fenix-framework.properties' not found
+19:52:48.741 [main] DEBUG pt.ist.fenixframework.FenixFramework - Fenix Framework properties after reading default config file:{}
+19:52:48.741 [main] DEBUG pt.ist.fenixframework.FenixFramework - CurrentBackEndName = jvstm-ojb
+19:52:48.742 [main] INFO  pt.ist.fenixframework.FenixFramework - Found configuration by convention in resource 'fenix-framework-jvstm-ojb.properties'.
+19:52:48.742 [main] DEBUG pt.ist.fenixframework.FenixFramework - Fenix Framework properties after reading backend config file:{appName=INFER_APP_NAME, dbUsername=mydrive, updateRepositoryStructureIfNeeded=true, dbPassword=mydriv3, dbAlias=//localhost:3306/drivedb?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull}
+19:52:48.743 [main] DEBUG pt.ist.fenixframework.FenixFramework - Fenix Framework properties after enforcing system properties:{appName=INFER_APP_NAME, dbUsername=mydrive, dbPassword=mydriv3, updateRepositoryStructureIfNeeded=true, dbAlias=//localhost:3306/drivedb?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull}
+19:52:48.743 [main] DEBUG pt.ist.fenixframework.FenixFramework - appName property automatically discovered: mydrive
+19:52:48.766 [main] INFO  pt.ist.fenixframework.FenixFramework - Initializing Fenix Framework with backend config: JvstmOJBConfig
+19:52:49.230 [main] INFO  p.i.f.b.j.r.RepositoryBootstrap - Updating Repository Structure
+19:52:49.249 [main] INFO  p.i.f.b.j.r.RepositoryBootstrap - Repository Structure update completed
+19:52:49.502 [main] INFO  p.i.f.b.jvstmojb.repository.ServerId - Obtained server id: 1
+19:52:49.540 [main] DEBUG p.i.f.b.jvstmojb.repository.ServerId - Server ID Lease is now valid until 2016-05-13T20:11:49.510+01:00
+19:52:49.608 [main] INFO  p.i.f.b.j.pstm.TransactionSupport - Setting the last committed TX number to 12
+19:52:49.608 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.ist.fenixframework.DomainFenixFrameworkRoot.bootstrap(DomainFenixFrameworkRoot.java)
+19:52:49.675 [main] INFO  pt.ist.fenixframework.FenixFramework - Initialization of Fenix Framework is now complete.
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.082 sec
+Running pt.tecnico.mydrive.service.AddVariableTest
+19:52:49.718 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec
+Running pt.tecnico.mydrive.service.ChangeDirectoryTest
+19:52:49.728 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.744 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.748 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.751 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.754 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.758 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.762 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.765 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.768 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.772 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.775 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.777 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 sec
+Running pt.tecnico.mydrive.service.CreateFileTest
+19:52:49.782 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.784 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.787 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.789 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.792 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.794 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.797 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.799 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.802 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.804 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.807 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.809 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.811 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.813 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 sec
+Running pt.tecnico.mydrive.service.DeleteFileServiceTest
+19:52:49.817 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.819 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.821 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.823 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.825 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.827 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.829 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.831 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.833 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.834 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.837 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:49.839 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 sec
+Running pt.tecnico.mydrive.service.EnvironmentLinksTest
+objc[6659]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/jre/bin/java and /Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/jre/lib/libinstrument.dylib. One of the two will be used. Which one is undefined.
+19:52:50.218 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.239 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.255 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.270 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.284 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.298 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.311 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.324 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.337 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.351 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.366 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.381 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.395 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.415 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.430 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.447 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.462 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.476 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.492 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.509 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.525 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.69 sec
+Running pt.tecnico.mydrive.service.ExecuteAssociationTest
+19:52:50.552 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.625 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.643 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.662 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.680 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.171 sec
+Running pt.tecnico.mydrive.service.ExecuteFileTest
+19:52:50.714 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.717 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.723 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.726 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.733 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.738 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 sec
+Running pt.tecnico.mydrive.service.ListDirectoryTest
+19:52:50.750 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Ligacao
+conteudo1
+Application
+con.teu.do1
+Exemplo
+conteudo3
+CasoBruma
+conteudo1
+19:52:50.755 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.757 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Ligacao
+conteudo1
+Application
+con.teu.do1
+Exemplo
+conteudo3
+CasoBruma
+conteudo1
+19:52:50.760 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.763 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Ligacao
+conteudo1
+Application
+con.teu.do1
+Exemplo
+conteudo3
+CasoBruma
+conteudo1
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 sec
+Running pt.tecnico.mydrive.service.LoginServiceTest
+19:52:50.768 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.770 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.772 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 sec
+Running pt.tecnico.mydrive.service.ReadFileTest
+19:52:50.779 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.782 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.785 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.787 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.790 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.793 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.796 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.799 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.801 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.804 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.806 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.808 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.810 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.813 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.815 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.817 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.820 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.822 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.824 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.826 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.829 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.831 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.833 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.06 sec
+Running pt.tecnico.mydrive.service.WriteFileTest
+19:52:50.837 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.839 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.841 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.842 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.844 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.846 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.846 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.848 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.850 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 sec
+Running pt.tecnico.mydrive.service.XMLImportServiceTest
+19:52:50.890 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.898 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.908 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:50.919 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.068 sec
+Running pt.tecnico.mydrive.system.SystemTest
+19:52:51.272 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:51.275 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+19:52:51.275 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Current token: Sofia
+Current user: 5952875277729763265
+19:52:51.276 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Current token: 5952875277729763265
+Current user: Sofia
+19:52:51.276 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Current directory: /home
+19:52:51.276 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Directory rwxd r-x- 6 root 1 2016-05-13T19:52:51.272+01:00 .
+Directory rwxd r-x- 3 root 0 2016-05-13T19:52:51.272+01:00 ..
+Directory rwxd r-x- 2 Carlos 5 2016-05-13T19:52:51.275+01:00 Carlos
+Directory rwxd r-x- 5 Sofia 4 2016-05-13T19:52:51.275+01:00 Sofia
+Directory rwxd r-x- 2 nobody 3 2016-05-13T19:52:51.272+01:00 nobody
+Directory rwxd r-x- 2 root 2 2016-05-13T19:52:51.272+01:00 root
+19:52:51.276 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Current directory: /
+19:52:51.277 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+ExecuteMeWithArgs
+pt.tecnico.mydrive.presentation.Hello.bye
+ExecuteMeWithOutArgs
+pt.tecnico.mydrive.presentation.Hello.bye
+WriteMe
+OldContent
+Directory rwxd r-x- 5 Sofia 4 2016-05-13T19:52:51.275+01:00 .
+Directory rwxd r-x- 6 root 1 2016-05-13T19:52:51.272+01:00 ..
+App rwxd --x- 41 Sofia 8 2016-05-13T19:52:51.275+01:00 ExecuteMeWithArgs
+App rwxd --x- 41 Sofia 7 2016-05-13T19:52:51.275+01:00 ExecuteMeWithOutArgs
+PlainFile rwxd --x- 10 Sofia 6 2016-05-13T19:52:51.275+01:00 WriteMe
+ARGS LENG2
+ARG0home/Sofia/ExecuteMeWithArgs
+arg1
+19:52:51.277 [main] DEBUG p.i.f.atomic.AtomicContext - Handling @Atomic call from pt.tecnico.mydrive.service.MyDriveService.execute(MyDriveService.java)
+Goodbye myDrive!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.36 sec <<< FAILURE!
+success(pt.tecnico.mydrive.system.SystemTest)  Time elapsed: 0.358 sec  <<< ERROR!
+java.lang.RuntimeException: USAGE: do [<path>]
+	at pt.tecnico.mydrive.presentation.Execute.execute(Execute.java:25)
+	at pt.tecnico.mydrive.system.SystemTest.success(SystemTest.java:31)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+
+Results :
+
+Tests in error: 
+  success(pt.tecnico.mydrive.system.SystemTest): USAGE: do [<path>]
+
+Tests run: 135, Failures: 0, Errors: 1, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 7.285 s
+[INFO] Finished at: 2016-05-13T19:52:51+01:00
+[INFO] Final Memory: 11M/236M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test (default-test) on project mydrive: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/abaguas/Documents/ES/es16al_17-project/target/surefire-reports for the individual test results.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
