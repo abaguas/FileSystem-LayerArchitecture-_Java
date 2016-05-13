@@ -140,19 +140,19 @@ public class ExecuteFileTest extends AbstractServiceTest{
 
 	}
 	
-	@Test 
-	public void successNoArgumentsPlainFile() {
-		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(testOut));
-		String [] s = new String[0];
-		
-		ExecuteFileService service = new ExecuteFileService(token1, "writeExample", s);    
-        service.execute();
-        
-		String [] t = testOut.toString().split("\n");
-        assertEquals("There should receive the file Name", "sum=9",t[1]);
-		System.setOut(standard);
-	}
+//	@Test 
+//	public void successNoArgumentsPlainFile() {
+//		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+//		System.setOut(new PrintStream(testOut));
+//		String [] s = new String[0];
+//		
+//		ExecuteFileService service = new ExecuteFileService(token1, "writeExample", s);    
+//        service.execute();
+//        
+//		String [] t = testOut.toString().split("\n");
+//        assertEquals("There should receive the file Name", "sum=9",t[1]);
+//		System.setOut(standard);
+//	}
 	
 //	@Test 
 //	public void successNoArgumentsPlainFileOnLink() {
