@@ -142,7 +142,7 @@ public abstract class File extends File_Base {
 				}
 			}
 			else if (code.equals("write")) {
-				if (!permission.getWrite()) {
+				if (!permission.getWrite() || user.getUsername().equals("nobody")) {
 					throw new PermissionDeniedException(file.getName());
 				}
 			}
@@ -158,6 +158,9 @@ public abstract class File extends File_Base {
 	public void checkPermissionsRemove(User user, Directory directory, File file) throws PermissionDeniedException {
 		if (user.getUsername().equals("root")){
 			return;
+		}
+		else if (user.getUsername().equals("nobody")){
+			throw new PermissionDeniedException(file.getName());
 		}
 		else {
 			Permission permissionDir = null;
