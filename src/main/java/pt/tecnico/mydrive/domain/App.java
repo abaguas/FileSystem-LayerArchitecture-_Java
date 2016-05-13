@@ -3,6 +3,7 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 
 import pt.tecnico.mydrive.exception.InvalidAppContentException;
+import pt.tecnico.mydrive.exception.NoArgumentsForAppExecutionException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,11 +48,12 @@ public class App extends App_Base {
     	
     	String name = this.getContent();
     	
+    	if (args.length <= 0)
+    		throw new NoArgumentsForAppExecutionException(getName());
+	    		
     	try {
-    		  if (args.length > 0)
     		    run(name, args);
-    		  else throw new Exception("Nothing to run!");
-    	}
+    	}	 
     	catch (Exception e) { throw new RuntimeException("" + e); }
     }
     	

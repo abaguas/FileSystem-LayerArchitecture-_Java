@@ -77,7 +77,7 @@ public class PlainFile extends PlainFile_Base {
 	    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
 	
 	    Thread throut = new Thread(new Runnable() {
-	      @Override
+	    @Override
 	      public void run() {
 	    	  String line;
 	    	  try {
