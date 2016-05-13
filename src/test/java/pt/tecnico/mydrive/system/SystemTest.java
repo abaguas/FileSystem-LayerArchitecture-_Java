@@ -38,6 +38,5 @@ public class SystemTest extends AbstractServiceTest {
         new Environment(sh).execute(new String[] { "$USER1" } );
         new Environment(sh).execute(new String[] {  } );
         new Export(sh).execute(new String[] { } );
-        new Quit(sh).execute(new String[] { } );
     }
 }

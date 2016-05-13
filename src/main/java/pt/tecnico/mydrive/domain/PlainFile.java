@@ -142,8 +142,6 @@ public class PlainFile extends PlainFile_Base {
 
     
     public int dimension(){
-    	System.out.println(getName());
-    	System.out.println(getContent());
     	return getContent().length();
     }
 
