@@ -29,9 +29,36 @@ public class WriteFileService extends MyDriveService {
        Session session = md.getSessionManager().getSession(token);
        User currentUser = session.getUser();
        Directory currentDirectory = session.getCurrentDir();
-       File file = currentDirectory.get(fileName);
-       file.write(currentUser, content, md);
-       result = file.read(currentUser, md);
+       String path = "";
+       String[] parts = fileName.split("/");
+       File file = null;
+       Directory dir = null;
+      if(fileName.contains("/")  && path.startsWith("/")) {
+        int i = 0;
+        for(i= 0; i < parts.length - 2; i++){
+          path = path + parts[i] + "/";
+        }
+        path = path + parts[i];
+        fileName = parts[i+1];
+        dir =  md.getRootDirectory().getDirectory(path); 
+        file = dir.get(fileName);
+      } 
+      else if(fileName.contains("/")) {
+        int i = 1;
+        for(i= 1; i < parts.length - 2; i++){
+          path = path + parts[i] + "/";
+        }
+        path = path + parts[i];
+        fileName = parts[i+1];
+        dir =  currentDirectory.getDirectory(path); 
+        file = dir.get(fileName);
+      }
+      else{
+        path = fileName;
+        file = currentDirectory.get(path);
+      } 
+        file.write(currentUser, content, md);
+        result = file.read(currentUser, md);
     }
     
     public String result(){
