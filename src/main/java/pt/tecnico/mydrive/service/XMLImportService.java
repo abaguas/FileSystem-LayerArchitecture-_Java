@@ -19,7 +19,7 @@ public class XMLImportService extends MyDriveService {
     }
 
     @Override
-    protected void dispatch() throws MyDriveException { //Excepção??
+    protected void dispatch() throws MyDriveException {
         MyDrive.getInstance().xmlImport(doc.getRootElement());
     }
 }
