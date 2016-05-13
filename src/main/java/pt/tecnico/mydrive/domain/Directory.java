@@ -95,6 +95,39 @@ public class Directory extends Directory_Base {
 		}
 	}
 
+	public Directory getDirectory(String path) throws NoSuchFileException, FileNotDirectoryException{
+		if (isAbsolute(path)) {
+			String[] parts = path.split("/");
+			String rest = "";
+			int i = 0;
+			for(i = 1; i < parts.length - 1; i++) {
+				rest = rest + parts[i] + "/";
+			}
+			rest = rest + parts[i];
+			File next = get(parts[0]);
+			if(next instanceof Directory){
+				Directory d = (Directory)next;
+				return d.getDirectory(rest);
+			}
+			throw new FileNotDirectoryException(next.getName());
+		}
+		else {
+   	 		File f = get(path);
+   	 		if(f instanceof Directory){
+   	 			return (Directory)f;
+   	 		}
+   	 		throw new FileNotDirectoryException(f.getName());
+		}
+	}
+
+	private boolean isAbsolute(String path){
+		return isRelativeAbsolute(path) && path.startsWith("/");
+	}
+
+	private boolean isRelativeAbsolute(String path){
+		return path.contains("/");
+	}
+
 	public boolean hasFile(String name){
 		try{
 			search(name);

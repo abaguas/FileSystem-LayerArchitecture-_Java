@@ -16,13 +16,15 @@ public class ListDirectoryService extends MyDriveService{
 
 	private long token;
 	private List<FileDto> listedFiles;
+	private String path;
 	
 	public ListDirectoryService(long token) throws NoSuchFileException{
     		this.token = token;
    	}
 
-	public ListDirectoryService(long activeToken, String path) {
-		// TODO Auto-generated constructor stub
+	public ListDirectoryService(long token, String path) {
+			this.path = path;
+			this.token = token;
 	}
 
 	public final void dispatch() {
@@ -31,7 +33,21 @@ public class ListDirectoryService extends MyDriveService{
 		User user = session.getUser();
 		Directory directory = session.getCurrentDir();
 		listedFiles = new ArrayList<FileDto>();
-		
+		Directory toList = null;
+		if(path == null){
+			toList = directory;
+		}
+		else if(path.contains("/") && path.startsWith("/")){
+			toList =  md.getRootDirectory().getDirectory(path.substring(1));
+		}
+		else{
+			toList = directory.getDirectory(path);
+		}
+		arrangeAndSort(listedFiles, toList, user);
+	}
+
+
+	private void arrangeAndSort(List<FileDto> listedFiles, Directory directory, User user){
 		Directory father = directory.getFatherDirectory();
 		String fatherName = father.getName();
 		father.setName("..");

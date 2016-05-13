@@ -102,33 +102,6 @@ public class App extends App_Base {
             throw new InvalidAppContentException(content);
         }
     }
-
-    /*private void verifyContent(String content) throws InvalidAppContentException {
-        String[] parts = null;
-        if(content != null){
-            if(content.contains(".")){
-                parts = content.split(".");
-                if(parts.length > 1){
-                    for(int i = 1 ; i < parts.length ; i++){
-                        if(parts[i].contains(" ")){
-                            throw new InvalidAppContentException(content);
-                        }
-                    }
-                    return;
-                }
-                else{
-                    throw new InvalidAppContentException(content);
-                }
-            }
-            else{
-                throw new InvalidAppContentException(content);
-            }
-        }
-        else{
-            throw new InvalidAppContentException(content);
-        }
-    }
-    */
     
     
 //////////////////////////////////////////////////////////////////////////////////////
