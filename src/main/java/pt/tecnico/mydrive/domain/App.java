@@ -3,7 +3,6 @@ package pt.tecnico.mydrive.domain;
 import org.jdom2.Element;
 
 import pt.tecnico.mydrive.exception.InvalidAppContentException;
-import pt.tecnico.mydrive.exception.NoArgumentsForAppExecutionException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 import org.joda.time.DateTime;

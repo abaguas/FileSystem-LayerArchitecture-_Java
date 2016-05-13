@@ -21,7 +21,6 @@ import pt.tecnico.mydrive.domain.User;
 import pt.tecnico.mydrive.exception.FileIsNotExecuteAbleException;
 import pt.tecnico.mydrive.exception.InvalidLinkContentException;
 import pt.tecnico.mydrive.exception.InvalidTokenException;
-import pt.tecnico.mydrive.exception.NoArgumentsForAppExecutionException;
 import pt.tecnico.mydrive.exception.NoSuchFileException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
 
