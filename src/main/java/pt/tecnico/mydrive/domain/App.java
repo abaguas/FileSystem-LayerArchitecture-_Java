@@ -48,7 +48,7 @@ public class App extends App_Base {
     	String name = this.getContent();
     	
     	try {
-    		  if (args.length > 0)
+    		  if (args.length >= 0)
     		    run(name, args);
     		  else throw new Exception("Nothing to run!");
     	}
