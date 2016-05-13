@@ -52,10 +52,13 @@ public class ExecuteFileTest extends AbstractServiceTest{
 	    App a1 = new App("appGreet", md.generateId(), root, "pt.tecnico.mydrive.presentation.Hello.greet", homeRoot);
 	    App a2 = new App("badApp", md.generateId(), root, "should.be.a.method", homeRoot);
 	    App a3 = new App("appSum", md.generateId(), root, "pt.tecnico.mydrive.presentation.Hello.sum", homeRoot);
+	    App a4 = new App("appBye", md.generateId(), root, "pt.tecnico.mydrive.presentation.Hello.bye", homeRoot);
 	    
 	    Link l1 = new Link("invalid", md.generateId(), root, "//", homeRoot);
 	    Link l2 = new Link("linkAppGreet", md.generateId(), u1, "/home/root/appGreet", home1);
 	    Link l3 = new Link("linkAppSum", md.generateId(), root, "appSum", homeRoot);
+
+	    Link l4 = new Link("linkAppBye", md.generateId(), root, "appBye", homeRoot);
 //	    Link l4 = new Link("invalid", md.generateId(), root, "//", homeRoot);
 	    
 	    Directory d1 = new Directory("cannotEnter", md.generateId(), root, homeRoot);
@@ -120,24 +123,35 @@ public class ExecuteFileTest extends AbstractServiceTest{
         service.execute();
 	}
 	
-	@Test (expected = NoArgumentsForAppExecutionException.class)
-	public void failNoArgumentsApp() {
-
+	@Test 
+	public void successNoArgumentsApp() {
+		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testOut));
 		String [] s = new String[0];
 		
-		ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appGreet", s);    
+		ExecuteFileService service = new ExecuteFileService(token0, "/home/root/appBye", s);    
         service.execute();
+        
+		String [] t = testOut.toString().split("\n");
+		
+        assertEquals("There should receive the file Name", "Goodbye myDrive!",t[1]);
+		System.setOut(standard);
 
 	}
 	
-	@Test (expected = NoArgumentsForAppExecutionException.class)
-	public void failNoArgumentsAppOnLink() {
-
+	@Test 
+	public void successNoArgumentsAppOnLink() {
+		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testOut));
 		String [] s = new String[0];
 		
-		ExecuteFileService service = new ExecuteFileService(token1, "linkAppGreet", s);    
+		ExecuteFileService service = new ExecuteFileService(token0, "linkAppBye", s);    
         service.execute();
-
+        
+		String [] t = testOut.toString().split("\n");
+		
+        assertEquals("There should receive the file Name", "Goodbye myDrive!",t[1]);
+		System.setOut(standard);
 	}
 	
 //	@Test 

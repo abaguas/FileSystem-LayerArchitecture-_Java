@@ -52,9 +52,6 @@ public class App extends App_Base {
     	checkPermissions(caller, this, "execute");
     	
     	String name = this.getContent();
-    	
-    	if (args.length < 0)
-    		throw new NoArgumentsForAppExecutionException(getName());
 	    		
     	try {
 
