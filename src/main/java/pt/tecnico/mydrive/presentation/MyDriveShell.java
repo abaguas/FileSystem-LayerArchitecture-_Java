@@ -22,11 +22,12 @@ public class MyDriveShell extends Shell {
 	public static void main(String[] args) throws Exception {
 		MyDriveShell sh = new MyDriveShell();
 		
-		File file = new File(args[0]);
-		SAXBuilder builder = new SAXBuilder();
-		Document document = (Document)builder.build(file);
-		new XMLImportService(document).execute();
-		
+		if (args.length == 1) {
+			File file = new File(args[0]);
+			SAXBuilder builder = new SAXBuilder();
+			Document document = (Document)builder.build(file);
+			new XMLImportService(document).execute();
+		}
 		sh.execute();
 	}
 
