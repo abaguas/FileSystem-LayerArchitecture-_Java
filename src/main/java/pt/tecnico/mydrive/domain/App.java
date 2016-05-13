@@ -111,8 +111,7 @@ public class App extends App_Base {
     @Override
     public void xmlImport(Element element, User owner, Directory father){
         super.xmlImport(element,owner,father);
-        String contents= element.getChildText("method");
-        System.out.println("ISTO E O CONTENT" + contents);
+        String contents= element.getChildText("contents");
         setContent(contents);
     }
 
@@ -122,7 +121,7 @@ public class App extends App_Base {
         
         super.xmlExport(element);
 
-        Element method_element = new Element ("method");
+        Element method_element = new Element ("contents");
         method_element.setText(getContent());
         element.addContent(method_element);
         
