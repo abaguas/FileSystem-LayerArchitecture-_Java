@@ -18,9 +18,9 @@ public class SystemTest extends AbstractServiceTest {
     @Test
     public void success() {
         new Import(sh).execute(new String[] { "info/UsersAndFiles.xml" } );
-        new Login(sh).execute(new String[] { "Sofia" } );
+        new Login(sh).execute(new String[] { "Sofia", "9876543121" } );
         new Key(sh).execute(new String[] { } );
-        new Login(sh).execute(new String[] { "Carlos" } );
+        new Login(sh).execute(new String[] { "Carlos", "123456789" } );
         new Key(sh).execute(new String[] { "Sofia" } );
         new ChangeWorkingDirectory(sh).execute(new String[] { ".." } );
         new List(sh).execute(new String[] { } );
