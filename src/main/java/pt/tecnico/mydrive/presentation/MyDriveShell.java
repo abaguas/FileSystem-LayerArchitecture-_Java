@@ -2,6 +2,12 @@ package pt.tecnico.mydrive.presentation;
 
 import java.util.TreeMap;
 
+import org.jdom2.Document;
+import org.jdom2.input.SAXBuilder;
+
+import pt.tecnico.mydrive.service.XMLImportService;
+
+import java.io.File;
 import java.io.ObjectInputStream.GetField;
 
 public class MyDriveShell extends Shell {
@@ -15,6 +21,12 @@ public class MyDriveShell extends Shell {
 	
 	public static void main(String[] args) throws Exception {
 		MyDriveShell sh = new MyDriveShell();
+		
+		File file = new File(args[0]);
+		SAXBuilder builder = new SAXBuilder();
+		Document document = (Document)builder.build(file);
+		new XMLImportService(document).execute();
+		
 		sh.execute();
 	}
 
