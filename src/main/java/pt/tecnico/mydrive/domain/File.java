@@ -187,8 +187,13 @@ public abstract class File extends File_Base {
     public String pwd(){
     	if (getName().equals("/"))
     		return "/";
-    	
-    	Directory d= getDirectory();
+    	Directory d = null;
+    	try { 
+    		cdable(this);
+    		d = (Directory)this;
+    	}catch (FileNotCdAbleException fnce) {
+    		d = getDirectory();
+    	}
         String output="";
         if(d.getName().equals("/")){
             output="/";
@@ -205,7 +210,6 @@ public abstract class File extends File_Base {
     public File getFileByPath(User user, String path, Directory dir, MyDrive md) throws PermissionDeniedException, InvalidPathException, FileNotCdAbleException {
     	if(path.equals("/"))
     		return md.getRootDirectory();
-    	
     	List<String> elements = new ArrayList<String> (Arrays.asList(path.split("/")));	
         elements.remove("");
         elements.remove(null);

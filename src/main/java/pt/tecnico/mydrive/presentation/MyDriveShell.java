@@ -27,10 +27,10 @@ public class MyDriveShell extends Shell {
 		    new Write(this);
 		    new Environment(this);
 		    new Key(this);
+		    new Quit(this);
 		    String[] str = {"nobody"};
 		    Command login = get("login");
 		    login.execute(str);
-		    new Quit(this);
 	}
 
 	public void addUser(String username, Long token){

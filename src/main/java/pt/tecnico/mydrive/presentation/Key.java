@@ -14,8 +14,8 @@ public class Key extends MyDriveCommand {
 			String user = args[0];
 			getShell().setActiveUser(user);
 			getShell().setActiveToken(getShell().getToken(user));
-			System.out.println("Current token: " + getShell().getActiveUser());
-			System.out.println("Current user: " + getShell().getActiveToken());
+			System.out.println("Current token: " + getShell().getActiveToken());
+			System.out.println("Current user: " + getShell().getActiveUser());
 
 		}
 		else{

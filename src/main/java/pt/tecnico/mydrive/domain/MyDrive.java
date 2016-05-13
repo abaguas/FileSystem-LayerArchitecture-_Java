@@ -42,6 +42,9 @@ public class MyDrive extends MyDrive_Base {
         rootDir.setOwner(getRootUser());
         Directory home = new Directory("home", generateId(), getRootUser(), rootDir);
         Directory root = new Directory("root", generateId(), getRootUser(), home);
+        Directory nobody = new Directory("nobody", generateId(), getRootUser(), home);
+        nobody.setOwner(guestUser);
+        getGuestUser().setMainDirectory(nobody);
         getRootUser().setMainDirectory(root);
         setRootDirectory(rootDir);
     }
@@ -125,7 +128,6 @@ public class MyDrive extends MyDrive_Base {
     	String default_home="/home";
     	String home = user_element.getChildText("home");
         String username = user_element.getAttribute("username").getValue();
-        System.out.println("creating " + username);
     	if(home==null){
             home=default_home.concat("/" + username);
         }

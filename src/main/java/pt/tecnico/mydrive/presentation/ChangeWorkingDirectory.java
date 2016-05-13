@@ -8,18 +8,19 @@ public class ChangeWorkingDirectory extends MyDriveCommand {
 		super(sh, "cwd", "Exchange working directory");
 	}
 
-	public void execute(String[] args){
+	public void execute(String[] args) {
+		String path = null;
 		if(args.length == 1){
-			String path = args[0];
-			ChangeDirectoryService cds = new ChangeDirectoryService(getShell().getActiveToken(), path);
-			cds.execute();
-			System.out.println("Current directory: " + cds.getResult());
+			path = args[0];
 		}
 		else if(args.length == 0) {
-			// FIXME fazer cwd sem argumentos é o mesmo que fazer pwd
+			path = ".";
 		}
 		else{
 			throw new RuntimeException("USAGE: " + name() + " [<path>]");
 		}
+		ChangeDirectoryService cds = new ChangeDirectoryService(getShell().getActiveToken(), path);
+		cds.execute();
+		System.out.println("Current directory: " + cds.getResult());
 	}
 }

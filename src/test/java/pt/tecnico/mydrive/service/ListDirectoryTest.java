@@ -66,7 +66,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		assertEquals("List has not 6 Contacts", 6, cs.size());
 		
 		assertTrue("Own File has not dimension = 6", cs.get(0).getDimension().equals("6"));
-		assertTrue("Own File has not Id = 3", cs.get(0).getId().equals("3"));
+		assertTrue("Own File has not Id = 4", cs.get(0).getId().equals("4"));
 		assertTrue("Own File has not name .", cs.get(0).getName().equals("."));
 		assertTrue("Own File has not owner permission: rwxd", cs.get(0).getUserPermission().equals("rwxd"));
 		assertTrue("Own File has not other permission: ----", cs.get(0).getOthersPermission().equals("----"));
@@ -74,7 +74,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		assertTrue("Own File has not owner: EusebioSilva", cs.get(0).getUsernameOwner().equals("EusebioSilva"));
 		assertNotNull("Own File has not Date", cs.get(0).getLastChange());
 		
-		assertTrue("Father File has not dimension: 4", cs.get(1).getDimension().equals("4"));
+		assertTrue("Father File has not dimension: 5", cs.get(1).getDimension().equals("5"));
 		assertTrue("Father File has not Id: 1", cs.get(1).getId().equals("1"));
 		assertTrue("Father File has not name: ..", cs.get(1).getName().equals(".."));
 		assertTrue("Father File has not owner permission: rwxd", cs.get(1).getUserPermission().equals("rwxd"));
@@ -147,7 +147,7 @@ public class ListDirectoryTest extends AbstractServiceTest{
 		assertTrue("Father File has not owner: root", cs.get(1).getUsernameOwner().equals("root"));
 		assertNotNull("Father File has not Date", cs.get(1).getLastChange());
 		
-		assertTrue("home has not dimension: 4", cs.get(2).getDimension().equals("4"));
+		assertTrue("home has not dimension: 5", cs.get(2).getDimension().equals("5"));
 		assertTrue("home has not Id: 1", cs.get(2).getId().equals("1"));
 		assertTrue("home has not name: home", cs.get(2).getName().equals("home"));
 		assertTrue("home has not owner permission: rwxd", cs.get(2).getUserPermission().equals("rwxd"));

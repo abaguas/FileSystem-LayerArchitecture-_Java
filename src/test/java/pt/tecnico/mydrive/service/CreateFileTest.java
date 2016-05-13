@@ -105,7 +105,6 @@ public class CreateFileTest extends AbstractServiceTest {
         Permission othersPermission = new Permission(false, false, false, false);
 
         PlainFile pf = (PlainFile) currentDirectory.get("calendar");
-        System.out.println(pf.getUserPermission().toString() + pf.getOthersPermission().toString());
         //check plain file was created correctly
         assertNotNull("plain file was not created", pf);
         assertEquals("plain file name not correct", "calendar", pf.getName());
