@@ -48,6 +48,11 @@ public class XMLImportServiceTest extends AbstractServiceTest {
 		XMLImportService service = new XMLImportService(document);
 		service.execute();
 		assertEquals(service.getMyDrive().getUsersSet().size(), 4);
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get("."));
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get(".."));
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get("bin"));
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get("documents"));
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get("doc"));
 		
 		try {
             FenixFramework.getTransactionManager().rollback();
@@ -72,6 +77,11 @@ public class XMLImportServiceTest extends AbstractServiceTest {
 		service.execute();
 		
 		assertEquals(service.getMyDrive().getUsersSet().size(), 9);
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get("."));
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get(".."));
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get("profile"));
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get("documents"));
+		assertNotNull(service.getMyDrive().getUserByUsername("jtbs").getMainDirectory().get("doc"));
 		try {
             FenixFramework.getTransactionManager().rollback();
         } catch (IllegalStateException | SecurityException | SystemException e) {
@@ -94,6 +104,9 @@ public class XMLImportServiceTest extends AbstractServiceTest {
 		service.execute();
 		
 		assertEquals(service.getMyDrive().getUsersSet().size(), 2);
+		assertNotNull(service.getMyDrive().getUserByUsername("root").getMainDirectory().get("."));
+		assertNotNull(service.getMyDrive().getUserByUsername("root").getMainDirectory().get(".."));
+
 		try {
             FenixFramework.getTransactionManager().rollback();
         } catch (IllegalStateException | SecurityException | SystemException e) {
