@@ -29,8 +29,6 @@ public class ChangeDirectoryService extends MyDriveService
        User currentUser = session.getUser();
        Directory currentDirectory = session.getCurrentDir();
        
-       System.out.println("O current dir é: "+ currentDirectory);
-       
        if (path.equals(".")) {
     	   result = currentDirectory.pwd();
        } 

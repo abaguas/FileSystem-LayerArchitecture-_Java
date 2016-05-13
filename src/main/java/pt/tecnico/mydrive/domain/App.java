@@ -4,15 +4,19 @@ import org.jdom2.Element;
 
 import pt.tecnico.mydrive.exception.InvalidAppContentException;
 import pt.tecnico.mydrive.exception.PermissionDeniedException;
+import pt.tecnico.mydrive.exception.FileIsNotWriteAbleException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 import org.jdom2.Document;
 
 public class App extends App_Base {
-    public App(String name, int id, User owner, String content, Directory father) {
-    	init(name,id,owner,content, father);
+    public App(String name, int id, User owner, String content, Directory father) throws InvalidAppContentException {
+        
+        verifyContent(content);
+        init(name,id,owner,content, father);
     }
     
     public App(String name, int id, String content) {
@@ -54,6 +58,20 @@ public class App extends App_Base {
     	}
     	catch (Exception e) { throw new RuntimeException("" + e); }
     }
+
+    @Override
+    public void write(User user, String content, MyDrive md) throws FileIsNotWriteAbleException, InvalidAppContentException {
+        verifyContent(content);
+        checkPermissions(user, this, "write");
+        setContent(content);
+    }
+
+    @Override
+    public void write(User user, String content, MyDrive md, Set<String> cycleDetector) throws FileIsNotWriteAbleException, InvalidAppContentException {
+        verifyContent(content);
+        checkPermissions(user, this, "write");
+        setContent(content);
+    }
     	
     	
     @Override
@@ -61,6 +79,21 @@ public class App extends App_Base {
     	String t = "App";
     	t+=print();
     	return t;
+    }
+
+    private void verifyContent(String content) throws InvalidAppContentException{
+        String[] parts = null;
+        if(content != null)
+            if(content.contains(".")){
+                parts = content.split(".");
+                if(parts.length == 2)
+                    if(!parts[0].contains(" ") && !parts[1].contains(" "))
+                        return;
+                else if(parts.length == 3)
+                    if(!parts[0].contains(" ") && !parts[1].contains(" ") && !parts[2].contains(" "))
+                        return;
+            }
+        throw new InvalidAppContentException(content);
     }
     
     
