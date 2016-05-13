@@ -1,7 +1,9 @@
 package pt.tecnico.mydrive.system;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
@@ -17,6 +19,8 @@ import pt.tecnico.mydrive.service.AddVariableService;
 import pt.tecnico.mydrive.service.ChangeDirectoryService;
 import pt.tecnico.mydrive.service.CreateFileService;
 import pt.tecnico.mydrive.service.DeleteFileService;
+import pt.tecnico.mydrive.service.ExecuteAssociationService;
+import pt.tecnico.mydrive.service.ExecuteFileService;
 import pt.tecnico.mydrive.service.ListDirectoryService;
 import pt.tecnico.mydrive.service.LoginService;
 import pt.tecnico.mydrive.service.ReadFileService;
@@ -24,13 +28,16 @@ import pt.tecnico.mydrive.service.WriteFileService;
 import pt.tecnico.mydrive.service.XMLImportService;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(JMockit.class)
 public class IntegrationTest extends AbstractServiceTest {
 
+	private ByteArrayOutputStream testOut;
+	private final PrintStream standard = System.out;
 	private long tokenAbaguas;
 	private long tokenElGorila;
-	private static final String importFile = "src/MD.xml";
+	private static final String importFile = "MD.xml";
 	private final String usernameAbaguas = "abaguas";
 	private final String nameAbaguas = "Andre";
 	private final String passwordAbaguas = "ins3cur3";
@@ -43,15 +50,15 @@ public class IntegrationTest extends AbstractServiceTest {
 	private final String dirBananas = "bananas";
 	
 	private final String appElGorila = "appElGorila";
-	private final String appElGorilaContent = "Umas asinhas";  //FIXME
+	private final String appElGorilaContent = "pt.tecnico.mydrive.presentation.Hello.greet";
 	private final String appAbaguas = "appAbaguas";
-	private final String appAbaguasContent = "/home/ls";  //FIXME
+	private final String appAbaguasContent = "pt.tecnico.mydrive.presentation.Hello";
 	
 	private final String plainFileAbaguas = "plainFileAbaguas";
-	private final String plainFileAbaguasContent = "las Palmas"; //FIXME
-	private final String plainFileAbaguasNewContent = "Guardei a roupa no frigorifico"; //FIXME
+	private final String plainFileAbaguasContent = "las Palmas";
+	private final String plainFileAbaguasNewContent = "ls";
 	private final String plainFileAbaguasGor = "plainFileAbaguas.gor";
-	private final String plainFileAbaguasGorContent = "Umas batatas fritas";  //FIXME
+	private final String plainFileAbaguasGorContent = "cd\\n/usr/bin/ls";
 	
 	private final String linkAbaguas = "linkAbaguas";
 	private final String linkAbaguasContent = "/home/abaguas/plainFileAbaguas";
@@ -184,6 +191,33 @@ public class IntegrationTest extends AbstractServiceTest {
 		assertEquals("O conteudo lido de linkElGorila é incorreto", readFileService.result(), appElGorilaContent);
 		
 		
+		//execução de ficheiros
+		String[] s = {"aquele", "b"};
+		
+		System.setOut(new PrintStream(testOut));
+		new ExecuteFileService(tokenAbaguas, "/home/abaguas/"+ plainFileAbaguas, s).execute();
+		assertNotNull("A execução do plainFileAbaguas não imprimiu nada", testOut.toString());
+		
+		
+		testOut.reset();
+		new ExecuteFileService(tokenAbaguas, "/home/abaguas/carne"+ appAbaguas, s).execute();
+		assertEquals("A execução da AppAbaguas não é Hello phonebook!", testOut.toString(), "Hello phonebook!");
+		
+		testOut.reset();
+		new ExecuteFileService(tokenAbaguas, "../"+ appElGorila, s);
+		assertEquals("A execução da AppElGorila não é Hello aquele!", testOut.toString(), "Hello aquele!");
+		
+		//execucao com extensao
+		testOut.reset();
+		new MockUp<ExecuteAssociationService>(){
+			@Mock
+			void execute() { System.out.println("Execute "+plainFileAbaguasGor+"?"); }
+		};
+		new ExecuteFileService(tokenAbaguas, plainFileAbaguasGor, s).execute();
+		assertNotNull("A execucao do plainFile com extensao nao imprimiu nada", testOut.toString());	
+	
+		System.setOut(standard);
+		
 		//eliminaçao de ficheiros
 		
 		DeleteFileService deleteFileService = new DeleteFileService(tokenAbaguas, plainFileAbaguas);
@@ -205,16 +239,6 @@ public class IntegrationTest extends AbstractServiceTest {
 		listElGorila.execute();
 		assertEquals("Diretoria bananas incorretamente eliminada", listElGorila.result().size(), 3);
 		
-		
-		
-		//FIXME apenas falta testar a execucao de ficheiros
-		//XXX compila mas nao testei
-		
-		/*
-		String[] str = null;
-		new ExecutePlainFileService(token, "path", str );*/
-		//FIXME: A execucao é ou não sobre ficheiros da aplicação
 	}
-	
 
 }
