@@ -203,21 +203,24 @@ public class IntegrationTest extends AbstractServiceTest {
 		//execução de ficheiros
 		String[] s = {"aquele", "b"};
 		
+		
+		
+//		System.setOut(new PrintStream(testOut));
+//		new ExecuteFileService(tokenAbaguas, "/home/abaguas/"+ plainFileAbaguas, s).execute();
+//		assertNotNull("A execução do plainFileAbaguas não imprimiu nada", testOut.toString());
+//		
+		
+		//testOut.reset();
 		System.setOut(new PrintStream(testOut));
-		new ExecuteFileService(tokenAbaguas, "/home/abaguas/"+ plainFileAbaguas, s).execute();
-		assertNotNull("A execução do plainFileAbaguas não imprimiu nada", testOut.toString());
+		new ExecuteFileService(tokenAbaguas, "/home/abaguas/carne/"+ appAbaguas, s).execute();
+		assertEquals("A execução da AppAbaguas não é Hello myDrive!", "Hello myDrive!", testOut.toString());
 		
-		
-		testOut.reset();
-		new ExecuteFileService(tokenAbaguas, "/home/abaguas/carne"+ appAbaguas, s).execute();
-		assertEquals("A execução da AppAbaguas não é Hello phonebook!", testOut.toString(), "Hello phonebook!");
-		
-		testOut.reset();
+		//testOut.reset();
 		new ExecuteFileService(tokenAbaguas, "../"+ appElGorila, s);
 		assertEquals("A execução da AppElGorila não é Hello aquele!", testOut.toString(), "Hello aquele!");
 		
 		//execucao com extensao
-		testOut.reset();
+		//testOut.reset();
 		new MockUp<ExecuteAssociationService>(){
 			@Mock
 			void execute() { System.out.println("Execute "+plainFileAbaguasGor+"?"); }
