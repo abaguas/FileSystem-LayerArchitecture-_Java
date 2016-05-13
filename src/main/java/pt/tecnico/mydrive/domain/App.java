@@ -53,8 +53,7 @@ public class App extends App_Base {
     	String name = this.getContent();
 	    		
     	try {
-
-    		    run(name, args);
+    		run(name, args);
     	}	 
     	catch (Exception e) { throw new RuntimeException("" + e); }
     }
