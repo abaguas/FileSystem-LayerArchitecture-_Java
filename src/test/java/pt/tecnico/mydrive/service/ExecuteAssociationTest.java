@@ -26,6 +26,7 @@ import pt.tecnico.mydrive.exception.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.*;
 
 
 
@@ -36,17 +37,24 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 	private long token1;
 	private long token2;
 	private long token3;
+	MyDrive md;
+	private User u1;
+	private User u2;
+	private User u3;
+	private App gedit;
+	private App adobeReader;
+	private App helloAPP;
 	
-	private ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+	private ByteArrayOutputStream baos;
 	private final PrintStream stdout = System.out;
 
 	
 	@Override
 	protected void populate() {
-		MyDrive md = MyDriveService.getMyDrive();
-		User u1 = new User(md, "oscar", "grandepass1", "Cardozo", new Permission(true, true, true, true), new Permission(true, true, true, true));
-		User u2 = new User(md, "talisca", "grandepass1", "goleiro", new Permission(true, true, true, true), new Permission(true, true, true, true));
-		User u3 = new User(md, "Manel", "jaPercebiPorqueEQueEGrandePasse", "Manulas", new Permission(false, false, false, false), new Permission(false, false, false, false));
+		md = MyDriveService.getMyDrive();
+		u1 = new User(md, "oscar", "grandepass1", "Cardozo", new Permission(true, true, true, true), new Permission(true, true, true, true));
+		u2 = new User(md, "talisca", "grandepass1", "goleiro", new Permission(true, true, true, true), new Permission(true, true, true, true));
+		u3 = new User(md, "Manel", "jaPercebiPorqueEQueEGrandePasse", "Manulas", new Permission(false, false, false, false), new Permission(false, false, false, false));
 		
 		Directory rootdir = md.getRootDirectory();
 		Directory home = (Directory)rootdir.get("home");
@@ -69,32 +77,39 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 		PlainFile p2 = new PlainFile("irina.png", 146, u1, "censored", u1.getMainDirectory());
 		PlainFile p3 = new PlainFile("relatorio.pdf", 253, u1, "querias", u1.getMainDirectory());
 		PlainFile p4 = new PlainFile("domingo.txt", 412, u2, "35", u1.getMainDirectory());
+		PlainFile p5 = new PlainFile("tryHard.ext", 837, u1, "doesNotMatter", u1.getMainDirectory());
 		
-		App gedit = new App("gedit", 145, u1, "Executa ficheiros de texto", u1.getMainDirectory()); 
-		App adobeReader = new App("adobeReader", 312, u1, "Executa ficheiros pdf", u1.getMainDirectory());
+		gedit = new App("gedit", 145, u1, "pt.tecnico.mydrive.presentation.Hello", u1.getMainDirectory()); 
+		adobeReader = new App("adobeReader", 312, u1, "pt.tecnico.mydrive.presentation.Hello.sum", u1.getMainDirectory());
+		helloAPP = new App("helloAPP", 948, u1, "pt.tecnico.mydrive.presentation.Hello.greet", u1.getMainDirectory());
 		
 		FileExtension fe1 = new FileExtension(u1, "txt", gedit);
 		FileExtension fe2 = new FileExtension(u1, "pdf", adobeReader);
+		FileExtension fe3 = new FileExtension(u1, "ext", helloAPP);
 		
+		baos  = new ByteArrayOutputStream();
 	}
 
+	
 	
 	@Test
     public void successTXT() {
 		
-		System.setOut(new PrintStream(testOut));
+		System.setOut(new PrintStream(baos));
 		
         new MockUp<ExecuteAssociationService>() {
         	@Mock
-		  	void dispatch() {
-		  		System.out.println("Executing example.txt with gedit");
+		  	void execute() {
+		  		String[] args = {};
+        		gedit.execute(u1, args, md);
 		  	}
 		};
 		
-		ExecuteAssociationService service = new ExecuteAssociationService(token0, "example.txt");
+		String[] args = {};
+		ExecuteAssociationService service = new ExecuteAssociationService(token0, "example.txt", args);
 		service.execute();
-		assertNotNull("Incorrect execution", testOut.toString());
-		assertEquals("Incorrect execution", "Executing example.txt with gedit\n", testOut.toString());
+		assertNotNull("Incorrect execution", baos.toString());
+		assertEquals("Incorrect execution", "Hello myDrive!\n", baos.toString());
 
 		System.setOut(stdout);
 	}
@@ -103,20 +118,45 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 	@Test
     public void successPDF() {
 		
-		System.setOut(new PrintStream(testOut));
+		System.setOut(new PrintStream(baos));
 		
         new MockUp<ExecuteAssociationService>() {
         	@Mock
-		  	void dispatch() {
-		  		System.out.println("Executing relatorio.pdf with adobeReader");
+		  	void execute() {
+		  		String[] args = {"1", "2", "3"};
+        		adobeReader.execute(u1, args, md);
 		  	}
 		};
 		
-		ExecuteAssociationService service = new ExecuteAssociationService(token0, "relatorio.pdf");
+		String[] args = {};
+		ExecuteAssociationService service = new ExecuteAssociationService(token0, "relatorio.pdf", args);
 		service.execute();
-		assertNotNull("Incorrect execution", testOut.toString());
-		assertEquals("Incorrect execution", "Executing relatorio.pdf with adobeReader\n", testOut.toString());
+		assertNotNull("Incorrect execution", baos.toString());
+		assertEquals("Incorrect execution", "sum=6\n", baos.toString());
 
+		System.setOut(stdout);
+	}
+	
+	
+	@Test
+    public void successEXT() {
+		
+		System.setOut(new PrintStream(baos));
+		
+        new MockUp<ExecuteAssociationService>() {
+        	@Mock
+		  	void execute() {
+        		String[] args = {"joao"};
+        		helloAPP.execute(u1, args, md);
+		  	}
+		};
+		
+		String[] args = {"joao"};
+		ExecuteAssociationService service = new ExecuteAssociationService(token0, "tryHard.ext", args);
+		service.execute();
+		assertNotNull("Incorrect execution", baos.toString());
+		assertEquals("Incorrect execution", "Hello joao\n", baos.toString());
+		
 		System.setOut(stdout);
 	}
 	
@@ -124,19 +164,21 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 	@Test
     public void successSharingExtensionTablesBeetweenSessions() {
 		
-		System.setOut(new PrintStream(testOut));
+		System.setOut(new PrintStream(baos));
 
         new MockUp<ExecuteAssociationService>() {
 		  	@Mock
-		  	void dispatch() {
-		  		System.out.println("Executing example.txt with gedit");
+		  	void execute() {
+		  		String[] args = {};
+        		gedit.execute(u1, args, md);
 		  	}
 		};
 		
-		ExecuteAssociationService service = new ExecuteAssociationService(token1, "example.txt");
+		String[] args = {};
+		ExecuteAssociationService service = new ExecuteAssociationService(token1, "example.txt", args);
 		service.execute();
-		assertNotNull("Incorrect execution", testOut.toString());
-		assertEquals("Incorrect execution", "Executing example.txt with gedit\n", testOut.toString());
+		assertNotNull("Incorrect execution", baos.toString());
+		assertEquals("Incorrect execution", "Hello myDrive!\n", baos.toString());
 
 		System.setOut(stdout);
 	}
@@ -151,7 +193,8 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 		  	}
 		};
 		
-		ExecuteAssociationService service = new ExecuteAssociationService(token0, "ronaldo.txt");
+		String[] args = {};
+		ExecuteAssociationService service = new ExecuteAssociationService(token0, "ronaldo.txt", args);
 		service.execute();
 	}
 
@@ -165,7 +208,8 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 		  	}
 		};
 		
-		ExecuteAssociationService service = new ExecuteAssociationService(token0, "irina.png");
+		String[] args = {};
+		ExecuteAssociationService service = new ExecuteAssociationService(token0, "irina.png", args);
 		service.execute();
 	}
 
@@ -179,7 +223,8 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 		  	}
 		};
 		
-		ExecuteAssociationService service = new ExecuteAssociationService(token2, "domingo.txt");
+		String[] args = {};
+		ExecuteAssociationService service = new ExecuteAssociationService(token2, "domingo.txt", args);
 		service.execute();
 	}
 	
@@ -193,7 +238,8 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 		  	}
 		};
 		
-		ExecuteAssociationService service = new ExecuteAssociationService(1131311, "example.txt");
+		String[] args = {};
+		ExecuteAssociationService service = new ExecuteAssociationService(1131311, "example.txt", args);
 		service.execute();
 	}
 
@@ -203,12 +249,13 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 		
 		new MockUp<ExecuteAssociationService>() {
 			@Mock
-			void execute() {
+			void dispatch() {
 				throw new PermissionDeniedException("example.txt");	
 			}
 		};
 		
-		ExecuteAssociationService service = new ExecuteAssociationService(token3, "example.txt");
+		String[] args = {};
+		ExecuteAssociationService service = new ExecuteAssociationService(token3, "example.txt", args);
 		service.execute();	
 	}
 	
