@@ -11,12 +11,20 @@ public class Execute extends MyDriveCommand {
 		if(args.length > 1){
 		  long token = getShell().getActiveToken();
 		  String path = args[0];
-		  String[] arguments = null;
+		  String[] arguments = new String[300];
 		  for(int i=1; i < args.length ; i++){
+			  System.out.println(args[i]);
 		    arguments[i-1] = args[i];
 		  }
 		  ExecuteFileService eps = new ExecuteFileService(token, path, arguments);
 			eps.execute();
+		}
+		else if (args.length == 1) {
+			 long token = getShell().getActiveToken();
+			  String path = args[0];
+			  String[] arguments = new String[0];
+			  ExecuteFileService eps = new ExecuteFileService(token, path, arguments);
+				eps.execute();
 		}
 		else{
 			throw new RuntimeException("USAGE: " + name() + " [<path>]");
