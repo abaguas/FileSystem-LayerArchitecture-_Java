@@ -18,16 +18,16 @@
     <name>WriteMe</name>
     <contents>OldContent</contents>
   </plain>
-  <plain id="4">
+  <app id="4">
     <path>/home/Sofia</path>
     <owner>Sofia</owner>
     <name>ExecuteMeWithOutArgs</name>
-    <contents>OldContent</contents>
-  </plain>
-  <plain id="5">
+    <contents>pt.tecnico.mydrive.presentation.Hello.bye</contents>
+  </app>
+  <app id="5">
     <path>/home/Sofia</path>
     <owner>Sofia</owner>
     <name>ExecuteMeWithArgs</name>
-    <contents></contents>
-  </plain>
+    <contents>pt.tecnico.mydrive.presentation.Hello.bye</contents>
+  </app>
 </myDrive>

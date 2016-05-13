@@ -25,8 +25,8 @@ public class SystemTest extends AbstractServiceTest {
         new ChangeWorkingDirectory(sh).execute(new String[] { ".." } );
         new List(sh).execute(new String[] { } );
         new ChangeWorkingDirectory(sh).execute(new String[] { ".." } );
-        new List(sh).execute(new String[] { "home/Sofia" } );
-        new Write(sh).execute(new String[] { "home/Sofia/WriteMe" , "newContent1" } );
+        new List(sh).execute(new String[] { "/home/Sofia" } );
+        //new Write(sh).execute(new String[] { "home/Sofia/WriteMe" , "newContent1" } );
         new Execute(sh).execute(new String[] { "home/Sofia/ExecuteMeWithArgs" , "arg1" } );
         new Execute(sh).execute(new String[] { "home/Sofia/ExecuteMeWithOutArgs"  } );
         new ChangeWorkingDirectory(sh).execute(new String[] { "home/Sofia" } );

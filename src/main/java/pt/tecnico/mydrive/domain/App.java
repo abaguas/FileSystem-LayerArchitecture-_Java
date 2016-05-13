@@ -21,7 +21,7 @@ public class App extends App_Base {
     }
     
     public App(String name, int id, String content) {
-
+    	
     }
     public App(Element app_element, User owner, Directory father){
         xmlImport(app_element, owner, father);
@@ -112,6 +112,7 @@ public class App extends App_Base {
     public void xmlImport(Element element, User owner, Directory father){
         super.xmlImport(element,owner,father);
         String contents= element.getChildText("method");
+        System.out.println("ISTO E O CONTENT" + contents);
         setContent(contents);
     }
 
