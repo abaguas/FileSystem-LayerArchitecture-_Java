@@ -46,15 +46,16 @@ public abstract class File extends File_Base {
 			throw new FileAlreadyExistsException(name, id);
 		}
 		catch (NoSuchFileException e) {
+			checkPermissions(owner, father, "write");
 			DateTime dt = new DateTime();
 			setOwner(owner);
 			setName(name);
 			setId(id);
 			setUserPermission(owner.getOwnPermission().copy());
 			setOthersPermission(owner.getOthersPermission().copy());
+			System.out.println("As permissoes sao: "+ getUserPermission() + getOthersPermission());
 			setLastChange(dt);
 			setDirectory(father);
-			checkPermissions(owner, father, "write");
 		}
 		validateFile(name);
 	}
@@ -293,13 +294,15 @@ public abstract class File extends File_Base {
     public void xmlImport(Element element, User user, Directory father){
 		int id= Integer.parseInt(element.getAttribute("id").getValue());
         String name = element.getChildText("name");
+        System.out.println(name);
         String perm= element.getChildText("perm");
+        System.out.println(perm);
         if(perm == null){
             perm = "rwxd--x-";
         }
-        Permission ownpermission = new Permission(perm.substring(0,4));
-        Permission otherspermission = new Permission(perm.substring(4));
         init(name, MyDrive.getInstance().generateId(), user, father);
+        setUserPermission(new Permission(perm.substring(0,4)));
+        setOthersPermission(new Permission(perm.substring(4)));
 	}
 
 }
