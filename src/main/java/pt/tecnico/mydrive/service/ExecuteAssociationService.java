@@ -1,16 +1,14 @@
 package pt.tecnico.mydrive.service;
 
-import pt.tecnico.mydrive.domain.File;
-
 
 public class ExecuteAssociationService extends MyDriveService{
 	
 	private long token; 
-	private String file;
+	private String filename;
 
-	public ExecuteAssociationService(long token, String file) {
+	public ExecuteAssociationService(long token, String filename) {
 		this.token = token;
-    	this.file = file;
+    	this.filename = filename;
     }
 
     public final void dispatch() { // throws ContactDoesNotExistException
