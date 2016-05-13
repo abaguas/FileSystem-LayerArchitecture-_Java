@@ -111,16 +111,24 @@ public class MyDrive extends MyDrive_Base {
     
     public File fileFactory(Element element, User owner, Directory father, String code){
         if(code.equals("PlainFile")){
-            return new PlainFile(element, owner, father);
+        	PlainFile pf = new PlainFile(element, getRootUser(), father);
+            pf.setOwner(owner);
+            return pf;
         }
         else if(code.equals("App")){
-            return new App(element, owner, father);
+        	App app = new App(element, getRootUser(), father);
+        	app.setOwner(owner);
+            return app;
         }
         else if(code.equals("Link")){
-            return new Link(element, owner, father);
+        	Link link = new Link(element, getRootUser(), father);
+            link.setOwner(owner);
+            return link;
         }
-        else{
-            return new Directory(element, owner, father);
+        else {
+        	Directory dir = new Directory(element, getRootUser(), father);
+        	dir.setOwner(owner);
+            return dir;
         }
     }
 

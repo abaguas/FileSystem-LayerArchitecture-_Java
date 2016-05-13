@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <myDrive>
-  <user username="jtbs">
+  <user username="jtb">
     <password>fernandes</password>
     <name>Joaquim Teófilo Braga</name>
-    <home>/home/jtbs</home>
+    <home>/home/jtb</home>
     <mask>rwxdr-x-</mask>
   </user>
-  <user username="mjas">
+  <user username="mja">
     <name>Manuel José de Arriaga</name>
-    <password>Peyrelongue</password>
+    <password>Pe</password>
   </user>
   <plain id="3">
-    <path>/home/jtbs</path>
+    <path>/home/jtb</path>
     <name>profile</name>
-    <owner>jtbs</owner>
+    <owner>jtb</owner>
     <perm>rw-drwxd</perm>
     <contents>Primeiro chefe de Estado do regime republicano (acumulando com a chefia do governo), numa capacidade provisória até à eleição do primeiro presidente da República.</contents>
   </plain>
   <dir id="4">
-    <path>/home/jtbs</path>
+    <path>/home/jtb</path>
     <name>documents</name>
-    <owner>jtbs</owner>
+    <owner>jtb</owner>
     <perm>rwxdr-x-</perm>
   </dir>
   <link id="5">
-    <path>/home/jtbs</path>
+    <path>/home/jtb</path>
     <name>doc</name>
-    <owner>jtbs</owner>
+    <owner>jtb</owner>
     <perm>r-xdr-x-</perm>
-    <value>/home/jtbs/documents</value>
+    <value>/home/jtb/documents</value>
   </link>
   <dir id="7">
-    <path>/home/jtbs</path>
-    <owner>jtbs</owner>
+    <path>/home/jtb</path>
+    <owner>jtb</owner>
     <name>bin</name>
     <perm>rwxd--x-</perm>
   </dir>
   <app id="9">
-    <path>/home/jtbs/bin</path>
+    <path>/home/jtb/bin</path>
     <name>hello</name>
-    <owner>jtbs</owner>
+    <owner>jtb</owner>
     <perm>rwxd--x-</perm>
     <method>pt.tecnico.myDrive.app.Hello</method>
   </app>
