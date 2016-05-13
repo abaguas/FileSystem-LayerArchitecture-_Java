@@ -53,7 +53,6 @@ public abstract class File extends File_Base {
 			setId(id);
 			setUserPermission(owner.getOwnPermission().copy());
 			setOthersPermission(owner.getOthersPermission().copy());
-			System.out.println("As permissoes sao: "+ getUserPermission() + getOthersPermission());
 			setLastChange(dt);
 			setDirectory(father);
 		}
@@ -294,9 +293,7 @@ public abstract class File extends File_Base {
     public void xmlImport(Element element, User user, Directory father){
 		int id= Integer.parseInt(element.getAttribute("id").getValue());
         String name = element.getChildText("name");
-        System.out.println(name);
         String perm= element.getChildText("perm");
-        System.out.println(perm);
         if(perm == null){
             perm = "rwxd--x-";
         }
